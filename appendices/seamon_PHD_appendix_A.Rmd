@@ -15,20 +15,20 @@ output:
 params: null
 mainfont: serif
 ---
-
+ 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, out.width='600px', out.height='600px', dpi=200)
 
-#rmarkdown::render(input = "/dmine/code/git/paper-PHD1/appendix/paper-PHD1-appendix_EDA.Rmd", output_file = paste("/tmp/seamon_PHD_appendix_A.html", sep=""))
+#rmarkdown::render(input = "/dmine/code/git/paper-PHD1/appendix/paper-PHD1-appendix_EDA.Rmd", output_file = paste("/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_A.html", sep=""))
 
 ```
 ![](https://dmine.io/waf/img/Step1.png)
+**Dissertation Appendix A**
 
+**Chapter 1: Agricultural Insurance Loss Analysis of the Pacific Northwest, 2001 to 2015**
 
-**Appendix A Summary Statement**
-
-Appendix A documents the exploratory data analysis process, examining the relationships of agricultural commodity loss, at a county level, from 1989-2015, across the three state region of the Pacific Northwest (Washington, Idaho, and Oregon), and then focus in on the 24 county region of the Inland Pacific Northwest (IPNW). 
+Appendix A documents the Chapter 1 exploratory data analysis process, examining the relationships of agricultural commodity loss, at a county level, from 1989-2015, across the three state region of the Pacific Northwest (Washington, Idaho, and Oregon), and then focus in on the 24 county region of the Inland Pacific Northwest (IPNW). 
 
 We examine the entire range of commodities and damage causes for the IPNW study area, identifying the top revenue loss commodities and their most pertinent damage causes, as indicated from the USDA's agricultural commodity loss insurance archive.  We also explore claim freqency, We fiinally zero in on the top 5 commodities for the region, and examine specific loss variation by year and damage cause.
 
