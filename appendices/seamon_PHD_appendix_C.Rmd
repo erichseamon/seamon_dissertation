@@ -3008,6 +3008,7 @@ write.csv(data4aa, file = "/dmine/data/USDA/agmesh-scenarios/Allstates/summaries
 data4aa$pr_scaled <- scale(data4aa$pr, scale = TRUE, center = TRUE)
 data4aa$tmmx_scaled <- scale(data4aa$tmmx, scale = TRUE, center = TRUE)
 data4aa$pet_scaled <- scale(data4aa$pet, scale = TRUE, center = TRUE)
+data4aa$pdsi_scaled <- scale(data4aa$pdsi, scale = TRUE, center = TRUE)
 data4aa$price_scaled <- scale(data4aa$price, scale = TRUE, center = TRUE)
 
 
@@ -3219,3 +3220,284 @@ ggplot(data4aaaa, aes(prpet, cube_loss, color = state)) +
 
 ###Step 4. Examining conditional relationships of optimized climate/insurance loss relationships using regression based random forest modeling
 
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+# Make big tree
+form <- as.formula(loss_zscore ~ pr_zscore + tmmx_zscore + pet_zscore)
+
+form2 <- as.formula(cube_loss ~ pr + tmmx + pet + pdsi + price)
+form2a <- as.formula(loss ~ pr + tmmx + pet  + price)
+form2b <- as.formula(cube_loss ~ pr.x + tmmx.x + pet.x + pdsi.x + price)
+
+
+#form3 <- as.formula(pct_acreage ~ pr + tmmx + pet + pdsi + sph + srad + vs + th + erc + fm100 + fm1000 + price)
+
+form3 <- as.formula(pct_acreage ~ pr + tmmx + pet + pdsi + price)
+form3a <- as.formula(pct_acreage ~ pr + tmmx + pet + pdsi + sph + srad + vs + th + erc + fm100 + fm1000 + price)
+
+data44a <- data.frame(data4aaaa)
+
+data5a_statecountyear <- cbind.data.frame(data44a$state, data44a$county, data44a$year)
+colnames(data5a_statecountyear) <- c("state", "county", "year")
+
+data44a$tmmx.x <- data44a$tmmx.x - 273
+
+data5a <- cbind.data.frame(data44a$year, data44a$cube_loss, data44a$loss, data44a$pr_scaled, data44a$tmmx_scaled, data44a$fm100.x, data44a$fm1000.x, data44a$pdsi_scaled, data44a$erc, data44a$srad, data44a$vs, data44a$sph, data44a$th, data44a$pet_scaled, data44a$pct_acreage, data44a$price_scaled, data44a$state)
+colnames(data5a) <- c("year", "cube_loss", "loss", "pr", "tmmx", "fm100", "fm1000", "pdsi", "erc", "srad", "vs", "sph", "th", "pet", "pct_acreage", "price", "state" )
+
+data5a <- data.frame(data5a)
+data5a$loss <- log10(data5a$loss)
+
+data5ab <- cbind.data.frame(data5a$loss, data5a$pr, data5a$tmmx, data5a$pdsi, data5a$pet, data5a$price)
+colnames(data5ab) <- c("loss", "pr", "tmmx", "pdsi", "pet", "price")
+data5ab <- data.frame(data5ab)
+
+data5ab$loss <- log10(data5ab$loss)
+
+# load libraries
+library(caret)
+library(rpart)
+
+# define training control
+train_control<- trainControl(method="repeatedcv", number=10, savePredictions = TRUE)
+
+data5b <- data.frame(data5a)
+data5b <- na.omit(data5b)
+
+data5ab <- data.frame(data5ab)
+data5ab <- na.omit(data5ab)
+
+
+
+
+
+
+#pairs(loss ~ pr + tmmx + pet + pdsi, data = data5b, col = data5b$state,
+#      lower.panel=panel.smooth, upper.panel=panel.cor, main = "initial pairs plot")
+
+# train the model
+set.seed(9992)
+#trainIndex  <- sample(1:nrow(data5b), 0.8 * nrow(data5b))
+
+trainIndex <- createDataPartition(data5b$pct_acreage, p = .75, list = FALSE)
+
+train <- data5b[trainIndex,]
+test <- data5b[-trainIndex,]
+
+trainIndex_loss <- caret::createDataPartition(data5ab$loss, p = .75, list = FALSE)
+
+train_loss <- data5ab[trainIndex_loss,]
+test_loss <- data5ab[-trainIndex_loss,]
+
+#traindata=data.frame(x=train_loss,y=(train_loss))
+#testdata = data.frame(x=test_loss,y=(test_loss))
+
+
+rf_grid <- expand.grid(mtry = 2:5) # you can put different values for mtry
+
+
+model<- caret::train(form3, data=data5b, trControl=train_control, importance=T, method="rf", tuneGrid = rf_grid, ntrees = 500)
+model_singular <- caret::train(form3, data=train, trControl=train_control, method="rpart")
+
+model_loss <- caret::train(form2a, data=train_loss, trControl=train_control, method="rf", tuneGrid = rf_grid, ntrees = 1000, importance = T)
+model_loss_all <- caret::train(form2a, data=data5b, trControl=train_control, method="rf", ntrees = 500, tuneGrid = rf_grid, importance = T)
+model_loss_all_acreage <- caret::train(form3, data=data5b, trControl=train_control, method="rf", ntrees = 500, tuneGrid = rf_grid, importance = T)
+
+#cforest_model_loss <- cforest(form2a,
+ #                                    data = train_loss, 
+  #                                   controls=cforest_unbiased(ntree=2000, mtry=5))
+
+
+#lattice::densityplot(model_loss,
+ #           adjust = 1.25)
+
+tree_num <- which(model_loss$finalModel$err.rate[, 1] == min(model_loss$finalModel$err.rate[, 1]))
+
+lda_data <- learing_curve_dat(dat = model$trainingData, 
+                              outcome = ".outcome",
+                              ## `train` arguments:
+                              metric = "RMSE",
+                              trControl = train_control,
+                              method = "rf")
+
+pts <- pretty(lda_data$RMSE)
+#pts <- c(0,0.1, 0.2, 0.3, 0.4)
+
+lda_data$Data[lda_data$Data == "Resampling"] <- c("Validation")
+ggplot(lda_data, aes(x = Training_Size, y = RMSE, color = Data)) + 
+  geom_smooth(method = loess, span = .8) + 
+  theme_bw()  + ggtitle("Random Forest Learning Curves: Train vs. Validation") + theme(axis.title.y = element_text(family = "Serif", size=18), axis.title.x = element_text(family = "Serif", size = 18), axis.text.x = element_text(size=rel(1.9), angle = 90, hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.9), hjust = 1, family = "Serif")) + theme(plot.title = element_text(family = "Serif", vjust = 2))  + theme(legend.text=element_text(family = "Serif", size=14)) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(labels = pts, breaks = pts ) + xlab("Training Size") + ylab("RMSE") + theme(legend.position="bottom") + scale_fill_discrete(name = "Legend")
+
+sqrt(model_loss$finalModel$mse[which.min(model_loss$finalModel$mse)])
+
+which.min(model_loss$finalModel$mse)
+
+importance <- varImp(model_loss, scale=FALSE)
+
+importance2 <- importance$importance
+importance2$variable <- rownames(importance2)
+importance2 <- importance2[order(-importance2$Overall),] 
+
+par(mar=c(6, 7, 2, 3), family = 'serif', mgp=c(5, 1, 0), las=0)
+
+barplot(sort(importance2$Overall), horiz = TRUE, col = "lightblue", ylab = "predictor variables", xlab = "% importance", cex.lab = 1.7, las = 2, cex.axis = 1.8, cex.names = 1.8, names.arg = rev(importance2$variable))
+
+#NRMSE
+
+nrmse_func <-  function(obs, pred, type = "sd") {
+  
+  squared_sums <- sum((obs - pred)^2)
+  mse <- squared_sums/length(obs)
+  rmse <- sqrt(mse)
+  if (type == "sd") nrmse <- rmse/sd(obs)
+  if (type == "mean") nrmse <- rmse/mean(obs)
+  if (type == "maxmin") nrmse <- rmse/ (max(obs) - min(obs))
+  if (type == "iq") nrmse <- rmse/ (quantile(obs, 0.75) - quantile(obs, 0.25))
+  if (!type %in% c("mean", "sd", "maxmin", "iq")) message("Wrong type!")
+  nrmse <- round(nrmse, 3)
+  return(nrmse)
+  
+}
+
+
+#ensembe 
+
+library(caretEnsemble)
+
+#algorithmList <- c('gbm', 'rpart', 'ctree', 'rf', 'HYFIS', 'FS.HGD', 'ANFIS' )
+algorithmList <- c('gbm', 'rpart', 'ctree', 'rf')
+
+set.seed(100)
+models <- caretList(form2, data=data5b, trControl=train_control, methodList=algorithmList) 
+results <- resamples(models)
+summary(results)
+
+set.seed(101)
+stackControl <- train_control
+
+# Ensemble the predictions of `models` to form a new combined prediction based on glm
+stack.glm <- caretStack(models, method="glm", trControl=stackControl)
+print(stack.glm)
+
+
+
+# make predictions
+predictions<- predict(model,data5b)
+
+predictions_loss <- predict(model_loss,data5b)
+
+#cforest_Prediction <- predict(cforest_model_loss, newdata=test_loss, OOB=TRUE, type = "response")
+
+
+
+predictions_loss_all <- predict(model_loss_all,data5b)
+
+
+#--end ensemble
+
+
+
+# append predictions
+mydat<- cbind(data5b,predictions)
+mydat_loss <- cbind(data5b,predictions_loss)
+#cforest_mydat_loss <- cbind(test_loss,cforest_Prediction)
+
+mydat_loss_all <- cbind(data5b,predictions_loss_all)
+
+```
+ 
+ 
+ 
+ 
+ 
+ 
+```{r message=TRUE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9}
+
+ 
+ 
+ 
+finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+NRMSE1 <- nrmse_func(finaldat$loss, finaldat$predictions)
+
+NRMSE2 <- nrmse_func(finaldat_loss$loss, finaldat_loss$predictions_loss)
+
+
+fit1 <- lm(form3, data=data5b)
+
+#pct_acreage historical vs. predicted
+
+countyplot <- subset(finaldat, county == "Whitman")
+
+par(mar=c(5, 5.1, 2, 3), family = 'serif', mgp=c(3.5, 1, 0), las=0)
+
+
+plot(c(countyplot$pct_acreage) ~ c(countyplot$year), cex.lab = 1.5, cex.axis = 1.3, col = "red", 
+     las = 2, xaxt = "n", xlab = "Year", ylab = "Percent Acreage Drought Claims")
+
+lines(countyplot$pct_acreage ~ countyplot$year, col = "red")
+points(countyplot$predictions ~ countyplot$year, col = "blue")
+lines(countyplot$predictions ~ countyplot$year, col = "blue")
+
+axis(1, countyplot$year, 2001:2015, col.axis = "black", las = 2, cex.axis = 1.3)
+
+legend("topright", legend=c("historical", "predicted"),
+       col=c("red", "blue"), lty=1, cex=1.3)
+
+
+```
+ 
+ 
+```{r message=TRUE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9}
+ 
+
+print("test")
+
+ 
+ 
+finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+NRMSE1 <- nrmse_func(finaldat$loss, finaldat$predictions)
+
+NRMSE2 <- nrmse_func(finaldat_loss$loss, finaldat_loss$predictions_loss)
+
+
+ #loss historical vs predicted
+
+finaldat_loss$loss <- 10^finaldat_loss$loss
+finaldat_loss$predictions_loss <- 10^finaldat_loss$predictions_loss
+fd_loss <- aggregate(finaldat_loss$loss, by=list(finaldat_loss$year), FUN = "sum")
+fd_pred <- aggregate(finaldat_loss$predictions_loss, by=list(finaldat_loss$year), FUN = "sum")
+
+#plot all counties combined, by year
+par(mar=c(6, 5.1, 2, 3), family = 'serif', mgp=c(3.5, .6, 0), las=0)
+
+
+plot(fd_loss$x ~ fd_loss$Group.1, col = "red", cex.lab = 1.5, cex.axis = 1.3, las = 2, yaxt = "n", xaxt = "n", xlab = "Year", ylab = "Annual Wheat/Drought Loss", main = "24 county iPNW study area")
+lines(fd_loss$x ~ fd_loss$Group.1, col = "red")
+points(fd_pred$x ~ fd_pred$Group.1, col = "blue")
+lines(fd_pred$x ~ fd_pred$Group.1, col = "blue")
+
+axis(1, fd_loss$Group.1, 2001:2015, col.axis = "black", las = 2, cex.axis = 1.3)
+
+pts <- pretty(fd_loss$x / 1000000)
+pts2 <- pretty(fd_loss$x)
+axis(2, las = 1, cex.axis = 1.3, at = pts2, labels = paste(pts, "M", sep = ""))
+
+
+
+legend("topleft", legend=c("historical", "predicted"),
+       col=c("red", "blue"), lty=1, cex=1.3)
+       
+```
+ 
+ 
+ 
+ 
+ 
+ 
