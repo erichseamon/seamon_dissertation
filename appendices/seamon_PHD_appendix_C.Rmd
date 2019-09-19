@@ -3414,9 +3414,58 @@ mydat_loss_all <- cbind(data5b,predictions_loss_all)
  
 ```{r message=TRUE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9}
 
+
+finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
  
- 
- 
+finaldat <- subset(finaldat, county != "Kootenai" & county != "Clearwater")
+countyvector <- unique(finaldat$county)
+county_rmse_r2 <- data.frame(matrix(ncol =2, nrow = 24))
+county_rmse_r2$county <- countyvector
+colnames(county_rmse_r2) <- c("rmse", "r2", "county")
+
+
+ii = 0
+for (i in countyvector ) {
+
+ii <- ii + 1
+
+countyplot <- subset(finaldat, county == i)
+
+
+# 2.1. Average of actual data
+avr_y_actual <- mean(countyplot$pct_acreage)
+
+# 2.2. Total sum of squares
+ss_total <- sum((countyplot$pct_acreage - avr_y_actual)^2)
+
+# 2.3. Regression sum of squares
+ss_regression <- sum((countyplot$predictions - avr_y_actual)^2)
+
+# 2.4. Residual sum of squares
+ss_residuals <- sum((countyplot$pct_acreage - countyplot$predictions)^2)
+
+# 3. R2 Score
+r2 <- round(1 - ss_residuals / ss_total, 2)
+
+RMSE = function(m, o){
+  sqrt(mean((m - o)^2))
+}
+
+MAE <- function(m, o)
+{
+    mean(abs(m - o))
+}
+
+rmse <- round(RMSE(countyplot$predictions, countyplot$pct_acreage), 2)
+mae <- round(MAE(countyplot$predictions, countyplot$pct_acreage), 2)
+
+
+county_rmse_r2[ii,1] <-  rmse
+county_rmse_r2[ii,2] <- r2
+
 finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
 finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
 finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
@@ -3430,34 +3479,37 @@ fit1 <- lm(form3, data=data5b)
 
 #pct_acreage historical vs. predicted
 
-countyplot <- subset(finaldat, county == "Whitman")
 
-par(mar=c(5, 5.1, 2, 3), family = 'serif', mgp=c(3.5, 1, 0), las=0)
+yearlist <- data.frame(c(2001:2015))
+colnames(yearlist) <- "year"
+
+countyplot <- merge(countyplot, yearlist, by=("year"), all=T)
+countyplot$predictions[is.na(countyplot$predictions)] <- 0
+countyplot$pct_acreage[is.na(countyplot$pct_acreage)] <- 0
 
 
-plot(c(countyplot$pct_acreage) ~ c(countyplot$year), cex.lab = 1.5, cex.axis = 1.3, col = "red", 
-     las = 2, xaxt = "n", xlab = "Year", ylab = "Percent Acreage Drought Claims")
+par(mar=c(5, 5.1, 2, 3), family = 'serif', mgp=c(3.8, 1, 0), las=0)
+
+
+plot(c(countyplot$pct_acreage) ~ c(countyplot$year), cex.lab = 1.5, cex.axis = 1.5, col = "red", 
+     las = 2, xaxt = "n", xlab = "Year", ylab = "Percent Acreage Drought Claims", main = paste(i, " County, ", countyplot$state[1], ": R2 = ", r2, " RMSE = ", rmse, sep=""))
 
 lines(countyplot$pct_acreage ~ countyplot$year, col = "red")
 points(countyplot$predictions ~ countyplot$year, col = "blue")
 lines(countyplot$predictions ~ countyplot$year, col = "blue")
 
-axis(1, countyplot$year, 2001:2015, col.axis = "black", las = 2, cex.axis = 1.3)
+axis(1, countyplot$year, 2001:2015, col.axis = "black", las = 2, cex.axis = 1.5)
 
 legend("topright", legend=c("historical", "predicted"),
-       col=c("red", "blue"), lty=1, cex=1.3)
+       col=c("red", "blue"), lty=1, cex=1.5)
 
+}
 
 ```
  
  
 ```{r message=TRUE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9}
- 
 
-print("test")
-
- 
- 
 finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
 finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
 finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
@@ -3469,16 +3521,43 @@ NRMSE2 <- nrmse_func(finaldat_loss$loss, finaldat_loss$predictions_loss)
 
  #loss historical vs predicted
 
+finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+
 finaldat_loss$loss <- 10^finaldat_loss$loss
 finaldat_loss$predictions_loss <- 10^finaldat_loss$predictions_loss
 fd_loss <- aggregate(finaldat_loss$loss, by=list(finaldat_loss$year), FUN = "sum")
 fd_pred <- aggregate(finaldat_loss$predictions_loss, by=list(finaldat_loss$year), FUN = "sum")
 
+
+# 2.1. Average of actual data
+avr_y_actual <- mean(fd_loss$x)
+
+# 2.2. Total sum of squares
+ss_total <- sum((fd_loss$x - avr_y_actual)^2)
+
+# 2.3. Regression sum of squares
+ss_regression <- sum((fd_pred$x - avr_y_actual)^2)
+
+# 2.4. Residual sum of squares
+ss_residuals <- sum((fd_loss$x - fd_pred$x)^2)
+
+# 3. R2 Score
+r2 <- round(1 - ss_residuals / ss_total, 2)
+
+RMSE = function(m, o){
+  sqrt(mean((m - o)^2))
+}
+
+rmse <- round(RMSE(fd_pred$x, fd_loss$x), 2)
+
 #plot all counties combined, by year
 par(mar=c(6, 5.1, 2, 3), family = 'serif', mgp=c(3.5, .6, 0), las=0)
 
 
-plot(fd_loss$x ~ fd_loss$Group.1, col = "red", cex.lab = 1.5, cex.axis = 1.3, las = 2, yaxt = "n", xaxt = "n", xlab = "Year", ylab = "Annual Wheat/Drought Loss", main = "24 county iPNW study area")
+plot(fd_loss$x ~ fd_loss$Group.1, col = "red", cex.lab = 1.5, cex.axis = 1.3, las = 2, yaxt = "n", xaxt = "n", xlab = "Year", ylab = "Annual Wheat/Drought Loss", main = paste("24 county iPNW study area: R2 = ", r2, " RMSE = ", rmse, sep=""))
 lines(fd_loss$x ~ fd_loss$Group.1, col = "red")
 points(fd_pred$x ~ fd_pred$Group.1, col = "blue")
 lines(fd_pred$x ~ fd_pred$Group.1, col = "blue")
@@ -3493,7 +3572,102 @@ axis(2, las = 1, cex.axis = 1.3, at = pts2, labels = paste(pts, "M", sep = ""))
 
 legend("topleft", legend=c("historical", "predicted"),
        col=c("red", "blue"), lty=1, cex=1.3)
-       
+
+```
+
+
+```{r message=TRUE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9}
+
+finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+finaldat_loss$loss <- 10^finaldat_loss$loss
+finaldat_loss$predictions_loss <- 10^finaldat_loss$predictions_loss
+
+finaldat_loss <- subset(finaldat_loss, county != "Kootenai" & county != "Clearwater")
+countyvector <- unique(finaldat_loss$county)
+county_rmse_r2 <- data.frame(matrix(ncol =2, nrow = 24))
+county_rmse_r2$county <- countyvector
+colnames(county_rmse_r2) <- c("rmse", "r2", "county")
+
+
+ii = 0
+for (i in countyvector ) {
+
+ii <- ii + 1
+
+#finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+#finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+#finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+
+
+
+countyplot <- subset(finaldat_loss, county == i)
+
+yearlist <- data.frame(c(2001:2015))
+colnames(yearlist) <- "year"
+
+countyplot <- merge(countyplot, yearlist, by=("year"), all=T)
+countyplot$predictions_loss[is.na(countyplot$predictions_loss)] <- 0
+countyplot$loss[is.na(countyplot$loss)] <- 0
+
+# 2.1. Average of actual data
+avr_y_actual <- mean(countyplot$loss)
+
+# 2.2. Total sum of squares
+ss_total <- sum((countyplot$loss - avr_y_actual)^2)
+
+# 2.3. Regression sum of squares
+ss_regression <- sum((countyplot$predictions_loss - avr_y_actual)^2)
+
+# 2.4. Residual sum of squares
+ss_residuals <- sum((countyplot$loss - countyplot$predictions_loss)^2)
+
+# 3. R2 Score
+r2 <- round(1 - ss_residuals / ss_total, 2)
+
+RMSE = function(m, o){
+  sqrt(mean((m - o)^2))
+}
+
+MAE <- function(m, o)
+{
+    mean(abs(m - o))
+}
+
+rmse <- round(RMSE(countyplot$predictions_loss, countyplot$loss), 2)
+mae <- round(MAE(countyplot$predictions_loss, countyplot$loss), 2)
+
+
+county_rmse_r2[ii,1] <-  rmse
+county_rmse_r2[ii,2] <- r2
+
+
+#plot all counties combined, by year
+par(mar=c(6, 5.1, 2, 3), family = 'serif', mgp=c(3.5, .6, 0), las=0)
+
+
+
+plot(c(countyplot$loss) ~ c(countyplot$year), cex.lab = 1.5, cex.axis = 1.5, col = "red", 
+     las = 2, yaxt = "n", xaxt = "n", xlab = "Year", ylab = "Wheat/Drought Insurance Loss", main = paste(i, " County, Oregon: R2 = ", r2, " RMSE = ", rmse, sep="") )
+
+lines(countyplot$loss ~ countyplot$year, col = "red")
+points(countyplot$predictions_loss ~ countyplot$year, col = "blue")
+lines(countyplot$predictions_loss ~ countyplot$year, col = "blue")
+
+
+axis(1, countyplot$year, 2001:2015, col.axis = "black", las = 2, cex.axis = 1.5)
+
+pts <- pretty(countyplot$loss / 1000000)
+pts2 <- pretty(countyplot$loss)
+axis(2, las = 1, cex.axis = 1.3, at = pts2, labels = paste(pts, "M", sep = ""))
+
+legend("topright", legend=c("historical", "predicted"),
+       col=c("red", "blue"), lty=1, cex=1.3)
+
+}
 ```
  
  

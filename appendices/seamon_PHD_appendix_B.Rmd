@@ -1091,6 +1091,13 @@ library(htmlTable)
 library(FactoMineR)
 result <- FactoMineR::PCA(RMA_damage_PNW_exogenous_wheat_year_factor) # graphs generated automatically
 
+
+r2 <- fviz_pca_ind(result,
+         col.ind = "contrib", # Color by contribution
+         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07") #assign gradient
+         )
+
+
 #--create table of PC1 and PC2 loadings
 
 PC_table <- cbind(result$var$coord[,1], result$var$coord[,2])
@@ -1128,6 +1135,120 @@ barplot(t(PC_table_year), beside = T, las = 2, col=c("blue", "red"), cex.axis = 
 
 
 ```
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+#pca_RMA_damage_IPNW_exogenous$rotation
+
+#plot(pca_RMA_damage_IPNW_exogenous$rotation)
+
+std_dev <- fit$sdev
+
+pr_var <- std_dev^2
+
+#pr_var[1:10]
+
+prop_varex <- pr_var/sum(pr_var)
+
+plot(prop_varex, xlab = "Principal Component",
+             ylab = "Proportion of Variance Explained",
+             type = "b", main = "Scree Plot")
+
+
+```
+
+
+<br></br>
+
+##Step 16: PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE loadings: Temporal Mapping of PC1 and PC2
+
+In Step 16, we summarize our PCA findings for the inland PNW, for wheat by year, using damage cause as the factor loadings.  We take PC1 and PC2 loadings and plot those for each year.
+
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+library(htmlTable)
+
+#year factanal
+
+#factanal
+#fit <- factanal(x = RMA_damage_PNW_exogenous_wheat_year_factor, factors = 3, rotation = "varimax")
+#load <- fit$loadings[,1:2] 
+#plot(load,type="n") # set up plot 
+#text(load,labels=names(RMA_damage_PNW_exogenous_wheat_year_factor),cex=.7) # add variable names
+
+library(FactoMineR)
+result <- FactoMineR::PCA(t(RMA_damage_PNW_exogenous_wheat_year_factor)) # graphs generated automatically
+
+
+r2 <- fviz_pca_ind(result,
+         col.ind = "contrib", # Color by contribution
+         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07") #assign gradient
+         )
+
+
+#--create table of PC1 and PC2 loadings
+
+PC_table <- cbind(result$var$coord[,1], result$var$coord[,2])
+colnames(PC_table) <- c("PC1", "PC2")
+PC_table <- as.data.frame(PC_table)
+PC_table$PC1 <- round(PC_table$PC1, 3)
+PC_table$PC2 <- round(PC_table$PC2, 3)
+
+htmlTable(PC_table,
+          cgroup = c("2001-2015"),
+          n.cgroup = c(2),
+          caption = "Damage cause variable loadings by year",
+          align = "c",
+          rnames = rownames(PC_table),
+          css.cell = "padding-left: .5em; padding-right: .5em;")
+
+```
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+#--year end
+
+PC_table_year <- cbind(result$var$coord[,1], result$var$coord[,2])
+colnames(PC_table_year) <- c("PC1", "PC2")
+
+par(mar=c(6, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+barplot(t(PC_table_year), beside = T, las = 2, col=c("blue", "red"), cex.axis = 1.5, cex.names = 1.5)
+#legend("top", c("PC1","PC2"), pch=15, 
+#col=c("blue","red"), 
+#bty="n")
+
+
+```
+
+
+
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+#pca_RMA_damage_IPNW_exogenous$rotation
+
+#plot(pca_RMA_damage_IPNW_exogenous$rotation)
+
+std_dev <- fit$sdev
+
+pr_var <- std_dev^2
+
+#pr_var[1:10]
+
+prop_varex <- pr_var/sum(pr_var)
+
+plot(prop_varex, xlab = "Principal Component",
+             ylab = "Proportion of Variance Explained",
+             type = "b", main = "Scree Plot")
+
+
+```
+
+
+
+
+
 
 <br></br>
 
@@ -1148,7 +1269,175 @@ In Step 17, we summarize our PCA findings for the inland PNW, for wheat by count
 #text(load,labels=names(RMA_damage_IPNW_exogenous_factor),cex=.7) # add variable names
 
 library(FactoMineR)
-result <- FactoMineR::PCA(RMA_damage_IPNW_exogenous_factor) # graphs generated automatically
+result <- FactoMineR::PCA(t(RMA_damage_IPNW_exogenous_factor), scale.unit = TRUE) # graphs generated automatically
+
+r2 <- fviz_pca_ind(result,
+         col.ind = "contrib", # Color by contribution
+         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07") #assign gradient
+         )
+
+
+#--create table of PC1 and PC2 loadings
+
+PC_table <- cbind(result$var$coord[,1], result$var$coord[,2])
+colnames(PC_table) <- c("PC1", "PC2")
+PC_table <- as.data.frame(PC_table)
+PC_table$PC1 <- round(PC_table$PC1, 3)
+PC_table$PC2 <- round(PC_table$PC2, 3)
+
+htmlTable(PC_table,
+          cgroup = c("2001-2015"),
+          n.cgroup = c(2),
+          caption = "Damage cause variable loadings by county",
+          align = "c",
+          rnames = rownames(PC_table),
+          css.cell = "padding-left: .5em; padding-right: .5em;")
+
+```
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+#-map PC loadings
+
+PC1_map <- as.data.frame(result$var$coord[,1])
+PC1_map$NAME <- rownames(PC1_map)
+colnames(PC1_map) <- c("PC1", "NAME")
+PC1_NAME <- cbind(PC1_map, t(as.data.frame(strsplit(PC1_map$NAME, split='_', fixed=TRUE))))
+colnames(PC1_NAME) <- c("PC1", "Statecounty", "NAME", "STATE")
+
+PC1_map <- merge(counties, PC1_NAME, by=c("NAME"), all = FALSE)
+
+PC2_map <- as.data.frame(result$var$coord[,2])
+PC2_map$NAME <- rownames(PC2_map)
+colnames(PC2_map) <- c("PC2", "NAME")
+PC2_NAME <- cbind(PC2_map, t(as.data.frame(strsplit(PC2_map$NAME, split='_', fixed=TRUE))))
+colnames(PC2_NAME) <- c("PC2", "Statecounty", "NAME", "STATE")
+
+PC2_map <- merge(counties, PC2_NAME, by=c("NAME"), all = FALSE)
+
+
+#PC1 map
+
+#-----
+
+PC1_map$PC1[is.na(PC1_map$PC1)] <- 0
+
+ 
+## Make vector of colors for values smaller than 0 (20 colors)
+rc1 <- colorRampPalette(colors = c("blue", "lightblue", "white"), space = "Lab")(4)
+
+## Make vector of colors for values larger than 0 (180 colors)
+rc2 <- colorRampPalette(colors = c("white", "red"), space = "Lab")(16)
+
+## Combine the two color palettes
+rampcols <- c(rc1, rc2)
+
+
+
+# pal <- colorNumeric(colorRampPalette(c("blue", "lightblue", "white", "lightpink", "red"))(7), na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))
+ pal <- colorNumeric(palette = rampcols, na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))
+
+map <- leaflet(data = PC1_map, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.1)) %>%  
+  addProviderTiles(providers$Hydda.Base) %>%
+   addProviderTiles(providers$Stamen.TonerLines) %>%
+  
+  addMiniMap(
+    tiles = providers$Stamen.TonerLite,
+    position = 'topleft', 
+    width = 100, height = 100,
+    toggleDisplay = FALSE) %>%
+  
+  
+   #addControl(title, position = "topleft", className="map-title") %>%
+  
+  
+  fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(PC1_map$PC1),  fillOpacity = .8, weight = 1, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% addPolygons(data = states, fillOpacity = 0, weight = 4, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% 
+  
+    addLegend(pal = pal, values = na.omit(~PC1), group = "circles", title = paste("PC1 Loadings", sep = ""), na.label = "", position = "topright") %>%
+
+  
+  #label = lapply(labs, HTML),
+
+addLabelOnlyMarkers(data = PC1_map, lng = lat_long[,1], lat = lat_long[,2],  label = lapply(round(PC1_map$PC1, 2), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "20px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
+)) 
+        
+addScaleBar(map, position = c("topright"), options = scaleBarOptions())
+```
+
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+#PC2 map
+
+ 
+PC2_map$PC2[is.na(PC2_map$PC2)] <- 0
+
+ 
+## Make vector of colors for values smaller than 0 (20 colors)
+rc1 <- colorRampPalette(colors = c("blue", "lightblue", "white"), space = "Lab")(4)
+
+## Make vector of colors for values larger than 0 (180 colors)
+rc2 <- colorRampPalette(colors = c("white", "red"), space = "Lab")(16)
+
+## Combine the two color palettes
+rampcols <- c(rc1, rc2)
+
+#-----
+ #pal <- colorNumeric(brewer.pal(11,"RdBu"), na.color = "#ffffff",domain = eval(parse(text=paste("PC2_map$", "PC2", sep=""))))
+ pal <- colorNumeric(palette = rampcols, na.color = "#ffffff",domain = eval(parse(text=paste("PC2_map$", "PC2", sep=""))))
+
+map <- leaflet(data = PC2_map, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.1)) %>%  
+  addProviderTiles(providers$Hydda.Base) %>%
+   addProviderTiles(providers$Stamen.TonerLines) %>%
+  
+  addMiniMap(
+    tiles = providers$Stamen.TonerLite,
+    position = 'topleft', 
+    width = 100, height = 100,
+    toggleDisplay = FALSE) %>%
+  
+  
+   #addControl(title, position = "topleft", className="map-title") %>%
+  
+  
+  fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(PC2_map$PC2),  fillOpacity = .8, weight = 1, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% addPolygons(data = states, fillOpacity = 0, weight = 4, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% 
+  
+    addLegend(pal = pal, values = na.omit(~PC2), group = "circles", title = paste("PC2 Variable Loadings", sep = ""), na.label = "", position = "topright") %>%
+
+  
+  
+
+addLabelOnlyMarkers(data = PC2_map, lng = lat_long[,1], lat = lat_long[,2], label = lapply(round(PC2_map$PC2, 2), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "20px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
+)) 
+        
+addScaleBar(map, position = c("topright"), options = scaleBarOptions())
+
+
+```
+
+
+
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+
+
+#factanal
+#fit <- factanal(x = RMA_damage_IPNW_exogenous_factor, factors = 3, rotation = "varimax")
+#load <- fit$loadings[,1:2] 
+#plot(load,type="n") # set up plot 
+#text(load,labels=names(RMA_damage_IPNW_exogenous_factor),cex=.7) # add variable names
+
+library(FactoMineR)
+result <- FactoMineR::PCA(RMA_damage_IPNW_exogenous_factor, scale.unit = TRUE) # graphs generated automatically
+
+r2 <- fviz_pca_ind(result,
+         col.ind = "contrib", # Color by contribution
+         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07") #assign gradient
+         )
+
 
 #--create table of PC1 and PC2 loadings
 
