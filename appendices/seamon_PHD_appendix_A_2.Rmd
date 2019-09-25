@@ -511,39 +511,68 @@ library(dplyr)
 library(raster)
 library(htmltools)
 
-states <- readShapePoly('/dmine/data/states/states.shp', 
-                                  proj4string=CRS
-                                  ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
-        projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-        
-        
-threestates <- readShapePoly('/dmine/data/states/threestate_boundary.shp', 
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
+destfile <- "/tmp/states_conus.zip"
+download.file(URL, destfile)
+outDir<-"/tmp"
+unzip(destfile,exdir=outDir)
+
+states <- readShapePoly('/tmp/states_conus.shp',
+                        proj4string=CRS
+                        ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+
+
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/threestate_boundary.zip"
+destfile <- "/tmp/threestate_boundary.zip"
+download.file(URL, destfile)
+outDir<-"/tmp"
+unzip(destfile,exdir=outDir)
+    
+threestates <- readShapePoly('/tmp/threestate_boundary.shp', 
                                   proj4string=CRS
                                   ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
         projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 
 #setwd("/dmine/data/counties/")
+        
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_willamette.zip"
+destfile <- "/tmp/threestate_willamette.zip"
+download.file(URL, destfile)
+outDir<-"/tmp"
+unzip(destfile,exdir=outDir)
 
-counties_willamette <- readShapePoly('/dmine/data/counties/threestate_willamette.shp',
+counties_willamette <- readShapePoly('/tmp/threestate_willamette.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_southernID.zip"
+destfile <- "/tmp/threestate_southernID.zip"
+download.file(URL, destfile)
+outDir<-"/tmp"
+unzip(destfile,exdir=outDir)
 
-counties_ID <- readShapePoly('/dmine/data/counties/threestate_southernID.shp',
+counties_ID <- readShapePoly('/tmp/threestate_southernID.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
+destfile <- "/tmp/threestate_palouse.zip"
+download.file(URL, destfile)
+outDir<-"/tmp"
+unzip(destfile,exdir=outDir)
 
-counties_palouse <- readShapePoly('/dmine/data/counties/threestate_palouse.shp',
+counties_palouse <- readShapePoly('/tmp/threestate_palouse.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 #pal <- colorNumeric(palette = c("white", "orange", "darkorange", "red", "darkred"),
 #                    domain = counties$NAME)
+
 
 
 exte <- as.vector(extent(threestates))
