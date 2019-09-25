@@ -68,6 +68,9 @@ library(plotrix)
 library(ggplot2)
   library(gridExtra)
 
+  
+#----load climate data
+  
 ID2001 <- read.csv(text=getURL
 ("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2001_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
@@ -130,93 +133,144 @@ header = TRUE, strip.white = TRUE, sep = ",")
 
 ziggy.df <- rbind(ID2001, ID2002, ID2003, ID2004, ID2005, ID2006, ID2007, ID2008, ID2009, ID2010, ID2011, ID2012, ID2013, ID2014, ID2015)
 
-#setwd("/dmine/data/USDA/agmesh-scenarios/Idaho/summaries")
-#temp = list.files(pattern = "_summary")
-#myfiles = lapply(temp, read.csv, header = TRUE)
-#ziggy.df <- do.call(rbind , myfiles)
-
 ID1 <- aggregate(.~countyfips + year, ziggy.df, sum)
 ID1 <- aggregate(.~countyfips, ID1, mean)
 
 WA2001 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2001_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2001_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2002 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2002_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2002_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2003 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2003_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2003_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2004 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2004_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2004_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2005 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2005_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2005_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2006 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2006_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2006_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2007 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2007_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2007_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2008 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2008_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2008_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2009 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2009_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2009_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2010 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2010_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2010_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2011 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2011_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2011_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2012 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2012_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2012_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2013 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2013_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2013_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2014 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2014_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2014_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 WA2015 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2015_ipnw_summary"), 
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2015_ipnw_summary"), 
 header = TRUE, strip.white = TRUE, sep = ",")
 
 ziggy.df <- rbind(WA2001, WA2002, WA2003, WA2004, WA2005, WA2006, WA2007, WA2008, WA2009, WA2010, WA2011, WA2012, WA2013, WA2014, WA2015)
 
-setwd("/dmine/data/USDA/agmesh-scenarios/Washington/summaries")
-temp = list.files(pattern = "_summary")
-myfiles = lapply(temp, read.csv, header = TRUE)
-ziggy.df <- do.call(rbind , myfiles)
-
 WA1 <- aggregate(.~countyfips + year, ziggy.df, sum)
 WA1 <- aggregate(.~countyfips, WA1, mean)
 
-setwd("/dmine/data/USDA/agmesh-scenarios/Oregon/summaries")
-temp = list.files(pattern = "_summary")
-myfiles = lapply(temp, read.csv, header = TRUE)
-ziggy.df <- do.call(rbind , myfiles)
+
+OR2001 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2001_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2002 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2002_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2003 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2003_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2004 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2004_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2005 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2005_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2006 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2006_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2007 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2007_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2008 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2008_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2009 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2009_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2010 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2010_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2011 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2011_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2012 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2012_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2013 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2013_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2014 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2014_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2015 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2015_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ziggy.df <- rbind(OR2001, OR2002, OR2003, OR2004, OR2005, OR2006, OR2007, OR2008, OR2009, OR2010, OR2011, OR2012, OR2013, OR2014, OR2015)
 
 OR1 <- aggregate(.~countyfips + year, ziggy.df, sum)
 OR1 <- aggregate(.~countyfips, OR1, mean)
 
-countiesfips <- read.csv("/dmine/data/counties/counties_fips.csv", header = TRUE)
+countiesfips <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/counties_fips.csv"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
 colnames(countiesfips) <- c("countyfips", "county", "state")
 
 OR2 <- merge(countiesfips, OR1, by=("countyfips"))
@@ -224,39 +278,166 @@ ID2 <- merge(countiesfips, ID1, by=("countyfips"))
 WA2 <- merge(countiesfips, WA1, by=("countyfips"))
 
 
-#------
+#------add crop insurance data
 
-setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/")
-#setwd(monthdir2)
+rma1989 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1989.txt"), 
+sep = "|", header = FALSE, strip.white = TRUE)
 
-temp = list.files(pattern = paste("Idaho", "_summary", sep=""))
-myfiles = lapply(temp, read.csv, header = TRUE)
-ziggy.df <- do.call(rbind , myfiles)
-xrange <- as.data.frame(ziggy.df)
-xrange$county <- as.character(xrange$county)
-xrange$damagecause <- as.character(xrange$damagecause)
+rma1990 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1990.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
 
-xrange_1989 <- subset(xrange, year <= 2000)
-xrange_2015 <- subset(xrange, year >= 2001)
-xrange_1989$loss <- xrange_1989$acres
-xrange_1989$acres <- NA
+rma1991 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1991.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
 
-xrange <- rbind(xrange_2015)
+rma1992 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1992.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
 
-xrange$commodity <- trimws(xrange$commodity)
-xrange$county <- trimws(xrange$county)
-xrange$damagecause <- trimws(xrange$damagecause)
+rma1993 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1993.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1994 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1994.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1995 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1995.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1996 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1996.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1997 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1997.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1998 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1998.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1999 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1999.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2000 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2000.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2001 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2001.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2002 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2002.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2003 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2003.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2004 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2004.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2005 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2005.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2006 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2006.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2007 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2007.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2008 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2008.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2009 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2009.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2010 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2010.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2011 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2011.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2012 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2012.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2013 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2013.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2014 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2014.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2015 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2015.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+#load individual files from 1989 to 2000
+RMA_1989 <- rbind(rma1989, rma1990, rma1991, rma1992, rma1993, rma1994, rma1995, rma1996, rma1997, rma1998, rma1999, rma2000)
+
+#filter columns
+RMA_1989 <- data.frame(RMA_1989[,1], RMA_1989[,3], RMA_1989[,5], RMA_1989[,7], RMA_1989[,12], RMA_1989[,13], RMA_1989[,14], RMA_1989[,15])
+
+#set column names
+colnames(RMA_1989) <- c("year", "state", "county", "commodity", "damagecause", "monthcode", "month", "loss")
+
+#load individual files from 2001 to 2015
+RMA <- rbind(rma2001, rma2002, rma2003, rma2004, rma2005, rma2006, rma2007, rma2008, rma2009, rma2010, rma2011, rma2012, rma2013, rma2014, rma2015)
+
+#filter columns
+RMA <- data.frame(RMA[,1], RMA[,3], RMA[,5], RMA[,7], RMA[,12], RMA[,13], RMA[,14], RMA[,15], RMA[,16])
+
+#set column names
+colnames(RMA) <- c("year", "state", "county", "commodity", "damagecause", "monthcode", "month", "acres", "loss")
+
+#subset 2001 to 2015 for ID, WA, and OR
+RMA_PNW <- subset(RMA, state == "WA" | state == "OR" | state == "ID" )
+
+#subset 1989 to 2000 for ID, WA, and OR
+RMA_PNW_1989 <- subset(RMA_1989, state == "WA" | state == "OR" | state == "ID" )
+
+
+#temp = list.files(pattern = paste("Idaho", "_summary", sep=""))
+#myfiles = lapply(temp, read.csv, header = TRUE)
+#ziggy.df <- do.call(rbind , myfiles)
+RMA_PNW <- as.data.frame(RMA_PNW)
+RMA_PNW$county <- as.character(RMA_PNW$county)
+RMA_PNW$damagecause <- as.character(RMA_PNW$damagecause)
+
+xrange <- RMA_PNW
+
+RMA_PNW$commodity <- trimws(RMA_PNW$commodity)
+RMA_PNW$county <- trimws(RMA_PNW$county)
+RMA_PNW$damagecause <- trimws(RMA_PNW$damagecause)
+
+ID_RMA_PNW <- subset(RMA_PNW, state == "ID")
 
 
 #--acres for all damage causes aggregated
-ID_loss_commodity <- subset(xrange, commodity == var_commodity)
+ID_loss_commodity <- subset(ID_RMA_PNW, commodity == var_commodity)
 ID_loss_all <- aggregate(ID_loss_commodity$acres, by=list(ID_loss_commodity$county, ID_loss_commodity$state), FUN = "sum")
 colnames(ID_loss_all) <- c("county", "state", "all_damagecause_acres")
 
 
 #-loss and lossperacre for just one damage cause
 
-ID_loss1 <- subset(xrange, commodity == var_commodity & damagecause == var_damage)
+ID_loss1 <- subset(ID_RMA_PNW, commodity == var_commodity & damagecause == var_damage)
 ID_loss2 <- aggregate(ID_loss1$loss, by=list(ID_loss1$county, ID_loss1$state), FUN = "sum")
 ID_loss2_acres <- aggregate(ID_loss1$acres, by=list(ID_loss1$county, ID_loss1$state), FUN = "sum")
 colnames(ID_loss2) <- c("county", "state", "loss")
@@ -270,37 +451,20 @@ ID_loss2$lossperacre <- ID_loss2$loss / ID_loss2$acres
 ID_loss_climate <- merge(ID_loss2, ID2, by=c("county", "state"))
 ID_loss_climate_2 <- merge(ID_loss_all, ID_loss_climate, by=c("county", "state"))
 
+
+
 #---WA
 
-setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/")
-#setwd(monthdir2)
 
-temp = list.files(pattern = paste("Washington", "_summary", sep=""))
-myfiles = lapply(temp, read.csv, header = TRUE)
-ziggy.df <- do.call(rbind , myfiles)
-xrange <- as.data.frame(ziggy.df)
-xrange$county <- as.character(xrange$county)
-xrange$damagecause <- as.character(xrange$damagecause)
-
-xrange_1989 <- subset(xrange, year <= 2000)
-xrange_2015 <- subset(xrange, year >= 2001)
-xrange_1989$loss <- xrange_1989$acres
-xrange_1989$acres <- NA
-
-xrange <- rbind(xrange_2015)
-
-xrange$commodity <- trimws(xrange$commodity)
-xrange$county <- trimws(xrange$county)
-xrange$damagecause <- trimws(xrange$damagecause)
-
+WA_RMA_PNW <- subset(RMA_PNW, state == "WA")
 
 #--acres for all damage causes aggregated
-WA_loss_commodity <- subset(xrange, commodity == var_commodity)
+WA_loss_commodity <- subset(WA_RMA_PNW, commodity == var_commodity)
 WA_loss_all <- aggregate(WA_loss_commodity$acres, by=list(WA_loss_commodity$county, WA_loss_commodity$state), FUN = "sum")
 colnames(WA_loss_all) <- c("county", "state", "all_damagecause_acres")
 
 
-WA_loss1 <- subset(xrange, commodity == var_commodity & damagecause == var_damage)
+WA_loss1 <- subset(WA_RMA_PNW, commodity == var_commodity & damagecause == var_damage)
 WA_loss2 <- aggregate(WA_loss1$loss, by=list(WA_loss1$county, WA_loss1$state), FUN = "sum")
 WA_loss2_acres <- aggregate(WA_loss1$acres, by=list(WA_loss1$county, WA_loss1$state), FUN = "sum")
 colnames(WA_loss2) <- c("county", "state", "loss")
@@ -316,34 +480,14 @@ WA_loss_climate_2 <- merge(WA_loss_all, WA_loss_climate, by=c("county", "state")
 
 #--OR
 
-setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/")
-#setwd(monthdir2)
-
-temp = list.files(pattern = paste("Oregon", "_summary", sep=""))
-myfiles = lapply(temp, read.csv, header = TRUE)
-ziggy.df <- do.call(rbind , myfiles)
-xrange <- as.data.frame(ziggy.df)
-xrange$county <- as.character(xrange$county)
-xrange$damagecause <- as.character(xrange$damagecause)
-
-xrange_1989 <- subset(xrange, year <= 2000)
-xrange_2015 <- subset(xrange, year >= 2001)
-xrange_1989$loss <- xrange_1989$acres
-xrange_1989$acres <- NA
-
-xrange <- rbind(xrange_2015)
-
-xrange$commodity <- trimws(xrange$commodity)
-xrange$county <- trimws(xrange$county)
-xrange$damagecause <- trimws(xrange$damagecause)
-
+OR_RMA_PNW <- subset(RMA_PNW, state == "OR")
 
 #--acres for all damage causes aggregated
-OR_loss_commodity <- subset(xrange, commodity == var_commodity)
+OR_loss_commodity <- subset(OR_RMA_PNW, commodity == var_commodity)
 OR_loss_all <- aggregate(OR_loss_commodity$acres, by=list(OR_loss_commodity$county, OR_loss_commodity$state), FUN = "sum")
 colnames(OR_loss_all) <- c("county", "state", "all_damagecause_acres")
 
-OR_loss1 <- subset(xrange, commodity == var_commodity & damagecause == var_damage)
+OR_loss1 <- subset(OR_RMA_PNW, commodity == var_commodity & damagecause == var_damage)
 OR_loss2 <- aggregate(OR_loss1$loss, by=list(OR_loss1$county, OR_loss1$state), FUN = "sum")
 OR_loss2_acres <- aggregate(OR_loss1$acres, by=list(OR_loss1$county, OR_loss1$state), FUN = "sum")
 colnames(OR_loss2) <- c("county", "state", "loss")
