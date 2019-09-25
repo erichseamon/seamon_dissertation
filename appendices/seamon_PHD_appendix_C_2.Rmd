@@ -724,16 +724,29 @@ For the three examined climate variables (potential evapotranspiration, precipit
   dmvector <- as.data.frame(rep(NA, times=144))
   
   cl = 0
+  
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_matrices/climate_matrices.zip"
+destfile <- "/tmp/climate_matrices.zip"
+download.file(URL, destfile)
+outDir<-"/tmp/climate_matrices"
+unzip(destfile,exdir=outDir)
+
+ URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_correlation_summaries/climate_correlations_summaries.zip"
+destfile <- "/tmp/climate_correlations_summaries.zip"
+download.file(URL, destfile)
+outDir<-"/tmp/climate_correlations"
+unzip(destfile,exdir=outDir)   
+  
+  
   for (ppp in climmonth) {
     cl = cl +1
     
-    
-    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_rev4")
+  
+    setwd("/tmp/climate_matrices")
     file1 <- read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", ppp, ".csv", sep=""))
     climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
     
-    
-    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_summaries_rev3")
+    setwd("/tmp/climate_correlations")
     file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
     file2 <- subset(file2, state == state_var)
     file2 <- subset(file2, county == county_var)
@@ -904,16 +917,18 @@ dmvector <- data.frame(dmvector)
   dmvector <- as.data.frame(rep(NA, times=144))
   
   cl = 0
+  
+  
   for (ppp in climmonth) {
     cl = cl +1
     
     
-    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_rev4")
+    setwd("/tmp/climate_matrices")
     file1 <- read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", ppp, ".csv", sep=""))
     climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
     
     
-    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_summaries_rev3")
+    setwd("/tmp/climate_correlations")
     file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
     file2 <- subset(file2, state == state_var)
     file2 <- subset(file2, county == county_var)
@@ -1086,16 +1101,17 @@ dmvector <- data.frame(dmvector)
   dmvector <- as.data.frame(rep(NA, times=144))
   
   cl = 0
+  
   for (ppp in climmonth) {
     cl = cl +1
     
     
-    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_rev4")
+    setwd("/tmp/climate_matrices")
     file1 <- read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", ppp, ".csv", sep=""))
     climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
     
     
-    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_summaries_rev3")
+    setwd("/tmp/climate_correlations")
     file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
     file2 <- subset(file2, state == state_var)
     file2 <- subset(file2, county == county_var)
@@ -1271,12 +1287,12 @@ dmvector <- data.frame(dmvector)
     cl = cl +1
     
     
-    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_rev4")
+    setwd("/tmp/climate_matrices")
     file1 <- read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", ppp, ".csv", sep=""))
     climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
     
     
-    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_summaries_rev3")
+    setwd("/tmp/climate_correlations")
     file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
     file2 <- subset(file2, state == state_var)
     file2 <- subset(file2, county == county_var)
