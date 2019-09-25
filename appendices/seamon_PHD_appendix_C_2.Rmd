@@ -734,7 +734,7 @@ unzip(destfile,exdir=outDir)
  URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_correlation_summaries/climate_correlations_summaries.zip"
 destfile <- "/tmp/climate_correlations_summaries.zip"
 download.file(URL, destfile)
-outDir<-"/tmp/climate_correlations"
+outDir<-"/tmp/climate_correlations_summaries"
 unzip(destfile,exdir=outDir)   
   
   
@@ -746,7 +746,7 @@ unzip(destfile,exdir=outDir)
     file1 <- read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", ppp, ".csv", sep=""))
     climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
     
-    setwd("/tmp/climate_correlations")
+    setwd("/tmp/climate_correlations_summaries")
     file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
     file2 <- subset(file2, state == state_var)
     file2 <- subset(file2, county == county_var)
@@ -928,7 +928,7 @@ dmvector <- data.frame(dmvector)
     climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
     
     
-    setwd("/tmp/climate_correlations")
+    setwd("/tmp/climate_correlations_summaries")
     file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
     file2 <- subset(file2, state == state_var)
     file2 <- subset(file2, county == county_var)
@@ -1111,7 +1111,7 @@ dmvector <- data.frame(dmvector)
     climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
     
     
-    setwd("/tmp/climate_correlations")
+    setwd("/tmp/climate_correlations_summaries")
     file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
     file2 <- subset(file2, state == state_var)
     file2 <- subset(file2, county == county_var)
@@ -1292,7 +1292,7 @@ dmvector <- data.frame(dmvector)
     climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
     
     
-    setwd("/tmp/climate_correlations")
+    setwd("/tmp/climate_correlations_summaries")
     file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
     file2 <- subset(file2, state == state_var)
     file2 <- subset(file2, county == county_var)
@@ -1447,8 +1447,14 @@ library(raster)
     
       library(RColorBrewer)
       library(dplyr)
-      
-      setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_correlations_3/")
+  
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_correlations/climate_correlations.zip"
+destfile <- "/tmp/climate_correlations.zip"
+download.file(URL, destfile)
+outDir<-"/tmp/climate_correlations"
+unzip(destfile,exdir=outDir)
+
+      setwd("/tmp/climate_correlations/")
       
       
       if (predictor_var  == "loss") {
@@ -1482,7 +1488,7 @@ library(raster)
       
       tables <- lapply(tables, function(x) { x["X"] <- NULL; x }) #--remove first index row from each list
       
-      tables <- lapply(tables, function(x) arrange(x, -row_number())) #--(flips matrix - puts jan as 1st row and sept as 9th row)
+      tables <- lapply(tables, function(x) dplyr::arrange(x, -row_number())) #--(flips matrix - puts jan as 1st row and sept as 9th row)
       
       
       for (i in 1:26) {
@@ -1890,7 +1896,7 @@ library(raster)
       library(RColorBrewer)
       library(dplyr)
       
-      setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_correlations_3/")
+      setwd("/tmp/climate_correlations/")
       
       
       if (predictor_var  == "loss") {
@@ -2320,7 +2326,7 @@ library(raster)
       library(RColorBrewer)
       library(dplyr)
       
-      setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_correlations_3/")
+      setwd("/tmp/climate_correlations/")
       
       
       if (predictor_var  == "loss") {
@@ -2750,7 +2756,7 @@ library(raster)
       library(RColorBrewer)
       library(dplyr)
       
-      setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_correlations_3/")
+      setwd("/tmp/climate_correlations/")
       
       
       if (predictor_var  == "loss") {
