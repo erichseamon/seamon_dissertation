@@ -94,7 +94,6 @@ https://github.com/erichseamon/paper-PHD1/
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
-library(knitr)
 library(tab)
 library(car)
 library(RCurl)
@@ -107,255 +106,273 @@ library(broom)
 library(htmlTable)
 library(gridExtra)
 library(kableExtra)
-library(repmis)
-
+library(ggfortify)
 
 
 #options(scipen=999)
 
 #load original data as txt file 
 
-rma1989 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1989.txt"), 
-sep = "|", header = FALSE, strip.white = TRUE)
+rma1988 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1988.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1989 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1989.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1990 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1990.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1991 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1991.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1992 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1992.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1993 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1993.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1994 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1994.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1995 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1995.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1996 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1996.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1997 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1997.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1998 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1998.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1999 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1999.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2000 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2000.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2001 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2001.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2002 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2002.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2003 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2003.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2004 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2004.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2005 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2005.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2006 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2006.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2007 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2007.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2008 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2008.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2009 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2009.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2010 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2010.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2011 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2011.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2012 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2012.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2013 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2013.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2014 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2014.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2015 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2015.txt", sep = "|", header = FALSE, strip.white = TRUE)
 
-rma1990 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1990.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
+#load original data as from github as a joint file - 1989 to 2001 and 2001 to 2015
 
-rma1991 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1991.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
+#RMA_2015 <- read.csv("https://raw.githubusercontent.com/erichseamon/paper-PHD1/master/data/RMA_csv/US_RMA_2001_2015.csv", sep = ",", header = FALSE, strip.white = TRUE)
 
-rma1992 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1992.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
+#RMA_1989 <- read.csv("https://raw.githubusercontent.com/erichseamon/paper-PHD1/master/data/RMA_csv/US_RMA_1989_2000.csv", sep = ",", header = FALSE, strip.white = TRUE)
 
-rma1993 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1993.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
 
-rma1994 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1994.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1995 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1995.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1996 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1996.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1997 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1997.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1998 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1998.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1999 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1999.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2000 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2000.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2001 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2001.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2002 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2002.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2003 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2003.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2004 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2004.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2005 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2005.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2006 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2006.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2007 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2007.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2008 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2008.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2009 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2009.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2010 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2010.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2011 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2011.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2012 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2012.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2013 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2013.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2014 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2014.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2015 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2015.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-#load individual files from 1989 to 2000
 RMA_1989 <- rbind(rma1989, rma1990, rma1991, rma1992, rma1993, rma1994, rma1995, rma1996, rma1997, rma1998, rma1999, rma2000)
 
-#filter columns
 RMA_1989 <- data.frame(RMA_1989[,1], RMA_1989[,3], RMA_1989[,5], RMA_1989[,7], RMA_1989[,12], RMA_1989[,13], RMA_1989[,14], RMA_1989[,15])
 
-#set column names
 colnames(RMA_1989) <- c("year", "state", "county", "commodity", "damagecause", "monthcode", "month", "loss")
+#write.csv(RMA_1989, file = "/dmine/code/git/paper-PHD1/data/RMA_csv/US_RMA_1989_2000.csv")
+#save(RMA_1989,file="/dmine/code/git/paper-PHD1/data/RMA_Rda/US_RMA_1989_2000.Rda")
 
-#load individual files from 2001 to 2015
 RMA <- rbind(rma2001, rma2002, rma2003, rma2004, rma2005, rma2006, rma2007, rma2008, rma2009, rma2010, rma2011, rma2012, rma2013, rma2014, rma2015)
 
-#filter columns
 RMA <- data.frame(RMA[,1], RMA[,3], RMA[,5], RMA[,7], RMA[,12], RMA[,13], RMA[,14], RMA[,15], RMA[,16])
 
-#set column names
 colnames(RMA) <- c("year", "state", "county", "commodity", "damagecause", "monthcode", "month", "acres", "loss")
+#write.csv(RMA, file = "/dmine/code/git/paper-PHD1/data/RMA_csv/US_RMA_2001_2015.csv")
+#save(RMA,file="/dmine/code/git/paper-PHD1/data/RMA_Rda/US_RMA_2001_2015.Rda")
 
-#subset 2001 to 2015 for ID, WA, and OR
+
 RMA_PNW <- subset(RMA, state == "WA" | state == "OR" | state == "ID" )
+#save(RMA_PNW,file="/dmine/code/git/paper-PHD1/data/RMA_Rda/PNW_RMA_2001_2015.Rda")
+#write.csv(RMA_PNW, file = "/dmine/code/git/paper-PHD1/data/RMA_csv/RMA_PNW_2001_2015.csv")
 
-#subset 1989 to 2000 for ID, WA, and OR
 RMA_PNW_1989 <- subset(RMA_1989, state == "WA" | state == "OR" | state == "ID" )
+#save(RMA_PNW_1989,file="/dmine/code/git/paper-PHD1/data/RMA_Rda/PNW_RMA_1989_2000.Rda")
+write.csv(RMA_PNW_1989, file = "/dmine/code/git/paper-PHD1/data/RMA_csv/RMA_PNW_1989_2000.csv")
 
-#calculate loss per acre
+
 RMA_PNW$lossperacre <- RMA_PNW$loss / RMA_PNW$acres
 
-#remove records with missing months
 RMA_PNW <- subset(RMA_PNW, month != "")
 
-#set a crop year column (i.e. water year)
 RMA_PNW$cropyear <- RMA_PNW$year
 
-#make oct/nov/dec part of the crop year
 RMA_PNW$cropyear[RMA_PNW$monthcode >= 10] <- RMA_PNW$year + 1
 
-#remove 2016
 RMA_PNW <- subset(RMA_PNW, year != 2016)
 
 
-#aggregate by year/state/county/commodity, for total loss in $
+
 RMA_commodity_loss <- aggregate(RMA$loss, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity), FUN = sum)
 colnames(RMA_commodity_loss) <- c("year", "state", "county", "commodity", "loss")
 RMA_commodity_loss <- subset(RMA_commodity_loss, commodity != "ADJUSTED GROSS REVENUE")
 
-#aggregate by year/state/county/commodity for total number of claims
 RMA_commodity_count <- aggregate(RMA$loss, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity), FUN = length)
 colnames(RMA_commodity_count) <- c("year", "state", "county", "commodity", "count")
 RMA_commodity_count <- subset(RMA_commodity_count, commodity != "ADJUSTED GROSS REVENUE")
 
-#aggregate for year/state/county/commodity for acreage
+
 RMA_commodity_acres <- aggregate(RMA$acres, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity), FUN = sum)
 colnames(RMA_commodity_acres) <- c("year", "state", "county", "commodity", "acres")
 RMA_commodity_acres <- subset(RMA_commodity_acres, commodity != "ADJUSTED GROSS REVENUE")
 
-#aggregate for year/state/county/damage cause for total loss in $
+
 RMA_damage_loss <- aggregate(RMA$loss, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity, RMA$damagecause), FUN = sum)
 colnames(RMA_damage_loss) <- c("year", "state", "county", "commodity", "damagecause", "loss")
 
-#aggregate for year/state/county/commodity/damage cause by total loss in $
+
 RMA_damage_count <- aggregate(RMA$loss, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity, RMA$damagecause), FUN = length)
 colnames(RMA_damage_count) <- c("year", "state", "county", "commodity", "damagecause", "count")
 
-#aggregate by year/state/county/commodity/damage cause by acres
+
 RMA_damage_acres <- aggregate(RMA$acres, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity, RMA$damagecause), FUN = sum)
 colnames(RMA_damage_acres) <- c("year", "state", "county", "commodity", "damaecause", "acres")
 
-#combine all the aggregated commodity values (loss, count, acreage)
+
 RMA_commodity_combined <- cbind(RMA_commodity_loss, RMA_commodity_count$count, RMA_commodity_acres$acres)
 colnames(RMA_commodity_combined) <- c("year", "state", "county", "commodity", "loss", "count", "acres")
 
-#calculate lossperacre for aggregated commodity
 RMA_commodity_combined$lossperacre <- RMA_commodity_combined$loss / RMA_commodity_combined$acres
-
-#calculate loss per claim for aggregated commodity
 RMA_commodity_combined$lossperclaim <- RMA_commodity_combined$loss / RMA_commodity_combined$count
-
-#calculate acres per claim for aggregated commodity
 RMA_commodity_combined$acresperclaim <- RMA_commodity_combined$acres / RMA_commodity_combined$count
 
-#combine all aggregated damage cause values (loss, count, acreage) 
+
 RMA_damage_combined <- cbind(RMA_damage_loss, RMA_damage_count$count, RMA_damage_acres$acres)
 colnames(RMA_damage_combined) <- c("year", "state", "county", "commodity", "damagecause", "loss", "count", "acres")
-
-#calculate lossperacre for aggregated damage cause
 RMA_damage_combined$lossperacre <- RMA_damage_combined$loss / RMA_damage_combined$acres
-
-#calculate loss per claim for aggregated damage cause
 RMA_damage_combined$lossperclaim <- RMA_damage_combined$loss / RMA_damage_combined$count
-
-#calculate acres per claim for aggregated damage cause
 RMA_damage_combined$acresperclaim <- RMA_damage_combined$acres / RMA_damage_combined$count
 
-#set NAs for loss per acre for damage cause combo to zero.  
+
 RMA_damage_combined$lossperacre[!is.finite(RMA_damage_combined$lossperacre)] <- 0
+#write.csv(RMA_commodity_combined, file = paste("/nfs/soilsesfeedback-data/data/RMA/RMA_commodity_combined.csv", sep=""))
+#write.csv(RMA_damage_combined, file = paste("/nfs/soilsesfeedback-data/data/RMA/RMA_damage_combined.csv", sep=""))
 
 #subset for PNW - 2001 - 2015
 RMA_damage_PNW <- subset(RMA_damage_combined, state == "WA" | state == "OR" | state == "ID")
 
-#remove all other counties values
 RMA_damage_PNW <- subset(RMA_damage_PNW, county != "All Other Counties")
+#write.csv(RMA_damage_PNW, file = "/dmine/data/USDA/crop_indemnity_PNW/RMA_damage_PNW_2001_2015.csv")
 
-#subset just for Idaho
 RMA_Idaho <- subset(RMA_damage_PNW, state == "ID")
-
-#subset just for Oregon
 RMA_Oregon <- subset(RMA_damage_PNW, state == "OR")
-
-#subset just for Washington
 RMA_Washington <- subset(RMA_damage_PNW, state == "WA")
 
-#subset just for iPNW counties for Idaho
 RMA_Idaho_IPNW <- subset(RMA_Idaho, county == "Idaho" | county == "Lewis" | county ==  "Nez Perce" | county ==  "Latah" | county ==  "Benewah")
-
-#subset just for iPNW counties for Oregon
 RMA_Oregon_IPNW <- subset(RMA_Oregon, county == "Wasco" | county ==  "Sherman" | county ==  "Gilliam" | county ==  "Morrow" | county ==  "Umatilla" | county ==  "Union" | county ==  "Wallowa")
-
-#subset just for iPNW counties for Washington
 RMA_Washington_IPNW <- subset(RMA_Washington, county ==  "Douglas" | county ==  "Grant" | county ==  "Benton" | county ==  "Franklin" | county ==  "Walla Walla" | county ==  "Adams" | county ==  "Lincoln" | county ==  "Spokane" | county ==  "Whitman" | county ==  "Columbia" | county ==  "Garfield" | county ==  "Asotin")
 
-
-#combine all iPNW counties
 RMA_damage_IPNW <- rbind(RMA_Idaho_IPNW,RMA_Oregon_IPNW,RMA_Washington_IPNW)
 
+#-load summarized data
+Southern_ID_sumloss <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/dmine_anova/master/PNW_summary_all.csv"), 
+header = TRUE)
+
+Southern_ID_sumloss_all_sum <- RMA_damage_PNW
+
+Southern_ID_sumloss_all_sum  <- aggregate(loss ~ year + 
+                                            damagecause + state + county + commodity,  
+                                         Southern_ID_sumloss, sum)
+
+Southern_ID_count_all_count  <- aggregate(count ~ year + 
+                                            damagecause + county + commodity,  
+                                          Southern_ID_sumloss, sum)
+Southern_ID_sumloss_all_sum <- 
+  Southern_ID_sumloss_all_sum[Southern_ID_sumloss_all_sum$loss >= 1, ]
+
+#---subsetting for palouse/IPNW for sum, count, and lossperacre
+
+#- SUM: sumloss_palouse_sum
+#- COUNT: count_palouse_count
+#- LOSSPERACRE: palouse_lossperacres
+
  palousecounties    <-  c("Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai","Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin","Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa")
- 
-sumloss_palouse <- RMA_damage_PNW[RMA_damage_PNW$county %in% palousecounties, ] 
-sumloss_nonpalouse <- RMA_damage_PNW[!RMA_damage_PNW$county %in% palousecounties, ]
+
+sumloss_palouse <- Southern_ID_sumloss[Southern_ID_sumloss$county %in% palousecounties, ]
+sumloss_nonpalouse <- Southern_ID_sumloss[!Southern_ID_sumloss$county %in% palousecounties, ]
+                      
+
+sumloss_palouse_sum  <- aggregate(loss ~ year + 
+                                            damagecause + county + state + commodity,  
+                                          sumloss_palouse, sum)
+count_palouse_count  <- aggregate(count ~ year + 
+                                            damagecause + county + state + commodity,  
+                                          sumloss_palouse, sum)
+
+palouse_lossperacres  <- aggregate(lossperacres ~ year + 
+                                            damagecause + county + state + commodity,  
+                                          sumloss_palouse, mean)
+sumloss_palouse_sum <- 
+  sumloss_palouse_sum[sumloss_palouse_sum$loss >= 1, ]
+
+
+#creating transforms for sum loss - cube root, square root, inverse, log10 and natural log, and then scale and center
+
+Math.cbrt <- function(x) {
+  sign(x) * abs(x)^(1/3)
+}
+
+#-calculate cube loss
+sumloss_palouse_sum$cube_loss <- Math.cbrt(sumloss_palouse_sum$loss)
+
+#-remove zeros
+sumloss_palouse_sum <- subset(sumloss_palouse_sum, loss > 0)
+
+#-use a log transform 
+
+sumloss_palouse_sum$log10_loss <- log10(sumloss_palouse_sum$loss)
+sumloss_palouse_sum$log_loss <- log(sumloss_palouse_sum$loss)
+
+#-inverse transform
+sumloss_palouse_sum$inverse_loss <- 1/sumloss_palouse_sum$loss
+
+#sq root transformation
+sumloss_palouse_sum$sqroot_loss <- sqrt(sumloss_palouse_sum$loss)
+
+#--scale and center
+sumloss_palouse_sum$scaled_cube_loss <- scale(sumloss_palouse_sum$cube_loss)
+sumloss_palouse_sum$scaled_inverse_loss <- 
+  scale(sumloss_palouse_sum$inverse_loss, center = TRUE, scale = TRUE)
+
+#----
+
+
+#-Loading all WHEAT claims for the palouse from 1989-2015
+palouse_sumloss <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/dmine_anova/master/Palouse_summary_sumloss.csv"), 
+header = TRUE)
+palouse_counts <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/dmine_anova/master/Palouse_summary_counts.csv"), 
+header = TRUE)
+
+
+#use a cube transformation on loss for WHEAT claims
+Math.cbrt <- function(x) {
+  sign(x) * abs(x)^(1/3)
+}
+
+Southern_ID_sumloss_all_sum$cube_loss <- Math.cbrt(Southern_ID_sumloss_all_sum$loss)
+Southern_ID_count_all_count$cube_counts <- Math.cbrt(Southern_ID_count_all_count$count)
+
+
+#--aggregate palouse but not by county
+palouse_sumloss_aggregate_county <- aggregate(loss ~ damagecause + year + commodity + county, 
+                                       palouse_sumloss, mean)
+
+#--aggregate palouse
+palouse_sumloss_aggregate <- aggregate(loss ~ damagecause + year + commodity + county, 
+                                       palouse_sumloss, sum)
+
+#-calculate cube loss
+palouse_sumloss_aggregate$cube_loss <- Math.cbrt(palouse_sumloss_aggregate$loss)
+
+#-remove zeros
+palouse_sumloss_aggregate <- subset(palouse_sumloss_aggregate, loss > 0)
+
+#-use a log transform 
+
+palouse_sumloss_aggregate$log10_loss <- log10(palouse_sumloss_aggregate$loss)
+palouse_sumloss_aggregate$log_loss <- log(palouse_sumloss_aggregate$loss)
+
+#-inverse transform
+palouse_sumloss_aggregate$inverse_loss <- 1/palouse_sumloss_aggregate$loss
+
+#sq root transformation
+palouse_sumloss_aggregate$sqroot_loss <- sqrt(palouse_sumloss_aggregate$loss)
+
+#--scale and center
+palouse_sumloss_aggregate$scaled_cube_loss <- scale(palouse_sumloss_aggregate$cube_loss)
+palouse_sumloss_aggregate$scaled_inverse_loss <- 
+  scale(palouse_sumloss_aggregate$inverse_loss, center = TRUE, scale = TRUE)
 
 #----
 
 ```
-
 <br></br>
 
 ##Step 2. Original Insurance Loss Dataset - Pacific Northwest
@@ -401,33 +418,19 @@ library(dplyr)
 library(raster)
 library(htmltools)
 
-URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
-destfile <- "/tmp/states_conus.zip"
-download.file(URL, destfile)
-outDir<-"/tmp"
-unzip(destfile,exdir=outDir)
 
-states <- readShapePoly('/tmp/states_conus.shp',
-                        proj4string=CRS
-                        ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
-projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-
-
+states <- readShapePoly('/dmine/data/states/states.shp', 
+                                  proj4string=CRS
+                                  ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+        projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+    
 
 #setwd("/dmine/data/counties/")
 
-
-URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
-destfile <- "/tmp/threestate_palouse.zip"
-download.file(URL, destfile)
-outDir<-"/tmp"
-unzip(destfile,exdir=outDir)
-
-counties_palouse <- readShapePoly('/tmp/threestate_palouse.shp',
+counties <- readShapePoly('/dmine/data/counties/threestate_palouse.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-
 
 #pal <- colorNumeric(palette = c("white", "orange", "darkorange", "red", "darkred"),
 #                    domain = counties$NAME)
@@ -514,7 +517,7 @@ RMA_damage_PNW_exogenous_commodity <- RMA_damage_PNW_exogenous_commodity[-37]
 fit <- princomp(RMA_damage_PNW_exogenous_commodity, cor=TRUE)
 #ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_commodity, scale = TRUE, center = TRUE), data = RMA_damage_PNW_transformed_commodity, colour = 'county', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 3, legend = FALSE) + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_commodity)) + theme(legend.position = "none")
 
-ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_commodity, center = TRUE, scale = TRUE), frame = TRUE, frame.type = 'norm', data = RMA_damage_PNW_transformed_commodity, colour = 'state', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 2, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_commodity)) + theme(legend.position = "none") + ggtitle("Principle Components: PNW insurance loss\nby county with commodity loadings ") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
+ggplot2::ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_commodity, center = TRUE, scale = TRUE), frame = TRUE, frame.type = 'norm', data = RMA_damage_PNW_transformed_commodity, colour = 'state', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 2, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_commodity)) + theme(legend.position = "none") + ggtitle("Principle Components: PNW insurance loss\nby county with commodity loadings ") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
 
 
 ```
