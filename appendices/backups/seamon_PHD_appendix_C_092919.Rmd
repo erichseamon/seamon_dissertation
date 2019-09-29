@@ -1,0 +1,3874 @@
+---
+title: 'Appendix C: Agricultural Insurance Loss and Relationships to Climate across
+  the Inland Pacific Northwest Region of the United States'
+author: "Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip W. Mote, Stephen S. Lee"
+date: "September 2019"
+output:
+  html_document:
+    css: custom.css
+    code_folding: hide
+    highlight: textmate
+    theme: united
+    toc: true
+    toc_depth: 5
+    toc_float:
+      collapsed: true
+    fig_caption: true
+  pdf_document: default
+params: null
+mainfont: serif
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, out.width='900px', out.height='700px', dpi=200)
+
+#rmarkdown::render(input = "/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_C.Rmd", output_file = paste("/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_C.html", sep=""))
+
+```
+
+![](https://dmine.io/waf/img/Step1.png)
+**Dissertation Appendix C**
+
+**Chapter 2: Regression based random forest modeling of inland pacific northwest (iPNW) drought-related wheat insurance loss, using time lagged climate correlation matrix assocation**
+
+Appendix C documents Chapter 2 analyses related to agricultural commodity loss, at a county level, from 2001-2015, across the 24 county region of the Inland Pacific Northwest (IPNW). In this analysis, we use a time lagged matrix approach to examine a range of combinations of climate and insurance loss for wheat due to drought.
+<br></br>
+<br></br>
+Our analysis can be described in 5 specific steps:
+<br></br>
+<br></br>
+**Step 1.** We subset insurance loss claims by wheat due to drought
+
+**Step 2.** We aggregate climate data by month and county for the 24 county study area
+
+**Step 3.** We construct a design matrix of all monthly climate combinations, per county and per climate variable.
+
+**Step 4.** We select the monthly combination that has the highest correlation with wheat/drought claims, per county, for each year (2001 to 2015).  Based on the output, we assemble an optimized climate/insurance loss dataset for all counties.
+
+**Step 5.** We examine conditional relationships of climate to insurance loss using regression based rand forest analysis
+
+
+![](https://dmine.io/waf/img/Step1.png)
+
+
+###Step 1. Examining wheat/drought acreage ratios compared to average precipitation, potential evapotranspiration, and aridity for the iPNW study area, 2001 to 2015
+
+In step 1, we perform a broad examination of wheat insurance loss due to drought for our 24 county iPNW study area, by calculating the ratio of wheat/drought acreage claims vs. all other wheat related damage cause claims, and comparing that data to individual climate variables.  Example:  For Whitman County, WA - we calculated the total amount of insurance claim acreage for wheat due to drought (for 2001 to 2015 combined), and divided that by the total amount of wheat insurane acreage for all other damage causes (excessive moisture, hail, frost, freeze, etc).  We did this for each of the 24 counties.  
+
+We then calculate a summary value for each climate variable (plus aridity - which is PR / PET), for each county, from 2001 to 2015.  We then constructed three scatterplots for comparison.  Each point represents a county.  For precipitation and potential evapotranspiration, we use the average annual total.
+
+
+```{r message=FALSE, cache = TRUE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+ipnw_climate_county_comparison <- function(var_commodity, var_damage) {
+
+library(plotrix)
+library(ggplot2)
+library(gridExtra)
+library(RCurl)
+
+  
+#----load climate data
+  
+ID2001 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2001_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2002 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2002_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2003 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2003_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2004 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2004_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2005 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2005_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2006 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2006_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2007 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2007_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2008 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2008_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2009 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2009_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2010 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2010_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2011 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2011_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2012 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2012_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2013 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2013_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2014 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2014_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ID2015 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Idaho_2015_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ziggy.df <- rbind(ID2001, ID2002, ID2003, ID2004, ID2005, ID2006, ID2007, ID2008, ID2009, ID2010, ID2011, ID2012, ID2013, ID2014, ID2015)
+
+ID1 <- aggregate(.~countyfips + year, ziggy.df, sum)
+ID1 <- aggregate(.~countyfips, ID1, mean)
+
+WA2001 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2001_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2002 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2002_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2003 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2003_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2004 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2004_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2005 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2005_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2006 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2006_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2007 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2007_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2008 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2008_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2009 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2009_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2010 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2010_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2011 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2011_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2012 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2012_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2013 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2013_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2014 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2014_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+WA2015 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Washington_2015_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ziggy.df <- rbind(WA2001, WA2002, WA2003, WA2004, WA2005, WA2006, WA2007, WA2008, WA2009, WA2010, WA2011, WA2012, WA2013, WA2014, WA2015)
+
+WA1 <- aggregate(.~countyfips + year, ziggy.df, sum)
+WA1 <- aggregate(.~countyfips, WA1, mean)
+
+
+OR2001 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2001_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2002 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2002_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2003 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2003_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2004 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2004_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2005 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2005_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2006 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2006_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2007 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2007_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2008 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2008_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2009 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2009_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2010 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2010_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2011 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2011_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2012 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2012_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2013 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2013_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2014 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2014_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+OR2015 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/Oregon_2015_ipnw_summary"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+ziggy.df <- rbind(OR2001, OR2002, OR2003, OR2004, OR2005, OR2006, OR2007, OR2008, OR2009, OR2010, OR2011, OR2012, OR2013, OR2014, OR2015)
+
+OR1 <- aggregate(.~countyfips + year, ziggy.df, sum)
+OR1 <- aggregate(.~countyfips, OR1, mean)
+
+countiesfips <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/counties_fips.csv"), 
+header = TRUE, strip.white = TRUE, sep = ",")
+
+colnames(countiesfips) <- c("countyfips", "county", "state")
+
+OR2 <- merge(countiesfips, OR1, by=("countyfips"))
+ID2 <- merge(countiesfips, ID1, by=("countyfips"))
+WA2 <- merge(countiesfips, WA1, by=("countyfips"))
+
+
+#------add crop insurance data
+
+rma1989 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1989.txt"), 
+sep = "|", header = FALSE, strip.white = TRUE)
+
+rma1990 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1990.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1991 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1991.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1992 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1992.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1993 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1993.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1994 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1994.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1995 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1995.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1996 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1996.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1997 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1997.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1998 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1998.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma1999 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1999.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2000 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2000.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2001 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2001.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2002 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2002.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2003 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2003.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2004 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2004.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2005 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2005.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2006 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2006.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2007 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2007.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2008 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2008.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2009 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2009.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2010 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2010.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2011 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2011.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2012 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2012.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2013 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2013.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2014 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2014.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+rma2015 <- read.csv(text=getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2015.txt"), 
+header = FALSE, strip.white = TRUE, sep = "|")
+
+#load individual files from 1989 to 2000
+RMA_1989 <- rbind(rma1989, rma1990, rma1991, rma1992, rma1993, rma1994, rma1995, rma1996, rma1997, rma1998, rma1999, rma2000)
+
+#filter columns
+RMA_1989 <- data.frame(RMA_1989[,1], RMA_1989[,3], RMA_1989[,5], RMA_1989[,7], RMA_1989[,12], RMA_1989[,13], RMA_1989[,14], RMA_1989[,15])
+
+#set column names
+colnames(RMA_1989) <- c("year", "state", "county", "commodity", "damagecause", "monthcode", "month", "loss")
+
+#load individual files from 2001 to 2015
+RMA <- rbind(rma2001, rma2002, rma2003, rma2004, rma2005, rma2006, rma2007, rma2008, rma2009, rma2010, rma2011, rma2012, rma2013, rma2014, rma2015)
+
+#filter columns
+RMA <- data.frame(RMA[,1], RMA[,3], RMA[,5], RMA[,7], RMA[,12], RMA[,13], RMA[,14], RMA[,15], RMA[,16])
+
+#set column names
+colnames(RMA) <- c("year", "state", "county", "commodity", "damagecause", "monthcode", "month", "acres", "loss")
+
+#subset 2001 to 2015 for ID, WA, and OR
+RMA_PNW <- subset(RMA, state == "WA" | state == "OR" | state == "ID" )
+
+#subset 1989 to 2000 for ID, WA, and OR
+RMA_PNW_1989 <- subset(RMA_1989, state == "WA" | state == "OR" | state == "ID" )
+
+
+#temp = list.files(pattern = paste("Idaho", "_summary", sep=""))
+#myfiles = lapply(temp, read.csv, header = TRUE)
+#ziggy.df <- do.call(rbind , myfiles)
+RMA_PNW <- as.data.frame(RMA_PNW)
+RMA_PNW$county <- as.character(RMA_PNW$county)
+RMA_PNW$damagecause <- as.character(RMA_PNW$damagecause)
+
+xrange <- RMA_PNW
+
+RMA_PNW$commodity <- trimws(RMA_PNW$commodity)
+RMA_PNW$county <- trimws(RMA_PNW$county)
+RMA_PNW$damagecause <- trimws(RMA_PNW$damagecause)
+
+ID_RMA_PNW <- subset(RMA_PNW, state == "ID")
+
+
+#--acres for all damage causes aggregated
+ID_loss_commodity <- subset(ID_RMA_PNW, commodity == var_commodity)
+ID_loss_all <- aggregate(ID_loss_commodity$acres, by=list(ID_loss_commodity$county, ID_loss_commodity$state), FUN = "sum")
+colnames(ID_loss_all) <- c("county", "state", "all_damagecause_acres")
+
+
+#-loss and lossperacre for just one damage cause
+
+ID_loss1 <- subset(ID_RMA_PNW, commodity == var_commodity & damagecause == var_damage)
+ID_loss2 <- aggregate(ID_loss1$loss, by=list(ID_loss1$county, ID_loss1$state), FUN = "sum")
+ID_loss2_acres <- aggregate(ID_loss1$acres, by=list(ID_loss1$county, ID_loss1$state), FUN = "sum")
+colnames(ID_loss2) <- c("county", "state", "loss")
+colnames(ID_loss2_acres) <- c("county", "state", "acres")
+
+ID_loss2$acres <- ID_loss2_acres$acres
+ID_loss2$lossperacre <- ID_loss2$loss / ID_loss2$acres
+
+#--
+
+ID_loss_climate <- merge(ID_loss2, ID2, by=c("county", "state"))
+ID_loss_climate_2 <- merge(ID_loss_all, ID_loss_climate, by=c("county", "state"))
+
+
+
+#---WA
+
+
+WA_RMA_PNW <- subset(RMA_PNW, state == "WA")
+
+#--acres for all damage causes aggregated
+WA_loss_commodity <- subset(WA_RMA_PNW, commodity == var_commodity)
+WA_loss_all <- aggregate(WA_loss_commodity$acres, by=list(WA_loss_commodity$county, WA_loss_commodity$state), FUN = "sum")
+colnames(WA_loss_all) <- c("county", "state", "all_damagecause_acres")
+
+
+WA_loss1 <- subset(WA_RMA_PNW, commodity == var_commodity & damagecause == var_damage)
+WA_loss2 <- aggregate(WA_loss1$loss, by=list(WA_loss1$county, WA_loss1$state), FUN = "sum")
+WA_loss2_acres <- aggregate(WA_loss1$acres, by=list(WA_loss1$county, WA_loss1$state), FUN = "sum")
+colnames(WA_loss2) <- c("county", "state", "loss")
+colnames(WA_loss2_acres) <- c("county", "state", "acres")
+
+WA_loss2$acres <- WA_loss2_acres$acres
+WA_loss2$lossperacre <- WA_loss2$loss / WA_loss2$acres
+
+
+WA_loss_climate <- merge(WA_loss2, WA2, by=c("county", "state"))
+WA_loss_climate_2 <- merge(WA_loss_all, WA_loss_climate, by=c("county", "state"))
+
+
+#--OR
+
+OR_RMA_PNW <- subset(RMA_PNW, state == "OR")
+
+#--acres for all damage causes aggregated
+OR_loss_commodity <- subset(OR_RMA_PNW, commodity == var_commodity)
+OR_loss_all <- aggregate(OR_loss_commodity$acres, by=list(OR_loss_commodity$county, OR_loss_commodity$state), FUN = "sum")
+colnames(OR_loss_all) <- c("county", "state", "all_damagecause_acres")
+
+OR_loss1 <- subset(OR_RMA_PNW, commodity == var_commodity & damagecause == var_damage)
+OR_loss2 <- aggregate(OR_loss1$loss, by=list(OR_loss1$county, OR_loss1$state), FUN = "sum")
+OR_loss2_acres <- aggregate(OR_loss1$acres, by=list(OR_loss1$county, OR_loss1$state), FUN = "sum")
+colnames(OR_loss2) <- c("county", "state", "loss")
+colnames(OR_loss2_acres) <- c("county", "state", "acres")
+
+OR_loss2$acres <- OR_loss2_acres$acres
+OR_loss2$lossperacre <- OR_loss2$loss / OR_loss2$acres
+
+
+OR_loss_climate <- merge(OR_loss2, OR2, by=c("county", "state"))
+OR_loss_climate_2 <- merge(OR_loss_all, OR_loss_climate, by=c("county", "state"))
+
+
+
+
+
+#-merge all three states
+
+iPNW_loss_climate <- rbind(OR_loss_climate_2, ID_loss_climate_2, WA_loss_climate_2)
+
+#--subset to only iPNW 24 counties
+
+Franklin <- subset(iPNW_loss_climate, county == "Franklin" & state == "WA")
+
+iPNW_loss_climate <- subset(iPNW_loss_climate, county == "Benewah" 
+                             | county == "Latah" | county == "Nez Perce" | county == "Lewis" 
+                             | county == "Idaho" | county == "Wasco" | county == "Sherman" 
+                             | county == "Gilliam" | county == "Morrow" | county == "Umatilla" 
+                             | county == "Union" | county == "Wallowa" | county == "Douglas" 
+                             | county == "Walla Walla" | county == "Benton" | county == "Columbia" 
+                             | county == "Asotin" | county == "Garfield" 
+                             | county == "Grant" | county =="Whitman" | county == "Spokane" 
+                             | county == "Lincoln" | county == "Adams" )
+
+iPNW_loss_climate <- rbind(iPNW_loss_climate, Franklin)
+
+
+iPNW_loss_climate$pct_acreage <- iPNW_loss_climate$acres / iPNW_loss_climate$all_damagecause_acres
+
+
+
+#iPNW_loss_climate <- subset(iPNW_loss_climate, year == var_year)
+
+#tmmx
+
+iPNW_loss_climate_tmmx <- iPNW_loss_climate[order(iPNW_loss_climate$tmmx),] 
+
+iPNW_loss_climate_tmmx$tmmx <- iPNW_loss_climate_tmmx$tmmx - 273
+
+
+#not needed#yrangemin <- min(eval(parse(text=paste("iPNW_loss_climate_tmmx$", unit, sep="")))) - (.05 * min(eval(parse(text=paste("iPNW_loss_climate_tmmx$", unit, sep="")))))
+#not needed#yrangemax <- max(eval(parse(text=paste("iPNW_loss_climate_tmmx$", unit, sep="")))) + (.05 * max(eval(parse(text=paste("iPNW_loss_climate_tmmx$", unit, sep="")))))
+
+#y2rangemin <- min(iPNW_loss_climate_tmmx$tmmx) - (.05 * min(iPNW_loss_climate_tmmx$tmmx))
+#y2rangemax <- max(iPNW_loss_climate_tmmx$tmmx) + (.05 * max(iPNW_loss_climate_tmmx$tmmx))
+
+#twoord.plot(c(1:nrow(iPNW_loss_climate_tmmx)), iPNW_loss_climate_tmmx$pct_acreage, c(1:nrow(iPNW_loss_climate_tmmx)), rylim=c(y2rangemin, y2rangemax), lylim=c(0, 1), iPNW_loss_climate_tmmx$tmmx, mar=c(8,4,4,4), ylab = "% wheat insurance loss acreage due to drought", xticklab=c(" "), rylab = "Mean Max Temperature (C)", type=c("bar", "b"), lcol = "red", rcol = "blue", main = paste(" 2001 - 2015 iPNW % Wheat/drought insurance loss acreage\n compared to mean TMMX", sep=""))
+#text(1:nrow(iPNW_loss_climate_tmmx), 0 - .05, srt = 90, adj = 1,
+#     labels = iPNW_loss_climate_tmmx$county, xpd = TRUE)
+#mtext(1, text = "iPNW counties", line = 4, cex = 2)
+#mtext(2, text = "% wheat/drought insurance loss acreage", line = 4, cex = 2)
+#mtext(4, text = "Annual Mean Precipitation (mm)", line = 1, cex = 2)
+
+#pr
+
+par(mfrow=c(1,3),mar=c(11.8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+layout(matrix(c(1,2,3), 1, 3, byrow = TRUE))
+
+
+iPNW_loss_climate_pr <- iPNW_loss_climate[order(-iPNW_loss_climate$pr),] 
+iPNW_loss_climate_pr$pr_year <- iPNW_loss_climate_pr$pr * 12
+
+pr <- ggplot(iPNW_loss_climate_pr, aes(x=pr_year, y=pct_acreage)) + 
+  geom_point()+
+  geom_smooth(method = "loess")+
+  xlab("Annual Precipitation (mm)") + ylab("Percentage Drought Wheat Acreage Loss") +
+  theme(text=element_text(size=16, family="serif"))
+
+#yrangemin <- min(iPNW_loss_climate_pr$lossperacre) - 10
+#yrangemax <- max(iPNW_loss_climate_pr$lossperacre) + 10
+
+#y2rangemin <- min(iPNW_loss_climate_pr$pr) - (.05 * min(iPNW_loss_climate_pr$pr))
+#y2rangemax <- max(iPNW_loss_climate_pr$pr) + (.05 * max(iPNW_loss_climate_pr$pr))
+
+#twoord.plot(c(1:nrow(iPNW_loss_climate_pr)), iPNW_loss_climate_pr$pct_acreage, c(1:nrow(iPNW_loss_climate_pr)), rylim=c(y2rangemin, y2rangemax), lylim=c(0, 1), iPNW_loss_climate_pr$pr, mar=c(8,4,4,4), xticklab=c(" "), type=c("bar", "b"), lcol = "red", rcol = "blue")
+#not needed#text(1:nrow(iPNW_loss_climate_pr), 0 - .05, srt = 90, adj = 1, cex = 1.5,
+#not needed#     labels = iPNW_loss_climate_pr$county, xpd = TRUE)
+#mtext(1, text = "iPNW counties", line = 4, cex = 1.5)
+#mtext(2, text = "% wheat/drought insurance loss acreage", line = 4, cex = 1.5)
+#mtext(4, text = "Annual Mean PR (mm)", line = 1, cex = 1.5)
+#mtext(3, text = "2001 - 2015 iPNW % Wheat/drought insurance loss acreage\n compared to annual mean precipitation/county", line = 1, cex = 2)
+
+#pr
+
+#par(mar=c(11.8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+#iPNW_loss_climate_pr <- iPNW_loss_climate[order(-iPNW_loss_climate$pr),] 
+
+#y2rangemin <- min(iPNW_loss_climate_pr$pr) - (.05 * min(iPNW_loss_climate_pr$pr))
+#y2rangemax <- max(iPNW_loss_climate_pr$pr) + (.05 * max(iPNW_loss_climate_pr$pr))
+
+#twoord.plot(c(1:nrow(iPNW_loss_climate_pr)), iPNW_loss_climate_pr$pct_acreage, c(1:nrow(iPNW_loss_climate_pr)), rylim=c(y2rangemin, y2rangemax), lylim=c(0, 1), iPNW_loss_climate_pr$pr, mar=c(8,4,4,4), ylab = "% wheat/drought insurance loss acreage", xticklab=c(" "), rylab = "Annual Mean Precipitation (mm)", type=c("bar", "b"), lcol = "red", rcol = "blue", main = paste("2001 - 2015 iPNW % Wheat/drought insurance loss acreage\n compared to annual mean PR/county", sep=""))
+#text(1:nrow(iPNW_loss_climate_pr), 0 - .05, srt = 90, adj = 1, 
+#     labels = iPNW_loss_climate_pr$county, xpd = TRUE)
+#mtext(1, text = "iPNW counties", line = 9, cex = 1)
+
+#pet
+
+
+iPNW_loss_climate_pet <- iPNW_loss_climate[order(iPNW_loss_climate$pet),] 
+iPNW_loss_climate_pet$pet_year <- iPNW_loss_climate_pet$pet * 12
+
+pet <- ggplot(iPNW_loss_climate_pet, aes(x=pet_year, y=pct_acreage)) + 
+  geom_point()+
+  geom_smooth() +
+  xlab("Annual PET (mm)") + ylab("Percentage Drought Wheat Acreage Loss") +
+  theme(text=element_text(size=16, family="serif"))
+
+#yrangemin <- min(iPNW_loss_climate_pet$lossperacre) - 10
+#yrangemax <- max(iPNW_loss_climate_pet$lossperacre) + 10
+
+#y2rangemin <- min(iPNW_loss_climate_pet$pet) - (.05 * min(iPNW_loss_climate_pet$pet))
+#y2rangemax <- max(iPNW_loss_climate_pet$pet) + (.05 * max(iPNW_loss_climate_pet$pet))
+
+#twoord.plot(c(1:nrow(iPNW_loss_climate_pet)), iPNW_loss_climate_pet$pct_acreage, c(1:nrow(iPNW_loss_climate_pet)), rylim=c(y2rangemin, y2rangemax), lylim=c(0, 1), iPNW_loss_climate_pet$pet, mar=c(8,4,4,4),  xticklab=c(" "), type=c("bar", "b"), lcol = "red", rcol = "blue")
+#not needed#text(1:nrow(iPNW_loss_climate_pet), 0 - .05, srt = 90, adj = 1,
+#not needed#     labels = iPNW_loss_climate_pet$county, xpd = TRUE)
+#mtext(1, text = "iPNW counties", line = 4, cex = 1.5)
+#mtext(2, text = "% wheat/drought insurance loss acreage", line = 4, cex = 1.5)
+#mtext(4, text = "Annual Mean PET (mm)", line = 1, cex = 1.5)
+
+#pr/pet
+
+iPNW_loss_climate_prpet <- iPNW_loss_climate
+iPNW_loss_climate_prpet$pet_year <- iPNW_loss_climate_prpet$pet * 12
+iPNW_loss_climate_prpet$pr_year <- iPNW_loss_climate_prpet$pr * 12
+
+iPNW_loss_climate_prpet$prpet <- iPNW_loss_climate_prpet$pr_year / iPNW_loss_climate_prpet$pet_year
+#iPNW_loss_climate_prpet <- iPNW_loss_climate[order(-iPNW_loss_climate$prpet),] 
+
+# ggplot scatterplot
+prpet <- ggplot(iPNW_loss_climate_prpet, aes(x=prpet, y=pct_acreage)) + 
+  geom_point()+
+  geom_smooth()+
+  xlab("Aridity Index") + ylab("Percentage Drought Wheat Acreage Loss") +
+  theme(text=element_text(size=16, family="serif"))
+
+
+grid.arrange(pr, pet, prpet, nrow = 1)
+
+#yrangemin <- min(iPNW_loss_climate_pet$lossperacre) - 10
+#yrangemax <- max(iPNW_loss_climate_pet$lossperacre) + 10
+
+#dual axis barplot
+
+#y2rangemin <- min(iPNW_loss_climate_prpet$prpet) - (.05 * min(iPNW_loss_climate_prpet$prpet))
+#y2rangemax <- max(iPNW_loss_climate_prpet$prpet) + (.05 * max(iPNW_loss_climate_prpet$prpet))
+
+#twoord.plot(c(1:nrow(iPNW_loss_climate_prpet)), iPNW_loss_climate_prpet$pct_acreage, c(1:nrow(iPNW_loss_climate_prpet)), rylim=c(y2rangemin, y2rangemax), lylim=c(0, 1), iPNW_loss_climate_prpet$prpet, mar=c(8,4,4,4),  xticklab=c(" "), type=c("bar", "b"), lcol = "red", rcol = "blue")
+#not needed#text(1:nrow(iPNW_loss_climate_prpet), 0 - .05, srt = 90, adj = 1,
+#not needed#     labels = iPNW_loss_climate_prpet$county, xpd = TRUE)
+#mtext(1, text = "iPNW counties", line = 4, cex = 1.5)
+#not needed#mtext(2, text = "% wheat/drought insurance loss acreage", line = 4, cex = 1.5)
+#mtext(4, text = "Annual Mean Aridity Index (PR/PET (mm))", line = 1, cex = 1.5)
+
+
+#pdsi - not used
+
+#iPNW_loss_climate_pdsi <- iPNW_loss_climate[order(iPNW_loss_climate$pdsi),] 
+
+
+#not needed#yrangemin <- min(iPNW_loss_climate_pet$lossperacre) - 10
+#not needed#yrangemax <- max(iPNW_loss_climate_pet$lossperacre) + 10
+
+#y2rangemin <- min(iPNW_loss_climate_pdsi$pdsi) - (-.25 * min(iPNW_loss_climate_pdsi$pdsi))
+#y2rangemax <- max(iPNW_loss_climate_pdsi$pdsi) + (-.5 * max(iPNW_loss_climate_pdsi$pdsi))
+
+#twoord.plot(c(1:nrow(iPNW_loss_climate_pdsi)), iPNW_loss_climate_pdsi$pct_acreage, c(1:nrow(iPNW_loss_climate_pdsi)), rylim=c(y2rangemin, y2rangemax), lylim=c(0,1), iPNW_loss_climate_pdsi$pdsi, mar=c(8,4,4,4), ylab = "% wheat insurance loss acreage due to drought", xticklab=c(" "), rylab = "Mean PDSI", type=c("bar", "b"), lcol = "red", rcol = "blue", main = paste(" 2001 - 2015 iPNW % Wheat/drought insurance loss acreage\n compared to PDSI", sep=""))
+#text(1:nrow(iPNW_loss_climate_pdsi), 0 - .05, srt = 90, adj = 1,
+#     labels = iPNW_loss_climate_pdsi$county, xpd = TRUE)
+#mtext(1, text = "iPNW counties", line = 5)
+
+
+
+}
+
+ipnw_climate_county_comparison("WHEAT", "Drought")
+
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+###Step 2. Construction of design matrices of all monthly climate combinations, per county and per climate variable (precipitation, maximum temperature, and potential evapotranspiration)
+
+For the three examined climate variables (potential evapotranspiration, precipitation, maximum temperature), a design matrix was developed for each of the 24 counties that are part of the defined iPNW study area.  For each county, an absolute correlation was calculated for each monthly combination for each climate variable to the total wheat insurance loss due to drought.  The result is a design matrix map that identifies the monthly combination with the highest correlation For example, for Whitman county, WA, for maximum temperature - the monthly combination with highest correlation between max temperature and wheat insurance loss due to drought was May/June/July (denoted as July 2).
+
+![](https://dmine.io/waf/img/Step1.png)
+
+####Step 2.1 Maximum temperature design matrix for Whitman County, WA, wheat insurance loss due to drought
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+  state_var <- "WA"
+  county_var <- "Whitman"
+  commodity_var <- "WHEAT"
+  damage_var <- "Drought"
+  climate_var <- "tmmx"
+  predictor_var <- "cube_root_loss"
+  
+  library(gplots)
+  library(plyr)
+  library(dplyr)
+  #library(plotly)
+  #packageVersion('plotly')
+  
+  #response may be: loss_month, loss_per_acres, loss_year, total_acres_harvested, and total_acres_loss
+  
+  #monthlist is jan-dec, each repeated 12 times 
+  monthlist <- as.data.frame(rep(tolower(month.abb), each = 12))  
+  #numlist is 12 months, repeated 12 times
+  numlist <- as.data.frame(rep((1:12), times = 12))
+  #monthnumlist puts month names and 1-12 together, which results in a vector of 144 that is the matrix of 12 by 12
+  monthnumlist <- as.data.frame(cbind(monthlist, numlist))
+  #renaming columns
+  colnames(monthnumlist) <- c("month", "monthcode")
+  #put the monthlist all together in one vector
+  monthnumlist$combined <- paste(monthnumlist$month, monthnumlist$monthcode, sep="")
+  #rename the vector
+  climmonth <- monthnumlist$combined
+  
+  designmatrix <- matrix(NA, ncol=12, nrow=12)
+  
+  #create an empty 144 vector to fill up with correlations between loss and climate
+  dmvector <- as.data.frame(rep(NA, times=144))
+  
+  cl = 0
+  
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_matrices/climate_matrices.zip"
+destfile <- "/tmp/climate_matrices.zip"
+download.file(URL, destfile)
+outDir<-"/tmp/climate_matrices"
+unzip(destfile,exdir=outDir)
+
+ URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_correlation_summaries/climate_correlations_summaries.zip"
+destfile <- "/tmp/climate_correlations_summaries.zip"
+download.file(URL, destfile)
+outDir<-"/tmp/climate_correlations_summaries"
+unzip(destfile,exdir=outDir)   
+  
+  
+  for (ppp in climmonth) {
+    cl = cl +1
+    
+  
+    setwd("/tmp/climate_matrices")
+    file1 <- read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", ppp, ".csv", sep=""))
+    climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
+    
+    setwd("/tmp/climate_correlations_summaries")
+    file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
+    file2 <- subset(file2, state == state_var)
+    file2 <- subset(file2, county == county_var)
+    colnames(file2) <- c("X", "year", "damagecause", "county", "state", "commodity", predictor_var )
+    
+    
+    climatevar$zscore <- scale(climatevar[1], center = TRUE, scale = TRUE)
+    colnames(climatevar[3]) <- "zscore"
+    kor <- join(climatevar, file2, by = "year")
+    kor2 <- subset(kor, damagecause != "NA")
+    colnames(kor2)[3] <- "zscore"
+    # kor2[9] <- as.numeric(kor2$zscore)
+    kor3 <- cor(kor2[1], kor2[9])
+    
+    #insert kor3 into designmatrix iteratively
+    
+    dmvector[cl,] <- kor3
+    
+  }
+  
+  dmvector <- as.data.frame(dmvector)
+  colnames(dmvector) <- "correlations"
+  
+  
+  
+  
+  dmvector2 <- (matrix(dmvector$correlations, 12, 12, TRUE) ) 
+  dmvector2 <- dmvector2[nrow(dmvector2):1, ]
+  dmvector3 <- dmvector2[4:12,]
+  
+  dmvector3[9,4:12] <- NA
+  dmvector3[8,5:12] <- NA
+  dmvector3[7,6:12] <- NA
+  dmvector3[6,7:12] <- NA
+  dmvector3[5,8:12] <- NA
+  dmvector3[4,9:12] <- NA
+  dmvector3[3,10:12] <- NA
+  dmvector3[2,11:12] <- NA
+  dmvector3[1,12:12] <- NA
+  
+  dmvector <- c(dmvector3[9,], dmvector3[8,], dmvector3[7,], dmvector3[6,], dmvector3[5,], dmvector3[4,], dmvector3[3,], dmvector3[2,], dmvector3[1,])
+dmvector <- data.frame(dmvector)
+
+  if(climate_var=='pr'){
+    dmv <- which.min( dmvector[1:108,1]) 
+  } else {
+    if(climate_var=='rmin'){
+      dmv <- which.min( dmvector[1:108,1]) 
+    } else {
+      if(climate_var=='rmax'){
+        dmv <- which.min( dmvector[1:108,1]) 
+      } else {
+        if(climate_var=='tmmn'){
+          dmv <- which.max( dmvector[1:108,1]) 
+        } else {
+          if(climate_var=='pet'){
+            dmv <- which.max( dmvector[1:108,1]) 
+          } else {
+            if(climate_var=='fm100'){
+              dmv <- which.min( dmvector[1:108,1]) 
+            } else {
+              if(climate_var=='fm1000'){
+                dmv <- which.min( dmvector[1:108,1]) 
+              } else {
+                if(climate_var=='pdsi'){
+                  dmv <- which.min( dmvector[1:108,1]) 
+                } else {
+                  if(climate_var=='tmmx'){
+                    dmv <- which.max( dmvector[1:108,1]) 
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  #dmv <- which.max(abs( dmvector[1:108,1]) )
+  dmv <- as.data.frame(dmv)
+  colnames(dmv)[1] <- "row"
+  
+  #dmvector1a <- max(dmvector$correlations)
+  #dmvector1b <- data.frame(which=dmvector, correlations=dmvector[dmvector1a, ])
+  
+  monthnumlist2 <- cbind(as.data.frame(c(1:144)), monthnumlist)
+  colnames(monthnumlist2)[1] <- "row"
+  
+  monthnumlist3 <- subset(monthnumlist2, row == dmv$row)
+  
+  
+  
+  #makeRects <- function(tfMat){
+  require(utils)
+  cAbove <- expand.grid(1:12, 1:9)[monthnumlist3$row,]
+  
+  monthzzz <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep")
+  
+  my_palette <- colorRampPalette(c("red", "yellow", "green"))(n = 108)
+  
+  setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_pngs")
+  
+  #  png(filename=paste(state1, "_", county1, "_", damage1, "_", climate_variable12, "_designmatrix.png", sep=""))
+  lblcol <- c(9:1)
+  dmvector3a <- round(dmvector3, digits = 2)
+  
+  
+  newone <<- as.data.frame(expand.grid(1:12, 1:9)[monthnumlist3$row,])
+  
+  
+
+  
+  dmvector3a[9,4:12] <- NA
+  dmvector3a[8,5:12] <- NA
+  dmvector3a[7,6:12] <- NA
+  dmvector3a[6,7:12] <- NA
+  dmvector3a[5,8:12] <- NA
+  dmvector3a[4,9:12] <- NA
+  dmvector3a[3,10:12] <- NA
+  dmvector3a[2,11:12] <- NA
+  dmvector3a[1,12:12] <- NA
+
+  
+  my_palette <- colorRampPalette(c("lightyellow", "yellow", "orange", "darkorange", "red", "darkred"))(n = 32)
+  
+  nba_heatmap <- heatmap.2(dmvector3, Rowv=NA, Colv=NA, cexCol = 2, cexRow = 2, colsep=1:ncol(dmvector3), rowsep=1:nrow(dmvector3), col=my_palette, symbreaks = FALSE, scale="none", dendrogram = "none", trace="none", labRow = rev(monthzzz), tracecol = "black", key = TRUE, notecol = "black", notecex = 1.5, key.ylab = "", key.xlab = "loss correlation range", key.title = "", main=paste(climate_var, " vs ", predictor_var, "\n", county_var, " County ", state_var, " ", damage_var, "\n", "MAX Correlation in cell: ",  monthnumlist3$combined, sep=""))
+#  nba_heatmap <- heatmap.2(dmvector3, Rowv=NA, Colv=NA, col=topo.colors(16), scale="none", dendrogram = "none", trace="none", labRow = rev(monthzzz), tracecol = "black", key = TRUE, cellnote = dmvector3a, notecol = "black", notecex = 1.5, key.ylab = "", key.xlab = "loss correlation range", key.title = "", main=paste(climate_var, " vs ", predictor_var, "\n", county_var, " County ", state_var, " ", damage_var, "\n", "MAX Correlation in cell: ",  monthnumlist3$combined, sep=""), add.expr=points(newone$Var1,newone$Var2, pch=15, cex = 5.5 , col=rgb(199/255, 0, 0, 0.8)))
+  
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+#### Step 2.2. Potential Evapotranspiration design matrix for Whitman County, WA, wheat insurance loss due to drought
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+  state_var <- "WA"
+  county_var <- "Whitman"
+  commodity_var <- "WHEAT"
+  damage_var <- "Drought"
+  climate_var <- "pet"
+  predictor_var <- "cube_root_loss"
+  
+  library(gplots)
+  library(plyr)
+  library(dplyr)
+  #library(plotly)
+  #packageVersion('plotly')
+  
+  #response may be: loss_month, loss_per_acres, loss_year, total_acres_harvested, and total_acres_loss
+  
+  #monthlist is jan-dec, each repeated 12 times 
+  monthlist <- as.data.frame(rep(tolower(month.abb), each = 12))  
+  #numlist is 12 months, repeated 12 times
+  numlist <- as.data.frame(rep((1:12), times = 12))
+  #monthnumlist puts month names and 1-12 together, which results in a vector of 144 that is the matrix of 12 by 12
+  monthnumlist <- as.data.frame(cbind(monthlist, numlist))
+  #renaming columns
+  colnames(monthnumlist) <- c("month", "monthcode")
+  #put the monthlist all together in one vector
+  monthnumlist$combined <- paste(monthnumlist$month, monthnumlist$monthcode, sep="")
+  #rename the vector
+  climmonth <- monthnumlist$combined
+  
+  designmatrix <- matrix(NA, ncol=12, nrow=12)
+  
+  #create an empty 144 vector to fill up with correlations between loss and climate
+  dmvector <- as.data.frame(rep(NA, times=144))
+  
+  cl = 0
+  
+  
+  for (ppp in climmonth) {
+    cl = cl +1
+    
+    
+    setwd("/tmp/climate_matrices")
+    file1 <- read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", ppp, ".csv", sep=""))
+    climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
+    
+    
+    setwd("/tmp/climate_correlations_summaries")
+    file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
+    file2 <- subset(file2, state == state_var)
+    file2 <- subset(file2, county == county_var)
+    colnames(file2) <- c("X", "year", "damagecause", "county", "state", "commodity", predictor_var )
+    
+    
+    climatevar$zscore <- scale(climatevar[1], center = TRUE, scale = TRUE)
+    colnames(climatevar[3]) <- "zscore"
+    kor <- join(climatevar, file2, by = "year")
+    kor2 <- subset(kor, damagecause != "NA")
+    colnames(kor2)[3] <- "zscore"
+    # kor2[9] <- as.numeric(kor2$zscore)
+    kor3 <- cor(kor2[1], kor2[9])
+    
+    #insert kor3 into designmatrix iteratively
+    
+    dmvector[cl,] <- kor3
+    
+  }
+  
+  dmvector <- as.data.frame(dmvector)
+  colnames(dmvector) <- "correlations"
+  
+  
+  
+  
+  dmvector2 <- (matrix(dmvector$correlations, 12, 12, TRUE) ) 
+  dmvector2 <- dmvector2[nrow(dmvector2):1, ]
+  dmvector3 <- dmvector2[4:12,]
+  
+  dmvector3[9,4:12] <- NA
+  dmvector3[8,5:12] <- NA
+  dmvector3[7,6:12] <- NA
+  dmvector3[6,7:12] <- NA
+  dmvector3[5,8:12] <- NA
+  dmvector3[4,9:12] <- NA
+  dmvector3[3,10:12] <- NA
+  dmvector3[2,11:12] <- NA
+  dmvector3[1,12:12] <- NA
+  
+  dmvector <- c(dmvector3[9,], dmvector3[8,], dmvector3[7,], dmvector3[6,], dmvector3[5,], dmvector3[4,], dmvector3[3,], dmvector3[2,], dmvector3[1,])
+dmvector <- data.frame(dmvector)
+
+  if(climate_var=='pr'){
+    dmv <- which.min( dmvector[1:108,1]) 
+  } else {
+    if(climate_var=='rmin'){
+      dmv <- which.min( dmvector[1:108,1]) 
+    } else {
+      if(climate_var=='rmax'){
+        dmv <- which.min( dmvector[1:108,1]) 
+      } else {
+        if(climate_var=='tmmn'){
+          dmv <- which.max( dmvector[1:108,1]) 
+        } else {
+          if(climate_var=='pet'){
+            dmv <- which.max( dmvector[1:108,1]) 
+          } else {
+            if(climate_var=='fm100'){
+              dmv <- which.min( dmvector[1:108,1]) 
+            } else {
+              if(climate_var=='fm1000'){
+                dmv <- which.min( dmvector[1:108,1]) 
+              } else {
+                if(climate_var=='pdsi'){
+                  dmv <- which.min( dmvector[1:108,1]) 
+                } else {
+                  if(climate_var=='tmmx'){
+                    dmv <- which.max( dmvector[1:108,1]) 
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  #dmv <- which.max(abs( dmvector[1:108,1]) )
+  dmv <- as.data.frame(dmv)
+  colnames(dmv)[1] <- "row"
+  
+  #dmvector1a <- max(dmvector$correlations)
+  #dmvector1b <- data.frame(which=dmvector, correlations=dmvector[dmvector1a, ])
+  
+  monthnumlist2 <- cbind(as.data.frame(c(1:144)), monthnumlist)
+  colnames(monthnumlist2)[1] <- "row"
+  
+  monthnumlist3 <- subset(monthnumlist2, row == dmv$row)
+  
+  
+  
+  #makeRects <- function(tfMat){
+  require(utils)
+  cAbove <- expand.grid(1:12, 1:9)[monthnumlist3$row,]
+  
+  monthzzz <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep")
+  
+  my_palette <- colorRampPalette(c("red", "yellow", "green"))(n = 108)
+  
+  setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_pngs")
+  
+  #  png(filename=paste(state1, "_", county1, "_", damage1, "_", climate_variable12, "_designmatrix.png", sep=""))
+  lblcol <- c(9:1)
+  dmvector3a <- round(dmvector3, digits = 2)
+  
+  
+  newone <<- as.data.frame(expand.grid(1:12, 1:9)[monthnumlist3$row,])
+  
+  
+
+  
+  dmvector3a[9,4:12] <- NA
+  dmvector3a[8,5:12] <- NA
+  dmvector3a[7,6:12] <- NA
+  dmvector3a[6,7:12] <- NA
+  dmvector3a[5,8:12] <- NA
+  dmvector3a[4,9:12] <- NA
+  dmvector3a[3,10:12] <- NA
+  dmvector3a[2,11:12] <- NA
+  dmvector3a[1,12:12] <- NA
+
+
+      
+  my_palette <- colorRampPalette(c("lightyellow", "yellow", "orange", "darkorange", "red", "darkred"))(n = 32)
+  
+  nba_heatmap <- heatmap.2(dmvector3, Rowv=NA, Colv=NA, cexCol = 2, cexRow = 2, colsep=1:ncol(dmvector3), rowsep=1:nrow(dmvector3), col=my_palette, symbreaks = FALSE, scale="none", dendrogram = "none", trace="none", labRow = rev(monthzzz), tracecol = "black", key = TRUE, notecol = "black", notecex = 1.5, key.ylab = "", key.xlab = "loss correlation range", key.title = "", main=paste(climate_var, " vs ", predictor_var, "\n", county_var, " County ", state_var, " ", damage_var, "\n", "MAX Correlation in cell: ",  monthnumlist3$combined, sep=""))
+ # nba_heatmap <- heatmap.2(dmvector3, Rowv=NA, Colv=NA, col=colorRampPalette(c("lightyellow", "yellow", "orange", "darkorange", "red")), scale="none", dendrogram = "none", trace="none", labRow = rev(monthzzz), tracecol = "black", key = TRUE, cellnote = dmvector3a, notecol = "black", notecex = 1.5, key.ylab = "", key.xlab = "loss correlation range", key.title = "", main=paste(climate_var, " vs ", predictor_var, "\n", county_var, " County ", state_var, " ", damage_var, "\n", "MAX Correlation in cell: ",  monthnumlist3$combined, sep=""), add.expr=points(newone$Var1,newone$Var2, pch=15, cex = 5.5 , col=rgb(199/255, 0, 0, 0.8)))
+  
+
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+####Step 2.3. Precipitation design matrix for Whitman County, WA, wheat insurance loss due to drought
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+  state_var <- "WA"
+  county_var <- "Whitman"
+  commodity_var <- "WHEAT"
+  damage_var <- "Drought"
+  climate_var <- "pr"
+  predictor_var <- "cube_root_loss"
+  
+  library(gplots)
+  library(plyr)
+  library(dplyr)
+  #library(plotly)
+  #packageVersion('plotly')
+  
+  #response may be: loss_month, loss_per_acres, loss_year, total_acres_harvested, and total_acres_loss
+  
+  #monthlist is jan-dec, each repeated 12 times 
+  monthlist <- as.data.frame(rep(tolower(month.abb), each = 12))  
+  #numlist is 12 months, repeated 12 times
+  numlist <- as.data.frame(rep((1:12), times = 12))
+  #monthnumlist puts month names and 1-12 together, which results in a vector of 144 that is the matrix of 12 by 12
+  monthnumlist <- as.data.frame(cbind(monthlist, numlist))
+  #renaming columns
+  colnames(monthnumlist) <- c("month", "monthcode")
+  #put the monthlist all together in one vector
+  monthnumlist$combined <- paste(monthnumlist$month, monthnumlist$monthcode, sep="")
+  #rename the vector
+  climmonth <- monthnumlist$combined
+  
+  designmatrix <- matrix(NA, ncol=12, nrow=12)
+  
+  #create an empty 144 vector to fill up with correlations between loss and climate
+  dmvector <- as.data.frame(rep(NA, times=144))
+  
+  cl = 0
+  
+  for (ppp in climmonth) {
+    cl = cl +1
+    
+    
+    setwd("/tmp/climate_matrices")
+    file1 <- read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", ppp, ".csv", sep=""))
+    climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
+    
+    
+    setwd("/tmp/climate_correlations_summaries")
+    file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
+    file2 <- subset(file2, state == state_var)
+    file2 <- subset(file2, county == county_var)
+    colnames(file2) <- c("X", "year", "damagecause", "county", "state", "commodity", predictor_var )
+    
+    
+    climatevar$zscore <- scale(climatevar[1], center = TRUE, scale = TRUE)
+    colnames(climatevar[3]) <- "zscore"
+    kor <- join(climatevar, file2, by = "year")
+    kor2 <- subset(kor, damagecause != "NA")
+    colnames(kor2)[3] <- "zscore"
+    # kor2[9] <- as.numeric(kor2$zscore)
+    kor3 <- cor(kor2[1], kor2[9])
+    
+    #insert kor3 into designmatrix iteratively
+    
+    dmvector[cl,] <- kor3
+    
+  }
+  
+  dmvector <- as.data.frame(dmvector)
+  colnames(dmvector) <- "correlations"
+  
+  
+  
+  
+  dmvector2 <- (matrix(dmvector$correlations, 12, 12, TRUE) ) 
+  dmvector2 <- dmvector2[nrow(dmvector2):1, ]
+  dmvector3 <- dmvector2[4:12,]
+  
+  dmvector3[9,4:12] <- NA
+  dmvector3[8,5:12] <- NA
+  dmvector3[7,6:12] <- NA
+  dmvector3[6,7:12] <- NA
+  dmvector3[5,8:12] <- NA
+  dmvector3[4,9:12] <- NA
+  dmvector3[3,10:12] <- NA
+  dmvector3[2,11:12] <- NA
+  dmvector3[1,12:12] <- NA
+  
+  dmvector <- c(dmvector3[9,], dmvector3[8,], dmvector3[7,], dmvector3[6,], dmvector3[5,], dmvector3[4,], dmvector3[3,], dmvector3[2,], dmvector3[1,])
+dmvector <- data.frame(dmvector)
+
+  if(climate_var=='pr'){
+    dmv <- which.min( dmvector[1:108,1]) 
+  } else {
+    if(climate_var=='rmin'){
+      dmv <- which.min( dmvector[1:108,1]) 
+    } else {
+      if(climate_var=='rmax'){
+        dmv <- which.min( dmvector[1:108,1]) 
+      } else {
+        if(climate_var=='tmmn'){
+          dmv <- which.max( dmvector[1:108,1]) 
+        } else {
+          if(climate_var=='pet'){
+            dmv <- which.max( dmvector[1:108,1]) 
+          } else {
+            if(climate_var=='fm100'){
+              dmv <- which.min( dmvector[1:108,1]) 
+            } else {
+              if(climate_var=='fm1000'){
+                dmv <- which.min( dmvector[1:108,1]) 
+              } else {
+                if(climate_var=='pdsi'){
+                  dmv <- which.min( dmvector[1:108,1]) 
+                } else {
+                  if(climate_var=='tmmx'){
+                    dmv <- which.max( dmvector[1:108,1]) 
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  #dmv <- which.max(abs( dmvector[1:108,1]) )
+  dmv <- as.data.frame(dmv)
+  colnames(dmv)[1] <- "row"
+  
+  #dmvector1a <- max(dmvector$correlations)
+  #dmvector1b <- data.frame(which=dmvector, correlations=dmvector[dmvector1a, ])
+  
+  monthnumlist2 <- cbind(as.data.frame(c(1:144)), monthnumlist)
+  colnames(monthnumlist2)[1] <- "row"
+  
+  monthnumlist3 <- subset(monthnumlist2, row == dmv$row)
+  
+  
+  
+  #makeRects <- function(tfMat){
+  require(utils)
+  cAbove <- expand.grid(1:12, 1:9)[monthnumlist3$row,]
+  
+  monthzzz <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep")
+  
+  my_palette <- colorRampPalette(c("red", "yellow", "green"))(n = 108)
+  
+  setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_pngs")
+  
+  #  png(filename=paste(state1, "_", county1, "_", damage1, "_", climate_variable12, "_designmatrix.png", sep=""))
+  lblcol <- c(9:1)
+  dmvector3a <- round(dmvector3, digits = 2)
+  
+  
+  newone <<- as.data.frame(expand.grid(1:12, 1:9)[monthnumlist3$row,])
+  
+  
+
+  
+  dmvector3a[9,4:12] <- NA
+  dmvector3a[8,5:12] <- NA
+  dmvector3a[7,6:12] <- NA
+  dmvector3a[6,7:12] <- NA
+  dmvector3a[5,8:12] <- NA
+  dmvector3a[4,9:12] <- NA
+  dmvector3a[3,10:12] <- NA
+  dmvector3a[2,11:12] <- NA
+  dmvector3a[1,12:12] <- NA
+
+  
+  my_palette <- colorRampPalette(c("darkred", "red", "darkorange", "orange", "yellow", "lightyellow"))(n = 16)
+  
+  nba_heatmap <- heatmap.2(dmvector3, Rowv=NA, Colv=NA, cexCol = 2, cexRow = 2, colsep=1:ncol(dmvector3), rowsep=1:nrow(dmvector3), col=my_palette,  scale="none", dendrogram = "none", trace="none", labRow = rev(monthzzz), tracecol = "black", key = TRUE, notecol = "black", notecex = 1.5, key.ylab = "", key.xlab = "loss correlation range", key.title = "", main=paste(climate_var, " vs ", predictor_var, "\n", county_var, " County ", state_var, " ", damage_var, "\n", "MAX Correlation in cell: ",  monthnumlist3$combined, sep=""))
+ # nba_heatmap <- heatmap.2(dmvector3, Rowv=NA, Colv=NA, col=topo.colors(16), scale="none", dendrogram = "none", trace="none", labRow = rev(monthzzz), tracecol = "black", key = TRUE, cellnote = dmvector3a, notecol = "black", notecex = 1.5, key.ylab = "", key.xlab = "loss correlation range", key.title = "", main=paste(climate_var, " vs ", predictor_var, "\n", county_var, " County ", state_var, " ", damage_var, "\n", "MAX Correlation in cell: ",  monthnumlist3$combined, sep=""), add.expr=points(newone$Var1,newone$Var2, pch=15, cex = 5.5 , col=rgb(199/255, 0, 0, 0.8)))
+  
+
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+####Step 2.3. Palmer Drought Severity Index (PDSI) design matrix for Whitman County, WA, wheat insurance loss due to drought
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+  state_var <- "WA"
+  county_var <- "Whitman"
+  commodity_var <- "WHEAT"
+  damage_var <- "Drought"
+  climate_var <- "pdsi"
+  predictor_var <- "cube_root_loss"
+  
+  library(gplots)
+  library(plyr)
+  library(dplyr)
+  #library(plotly)
+  #packageVersion('plotly')
+  
+  #response may be: loss_month, loss_per_acres, loss_year, total_acres_harvested, and total_acres_loss
+  
+  #monthlist is jan-dec, each repeated 12 times 
+  monthlist <- as.data.frame(rep(tolower(month.abb), each = 12))  
+  #numlist is 12 months, repeated 12 times
+  numlist <- as.data.frame(rep((1:12), times = 12))
+  #monthnumlist puts month names and 1-12 together, which results in a vector of 144 that is the matrix of 12 by 12
+  monthnumlist <- as.data.frame(cbind(monthlist, numlist))
+  #renaming columns
+  colnames(monthnumlist) <- c("month", "monthcode")
+  #put the monthlist all together in one vector
+  monthnumlist$combined <- paste(monthnumlist$month, monthnumlist$monthcode, sep="")
+  #rename the vector
+  climmonth <- monthnumlist$combined
+  
+  designmatrix <- matrix(NA, ncol=12, nrow=12)
+  
+  #create an empty 144 vector to fill up with correlations between loss and climate
+  dmvector <- as.data.frame(rep(NA, times=144))
+  
+  cl = 0
+  for (ppp in climmonth) {
+    cl = cl +1
+    
+    
+    setwd("/tmp/climate_matrices")
+    file1 <- read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", ppp, ".csv", sep=""))
+    climatevar <- as.data.frame(cbind((file1[climate_var]), file1[2]))
+    
+    
+    setwd("/tmp/climate_correlations_summaries")
+    file2 <- as.data.frame(read.csv(paste(state_var, "_", county_var, "_", commodity_var, "_", damage_var, "_", predictor_var, ".csv", sep="")))
+    file2 <- subset(file2, state == state_var)
+    file2 <- subset(file2, county == county_var)
+    colnames(file2) <- c("X", "year", "damagecause", "county", "state", "commodity", predictor_var )
+    
+    
+    climatevar$zscore <- scale(climatevar[1], center = TRUE, scale = TRUE)
+    colnames(climatevar[3]) <- "zscore"
+    kor <- join(climatevar, file2, by = "year")
+    kor2 <- subset(kor, damagecause != "NA")
+    colnames(kor2)[3] <- "zscore"
+    # kor2[9] <- as.numeric(kor2$zscore)
+    kor3 <- cor(kor2[1], kor2[9])
+    
+    #insert kor3 into designmatrix iteratively
+    
+    dmvector[cl,] <- kor3
+    
+  }
+  
+  dmvector <- as.data.frame(dmvector)
+  colnames(dmvector) <- "correlations"
+  
+  
+  
+  
+  dmvector2 <- (matrix(dmvector$correlations, 12, 12, TRUE) ) 
+  dmvector2 <- dmvector2[nrow(dmvector2):1, ]
+  dmvector3 <- dmvector2[4:12,]
+  
+  dmvector3[9,4:12] <- NA
+  dmvector3[8,5:12] <- NA
+  dmvector3[7,6:12] <- NA
+  dmvector3[6,7:12] <- NA
+  dmvector3[5,8:12] <- NA
+  dmvector3[4,9:12] <- NA
+  dmvector3[3,10:12] <- NA
+  dmvector3[2,11:12] <- NA
+  dmvector3[1,12:12] <- NA
+  
+  dmvector <- c(dmvector3[9,], dmvector3[8,], dmvector3[7,], dmvector3[6,], dmvector3[5,], dmvector3[4,], dmvector3[3,], dmvector3[2,], dmvector3[1,])
+dmvector <- data.frame(dmvector)
+
+  if(climate_var=='pr'){
+    dmv <- which.min( dmvector[1:108,1]) 
+  } else {
+    if(climate_var=='rmin'){
+      dmv <- which.min( dmvector[1:108,1]) 
+    } else {
+      if(climate_var=='rmax'){
+        dmv <- which.min( dmvector[1:108,1]) 
+      } else {
+        if(climate_var=='tmmn'){
+          dmv <- which.max( dmvector[1:108,1]) 
+        } else {
+          if(climate_var=='pet'){
+            dmv <- which.max( dmvector[1:108,1]) 
+          } else {
+            if(climate_var=='fm100'){
+              dmv <- which.min( dmvector[1:108,1]) 
+            } else {
+              if(climate_var=='fm1000'){
+                dmv <- which.min( dmvector[1:108,1]) 
+              } else {
+                if(climate_var=='pdsi'){
+                  dmv <- which.min( dmvector[1:108,1]) 
+                } else {
+                  if(climate_var=='tmmx'){
+                    dmv <- which.max( dmvector[1:108,1]) 
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  #dmv <- which.max(abs( dmvector[1:108,1]) )
+  dmv <- as.data.frame(dmv)
+  colnames(dmv)[1] <- "row"
+  
+  #dmvector1a <- max(dmvector$correlations)
+  #dmvector1b <- data.frame(which=dmvector, correlations=dmvector[dmvector1a, ])
+  
+  monthnumlist2 <- cbind(as.data.frame(c(1:144)), monthnumlist)
+  colnames(monthnumlist2)[1] <- "row"
+  
+  monthnumlist3 <- subset(monthnumlist2, row == dmv$row)
+  
+  
+  
+  #makeRects <- function(tfMat){
+  require(utils)
+  cAbove <- expand.grid(1:12, 1:9)[monthnumlist3$row,]
+  
+  monthzzz <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep")
+  
+  my_palette <- colorRampPalette(c("red", "yellow", "green"))(n = 108)
+  
+  setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_pngs")
+  
+  #  png(filename=paste(state1, "_", county1, "_", damage1, "_", climate_variable12, "_designmatrix.png", sep=""))
+  lblcol <- c(9:1)
+  dmvector3a <- round(dmvector3, digits = 2)
+  
+  
+  newone <<- as.data.frame(expand.grid(1:12, 1:9)[monthnumlist3$row,])
+  
+  
+
+  
+  dmvector3a[9,4:12] <- NA
+  dmvector3a[8,5:12] <- NA
+  dmvector3a[7,6:12] <- NA
+  dmvector3a[6,7:12] <- NA
+  dmvector3a[5,8:12] <- NA
+  dmvector3a[4,9:12] <- NA
+  dmvector3a[3,10:12] <- NA
+  dmvector3a[2,11:12] <- NA
+  dmvector3a[1,12:12] <- NA
+
+  
+  my_palette <- colorRampPalette(c("darkred", "red", "darkorange", "orange", "yellow", "lightyellow"))(n = 16)
+  
+  nba_heatmap <- heatmap.2(dmvector3, Rowv=NA, Colv=NA, cexCol = 2, cexRow = 2, colsep=1:ncol(dmvector3), rowsep=1:nrow(dmvector3), col=my_palette,  scale="none", dendrogram = "none", trace="none", labRow = rev(monthzzz), tracecol = "black", key = TRUE, notecol = "black", notecex = 1.5, key.ylab = "", key.xlab = "loss correlation range", key.title = "", main=paste(climate_var, " vs ", predictor_var, "\n", county_var, " County ", state_var, " ", damage_var, "\n", "MAX Correlation in cell: ",  monthnumlist3$combined, sep=""))
+ # nba_heatmap <- heatmap.2(dmvector3, Rowv=NA, Colv=NA, col=topo.colors(16), scale="none", dendrogram = "none", trace="none", labRow = rev(monthzzz), tracecol = "black", key = TRUE, cellnote = dmvector3a, notecol = "black", notecex = 1.5, key.ylab = "", key.xlab = "loss correlation range", key.title = "", main=paste(climate_var, " vs ", predictor_var, "\n", county_var, " County ", state_var, " ", damage_var, "\n", "MAX Correlation in cell: ",  monthnumlist3$combined, sep=""), add.expr=points(newone$Var1,newone$Var2, pch=15, cex = 5.5 , col=rgb(199/255, 0, 0, 0.8)))
+  
+
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+
+###Step 3. Examining spatial relationships of climate lagged correlations
+
+In step 3, we generate maps of our climate-lagged correlations, for each climate variable.  Each county is labeled with the optimum monthly period that has the highest correlation for that climate variable and wheat/drought insurance loss (July 2 = two months previous to July, or May/June/July), along with the correlation value.  Each correlation value is absolute (correlation coefficent - R)
+
+![](https://dmine.io/waf/img/Step1.png)
+
+
+####Step 3.1. Precipitation time lagged correlations to wheat/drought insurance loss, per county, for the iPNW
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+library(maptools)
+library(RColorBrewer)
+library(leaflet)
+library(raster)
+library(RCurl)
+
+ climate_var <- "pr"
+  predictor_var <- "cube_root_loss"
+  monthend <- "jul"
+  monthnumber <- 2
+    
+      library(RColorBrewer)
+      library(dplyr)
+  
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_correlations/climate_correlations.zip"
+destfile <- "/tmp/climate_correlations.zip"
+download.file(URL, destfile)
+outDir<-"/tmp/climate_correlations"
+unzip(destfile,exdir=outDir)
+
+      setwd("/tmp/climate_correlations/")
+      
+      
+      if (predictor_var  == "loss") {
+        
+        predictor <- "crop_commodity_loss"
+        
+      }else {
+        
+        predictor <- predictor_var
+      }
+      
+      
+      
+      files  <- list.files(pattern = predictor)
+      filey <- do.call(rbind, strsplit(files, '[_]'))
+      
+      filey <- subset(filey, filey[,5] == climate_var)
+      
+      colnames(filey) <- c("state", "county", "commodity", "damage", "climate", "crop1", "crop2", "response", "crop3")
+      filey <- as.data.frame(filey)
+      data <- with(filey, paste(state, "_", county, "_", commodity, "_", damage, "_", climate, "_", crop1, "_", crop2, "_", response, "_", crop3, sep=""))
+      
+      
+      
+      
+      
+      
+      tables <- lapply(data, read.csv, header = TRUE)
+      
+      
+      
+      tables <- lapply(tables, function(x) { x["X"] <- NULL; x }) #--remove first index row from each list
+      
+      tables <- lapply(tables, function(x) dplyr::arrange(x, -row_number())) #--(flips matrix - puts jan as 1st row and sept as 9th row)
+      
+      
+      for (i in 1:26) {
+      tables[[i]][1,4:12] <- NA
+      tables[[i]][2,5:12] <- NA
+      tables[[i]][3,6:12] <- NA
+      tables[[i]][4,7:12] <- NA
+      tables[[i]][5,8:12] <- NA
+      tables[[i]][6,9:12] <- NA
+      tables[[i]][7,10:12] <- NA
+      tables[[i]][8,11:12] <- NA
+      tables[[i]][9,12:12] <- NA
+      }
+      
+      
+      monthly <- match(monthend, tolower(month.abb))
+      
+      
+      if(climate_var=='pr'){
+        
+        bestcounty <- matrix(NA,nrow=26,ncol=3)
+        for (i in 1:26) {
+          temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+          temp2 <- min(tables[[i]], na.rm=T)
+          bestcounty[i,1] <- temp[1,1]
+          bestcounty[i,2] <- temp[1,2]
+          bestcounty[i,3] <- temp2
+          temp <- NA
+          temp2 <- NA
+          
+        }
+      } else {
+        if(climate_var=='rmin'){
+          
+          bestcounty <- matrix(NA,nrow=26,ncol=3)
+          for (i in 1:26) {
+            temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+            temp2 <- min(tables[[i]], na.rm=T)
+            bestcounty[i,1] <- temp[1,1]
+            bestcounty[i,2] <- temp[1,2]
+            bestcounty[i,3] <- temp2
+            temp <- NA
+            temp2 <- NA
+          }
+        } else {
+          if(climate_var=='rmax'){
+            
+            bestcounty <- matrix(NA,nrow=26,ncol=3)
+            for (i in 1:26) {
+              temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+              temp2 <- max(tables[[i]], na.rm=T)
+              bestcounty[i,1] <- temp[1,1]
+              bestcounty[i,2] <- temp[1,2]
+              bestcounty[i,3] <- temp2
+              temp <- NA
+              temp2 <- NA
+            }
+          } else {  
+            if(climate_var=='tmmx'){ 
+              bestcounty <- matrix(NA,nrow=26,ncol=3)
+              for (i in 1:26) {
+                temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                temp2 <- max(tables[[i]], na.rm=T)
+                bestcounty[i,1] <- temp[1,1]
+                bestcounty[i,2] <- temp[1,2]
+                bestcounty[i,3] <- temp2
+                temp <- NA
+                temp2 <- NA
+              }
+            } else {
+              if(climate_var=='tmin'){
+                bestcounty <- matrix(NA,nrow=26,ncol=3)
+                for (i in 1:26) {
+                  temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                  temp2 <- max(tables[[i]], na.rm=T)
+                  bestcounty[i,1] <- temp[1,1]
+                  bestcounty[i,2] <- temp[1,2]
+                  bestcounty[i,3] <- temp2
+                  temp <- NA
+                  temp2 <- NA
+                }
+              } else {
+                if(climate_var=='fm100'){
+                  bestcounty <- matrix(NA,nrow=26,ncol=3)
+                  for (i in 1:26) {
+                    temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                    temp2 <- max(tables[[i]], na.rm=T)
+                    bestcounty[i,1] <- temp[1,1]
+                    bestcounty[i,2] <- temp[1,2]
+                    bestcounty[i,3] <- temp2
+                    temp <- NA
+                    temp2 <- NA
+                  }
+                } else {
+                  if(climate_var=='fm1000'){
+                    bestcounty <- matrix(NA,nrow=26,ncol=3)
+                    for (i in 1:26) {
+                      temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                      temp2 <- max(tables[[i]], na.rm=T)
+                      bestcounty[i,1] <- temp[1,1]
+                      bestcounty[i,2] <- temp[1,2]
+                      bestcounty[i,3] <- temp2
+                      temp <- NA
+                      temp2 <- NA
+                    }
+                  } else {
+                    if(climate_var=='pet'){
+                      bestcounty <- matrix(NA,nrow=26,ncol=3)
+                      for (i in 1:26) {
+                        temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                        temp2 <- max(tables[[i]], na.rm=T)
+                        bestcounty[i,1] <- temp[1,1]
+                        bestcounty[i,2] <- temp[1,2]
+                        bestcounty[i,3] <- temp2
+                        temp <- NA
+                        temp2 <- NA
+                      }
+                    } else {
+                      if(climate_var=='pdsi'){
+                        bestcounty <- matrix(NA,nrow=26,ncol=3)
+                        for (i in 1:26) {
+                          temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+                          temp2 <- min(tables[[i]], na.rm=T)
+                          bestcounty[i,1] <- temp[1,1]
+                          bestcounty[i,2] <- temp[1,2]
+                          bestcounty[i,3] <- temp2
+                          temp <- NA
+                          temp2 <- NA
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      
+      
+      
+      bestcounty[,1] <- tolower(month.abb[bestcounty[,1]])
+      
+      bestcounty2 <- cbind(data.frame(filey$county), bestcounty)
+      colnames(bestcounty2) <- c("NAME", "MONTH", "ENDMONTH", "CORRELATION")
+      #new
+      
+      
+      
+      
+      
+      #!!!!!!fix-row by column, or number of months by ending month
+      table2 <- lapply(tables, function(x) x[monthly, as.numeric(monthnumber)])
+      
+      
+      table3 <- data.frame(matrix(unlist(table2), nrow=length(table2), byrow=T))
+      colnames(table3) <- "correlations"
+      #combined <- do.call(rbind , tables)
+      
+      table4 <- cbind(filey, table3)
+      
+      #if (predictor_var  == "loss") {
+      
+      #predictor_var <- "crop_commodity_loss"
+      
+      #}
+      
+      table5 <- table4[c(2:5,10)]
+      
+      colnames(table5) <- c("NAME", "COMMODITY", "DAMAGE", "climate", "correlations")
+      
+      #table5$STATE_NAME <-  state.name[match(table5[,1],state.abb)]
+      
+      
+      
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      statez = c("Idaho", "Washington", "Oregon")
+      Idaho_list1 <- paste("Idaho", "Lewis", "Nez Perce", "Latah", "Benewah", sep="|")
+      Washington_list1 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", sep="|")
+      Oregon_list1 <- paste("Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", sep="|")
+      
+      
+      combinedlist2 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", "Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", "Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", sep="|")
+      combinedlist <- c(Idaho_list1, Washington_list1, Oregon_list1)
+      
+      #alllist <- c("Idaho", "Oregon", "Washington")
+      
+      
+      #--Oregon
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      or_counties <- counties[grep("Oregon", counties@data$STATE_NAME),]
+      palouse_Oregon_counties <- or_counties[grep(Oregon_list1, or_counties@data$NAME),]
+      kk="Oregon"
+      
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      OR_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Oregon_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      #--loop list for county by fip
+      #countyfiploop <- counties@data$FIPS
+      
+      #--data frame of county fip list
+      #countyfiplist <- data.frame(counties@data$FIPS)
+      
+      #--data frame of county names
+      #countynames <- data.frame(counties@data$NAME)
+      
+      #combo of county names and fip for this list
+      #countylist <- cbind(countynames, countyfiplist)
+      
+      #--number of rows in county list
+      #countylistrows <- 12 * nrow(countylist)
+      
+      
+      
+      #---Washington
+      
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      wa_counties <- counties[grep("Washington", counties@data$STATE_NAME),]
+      palouse_Washington_counties <- wa_counties[grep(Washington_list1, wa_counties@data$NAME),]
+      kk="Washington"
+      
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      WA_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Washington_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      #-----Idaho
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      id_counties <- counties[grep("Idaho", counties@data$STATE_NAME),]
+      palouse_Idaho_counties <- id_counties[grep(Idaho_list1, id_counties@data$NAME),]
+      kk="Idaho"
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      ID_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Idaho_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      counties <- rbind(ID_counties, WA_counties, OR_counties)
+      
+      
+      
+      
+      counties2 <- merge(counties, table5, by = "NAME" )
+      
+      #--new
+      
+      counties3 <- merge(counties2, bestcounty2, by = "NAME")
+      counties3$MONTHCOMBO <- paste(counties3$MONTH, counties3$ENDMONTH, sep="")
+      
+      #--new
+      
+      
+      
+      #colorbrew <- list(color = brewer.pal(26, c("green", "blue", "yellow")))
+      #my_palette <- colorRampPalette(c("darkred", "lightyellow"))(n = 26)
+      
+      counties3$CORRELATION <- as.numeric(levels(counties3$CORRELATION))[counties3$CORRELATION]
+      
+      #pal <- colorNumeric(rev(my_palette),  na.color = "#ffffff", domain = eval(parse(text=paste("counties3$", "CORRELATION", sep=""))))
+      
+      pal <- colorNumeric(colorRampPalette(c("red", "orange", "yellow", "lightyellow"))(11), na.color = "#ffffff",
+                          domain = eval(parse(text=paste("counties3$", "CORRELATION", sep=""))))
+      pal2 <- colorNumeric(colorRampPalette(c("lightyellow", "yellow", "orange", "red"))(11), na.color = "#ffffff",
+                          domain = eval(parse(text=paste("counties3$", "CORRELATION", sep=""))))
+      
+      
+      #--
+      
+      myLabelFormat = function(..., reverse_order = FALSE){ 
+    if(reverse_order){ 
+        function(type = "numeric", cuts){ 
+            cuts <- sort(cuts, decreasing = T)
+        } 
+    }else{
+        labelFormat(...)
+    }
+}
+      
+      #colorss = colorRampPalette(brewer.pal(11,"Spectral"))
+      
+      #finalcol <- colorss(len <- length(counties3$CORRELATION))
+      #finalcol2 <- topo.colors(length(counties3$CORRELATION))[order(order(counties3$CORRELATION))]
+      
+      #cellselect <- paste(monthend, monthnumber, sep="")
+      
+      #par(mfrow=c(1,4))
+      #layout(matrix(c(1,1,1,2), 1, 4, byrow = TRUE)) 
+      #par(mar = c(1,1,1,1) + 0.1)
+      #plot(counties3, col = finalcol2, xaxs="i", yaxs="i")
+      ##text(coordinates(counties2), labels=round(counties2$correlations, 2), cex=1.5, col = "black")
+      
+      #added from ID
+      #corre <- round(as.numeric(as.character(counties3$CORRELATION)), 2)
+      #text(coordinates(counties2), labels=paste(counties3$MONTHCOMBO, "\n", corre,  sep=""), cex=1.5, col = "white", font = 2)
+      
+      #--
+      
+      exte <- extent(counties3)
+      
+      library(htmltools)
+      
+      tag.map.title <- tags$style(HTML("
+                                       .leaflet-control.map-title { 
+                                       transform: translate(-50%,20%);
+                                       position: fixed !important;
+                                       left: 50%;
+                                       text-align: center;
+                                       padding-left: 10px; 
+                                       padding-right: 10px; 
+                                       background: rgba(255,255,255,0.75);
+                                       font-weight: bold;
+                                       font-size: 24px;
+                                       }
+                                       "))
+      
+      title <- tags$div(
+        tag.map.title, HTML(paste("IPNW  Correlation, Climate vs. ", predictor_var, " by County for ", climate_var, sep=""))
+      )  
+
+      
+      lat_long <- coordinates(counties3)
+      
+     
+      #labels <- paste(counties3$MONTHCOMBO, as.character(round(counties3$CORRELATION, 2)), sep = "<br/>")
+   
+      
+      #counties3$CORRELATION <- as.numeric(levels(counties3$CORRELATION))[counties3$CORRELATION]
+      counties3a <- data.frame(counties3)
+      labs <- lapply(seq(nrow(counties3a)), function(i) {
+        paste0(as.character(round(counties3a[i, "CORRELATION"],2)), '<br/>',
+                counties3a[i, "MONTHCOMBO"]) 
+      })
+
+      map <- leaflet(data = counties3) %>% 
+        
+        addProviderTiles(providers$Hydda.Base) %>%
+        addProviderTiles(providers$Stamen.TonerLines) %>%
+        
+        #addControl(title, position = "topleft", className="map-title") %>% 
+        
+        fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(counties3$CORRELATION), fillOpacity = .8, weight = 2, stroke = TRUE, smoothFactor = 0.5, color = "black") %>%
+        addLabelOnlyMarkers(data = counties3, lng = lat_long[,1], lat = lat_long[,2], label = lapply(labs, HTML), labelOptions = labelOptions(noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "14px", col = "white", style=list(
+                                  
+                                  'font-family'= 'serif',
+                                  'font-style'= 'bold',
+                                  'font-size' = '14px'
+                                  ))) %>%
+        
+        addLegend(pal = pal2, values = counties3$CORRELATION,  labels = c("1", "2"), opacity = .5, title = paste("Correlation",  " Matrix", sep="<br>"),
+                  position = "bottomright", labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE)))
+      
+      map
+      
+
+
+
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+####Step 3.2. Potential Evapotranspiration time lagged correlations to wheat/drought insurance loss, per county, for the iPNW
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+library(maptools)
+library(RColorBrewer)
+library(leaflet)
+library(raster)
+library(RCurl)
+
+ climate_var <- "pet"
+  predictor_var <- "cube_root_loss"
+  monthend <- "jul"
+  monthnumber <- 2
+    
+      library(RColorBrewer)
+      library(dplyr)
+      
+      setwd("/tmp/climate_correlations/")
+      
+      
+      if (predictor_var  == "loss") {
+        
+        predictor <- "crop_commodity_loss"
+        
+      }else {
+        
+        predictor <- predictor_var
+      }
+      
+      
+      
+      files  <- list.files(pattern = predictor)
+      filey <- do.call(rbind, strsplit(files, '[_]'))
+      
+      filey <- subset(filey, filey[,5] == climate_var)
+      
+      colnames(filey) <- c("state", "county", "commodity", "damage", "climate", "crop1", "crop2", "response", "crop3")
+      filey <- as.data.frame(filey)
+      data <- with(filey, paste(state, "_", county, "_", commodity, "_", damage, "_", climate, "_", crop1, "_", crop2, "_", response, "_", crop3, sep=""))
+      
+      
+      
+      
+      
+      
+      tables <- lapply(data, read.csv, header = TRUE)
+      
+      
+      
+      tables <- lapply(tables, function(x) { x["X"] <- NULL; x }) #--remove first index row from each list
+      
+      tables <- lapply(tables, function(x) dplyr::arrange(x, -row_number())) #--(flips matrix - puts jan as 1st row and sept as 9th row)
+      
+      
+      for (i in 1:26) {
+      tables[[i]][1,4:12] <- NA
+      tables[[i]][2,5:12] <- NA
+      tables[[i]][3,6:12] <- NA
+      tables[[i]][4,7:12] <- NA
+      tables[[i]][5,8:12] <- NA
+      tables[[i]][6,9:12] <- NA
+      tables[[i]][7,10:12] <- NA
+      tables[[i]][8,11:12] <- NA
+      tables[[i]][9,12:12] <- NA
+      }
+      
+      
+      monthly <- match(monthend, tolower(month.abb))
+      
+      
+      if(climate_var=='pr'){
+        
+        bestcounty <- matrix(NA,nrow=26,ncol=3)
+        for (i in 1:26) {
+          temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+          temp2 <- min(tables[[i]], na.rm=T)
+          bestcounty[i,1] <- temp[1,1]
+          bestcounty[i,2] <- temp[1,2]
+          bestcounty[i,3] <- temp2
+          temp <- NA
+          temp2 <- NA
+          
+        }
+      } else {
+        if(climate_var=='rmin'){
+          
+          bestcounty <- matrix(NA,nrow=26,ncol=3)
+          for (i in 1:26) {
+            temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+            temp2 <- min(tables[[i]], na.rm=T)
+            bestcounty[i,1] <- temp[1,1]
+            bestcounty[i,2] <- temp[1,2]
+            bestcounty[i,3] <- temp2
+            temp <- NA
+            temp2 <- NA
+          }
+        } else {
+          if(climate_var=='rmax'){
+            
+            bestcounty <- matrix(NA,nrow=26,ncol=3)
+            for (i in 1:26) {
+              temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+              temp2 <- max(tables[[i]], na.rm=T)
+              bestcounty[i,1] <- temp[1,1]
+              bestcounty[i,2] <- temp[1,2]
+              bestcounty[i,3] <- temp2
+              temp <- NA
+              temp2 <- NA
+            }
+          } else {  
+            if(climate_var=='tmmx'){ 
+              bestcounty <- matrix(NA,nrow=26,ncol=3)
+              for (i in 1:26) {
+                temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                temp2 <- max(tables[[i]], na.rm=T)
+                bestcounty[i,1] <- temp[1,1]
+                bestcounty[i,2] <- temp[1,2]
+                bestcounty[i,3] <- temp2
+                temp <- NA
+                temp2 <- NA
+              }
+            } else {
+              if(climate_var=='tmin'){
+                bestcounty <- matrix(NA,nrow=26,ncol=3)
+                for (i in 1:26) {
+                  temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                  temp2 <- max(tables[[i]], na.rm=T)
+                  bestcounty[i,1] <- temp[1,1]
+                  bestcounty[i,2] <- temp[1,2]
+                  bestcounty[i,3] <- temp2
+                  temp <- NA
+                  temp2 <- NA
+                }
+              } else {
+                if(climate_var=='fm100'){
+                  bestcounty <- matrix(NA,nrow=26,ncol=3)
+                  for (i in 1:26) {
+                    temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                    temp2 <- max(tables[[i]], na.rm=T)
+                    bestcounty[i,1] <- temp[1,1]
+                    bestcounty[i,2] <- temp[1,2]
+                    bestcounty[i,3] <- temp2
+                    temp <- NA
+                    temp2 <- NA
+                  }
+                } else {
+                  if(climate_var=='fm1000'){
+                    bestcounty <- matrix(NA,nrow=26,ncol=3)
+                    for (i in 1:26) {
+                      temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                      temp2 <- max(tables[[i]], na.rm=T)
+                      bestcounty[i,1] <- temp[1,1]
+                      bestcounty[i,2] <- temp[1,2]
+                      bestcounty[i,3] <- temp2
+                      temp <- NA
+                      temp2 <- NA
+                    }
+                  } else {
+                    if(climate_var=='pet'){
+                      bestcounty <- matrix(NA,nrow=26,ncol=3)
+                      for (i in 1:26) {
+                        temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                        temp2 <- max(tables[[i]], na.rm=T)
+                        bestcounty[i,1] <- temp[1,1]
+                        bestcounty[i,2] <- temp[1,2]
+                        bestcounty[i,3] <- temp2
+                        temp <- NA
+                        temp2 <- NA
+                      }
+                    } else {
+                      if(climate_var=='pdsi'){
+                        bestcounty <- matrix(NA,nrow=26,ncol=3)
+                        for (i in 1:26) {
+                          temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+                          temp2 <- min(tables[[i]], na.rm=T)
+                          bestcounty[i,1] <- temp[1,1]
+                          bestcounty[i,2] <- temp[1,2]
+                          bestcounty[i,3] <- temp2
+                          temp <- NA
+                          temp2 <- NA
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      
+      
+      
+      bestcounty[,1] <- tolower(month.abb[bestcounty[,1]])
+      
+      bestcounty2 <- cbind(data.frame(filey$county), bestcounty)
+      colnames(bestcounty2) <- c("NAME", "MONTH", "ENDMONTH", "CORRELATION")
+      #new
+      
+      
+      
+      
+      
+      #!!!!!!fix-row by column, or number of months by ending month
+      table2 <- lapply(tables, function(x) x[monthly, as.numeric(monthnumber)])
+      
+      
+      table3 <- data.frame(matrix(unlist(table2), nrow=length(table2), byrow=T))
+      colnames(table3) <- "correlations"
+      #combined <- do.call(rbind , tables)
+      
+      table4 <- cbind(filey, table3)
+      
+      #if (predictor_var  == "loss") {
+      
+      #predictor_var <- "crop_commodity_loss"
+      
+      #}
+      
+      table5 <- table4[c(2:5,10)]
+      
+      colnames(table5) <- c("NAME", "COMMODITY", "DAMAGE", "climate", "correlations")
+      
+      #table5$STATE_NAME <-  state.name[match(table5[,1],state.abb)]
+      
+      
+      
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      statez = c("Idaho", "Washington", "Oregon")
+      Idaho_list1 <- paste("Idaho", "Lewis", "Nez Perce", "Latah", "Benewah", sep="|")
+      Washington_list1 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", sep="|")
+      Oregon_list1 <- paste("Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", sep="|")
+      
+      
+      combinedlist2 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", "Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", "Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", sep="|")
+      combinedlist <- c(Idaho_list1, Washington_list1, Oregon_list1)
+      
+      #alllist <- c("Idaho", "Oregon", "Washington")
+      
+      
+      #--Oregon
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      or_counties <- counties[grep("Oregon", counties@data$STATE_NAME),]
+      palouse_Oregon_counties <- or_counties[grep(Oregon_list1, or_counties@data$NAME),]
+      kk="Oregon"
+      
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      OR_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Oregon_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      #--loop list for county by fip
+      #countyfiploop <- counties@data$FIPS
+      
+      #--data frame of county fip list
+      #countyfiplist <- data.frame(counties@data$FIPS)
+      
+      #--data frame of county names
+      #countynames <- data.frame(counties@data$NAME)
+      
+      #combo of county names and fip for this list
+      #countylist <- cbind(countynames, countyfiplist)
+      
+      #--number of rows in county list
+      #countylistrows <- 12 * nrow(countylist)
+      
+      
+      
+      #---Washington
+      
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      wa_counties <- counties[grep("Washington", counties@data$STATE_NAME),]
+      palouse_Washington_counties <- wa_counties[grep(Washington_list1, wa_counties@data$NAME),]
+      kk="Washington"
+      
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      WA_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Washington_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      #-----Idaho
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      id_counties <- counties[grep("Idaho", counties@data$STATE_NAME),]
+      palouse_Idaho_counties <- id_counties[grep(Idaho_list1, id_counties@data$NAME),]
+      kk="Idaho"
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      ID_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Idaho_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      counties <- rbind(ID_counties, WA_counties, OR_counties)
+      
+      
+      
+      
+      counties2 <- merge(counties, table5, by = "NAME" )
+      
+      #--new
+      
+      counties3 <- merge(counties2, bestcounty2, by = "NAME")
+      counties3$MONTHCOMBO <- paste(counties3$MONTH, counties3$ENDMONTH, sep="")
+      
+      #--new
+      
+      
+      
+      #colorbrew <- list(color = brewer.pal(26, c("green", "blue", "yellow")))
+      #my_palette <- colorRampPalette(c("darkred", "lightyellow"))(n = 26)
+      
+      counties3$CORRELATION <- as.numeric(levels(counties3$CORRELATION))[counties3$CORRELATION]
+      
+      #pal <- colorNumeric(rev(my_palette),  na.color = "#ffffff", domain = eval(parse(text=paste("counties3$", "CORRELATION", sep=""))))
+      
+      pal <- colorNumeric(colorRampPalette(c("lightyellow", "yellow", "orange", "red"))(11), na.color = "#ffffff",
+                          domain = eval(parse(text=paste("counties3$", "CORRELATION", sep=""))))
+      
+      
+      #--
+      
+      #colorss = colorRampPalette(brewer.pal(11,"Spectral"))
+      
+      #finalcol <- colorss(len <- length(counties3$CORRELATION))
+      #finalcol2 <- topo.colors(length(counties3$CORRELATION))[order(order(counties3$CORRELATION))]
+      
+      #cellselect <- paste(monthend, monthnumber, sep="")
+      
+      #par(mfrow=c(1,4))
+      #layout(matrix(c(1,1,1,2), 1, 4, byrow = TRUE)) 
+      #par(mar = c(1,1,1,1) + 0.1)
+      #plot(counties3, col = finalcol2, xaxs="i", yaxs="i")
+      ##text(coordinates(counties2), labels=round(counties2$correlations, 2), cex=1.5, col = "black")
+      
+      #added from ID
+      #corre <- round(as.numeric(as.character(counties3$CORRELATION)), 2)
+      #text(coordinates(counties2), labels=paste(counties3$MONTHCOMBO, "\n", corre,  sep=""), cex=1.5, col = "white", font = 2)
+      
+      #--
+      
+      exte <- extent(counties3)
+      
+      library(htmltools)
+      
+      tag.map.title <- tags$style(HTML("
+                                       .leaflet-control.map-title { 
+                                       transform: translate(-50%,20%);
+                                       position: fixed !important;
+                                       left: 50%;
+                                       text-align: center;
+                                       padding-left: 10px; 
+                                       padding-right: 10px; 
+                                       background: rgba(255,255,255,0.75);
+                                       font-weight: bold;
+                                       font-size: 24px;
+                                       }
+                                       "))
+      
+      title <- tags$div(
+        tag.map.title, HTML(paste("IPNW  Correlation, Climate vs. ", predictor_var, " by County for ", climate_var, sep=""))
+      )  
+
+      
+      lat_long <- coordinates(counties3)
+      
+     
+      #labels <- paste(counties3$MONTHCOMBO, as.character(round(counties3$CORRELATION, 2)), sep = "<br/>")
+   
+      
+      #counties3$CORRELATION <- as.numeric(levels(counties3$CORRELATION))[counties3$CORRELATION]
+      counties3a <- data.frame(counties3)
+      labs <- lapply(seq(nrow(counties3a)), function(i) {
+        paste0(as.character(round(counties3a[i, "CORRELATION"],2)), '<br/>',
+                counties3a[i, "MONTHCOMBO"]) 
+      })
+
+      map <- leaflet(data = counties3) %>% 
+        
+        addProviderTiles(providers$Hydda.Base) %>%
+        addProviderTiles(providers$Stamen.TonerLines) %>%
+        
+        #addControl(title, position = "topleft", className="map-title") %>% 
+        
+        fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(counties3$CORRELATION), fillOpacity = .8, weight = 2, stroke = TRUE, smoothFactor = 0.5, color = "black") %>%
+        addLabelOnlyMarkers(data = counties3, lng = lat_long[,1], lat = lat_long[,2], label = lapply(labs, HTML), labelOptions = labelOptions(noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "14px", col = "white", style=list(
+                                  
+                                  'font-family'= 'serif',
+                                  'font-style'= 'bold',
+                                  'font-size' = '14px'
+                                  ))) %>%
+        
+        addLegend(pal = pal, values = counties3$CORRELATION,  labels = c("1", "2"), opacity = .5, title = paste("Correlation",  " Matrix", sep="<br>"),
+                  position = "bottomright")
+      
+      map
+      
+
+
+
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+####Step 3.1. Maximum Temperature time lagged correlations to wheat/drought insurance loss, per county, for the iPNW
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+library(maptools)
+library(RColorBrewer)
+library(leaflet)
+library(raster)
+library(RCurl)
+
+ climate_var <- "tmmx"
+  predictor_var <- "cube_root_loss"
+  monthend <- "jul"
+  monthnumber <- 2
+    
+      library(RColorBrewer)
+      library(dplyr)
+      
+      setwd("/tmp/climate_correlations/")
+      
+      
+      if (predictor_var  == "loss") {
+        
+        predictor <- "crop_commodity_loss"
+        
+      }else {
+        
+        predictor <- predictor_var
+      }
+      
+      
+      
+      files  <- list.files(pattern = predictor)
+      filey <- do.call(rbind, strsplit(files, '[_]'))
+      
+      filey <- subset(filey, filey[,5] == climate_var)
+      
+      colnames(filey) <- c("state", "county", "commodity", "damage", "climate", "crop1", "crop2", "response", "crop3")
+      filey <- as.data.frame(filey)
+      data <- with(filey, paste(state, "_", county, "_", commodity, "_", damage, "_", climate, "_", crop1, "_", crop2, "_", response, "_", crop3, sep=""))
+      
+      
+      
+      
+      
+      
+      tables <- lapply(data, read.csv, header = TRUE)
+      
+      
+      
+      tables <- lapply(tables, function(x) { x["X"] <- NULL; x }) #--remove first index row from each list
+      
+      tables <- lapply(tables, function(x) dplyr::arrange(x, -row_number())) #--(flips matrix - puts jan as 1st row and sept as 9th row)
+      
+      
+      for (i in 1:26) {
+      tables[[i]][1,4:12] <- NA
+      tables[[i]][2,5:12] <- NA
+      tables[[i]][3,6:12] <- NA
+      tables[[i]][4,7:12] <- NA
+      tables[[i]][5,8:12] <- NA
+      tables[[i]][6,9:12] <- NA
+      tables[[i]][7,10:12] <- NA
+      tables[[i]][8,11:12] <- NA
+      tables[[i]][9,12:12] <- NA
+      }
+      
+      
+      monthly <- match(monthend, tolower(month.abb))
+      
+      
+      if(climate_var=='pr'){
+        
+        bestcounty <- matrix(NA,nrow=26,ncol=3)
+        for (i in 1:26) {
+          temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+          temp2 <- min(tables[[i]], na.rm=T)
+          bestcounty[i,1] <- temp[1,1]
+          bestcounty[i,2] <- temp[1,2]
+          bestcounty[i,3] <- temp2
+          temp <- NA
+          temp2 <- NA
+          
+        }
+      } else {
+        if(climate_var=='rmin'){
+          
+          bestcounty <- matrix(NA,nrow=26,ncol=3)
+          for (i in 1:26) {
+            temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+            temp2 <- min(tables[[i]], na.rm=T)
+            bestcounty[i,1] <- temp[1,1]
+            bestcounty[i,2] <- temp[1,2]
+            bestcounty[i,3] <- temp2
+            temp <- NA
+            temp2 <- NA
+          }
+        } else {
+          if(climate_var=='rmax'){
+            
+            bestcounty <- matrix(NA,nrow=26,ncol=3)
+            for (i in 1:26) {
+              temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+              temp2 <- max(tables[[i]], na.rm=T)
+              bestcounty[i,1] <- temp[1,1]
+              bestcounty[i,2] <- temp[1,2]
+              bestcounty[i,3] <- temp2
+              temp <- NA
+              temp2 <- NA
+            }
+          } else {  
+            if(climate_var=='tmmx'){ 
+              bestcounty <- matrix(NA,nrow=26,ncol=3)
+              for (i in 1:26) {
+                temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                temp2 <- max(tables[[i]], na.rm=T)
+                bestcounty[i,1] <- temp[1,1]
+                bestcounty[i,2] <- temp[1,2]
+                bestcounty[i,3] <- temp2
+                temp <- NA
+                temp2 <- NA
+              }
+            } else {
+              if(climate_var=='tmin'){
+                bestcounty <- matrix(NA,nrow=26,ncol=3)
+                for (i in 1:26) {
+                  temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                  temp2 <- max(tables[[i]], na.rm=T)
+                  bestcounty[i,1] <- temp[1,1]
+                  bestcounty[i,2] <- temp[1,2]
+                  bestcounty[i,3] <- temp2
+                  temp <- NA
+                  temp2 <- NA
+                }
+              } else {
+                if(climate_var=='fm100'){
+                  bestcounty <- matrix(NA,nrow=26,ncol=3)
+                  for (i in 1:26) {
+                    temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                    temp2 <- max(tables[[i]], na.rm=T)
+                    bestcounty[i,1] <- temp[1,1]
+                    bestcounty[i,2] <- temp[1,2]
+                    bestcounty[i,3] <- temp2
+                    temp <- NA
+                    temp2 <- NA
+                  }
+                } else {
+                  if(climate_var=='fm1000'){
+                    bestcounty <- matrix(NA,nrow=26,ncol=3)
+                    for (i in 1:26) {
+                      temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                      temp2 <- max(tables[[i]], na.rm=T)
+                      bestcounty[i,1] <- temp[1,1]
+                      bestcounty[i,2] <- temp[1,2]
+                      bestcounty[i,3] <- temp2
+                      temp <- NA
+                      temp2 <- NA
+                    }
+                  } else {
+                    if(climate_var=='pet'){
+                      bestcounty <- matrix(NA,nrow=26,ncol=3)
+                      for (i in 1:26) {
+                        temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                        temp2 <- max(tables[[i]], na.rm=T)
+                        bestcounty[i,1] <- temp[1,1]
+                        bestcounty[i,2] <- temp[1,2]
+                        bestcounty[i,3] <- temp2
+                        temp <- NA
+                        temp2 <- NA
+                      }
+                    } else {
+                      if(climate_var=='pdsi'){
+                        bestcounty <- matrix(NA,nrow=26,ncol=3)
+                        for (i in 1:26) {
+                          temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+                          temp2 <- min(tables[[i]], na.rm=T)
+                          bestcounty[i,1] <- temp[1,1]
+                          bestcounty[i,2] <- temp[1,2]
+                          bestcounty[i,3] <- temp2
+                          temp <- NA
+                          temp2 <- NA
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      
+      
+      
+      bestcounty[,1] <- tolower(month.abb[bestcounty[,1]])
+      
+      bestcounty2 <- cbind(data.frame(filey$county), bestcounty)
+      colnames(bestcounty2) <- c("NAME", "MONTH", "ENDMONTH", "CORRELATION")
+      #new
+      
+      
+      
+      
+      
+      #!!!!!!fix-row by column, or number of months by ending month
+      table2 <- lapply(tables, function(x) x[monthly, as.numeric(monthnumber)])
+      
+      
+      table3 <- data.frame(matrix(unlist(table2), nrow=length(table2), byrow=T))
+      colnames(table3) <- "correlations"
+      #combined <- do.call(rbind , tables)
+      
+      table4 <- cbind(filey, table3)
+      
+      #if (predictor_var  == "loss") {
+      
+      #predictor_var <- "crop_commodity_loss"
+      
+      #}
+      
+      table5 <- table4[c(2:5,10)]
+      
+      colnames(table5) <- c("NAME", "COMMODITY", "DAMAGE", "climate", "correlations")
+      
+      #table5$STATE_NAME <-  state.name[match(table5[,1],state.abb)]
+      
+      
+      
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      statez = c("Idaho", "Washington", "Oregon")
+      Idaho_list1 <- paste("Idaho", "Lewis", "Nez Perce", "Latah", "Benewah", sep="|")
+      Washington_list1 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", sep="|")
+      Oregon_list1 <- paste("Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", sep="|")
+      
+      
+      combinedlist2 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", "Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", "Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", sep="|")
+      combinedlist <- c(Idaho_list1, Washington_list1, Oregon_list1)
+      
+      #alllist <- c("Idaho", "Oregon", "Washington")
+      
+      
+      #--Oregon
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      or_counties <- counties[grep("Oregon", counties@data$STATE_NAME),]
+      palouse_Oregon_counties <- or_counties[grep(Oregon_list1, or_counties@data$NAME),]
+      kk="Oregon"
+      
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      OR_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Oregon_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      #--loop list for county by fip
+      #countyfiploop <- counties@data$FIPS
+      
+      #--data frame of county fip list
+      #countyfiplist <- data.frame(counties@data$FIPS)
+      
+      #--data frame of county names
+      #countynames <- data.frame(counties@data$NAME)
+      
+      #combo of county names and fip for this list
+      #countylist <- cbind(countynames, countyfiplist)
+      
+      #--number of rows in county list
+      #countylistrows <- 12 * nrow(countylist)
+      
+      
+      
+      #---Washington
+      
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      wa_counties <- counties[grep("Washington", counties@data$STATE_NAME),]
+      palouse_Washington_counties <- wa_counties[grep(Washington_list1, wa_counties@data$NAME),]
+      kk="Washington"
+      
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      WA_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Washington_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      #-----Idaho
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      id_counties <- counties[grep("Idaho", counties@data$STATE_NAME),]
+      palouse_Idaho_counties <- id_counties[grep(Idaho_list1, id_counties@data$NAME),]
+      kk="Idaho"
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      ID_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Idaho_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      counties <- rbind(ID_counties, WA_counties, OR_counties)
+      
+      
+      
+      
+      counties2 <- merge(counties, table5, by = "NAME" )
+      
+      #--new
+      
+      counties3 <- merge(counties2, bestcounty2, by = "NAME")
+      counties3$MONTHCOMBO <- paste(counties3$MONTH, counties3$ENDMONTH, sep="")
+      
+      #--new
+      
+      
+      
+      #colorbrew <- list(color = brewer.pal(26, c("green", "blue", "yellow")))
+      #my_palette <- colorRampPalette(c("darkred", "lightyellow"))(n = 26)
+      
+      counties3$CORRELATION <- as.numeric(levels(counties3$CORRELATION))[counties3$CORRELATION]
+      
+      #pal <- colorNumeric(rev(my_palette),  na.color = "#ffffff", domain = eval(parse(text=paste("counties3$", "CORRELATION", sep=""))))
+      
+      pal <- colorNumeric(colorRampPalette(c("lightyellow", "yellow", "orange", "red"))(11), na.color = "#ffffff",
+                          domain = eval(parse(text=paste("counties3$", "CORRELATION", sep=""))))
+      
+      
+      #--
+      
+      #colorss = colorRampPalette(brewer.pal(11,"Spectral"))
+      
+      #finalcol <- colorss(len <- length(counties3$CORRELATION))
+      #finalcol2 <- topo.colors(length(counties3$CORRELATION))[order(order(counties3$CORRELATION))]
+      
+      #cellselect <- paste(monthend, monthnumber, sep="")
+      
+      #par(mfrow=c(1,4))
+      #layout(matrix(c(1,1,1,2), 1, 4, byrow = TRUE)) 
+      #par(mar = c(1,1,1,1) + 0.1)
+      #plot(counties3, col = finalcol2, xaxs="i", yaxs="i")
+      ##text(coordinates(counties2), labels=round(counties2$correlations, 2), cex=1.5, col = "black")
+      
+      #added from ID
+      #corre <- round(as.numeric(as.character(counties3$CORRELATION)), 2)
+      #text(coordinates(counties2), labels=paste(counties3$MONTHCOMBO, "\n", corre,  sep=""), cex=1.5, col = "white", font = 2)
+      
+      #--
+      
+      exte <- extent(counties3)
+      
+      library(htmltools)
+      
+      tag.map.title <- tags$style(HTML("
+                                       .leaflet-control.map-title { 
+                                       transform: translate(-50%,20%);
+                                       position: fixed !important;
+                                       left: 50%;
+                                       text-align: center;
+                                       padding-left: 10px; 
+                                       padding-right: 10px; 
+                                       background: rgba(255,255,255,0.75);
+                                       font-weight: bold;
+                                       font-size: 24px;
+                                       }
+                                       "))
+      
+      title <- tags$div(
+        tag.map.title, HTML(paste("IPNW  Correlation, Climate vs. ", predictor_var, " by County for ", climate_var, sep=""))
+      )  
+
+      
+      lat_long <- coordinates(counties3)
+      
+     
+      #labels <- paste(counties3$MONTHCOMBO, as.character(round(counties3$CORRELATION, 2)), sep = "<br/>")
+   
+      
+      #counties3$CORRELATION <- as.numeric(levels(counties3$CORRELATION))[counties3$CORRELATION]
+      counties3a <- data.frame(counties3)
+      labs <- lapply(seq(nrow(counties3a)), function(i) {
+        paste0(as.character(round(counties3a[i, "CORRELATION"],2)), '<br/>',
+                counties3a[i, "MONTHCOMBO"]) 
+      })
+
+      map <- leaflet(data = counties3) %>% 
+        
+        addProviderTiles(providers$Hydda.Base) %>%
+        addProviderTiles(providers$Stamen.TonerLines) %>%
+        
+        #addControl(title, position = "topleft", className="map-title") %>% 
+        
+        fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(counties3$CORRELATION), fillOpacity = .8, weight = 2, stroke = TRUE, smoothFactor = 0.5, color = "black") %>%
+        addLabelOnlyMarkers(data = counties3, lng = lat_long[,1], lat = lat_long[,2], label = lapply(labs, HTML), labelOptions = labelOptions(noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "14px", col = "white", style=list(
+                                  
+                                  'font-family'= 'serif',
+                                  'font-style'= 'bold',
+                                  'font-size' = '14px'
+                                  ))) %>%
+        
+        addLegend(pal = pal, values = counties3$CORRELATION,  labels = c("1", "2"), opacity = .5, title = paste("Correlation",  " Matrix", sep="<br>"),
+                  position = "bottomright")
+      
+      map
+      
+
+
+
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+####Step 3.1. Palmer Drought Severity Index (PDSI) time lagged correlations to wheat/drought insurance loss, per county, for the iPNW
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+library(maptools)
+library(RColorBrewer)
+library(leaflet)
+library(raster)
+library(RCurl)
+
+ climate_var <- "pdsi"
+  predictor_var <- "cube_root_loss"
+  monthend <- "jul"
+  monthnumber <- 2
+    
+      library(RColorBrewer)
+      library(dplyr)
+      
+      setwd("/tmp/climate_correlations/")
+      
+      
+      if (predictor_var  == "loss") {
+        
+        predictor <- "crop_commodity_loss"
+        
+      }else {
+        
+        predictor <- predictor_var
+      }
+      
+      
+      
+      files  <- list.files(pattern = predictor)
+      filey <- do.call(rbind, strsplit(files, '[_]'))
+      
+      filey <- subset(filey, filey[,5] == climate_var)
+      
+      colnames(filey) <- c("state", "county", "commodity", "damage", "climate", "crop1", "crop2", "response", "crop3")
+      filey <- as.data.frame(filey)
+      data <- with(filey, paste(state, "_", county, "_", commodity, "_", damage, "_", climate, "_", crop1, "_", crop2, "_", response, "_", crop3, sep=""))
+      
+      
+      
+      
+      
+      
+      tables <- lapply(data, read.csv, header = TRUE)
+      
+      
+      
+      tables <- lapply(tables, function(x) { x["X"] <- NULL; x }) #--remove first index row from each list
+      
+      tables <- lapply(tables, function(x) dplyr::arrange(x, -row_number())) #--(flips matrix - puts jan as 1st row and sept as 9th row)
+      
+      
+      for (i in 1:26) {
+      tables[[i]][1,4:12] <- NA
+      tables[[i]][2,5:12] <- NA
+      tables[[i]][3,6:12] <- NA
+      tables[[i]][4,7:12] <- NA
+      tables[[i]][5,8:12] <- NA
+      tables[[i]][6,9:12] <- NA
+      tables[[i]][7,10:12] <- NA
+      tables[[i]][8,11:12] <- NA
+      tables[[i]][9,12:12] <- NA
+      }
+      
+      
+      monthly <- match(monthend, tolower(month.abb))
+      
+      
+      if(climate_var=='pr'){
+        
+        bestcounty <- matrix(NA,nrow=26,ncol=3)
+        for (i in 1:26) {
+          temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+          temp2 <- min(tables[[i]], na.rm=T)
+          bestcounty[i,1] <- temp[1,1]
+          bestcounty[i,2] <- temp[1,2]
+          bestcounty[i,3] <- temp2
+          temp <- NA
+          temp2 <- NA
+          
+        }
+      } else {
+        if(climate_var=='rmin'){
+          
+          bestcounty <- matrix(NA,nrow=26,ncol=3)
+          for (i in 1:26) {
+            temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+            temp2 <- min(tables[[i]], na.rm=T)
+            bestcounty[i,1] <- temp[1,1]
+            bestcounty[i,2] <- temp[1,2]
+            bestcounty[i,3] <- temp2
+            temp <- NA
+            temp2 <- NA
+          }
+        } else {
+          if(climate_var=='rmax'){
+            
+            bestcounty <- matrix(NA,nrow=26,ncol=3)
+            for (i in 1:26) {
+              temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+              temp2 <- max(tables[[i]], na.rm=T)
+              bestcounty[i,1] <- temp[1,1]
+              bestcounty[i,2] <- temp[1,2]
+              bestcounty[i,3] <- temp2
+              temp <- NA
+              temp2 <- NA
+            }
+          } else {  
+            if(climate_var=='tmmx'){ 
+              bestcounty <- matrix(NA,nrow=26,ncol=3)
+              for (i in 1:26) {
+                temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                temp2 <- max(tables[[i]], na.rm=T)
+                bestcounty[i,1] <- temp[1,1]
+                bestcounty[i,2] <- temp[1,2]
+                bestcounty[i,3] <- temp2
+                temp <- NA
+                temp2 <- NA
+              }
+            } else {
+              if(climate_var=='tmin'){
+                bestcounty <- matrix(NA,nrow=26,ncol=3)
+                for (i in 1:26) {
+                  temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                  temp2 <- max(tables[[i]], na.rm=T)
+                  bestcounty[i,1] <- temp[1,1]
+                  bestcounty[i,2] <- temp[1,2]
+                  bestcounty[i,3] <- temp2
+                  temp <- NA
+                  temp2 <- NA
+                }
+              } else {
+                if(climate_var=='fm100'){
+                  bestcounty <- matrix(NA,nrow=26,ncol=3)
+                  for (i in 1:26) {
+                    temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                    temp2 <- max(tables[[i]], na.rm=T)
+                    bestcounty[i,1] <- temp[1,1]
+                    bestcounty[i,2] <- temp[1,2]
+                    bestcounty[i,3] <- temp2
+                    temp <- NA
+                    temp2 <- NA
+                  }
+                } else {
+                  if(climate_var=='fm1000'){
+                    bestcounty <- matrix(NA,nrow=26,ncol=3)
+                    for (i in 1:26) {
+                      temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                      temp2 <- max(tables[[i]], na.rm=T)
+                      bestcounty[i,1] <- temp[1,1]
+                      bestcounty[i,2] <- temp[1,2]
+                      bestcounty[i,3] <- temp2
+                      temp <- NA
+                      temp2 <- NA
+                    }
+                  } else {
+                    if(climate_var=='pet'){
+                      bestcounty <- matrix(NA,nrow=26,ncol=3)
+                      for (i in 1:26) {
+                        temp <- which(tables[[i]] == max(tables[[i]], na.rm=T), arr.ind = TRUE)
+                        temp2 <- max(tables[[i]], na.rm=T)
+                        bestcounty[i,1] <- temp[1,1]
+                        bestcounty[i,2] <- temp[1,2]
+                        bestcounty[i,3] <- temp2
+                        temp <- NA
+                        temp2 <- NA
+                      }
+                    } else {
+                      if(climate_var=='pdsi'){
+                        bestcounty <- matrix(NA,nrow=26,ncol=3)
+                        for (i in 1:26) {
+                          temp <- which(tables[[i]] == min(tables[[i]], na.rm=T), arr.ind = TRUE)
+                          temp2 <- min(tables[[i]], na.rm=T)
+                          bestcounty[i,1] <- temp[1,1]
+                          bestcounty[i,2] <- temp[1,2]
+                          bestcounty[i,3] <- temp2
+                          temp <- NA
+                          temp2 <- NA
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      
+      
+      
+      bestcounty[,1] <- tolower(month.abb[bestcounty[,1]])
+      
+      bestcounty2 <- cbind(data.frame(filey$county), bestcounty)
+      colnames(bestcounty2) <- c("NAME", "MONTH", "ENDMONTH", "CORRELATION")
+      #new
+      
+      
+      
+      
+      
+      #!!!!!!fix-row by column, or number of months by ending month
+      table2 <- lapply(tables, function(x) x[monthly, as.numeric(monthnumber)])
+      
+      
+      table3 <- data.frame(matrix(unlist(table2), nrow=length(table2), byrow=T))
+      colnames(table3) <- "correlations"
+      #combined <- do.call(rbind , tables)
+      
+      table4 <- cbind(filey, table3)
+      
+      #if (predictor_var  == "loss") {
+      
+      #predictor_var <- "crop_commodity_loss"
+      
+      #}
+      
+      table5 <- table4[c(2:5,10)]
+      
+      colnames(table5) <- c("NAME", "COMMODITY", "DAMAGE", "climate", "correlations")
+      
+      #table5$STATE_NAME <-  state.name[match(table5[,1],state.abb)]
+      
+      
+      
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      statez = c("Idaho", "Washington", "Oregon")
+      Idaho_list1 <- paste("Idaho", "Lewis", "Nez Perce", "Latah", "Benewah", sep="|")
+      Washington_list1 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", sep="|")
+      Oregon_list1 <- paste("Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", sep="|")
+      
+      
+      combinedlist2 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", "Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", "Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", sep="|")
+      combinedlist <- c(Idaho_list1, Washington_list1, Oregon_list1)
+      
+      #alllist <- c("Idaho", "Oregon", "Washington")
+      
+      
+      #--Oregon
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      or_counties <- counties[grep("Oregon", counties@data$STATE_NAME),]
+      palouse_Oregon_counties <- or_counties[grep(Oregon_list1, or_counties@data$NAME),]
+      kk="Oregon"
+      
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      OR_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Oregon_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      #--loop list for county by fip
+      #countyfiploop <- counties@data$FIPS
+      
+      #--data frame of county fip list
+      #countyfiplist <- data.frame(counties@data$FIPS)
+      
+      #--data frame of county names
+      #countynames <- data.frame(counties@data$NAME)
+      
+      #combo of county names and fip for this list
+      #countylist <- cbind(countynames, countyfiplist)
+      
+      #--number of rows in county list
+      #countylistrows <- 12 * nrow(countylist)
+      
+      
+      
+      #---Washington
+      
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      wa_counties <- counties[grep("Washington", counties@data$STATE_NAME),]
+      palouse_Washington_counties <- wa_counties[grep(Washington_list1, wa_counties@data$NAME),]
+      kk="Washington"
+      
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      WA_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Washington_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      #-----Idaho
+      
+      
+      setwd("/dmine/data/counties/")
+      
+      counties <- readShapePoly('UScounties.shp', 
+                                proj4string=CRS
+                                ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+      projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+      
+      id_counties <- counties[grep("Idaho", counties@data$STATE_NAME),]
+      palouse_Idaho_counties <- id_counties[grep(Idaho_list1, id_counties@data$NAME),]
+      kk="Idaho"
+      #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+      ID_counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Idaho_counties)
+      #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+      
+      counties <- rbind(ID_counties, WA_counties, OR_counties)
+      
+      
+      
+      
+      counties2 <- merge(counties, table5, by = "NAME" )
+      
+      #--new
+      
+      counties3 <- merge(counties2, bestcounty2, by = "NAME")
+      counties3$MONTHCOMBO <- paste(counties3$MONTH, counties3$ENDMONTH, sep="")
+      
+      #--new
+      
+      
+      
+      #colorbrew <- list(color = brewer.pal(26, c("green", "blue", "yellow")))
+      #my_palette <- colorRampPalette(c("darkred", "lightyellow"))(n = 26)
+      
+      counties3$CORRELATION <- as.numeric(levels(counties3$CORRELATION))[counties3$CORRELATION]
+      
+      #pal <- colorNumeric(rev(my_palette),  na.color = "#ffffff", domain = eval(parse(text=paste("counties3$", "CORRELATION", sep=""))))
+      
+      pal <- colorNumeric(colorRampPalette(c("lightyellow", "yellow", "orange", "red"))(11), na.color = "#ffffff",
+                          domain = eval(parse(text=paste("counties3$", "CORRELATION", sep=""))))
+      
+      
+      #--
+      
+      #colorss = colorRampPalette(brewer.pal(11,"Spectral"))
+      
+      #finalcol <- colorss(len <- length(counties3$CORRELATION))
+      #finalcol2 <- topo.colors(length(counties3$CORRELATION))[order(order(counties3$CORRELATION))]
+      
+      #cellselect <- paste(monthend, monthnumber, sep="")
+      
+      #par(mfrow=c(1,4))
+      #layout(matrix(c(1,1,1,2), 1, 4, byrow = TRUE)) 
+      #par(mar = c(1,1,1,1) + 0.1)
+      #plot(counties3, col = finalcol2, xaxs="i", yaxs="i")
+      ##text(coordinates(counties2), labels=round(counties2$correlations, 2), cex=1.5, col = "black")
+      
+      #added from ID
+      #corre <- round(as.numeric(as.character(counties3$CORRELATION)), 2)
+      #text(coordinates(counties2), labels=paste(counties3$MONTHCOMBO, "\n", corre,  sep=""), cex=1.5, col = "white", font = 2)
+      
+      #--
+      
+      exte <- extent(counties3)
+      
+      library(htmltools)
+      
+      tag.map.title <- tags$style(HTML("
+                                       .leaflet-control.map-title { 
+                                       transform: translate(-50%,20%);
+                                       position: fixed !important;
+                                       left: 50%;
+                                       text-align: center;
+                                       padding-left: 10px; 
+                                       padding-right: 10px; 
+                                       background: rgba(255,255,255,0.75);
+                                       font-weight: bold;
+                                       font-size: 24px;
+                                       }
+                                       "))
+      
+      title <- tags$div(
+        tag.map.title, HTML(paste("IPNW  Correlation, Climate vs. ", predictor_var, " by County for ", climate_var, sep=""))
+      )  
+
+      
+      lat_long <- coordinates(counties3)
+      
+     
+      #labels <- paste(counties3$MONTHCOMBO, as.character(round(counties3$CORRELATION, 2)), sep = "<br/>")
+   
+      
+      #counties3$CORRELATION <- as.numeric(levels(counties3$CORRELATION))[counties3$CORRELATION]
+      counties3a <- data.frame(counties3)
+      labs <- lapply(seq(nrow(counties3a)), function(i) {
+        paste0(as.character(round(counties3a[i, "CORRELATION"],2)), '<br/>',
+                counties3a[i, "MONTHCOMBO"]) 
+      })
+
+      map <- leaflet(data = counties3) %>% 
+        
+        addProviderTiles(providers$Hydda.Base) %>%
+        addProviderTiles(providers$Stamen.TonerLines) %>%
+        
+        #addControl(title, position = "topleft", className="map-title") %>% 
+        
+        fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(counties3$CORRELATION), fillOpacity = .8, weight = 2, stroke = TRUE, smoothFactor = 0.5, color = "black") %>%
+        addLabelOnlyMarkers(data = counties3, lng = lat_long[,1], lat = lat_long[,2], label = lapply(labs, HTML), labelOptions = labelOptions(noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "14px", col = "white", style=list(
+                                  
+                                  'font-family'= 'serif',
+                                  'font-style'= 'bold',
+                                  'font-size' = '14px'
+                                  ))) %>%
+        
+        addLegend(pal = pal, values = counties3$CORRELATION,  labels = c("1", "2"), opacity = .5, title = paste("Correlation",  " Matrix", sep="<br>"),
+                  position = "bottomright")
+      
+      map
+      
+
+
+
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+####Step 3.1. Precipitation time lagged correlations to wheat/drought insurance loss, per county, for the iPNW
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+library(maptools)
+library(RColorBrewer)
+library(leaflet)
+library(raster)
+library(RCurl)
+
+panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...) 
+{ 
+  usr <- par("usr"); on.exit(par(usr)) 
+  par(usr = c(0, 1, 0, 1)) 
+  r <- abs(cor(x, y)) 
+  txt <- format(c(r, 0.123456789), digits = digits)[1] 
+  txt <- paste0(prefix, txt) 
+  if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt) 
+  text(0.5, 0.5, txt, cex = cex.cor * r) 
+} 
+
+var_commodity <- "WHEAT"
+var_damage <- "Drought"
+
+#load wheat pricing
+
+wheatprice <- read.csv(text=RCurl::getURL
+("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/wheatprices/wheat_prices_1989_2015.csv"), header = FALSE, strip.white = TRUE, sep = ",")
+wheatprice <- wheatprice[-1]
+
+colnames(wheatprice) <- c("year", "price")
+
+#--accessing output of design matrix/time lag data based on monthly selection from dashboard runs
+
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_outputs/climate_outputs.zip"
+destfile <- "/tmp/climate_outputs.zip"
+download.file(URL, destfile)
+outDir<-"/tmp/climate_outputs"
+unzip(destfile,exdir=outDir)
+
+setwd("/tmp/climate_outputs")
+
+var1 <- read.csv("pr_jun2_cube_root_loss_climatecorrelation.csv")
+colnames(var1)[9] <- paste(colnames(var1)[2], "_zscore", sep="")
+var2 <- read.csv("pet_jul3_cube_root_loss_climatecorrelation.csv")
+colnames(var2)[9] <- paste(colnames(var2)[2], "_zscore", sep="")
+var3 <- read.csv("tmmx_jul2_cube_root_loss_climatecorrelation.csv")
+colnames(var3)[9] <- paste(colnames(var3)[2], "_zscore", sep="")
+var4 <- read.csv("pr_jun2_cube_root_acres_climatecorrelation.csv")
+colnames(var4)[9] <- paste(colnames(var4)[2], "_zscore", sep="")
+var5 <- read.csv("pet_jun2_loss_per_acre_climatecorrelation.csv")
+colnames(var5)[9] <- paste(colnames(var5)[2], "_zscore", sep="")
+var6 <- read.csv("tmmx_jun1_cube_root_acres_climatecorrelation.csv")
+colnames(var6)[9] <- paste(colnames(var6)[2], "_zscore", sep="")
+var7 <- read.csv("pr_sep5_loss_climatedata.csv")
+colnames(var7)[9] <- paste(colnames(var7)[2], "_zscore", sep="")
+var8 <- read.csv("pet_sep5_loss_climatedata.csv")
+colnames(var8)[9] <- paste(colnames(var8)[2], "_zscore", sep="")
+var9 <- read.csv("tmmx_jul2_loss_climatedata.csv")
+colnames(var9)[9] <- paste(colnames(var9)[2], "_zscore", sep="")
+var9x <- read.csv("fm100_jul3_cube_root_loss_climatedata.csv")
+colnames(var9x)[9] <- paste(colnames(var9x)[2], "_zscore", sep="")
+var10x <- read.csv("fm1000_aug2_cube_root_loss_climatedata.csv")
+colnames(var10x)[9] <- paste(colnames(var10x)[2], "_zscore", sep="")
+var11x <- read.csv("pdsi_sep4_cube_root_loss_climatedata.csv")
+colnames(var11x)[9] <- paste(colnames(var11x)[2], "_zscore", sep="")
+var12x <- read.csv("pdsi_sep4_cube_root_loss_climatecorrelation.csv")
+colnames(var12x)[9] <- paste(colnames(var12x)[2], "_zscore", sep="")
+var7a <- read.csv("pr_sep5_loss_climatecorrelation.csv")
+colnames(var7a)[9] <- paste(colnames(var7a)[2], "_zscore", sep="")
+var8a <- read.csv("pet_sep5_loss_climatecorrelation.csv")
+colnames(var8a)[9] <- paste(colnames(var8a)[2], "_zscore", sep="")
+var9a <- read.csv("tmmx_jul2_loss_climatecorrelation.csv")
+colnames(var9a)[9] <- paste(colnames(var9a)[2], "_zscore", sep="")
+
+data1 <- cbind(var1, var2[9], var3[9])
+data2 <- cbind(var1[1:6], var2[2], var3[2])
+
+data3 <- cbind(var4[1:6], var5[2], var6[2])
+
+data3 <- plyr::join(data3, wheatprice_year, by = "year")
+
+data4 <- cbind(var7[1:6], var8[2], var9[2], var9x[2], var10x[2], var11x[2], var12x[3] )
+#data4$prpet <- data4$pr / data4$pet
+data4a <- left_join(data4, var7a, by = c("year" = "year", "county" = "county"))
+data4a <- left_join(data4a, wheatprice_year, by = c("year"))
+data4aa <- na.omit(data4a)
+
+colnames(data4aa) <- c("X", "pr", "year", "pr_zscore", "damagecause", "county", "pet", "tmmx", "fm100", "fm1000", "pdsi", "cube_loss", "X.y", "pr2", "loss", "state", "commodity", "matrixnumber", "clim_zscore", "loss_zscore", "price")
+data4aa$prpet <- data4aa$pr / data4aa$pet
+
+data4aa <- subset(data4aa, , c(year, damagecause, county, commodity, state, matrixnumber, cube_loss, pr, pdsi, pet, tmmx, fm100, fm1000, price, prpet))
+#write.csv(data4aa, file = "/dmine/data/USDA/agmesh-scenarios/Allstates/summaries/lag_palouse1.csv")
+
+
+data4aa$pr_scaled <- scale(data4aa$pr, scale = TRUE, center = TRUE)
+data4aa$tmmx_scaled <- scale(data4aa$tmmx, scale = TRUE, center = TRUE)
+data4aa$pet_scaled <- scale(data4aa$pet, scale = TRUE, center = TRUE)
+data4aa$pdsi_scaled <- scale(data4aa$pdsi, scale = TRUE, center = TRUE)
+data4aa$price_scaled <- scale(data4aa$price, scale = TRUE, center = TRUE)
+
+
+#percentage acreage by county and year, per state
+
+
+library(plotrix)
+library(ggplot2)
+  library(gridExtra)
+
+#--OR
+
+#--acres for all damage causes aggregated
+OR_loss_commodity <- subset(OR_RMA_PNW, commodity == var_commodity)
+OR_loss_all <- aggregate(OR_loss_commodity$acres, by=list(OR_loss_commodity$year, OR_loss_commodity$county, OR_loss_commodity$state), FUN = "sum")
+colnames(OR_loss_all) <- c("year", "county", "state", "all_damagecause_acres")
+
+OR_loss1 <- subset(OR_RMA_PNW, commodity == var_commodity & damagecause == var_damage)
+OR_loss2 <- aggregate(OR_loss1$loss, by=list(OR_loss1$year, OR_loss1$county, OR_loss1$state), FUN = "sum")
+OR_loss2_acres <- aggregate(OR_loss1$acres, by=list(OR_loss1$year, OR_loss1$county, OR_loss1$state), FUN = "sum")
+colnames(OR_loss2) <- c("year", "county", "state", "loss")
+colnames(OR_loss2_acres) <- c("year", "county", "state", "acres")
+
+OR_loss2$acres <- OR_loss2_acres$acres
+OR_loss2$lossperacre <- OR_loss2$loss / OR_loss2$acres
+
+
+OR_loss_climate <- merge(OR_loss2, OR2[-4], by=c("county", "state"))
+OR_loss_climate_2 <- merge(OR_loss_all, OR_loss_climate, by=c("year", "county", "state"))
+
+
+#-WA
+
+#--acres for all damage causes aggregated
+WA_loss_commodity <- subset(WA_RMA_PNW, commodity == var_commodity)
+WA_loss_all <- aggregate(WA_loss_commodity$acres, by=list(WA_loss_commodity$year, WA_loss_commodity$county, WA_loss_commodity$state), FUN = "sum")
+colnames(WA_loss_all) <- c("year", "county", "state", "all_damagecause_acres")
+
+WA_loss1 <- subset(WA_RMA_PNW, commodity == var_commodity & damagecause == var_damage)
+WA_loss2 <- aggregate(WA_loss1$loss, by=list(WA_loss1$year, WA_loss1$county, WA_loss1$state), FUN = "sum")
+WA_loss2_acres <- aggregate(WA_loss1$acres, by=list(WA_loss1$year, WA_loss1$county, WA_loss1$state), FUN = "sum")
+colnames(WA_loss2) <- c("year", "county", "state", "loss")
+colnames(WA_loss2_acres) <- c("year", "county", "state", "acres")
+
+WA_loss2$acres <- WA_loss2_acres$acres
+WA_loss2$lossperacre <- WA_loss2$loss / WA_loss2$acres
+
+
+WA_loss_climate <- merge(WA_loss2, WA2[-4], by=c("county", "state"))
+WA_loss_climate_2 <- merge(WA_loss_all, WA_loss_climate, by=c("year", "county", "state"))
+
+#-ID
+
+#--acres for all damage causes aggregated
+ID_loss_commodity <- subset(ID_RMA_PNW, commodity == var_commodity)
+ID_loss_all <- aggregate(ID_loss_commodity$acres, by=list(ID_loss_commodity$year, ID_loss_commodity$county, ID_loss_commodity$state), FUN = "sum")
+colnames(ID_loss_all) <- c("year", "county", "state", "all_damagecause_acres")
+
+ID_loss1 <- subset(ID_RMA_PNW, commodity == var_commodity & damagecause == var_damage)
+ID_loss2 <- aggregate(ID_loss1$loss, by=list(ID_loss1$year, ID_loss1$county, ID_loss1$state), FUN = "sum")
+ID_loss2_acres <- aggregate(ID_loss1$acres, by=list(ID_loss1$year, ID_loss1$county, ID_loss1$state), FUN = "sum")
+colnames(ID_loss2) <- c("year", "county", "state", "loss")
+colnames(ID_loss2_acres) <- c("year", "county", "state", "acres")
+
+ID_loss2$acres <- ID_loss2_acres$acres
+ID_loss2$lossperacre <- ID_loss2$loss / ID_loss2$acres
+
+
+ID_loss_climate <- merge(ID_loss2, ID2[-4], by=c("county", "state"))
+ID_loss_climate_2 <- merge(ID_loss_all, ID_loss_climate, by=c("year", "county", "state"))
+
+
+merged_iPNW <- rbind(ID_loss_climate_2, WA_loss_climate_2, OR_loss_climate_2)
+merged_iPNW$pct_acreage <- merged_iPNW$acres / merged_iPNW$all_damagecause_acres
+
+
+
+#
+
+#--plotting results of individual variables
+
+pairs(cube_loss ~ pr_scaled + tmmx_scaled + pet_scaled + pdsi_scaled, data = data4aa, col = data4aa$state,
+      lower.panel=panel.smooth, upper.panel=panel.cor, main = "initial pairs plot")
+
+par(mar=c(12.7, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+data4aaaa <- merge(data4aa, merged_iPNW, by = c("state", "county", "year"))
+
+ggplot(data4aaaa, aes(pet_scaled, cube_loss, color = state)) + 
+  geom_point(aes(size = price)) +
+  stat_smooth(aes(group = 1), method = "loess") + labs(x = "Scaled Potential Evapotranspiration (mm)", y = "Cube root loss ($)") + theme(axis.title.y = element_text(family = "Serif", size=16)) + theme(axis.title.x = element_text(family = "Serif", size=16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
+
+ggplot(data4aaaa, aes(pr_scaled, cube_loss, color = state)) + 
+  geom_point(aes(size = price)) +
+  stat_smooth(aes(group = 1), method = "loess") + labs(x = "Scaled Precipitation (mm)", y = "Cube root loss ($)") + theme(axis.title.y = element_text(family = "Serif", size=16)) + theme(axis.title.x = element_text(family = "Serif", size=16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
+
+
+ggplot(data4aaaa, aes(tmmx_scaled, cube_loss, color = state)) + 
+  geom_point(aes(size = price)) +
+  stat_smooth(aes(group = 1), method = "loess") + labs(x = "Scaled Max Temperature (C)", y = "Cube root loss ($)") + theme(axis.title.y = element_text(family = "Serif", size=16)) + theme(axis.title.x = element_text(family = "Serif", size=16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
+
+ggplot(data4aaaa, aes(pdsi_scaled, cube_loss, color = state)) + 
+  geom_point(aes(size = price)) +
+  stat_smooth(aes(group = 1), method = "loess") + labs(x = "Scaled PDSI", y = "Cube root loss ($)") + theme(axis.title.y = element_text(family = "Serif", size=16)) + theme(axis.title.x = element_text(family = "Serif", size=16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
+
+ggplot(data4aaaa, aes(prpet, cube_loss, color = state)) + 
+  geom_point(aes(size = price)) +
+  stat_smooth(aes(group = 1), method = "loess") + labs(x = "Aridity Index (PR / PET)", y = "Cube root loss ($)") + theme(axis.title.y = element_text(family = "Serif", size=16)) + theme(axis.title.x = element_text(family = "Serif", size=16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
+
+
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+###Step 4. Examining conditional relationships of optimized climate/insurance loss relationships using regression based random forest modeling
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+library(maptools)
+library(RColorBrewer)
+library(leaflet)
+library(raster)
+library(RCurl)
+
+# Make big tree
+form <- as.formula(loss_zscore ~ pr_zscore + tmmx_zscore + pet_zscore)
+
+form2 <- as.formula(cube_loss ~ pr + tmmx + pet + pdsi + price)
+form2a <- as.formula(loss ~ pr + tmmx + pet + pdsi + price)
+form2b <- as.formula(cube_loss ~ pr.x + tmmx.x + pet.x + pdsi.x + price)
+
+
+#form3 <- as.formula(pct_acreage ~ pr + tmmx + pet + pdsi + sph + srad + vs + th + erc + fm100 + fm1000 + price)
+
+form3 <- as.formula(pct_acreage ~ pr + tmmx + pet + pdsi + price)
+form3a <- as.formula(pct_acreage ~ pr + tmmx + pet + pdsi + sph + srad + vs + th + erc + fm100 + fm1000 + price)
+
+data44a <- data.frame(data4aaaa)
+
+data5a_statecountyear <- cbind.data.frame(data44a$state, data44a$county, data44a$year)
+colnames(data5a_statecountyear) <- c("state", "county", "year")
+
+data44a$tmmx.x <- data44a$tmmx.x - 273
+
+data5a <- cbind.data.frame(data44a$year, data44a$cube_loss, data44a$loss, data44a$pr_scaled, data44a$tmmx_scaled, data44a$fm100.x, data44a$fm1000.x, data44a$pdsi_scaled, data44a$erc, data44a$srad, data44a$vs, data44a$sph, data44a$th, data44a$pet_scaled, data44a$pct_acreage, data44a$price_scaled, data44a$state)
+colnames(data5a) <- c("year", "cube_loss", "loss", "pr", "tmmx", "fm100", "fm1000", "pdsi", "erc", "srad", "vs", "sph", "th", "pet", "pct_acreage", "price", "state" )
+
+data5a <- data.frame(data5a)
+data5a$loss <- log10(data5a$loss)
+
+data5ab <- cbind.data.frame(data5a$loss, data5a$pr, data5a$tmmx, data5a$pdsi, data5a$pet, data5a$price)
+colnames(data5ab) <- c("loss", "pr", "tmmx", "pdsi", "pet", "price")
+data5ab <- data.frame(data5ab)
+
+#data5ab$loss <- log10(data5ab$loss)
+
+# load libraries
+library(caret)
+library(rpart)
+
+# define training control
+train_control<- trainControl(method="repeatedcv", number=10, savePredictions = TRUE)
+
+data5b <- data.frame(data5a)
+data5b <- na.omit(data5b)
+
+data5ab <- data.frame(data5ab)
+data5ab <- na.omit(data5ab)
+
+
+
+
+
+
+#pairs(loss ~ pr + tmmx + pet + pdsi, data = data5b, col = data5b$state,
+#      lower.panel=panel.smooth, upper.panel=panel.cor, main = "initial pairs plot")
+
+# train the model
+set.seed(9992)
+#trainIndex  <- sample(1:nrow(data5b), 0.8 * nrow(data5b))
+
+trainIndex <- createDataPartition(data5b$pct_acreage, p = .75, list = FALSE)
+
+train <- data5b[trainIndex,]
+test <- data5b[-trainIndex,]
+
+trainIndex_loss <- caret::createDataPartition(data5ab$loss, p = .75, list = FALSE)
+
+train_loss <- data5ab[trainIndex_loss,]
+test_loss <- data5ab[-trainIndex_loss,]
+
+#traindata=data.frame(x=train_loss,y=(train_loss))
+#testdata = data.frame(x=test_loss,y=(test_loss))
+
+
+rf_grid <- expand.grid(mtry = 2:5) # you can put different values for mtry
+
+
+model<- caret::train(form3, data=train, trControl=train_control, importance=T, method="rf", tuneGrid = rf_grid, ntrees = 500)
+model_singular <- caret::train(form3, data=train, trControl=train_control, method="rpart")
+
+model_loss <- caret::train(form2a, data=train_loss, trControl=train_control, method="rf", tuneGrid = rf_grid, ntrees = 1000, importance = T)
+model_loss_all <- caret::train(form2a, data=data5b, trControl=train_control, method="rf", ntrees = 500, tuneGrid = rf_grid, importance = T)
+model_loss_all_acreage <- caret::train(form3, data=data5b, trControl=train_control, method="rf", ntrees = 500, tuneGrid = rf_grid, importance = T)
+
+#cforest_model_loss <- cforest(form2a,
+ #                                    data = train_loss, 
+  #                                   controls=cforest_unbiased(ntree=2000, mtry=5))
+
+
+#lattice::densityplot(model_loss,
+ #           adjust = 1.25)
+
+tree_num <- which(model_loss$finalModel$err.rate[, 1] == min(model_loss$finalModel$err.rate[, 1]))
+
+lda_data <- learing_curve_dat(dat = model$trainingData, 
+                              outcome = ".outcome",
+                              ## `train` arguments:
+                              metric = "RMSE",
+                              trControl = train_control,
+                              method = "rf")
+
+pts <- pretty(lda_data$RMSE)
+#pts <- c(0,0.1, 0.2, 0.3, 0.4)
+
+lda_data$Data[lda_data$Data == "Resampling"] <- c("Validation")
+ggplot(lda_data, aes(x = Training_Size, y = RMSE, color = Data)) + 
+  geom_smooth(method = loess, span = .8) + 
+  theme_bw()  + ggtitle("Random Forest Learning Curves: Train vs. Validation") + theme(axis.title.y = element_text(family = "Serif", size=18), axis.title.x = element_text(family = "Serif", size = 18), axis.text.x = element_text(size=rel(1.9), angle = 90, hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.9), hjust = 1, family = "Serif")) + theme(plot.title = element_text(family = "Serif", vjust = 2))  + theme(legend.text=element_text(family = "Serif", size=14)) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(labels = pts, breaks = pts ) + xlab("Training Size") + ylab("RMSE") + theme(legend.position="bottom") + scale_fill_discrete(name = "Legend")
+
+sqrt(model_loss$finalModel$mse[which.min(model_loss$finalModel$mse)])
+
+which.min(model_loss$finalModel$mse)
+
+importance <- varImp(model_loss, scale=FALSE)
+
+importance2 <- importance$importance
+importance2$variable <- rownames(importance2)
+importance2 <- importance2[order(-importance2$Overall),] 
+
+par(mar=c(6, 7, 2, 3), family = 'serif', mgp=c(5, 1, 0), las=0)
+
+barplot(sort(importance2$Overall), horiz = TRUE, col = "lightblue", ylab = "predictor variables", xlab = "% importance", cex.lab = 1.7, las = 2, cex.axis = 1.8, cex.names = 1.8, names.arg = rev(importance2$variable))
+
+#NRMSE
+
+nrmse_func <-  function(obs, pred, type = "sd") {
+  
+  squared_sums <- sum((obs - pred)^2)
+  mse <- squared_sums/length(obs)
+  rmse <- sqrt(mse)
+  if (type == "sd") nrmse <- rmse/sd(obs)
+  if (type == "mean") nrmse <- rmse/mean(obs)
+  if (type == "maxmin") nrmse <- rmse/ (max(obs) - min(obs))
+  if (type == "iq") nrmse <- rmse/ (quantile(obs, 0.75) - quantile(obs, 0.25))
+  if (!type %in% c("mean", "sd", "maxmin", "iq")) message("Wrong type!")
+  nrmse <- round(nrmse, 3)
+  return(nrmse)
+  
+}
+
+
+#ensembe 
+
+library(caretEnsemble)
+
+#algorithmList <- c('gbm', 'rpart', 'ctree', 'rf', 'HYFIS', 'FS.HGD', 'ANFIS' )
+algorithmList <- c('gbm', 'rpart', 'ctree', 'rf')
+
+set.seed(100)
+models <- caretList(form2, data=data5b, trControl=train_control, methodList=algorithmList) 
+results <- resamples(models)
+summary(results)
+
+set.seed(101)
+stackControl <- train_control
+
+# Ensemble the predictions of `models` to form a new combined prediction based on glm
+stack.glm <- caretStack(models, method="glm", trControl=stackControl)
+print(stack.glm)
+
+
+
+# make predictions
+predictions<- predict(model,data5b)
+
+predictions_loss <- predict(model_loss,data5b)
+
+#cforest_Prediction <- predict(cforest_model_loss, newdata=test_loss, OOB=TRUE, type = "response")
+
+
+
+predictions_loss_all <- predict(model_loss_all,data5b)
+
+
+#--end ensemble
+
+
+
+# append predictions
+mydat<- cbind(data5b,predictions)
+mydat_loss <- cbind(data5b,predictions_loss)
+#cforest_mydat_loss <- cbind(test_loss,cforest_Prediction)
+
+mydat_loss_all <- cbind(data5b,predictions_loss_all)
+
+```
+ 
+ 
+ 
+ 
+ 
+ 
+```{r message=TRUE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+ 
+finaldat <- subset(finaldat, county != "Kootenai" & county != "Clearwater")
+countyvector <- unique(finaldat$county)
+county_rmse_r2 <- data.frame(matrix(ncol =2, nrow = 24))
+county_rmse_r2$county <- countyvector
+colnames(county_rmse_r2) <- c("rmse", "r2", "county")
+
+
+ii = 0
+for (i in countyvector ) {
+
+ii <- ii + 1
+
+countyplot <- subset(finaldat, county == i)
+
+
+# 2.1. Average of actual data
+avr_y_actual <- mean(countyplot$pct_acreage)
+
+# 2.2. Total sum of squares
+ss_total <- sum((countyplot$pct_acreage - avr_y_actual)^2)
+
+# 2.3. Regression sum of squares
+ss_regression <- sum((countyplot$predictions - avr_y_actual)^2)
+
+# 2.4. Residual sum of squares
+ss_residuals <- sum((countyplot$pct_acreage - countyplot$predictions)^2)
+
+# 3. R2 Score
+r2 <- round(1 - ss_residuals / ss_total, 2)
+
+RMSE = function(m, o){
+  sqrt(mean((m - o)^2))
+}
+
+MAE <- function(m, o)
+{
+    mean(abs(m - o))
+}
+
+rmse <- round(RMSE(countyplot$predictions, countyplot$pct_acreage), 2)
+mae <- round(MAE(countyplot$predictions, countyplot$pct_acreage), 2)
+
+
+county_rmse_r2[ii,1] <-  rmse
+county_rmse_r2[ii,2] <- r2
+
+finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+NRMSE1 <- nrmse_func(finaldat$loss, finaldat$predictions)
+
+NRMSE2 <- nrmse_func(finaldat_loss$loss, finaldat_loss$predictions_loss)
+
+
+fit1 <- lm(form3, data=data5b)
+
+#pct_acreage historical vs. predicted
+
+
+yearlist <- data.frame(c(2001:2015))
+colnames(yearlist) <- "year"
+
+countyplot <- merge(countyplot, yearlist, by=("year"), all=T)
+countyplot$predictions[is.na(countyplot$predictions)] <- 0
+countyplot$pct_acreage[is.na(countyplot$pct_acreage)] <- 0
+
+
+par(mar=c(5, 5.1, 2, 3), family = 'serif', mgp=c(3.8, 1, 0), las=0)
+
+
+plot(c(countyplot$pct_acreage) ~ c(countyplot$year), cex.lab = 1.5, cex.axis = 1.5, col = "red", 
+     las = 2, xaxt = "n", xlab = "Year", ylab = "Percent Acreage Drought Claims", main = paste(i, " County, ", countyplot$state[1], ": R2 = ", r2, " RMSE = ", rmse, sep=""))
+
+lines(countyplot$pct_acreage ~ countyplot$year, col = "red")
+points(countyplot$predictions ~ countyplot$year, col = "blue")
+lines(countyplot$predictions ~ countyplot$year, col = "blue")
+
+axis(1, countyplot$year, 2001:2015, col.axis = "black", las = 2, cex.axis = 1.5)
+
+legend("topright", legend=c("historical", "predicted"),
+       col=c("red", "blue"), lty=1, cex=1.5)
+
+}
+
+```
+ 
+ 
+```{r message=TRUE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9}
+
+finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+NRMSE1 <- nrmse_func(finaldat$loss, finaldat$predictions)
+
+NRMSE2 <- nrmse_func(finaldat_loss$loss, finaldat_loss$predictions_loss)
+
+
+ #loss historical vs predicted
+
+finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+
+finaldat_loss$loss <- 10^finaldat_loss$loss
+finaldat_loss$predictions_loss <- 10^finaldat_loss$predictions_loss
+fd_loss <- aggregate(finaldat_loss$loss, by=list(finaldat_loss$year), FUN = "sum")
+fd_pred <- aggregate(finaldat_loss$predictions_loss, by=list(finaldat_loss$year), FUN = "sum")
+
+
+# 2.1. Average of actual data
+avr_y_actual <- mean(fd_loss$x)
+
+# 2.2. Total sum of squares
+ss_total <- sum((fd_loss$x - avr_y_actual)^2)
+
+# 2.3. Regression sum of squares
+ss_regression <- sum((fd_pred$x - avr_y_actual)^2)
+
+# 2.4. Residual sum of squares
+ss_residuals <- sum((fd_loss$x - fd_pred$x)^2)
+
+# 3. R2 Score
+r2 <- round(1 - ss_residuals / ss_total, 2)
+
+RMSE = function(m, o){
+  sqrt(mean((m - o)^2))
+}
+
+rmse <- round(RMSE(fd_pred$x, fd_loss$x), 2)
+
+#plot all counties combined, by year
+par(mar=c(6, 5.1, 2, 3), family = 'serif', mgp=c(3.5, .6, 0), las=0)
+
+
+plot(fd_loss$x ~ fd_loss$Group.1, col = "red", cex.lab = 1.5, cex.axis = 1.3, las = 2, yaxt = "n", xaxt = "n", xlab = "Year", ylab = "Annual Wheat/Drought Loss", main = paste("24 county iPNW study area: R2 = ", r2, " RMSE = ", rmse, sep=""))
+lines(fd_loss$x ~ fd_loss$Group.1, col = "red")
+points(fd_pred$x ~ fd_pred$Group.1, col = "blue")
+lines(fd_pred$x ~ fd_pred$Group.1, col = "blue")
+
+axis(1, fd_loss$Group.1, 2001:2015, col.axis = "black", las = 2, cex.axis = 1.3)
+
+pts <- pretty(fd_loss$x / 1000000)
+pts2 <- pretty(fd_loss$x)
+axis(2, las = 1, cex.axis = 1.3, at = pts2, labels = paste(pts, "M", sep = ""))
+
+
+
+legend("topleft", legend=c("historical", "predicted"),
+       col=c("red", "blue"), lty=1, cex=1.3)
+
+```
+
+
+```{r message=TRUE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9}
+
+finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+finaldat_loss$loss <- 10^finaldat_loss$loss
+finaldat_loss$predictions_loss <- 10^finaldat_loss$predictions_loss
+
+finaldat_loss <- subset(finaldat_loss, county != "Kootenai" & county != "Clearwater")
+countyvector <- unique(finaldat_loss$county)
+county_rmse_r2 <- data.frame(matrix(ncol =2, nrow = 24))
+county_rmse_r2$county <- countyvector
+colnames(county_rmse_r2) <- c("rmse", "r2", "county")
+
+
+ii = 0
+for (i in countyvector ) {
+
+ii <- ii + 1
+
+#finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
+#finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
+#finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
+
+
+
+
+countyplot <- subset(finaldat_loss, county == i)
+
+yearlist <- data.frame(c(2001:2015))
+colnames(yearlist) <- "year"
+
+countyplot <- merge(countyplot, yearlist, by=("year"), all=T)
+countyplot$predictions_loss[is.na(countyplot$predictions_loss)] <- 0
+countyplot$loss[is.na(countyplot$loss)] <- 0
+
+# 2.1. Average of actual data
+avr_y_actual <- mean(countyplot$loss)
+
+# 2.2. Total sum of squares
+ss_total <- sum((countyplot$loss - avr_y_actual)^2)
+
+# 2.3. Regression sum of squares
+ss_regression <- sum((countyplot$predictions_loss - avr_y_actual)^2)
+
+# 2.4. Residual sum of squares
+ss_residuals <- sum((countyplot$loss - countyplot$predictions_loss)^2)
+
+# 3. R2 Score
+r2 <- round(1 - ss_residuals / ss_total, 2)
+
+RMSE = function(m, o){
+  sqrt(mean((m - o)^2))
+}
+
+MAE <- function(m, o)
+{
+    mean(abs(m - o))
+}
+
+rmse <- round(RMSE(countyplot$predictions_loss, countyplot$loss), 2)
+mae <- round(MAE(countyplot$predictions_loss, countyplot$loss), 2)
+
+
+county_rmse_r2[ii,1] <-  rmse
+county_rmse_r2[ii,2] <- r2
+
+
+#plot all counties combined, by year
+par(mar=c(6, 5.1, 2, 3), family = 'serif', mgp=c(3.5, .6, 0), las=0)
+
+
+
+plot(c(countyplot$loss) ~ c(countyplot$year), cex.lab = 1.5, cex.axis = 1.5, col = "red", 
+     las = 2, yaxt = "n", xaxt = "n", xlab = "Year", ylab = "Wheat/Drought Insurance Loss", main = paste(i, " County, Oregon: R2 = ", r2, " RMSE = ", rmse, sep="") )
+
+lines(countyplot$loss ~ countyplot$year, col = "red")
+points(countyplot$predictions_loss ~ countyplot$year, col = "blue")
+lines(countyplot$predictions_loss ~ countyplot$year, col = "blue")
+
+
+axis(1, countyplot$year, 2001:2015, col.axis = "black", las = 2, cex.axis = 1.5)
+
+pts <- pretty(countyplot$loss / 1000000)
+pts2 <- pretty(countyplot$loss)
+axis(2, las = 1, cex.axis = 1.3, at = pts2, labels = paste(pts, "M", sep = ""))
+
+legend("topright", legend=c("historical", "predicted"),
+       col=c("red", "blue"), lty=1, cex=1.3)
+
+}
+```
+ 
+ 
+ 
+ 
+ 
+ 
