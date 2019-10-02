@@ -1,5 +1,7 @@
 ## Erich Seamon Dissertation Supplementary Materials. "Agricultural Insurance Loss and Relationships to Climate Across the Inland Pacific Northwest Region of the United States" ##
 
+## University of Idaho, College of Natural Resources
+
 The included folders contain analysis code, Rmarkdown, and data for reproducibility.
 
 - /data.  The data folder contains all data.  In order to reproduce analyses, the steps are:
