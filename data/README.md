@@ -1,4 +1,4 @@
-Erich Seamon Dissertation Datasets: "Agricultural Insurance Loss and Relationships to Climate Across the Inland Pacific Northwest Region of the United States"
+##Erich Seamon Dissertation Datasets: "Agricultural Insurance Loss and Relationships to Climate Across the Inland Pacific Northwest Region of the United States"
 
 The following folders contain the available datasets used as part of dissertation analyses, documented in appendices A, B, and C.
 
