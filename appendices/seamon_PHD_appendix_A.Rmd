@@ -1,7 +1,7 @@
 ---
 title: 'Appendix A: Agricultural Insurance Loss and Relationships to Climate across
   the Inland Pacific Northwest Region of the United States'
-author: "Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip Mote, Stephen Lee"
+author: "Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip W. Mote, Stephen S. Lee"
 date: "September 2019"
 output:
   html_document:
@@ -20,7 +20,7 @@ mainfont: serif
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, out.width='600px', out.height='600px', dpi=200)
 
-#rmarkdown::render(input = "/dmine/code/git/paper-PHD1/appendix/paper-PHD1-appendix_EDA.Rmd", output_file = paste("/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_A.html", sep=""))
+#rmarkdown::render(input = "/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_A.Rmd", output_file = paste("/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_A.html", sep=""))
 
 ```
 ![](https://dmine.io/waf/img/Step1.png)
@@ -107,115 +107,44 @@ library(repmis)
 
 #options(scipen=999)
 
-#load original data as txt file 
 
-rma1989 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1989.txt"), 
-sep = "|", header = FALSE, strip.white = TRUE)
+#------add crop insurance data
 
-rma1990 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1990.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/RMA_originaldata_txt.zip"
+#destfile <- "/tmp/RMA_originaldata_txt.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp/RMA_originaldata/"
+#unzip(destfile,exdir=outDir)
 
-rma1991 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1991.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
 
-rma1992 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1992.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
+rma1989 <- read.csv("/tmp/RMA_originaldata/1989.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1990 <- read.csv("/tmp/RMA_originaldata/1990.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1991 <- read.csv("/tmp/RMA_originaldata/1991.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1992 <- read.csv("/tmp/RMA_originaldata/1992.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1993 <- read.csv("/tmp/RMA_originaldata/1993.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1994 <- read.csv("/tmp/RMA_originaldata/1994.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1995 <- read.csv("/tmp/RMA_originaldata/1995.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1996 <- read.csv("/tmp/RMA_originaldata/1996.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1997 <- read.csv("/tmp/RMA_originaldata/1997.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1998 <- read.csv("/tmp/RMA_originaldata/1998.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1999 <- read.csv("/tmp/RMA_originaldata/1999.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2000 <- read.csv("/tmp/RMA_originaldata/2000.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2001 <- read.csv("/tmp/RMA_originaldata/2001.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2002 <- read.csv("/tmp/RMA_originaldata/2002.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2003 <- read.csv("/tmp/RMA_originaldata/2003.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2004 <- read.csv("/tmp/RMA_originaldata/2004.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2005 <- read.csv("/tmp/RMA_originaldata/2005.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2006 <- read.csv("/tmp/RMA_originaldata/2006.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2007 <- read.csv("/tmp/RMA_originaldata/2007.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2008 <- read.csv("/tmp/RMA_originaldata/2008.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2009 <- read.csv("/tmp/RMA_originaldata/2009.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2010 <- read.csv("/tmp/RMA_originaldata/2010.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2011 <- read.csv("/tmp/RMA_originaldata/2011.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2012 <- read.csv("/tmp/RMA_originaldata/2012.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2013 <- read.csv("/tmp/RMA_originaldata/2013.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2014 <- read.csv("/tmp/RMA_originaldata/2014.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2015 <- read.csv("/tmp/RMA_originaldata/2015.txt", sep = "|", header = FALSE, strip.white = TRUE)
 
-rma1993 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1993.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1994 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1994.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1995 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1995.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1996 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1996.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1997 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1997.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1998 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1998.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1999 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1999.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2000 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2000.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2001 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2001.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2002 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2002.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2003 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2003.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2004 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2004.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2005 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2005.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2006 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2006.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2007 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2007.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2008 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2008.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2009 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2009.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2010 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2010.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2011 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2011.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2012 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2012.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2013 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2013.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2014 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2014.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2015 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2015.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
 
 #load individual files from 1989 to 2000
 RMA_1989 <- rbind(rma1989, rma1990, rma1991, rma1992, rma1993, rma1994, rma1995, rma1996, rma1997, rma1998, rma1999, rma2000)
@@ -394,11 +323,11 @@ library(dplyr)
 library(raster)
 library(htmltools)
 
-URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
-destfile <- "/tmp/states_conus.zip"
-download.file(URL, destfile)
-outDir<-"/tmp"
-unzip(destfile,exdir=outDir)
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
+#destfile <- "/tmp/states_conus.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
 states <- readShapePoly('/tmp/states_conus.shp',
                         proj4string=CRS
@@ -406,11 +335,11 @@ states <- readShapePoly('/tmp/states_conus.shp',
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 
-URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/threestate_boundary.zip"
-destfile <- "/tmp/threestate_boundary.zip"
-download.file(URL, destfile)
-outDir<-"/tmp"
-unzip(destfile,exdir=outDir)
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/threestate_boundary.zip"
+#destfile <- "/tmp/threestate_boundary.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
     
 threestates <- readShapePoly('/tmp/threestate_boundary.shp', 
                                   proj4string=CRS
@@ -420,33 +349,33 @@ threestates <- readShapePoly('/tmp/threestate_boundary.shp',
 
 #setwd("/dmine/data/counties/")
         
-URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_willamette.zip"
-destfile <- "/tmp/threestate_willamette.zip"
-download.file(URL, destfile)
-outDir<-"/tmp"
-unzip(destfile,exdir=outDir)
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_willamette.zip"
+#destfile <- "/tmp/threestate_willamette.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
 counties_willamette <- readShapePoly('/tmp/threestate_willamette.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
-URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_southernID.zip"
-destfile <- "/tmp/threestate_southernID.zip"
-download.file(URL, destfile)
-outDir<-"/tmp"
-unzip(destfile,exdir=outDir)
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_southernID.zip"
+#destfile <- "/tmp/threestate_southernID.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
 counties_ID <- readShapePoly('/tmp/threestate_southernID.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
-URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
-destfile <- "/tmp/threestate_palouse.zip"
-download.file(URL, destfile)
-outDir<-"/tmp"
-unzip(destfile,exdir=outDir)
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
+#destfile <- "/tmp/threestate_palouse.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
 counties_palouse <- readShapePoly('/tmp/threestate_palouse.shp',
                      proj4string=CRS
@@ -491,9 +420,18 @@ addScaleBar(mapz, position = c("bottomright"), options = scaleBarOptions())
 Here we examine the PNW region's insurance loss by year, damage cause, and commodity, and county, from 1989 to 2015.  From the results of this examination, we narrow our time frame to 2001 to 2015. 
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+library(htmlTable)
+library(gridExtra)
+
 #palouse_sumloss_aggregate <- subset(palouse_sumloss_aggregate, year >= 2001 & year <= 2015)
 
 #palouse_sumloss_1989_2015 <- subset(palouse_sumloss_aggregate, commodity == "WHEAT")
+RMA_PNW2 <- RMA_PNW[-8]
+RMA_PNW2 <- RMA_PNW2[-9]
+RMA_PNW2 <- RMA_PNW2[-9]
+
+RMA_all <- rbind(RMA_PNW_1989, RMA_PNW2)
+
 
 #barplot of 1989 to 2015
 
@@ -508,9 +446,12 @@ RMA_PNW_aggregates_d <- aggregate(RMA_PNW$loss, by=list(RMA_PNW$damagecause), FU
 RMA_PNW_1989_aggregates_d <- aggregate(RMA_PNW_1989$loss, by=list(RMA_PNW_1989$damagecause), FUN = "sum")
 RMA_allyear_d <- rbind(RMA_PNW_1989_aggregates_d, RMA_PNW_aggregates_d)
 colnames(RMA_allyear_d) <- c("Damagecause", "Loss")
+
+RMA_allyear_d <- aggregate(RMA_allyear_d$Loss, list(RMA_allyear_d$Damagecause), FUN = "sum")
+colnames(RMA_allyear_d) <- c("Damagecause", "Loss")
 RMA_allyear_d <- RMA_allyear_d[order(-RMA_allyear_d$Loss),] 
 
-par(mar=c(12, 8.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(14, 8.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
 #levels(YYY1$commodity)[1] <- "ADJ GROSS REVENUE"
 barplot(RMA_allyear$Loss, names.arg = RMA_allyear$Year, las = 3, main = "", yaxt="n", col = "lightblue", xlab = "", cex.main = 1.9, cex.lab = 1.9, cex.names = 1.9, font.lab = 1, font.axis = 1) 
 graphics::title(main = "PNW total insurance loss by \ndamage cause: 1989 to 2015", line = 1, adj = 0, cex.main = 3)
@@ -519,7 +460,7 @@ pts2 <- pretty(RMA_allyear$Loss)
 axis(2, las = 1, cex.axis = 1.9, at = pts2, labels = paste(pts, "M", sep = ""))
 #abline(v = 14.5, lty = 2, color = "red")
 
-mtext("Year", cex = 1.9, side=1, line=6)
+mtext("Year", cex = 1.9, side=1, line=8)
 mtext("Insurance Claim Loss ($)", cex = 1.9, side=2, line=6.5)
 
 
@@ -602,7 +543,7 @@ htmlTable(dd3,
 
 #--barplot of damage causes from 2001 to 2015
 
-levels(YYY1$damagecause)[8] <- "Excessive Moisture"
+levels(YYY1$damagecause)[10] <- "Excessive Moisture"
 par(mar=c(18, 8.1, 6, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 #levels(YYY1$commodity)[1] <- "ADJ GROSS REVENUE"
 barplot(YYY1$loss, names.arg = YYY1$damagecause, las = 3, main = "", yaxt="n", col = "lightblue", xlab = "", cex.main = 1.9, cex.lab = 1.9, cex.names = 1.9, font.lab = 1, font.axis = 1) 
@@ -651,9 +592,10 @@ dd2[is.na(dd2)] <- ""
 
 YYY1$commodity <- tolower(YYY1$commodity)
 YYY1$commodity <- stri_trans_general(YYY1$commodity, id = "Title")
+YYY1$commodity <- factor(YYY1$commodity)
 
-par(mar=c(14, 7.5, 6, 2.1), family = 'serif', mgp=c(7, 1, 0), las=0)
-#levels(YYY1$commodity)[1] <- "ADJ GROSS REVENUE"
+par(mar=c(18, 7.5, 6, 2.1), family = 'serif', mgp=c(7, 1, 0), las=0)
+levels(YYY1$commodity)[1] <- "Gross Revenue"
 barplot(YYY1$loss, names.arg = YYY1$commodity, las = 3, yaxt="n", col = "lightblue", cex.main = 1.5, cex.lab = 1.4, cex.names = 1.9, font.lab = 1, font.axis = 1) 
 graphics::title(main = "PNW total insurance loss by \ncommodity: 2001 to 2015", line = 1, adj = 0, cex.main = 3)
 pts <- pretty(YYY1$loss / 1000000)
@@ -662,7 +604,7 @@ axis(2, las = 1, cex.axis = 1.9, at = pts2, labels = paste(pts, "M", sep = ""))
 #abline(v = 14.5, lty = 2, color = "red")
 
 mtext("Insurance Claim Loss ($)", cex = 1.9, side=2, line=6)
-mtext("Commodity", cex = 1.9, side=1, line=8)
+mtext("Commodity", cex = 1.9, side=1, line=15)
 
 
 htmlTable(dd2,
@@ -844,13 +786,15 @@ levels(palouse_sumloss_1989_2015_count2$damagecause)[11] <- "Other"
 palouse_sumloss_1989_2015_count$commodity <- tolower(palouse_sumloss_1989_2015_count$commodity)
 palouse_sumloss_1989_2015_count$commodity <- stri_trans_general(palouse_sumloss_1989_2015_count$commodity, id = "Title")
 
-par(mar=c(9.5, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(12, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 
+palouse_sumloss_1989_2015_count$commodity <- factor(palouse_sumloss_1989_2015_count$commodity)
+levels(palouse_sumloss_1989_2015_count$commodity)[1] <- "Gross Revenue-Lite"
 boxplot(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, col = 'lightblue', ylab = "Insurance Claim Frequency", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_count$commodity, las = 3, cex.axis = 1.4, cex.main = 1.4, cex.lab = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_count$loss), labels = pretty(palouse_sumloss_1989_2015_count$loss))
 
 stripchart(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 graphics::title(xlab="Commodity", line=7.5, cex.lab = 1.4)
 graphics::title(main="PNW insurance claims by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
@@ -866,7 +810,7 @@ graphics::title(xlab="Damage Cause", line=11.5, cex.lab = 1.4)
 graphics::title(main="PNW insurance claims by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
 stripchart(palouse_sumloss_1989_2015_count2$loss ~ palouse_sumloss_1989_2015_count2$damagecause, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 
 par(mar=c(8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
@@ -885,7 +829,7 @@ axis(2, las = 1, cex.axis = 1.4, at = pts2, labels = paste(pts, "M", sep = ""))
 #abline(v = 14.5, lty = 2, color = "red")
 
 stripchart(palouse_sumloss_1989_2015_loss$loss ~ palouse_sumloss_1989_2015_loss$commodity, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 graphics::title(xlab="Commodity", line=6, cex.lab = 1.4)
 graphics::title(main="PNW insurance loss by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
@@ -903,14 +847,14 @@ pts2 <- pretty(palouse_sumloss_1989_2015_loss2$loss)
 axis(2, las = 1, cex.axis = 1.2, at = pts2, labels = paste(pts, "M", sep = ""))
 
 stripchart(palouse_sumloss_1989_2015_loss2$loss ~ palouse_sumloss_1989_2015_loss2$damagecause, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 graphics::title(xlab="Damage Cause", line=11, cex.lab = 1.4)
 graphics::title(main="PNW insurance loss by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
 
 
-par(mar=c(11.5, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(14, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 
 palouse_sumloss_1989_2015_lossperacres$commodity <- tolower(palouse_sumloss_1989_2015_lossperacres$commodity)
 palouse_sumloss_1989_2015_lossperacres$commodity <- stri_trans_general(palouse_sumloss_1989_2015_lossperacres$commodity, id = "Title")
@@ -920,16 +864,27 @@ palouse_sumloss_1989_2015_lossperacres[ palouse_sumloss_1989_2015_lossperacres =
 palouse_sumloss_1989_2015_lossperacres[ palouse_sumloss_1989_2015_lossperacres == "Inf" ] <- 0
 
 
+
+palouse_sumloss_1989_2015_lossperacres$commodity <- factor(palouse_sumloss_1989_2015_lossperacres$commodity)
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[2] <- "Gross Revenue-Lite"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[39] <- "Revenue Protection"
+
+
 boxplot(palouse_sumloss_1989_2015_lossperacres$loss ~ palouse_sumloss_1989_2015_lossperacres$commodity, col = 'lightblue', ylab = "Insurance Claim Loss per Acre ($)", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres$commodity, las = 3, cex.axis = 1.4, cex.main = 1.4, cex.lab = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1, outline = FALSE)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_lossperacres$loss), labels = pretty(palouse_sumloss_1989_2015_lossperacres$loss))
 
 stripchart(palouse_sumloss_1989_2015_lossperacres$loss ~ palouse_sumloss_1989_2015_lossperacres$commodity, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 graphics::title(xlab="Commodity", line=10.5, cex.lab = 1.4)
 graphics::title(main="PNW insurance loss per acre by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
 par(mar=c(11.8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+
+palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[19] <- "Hurricanes/Trop Dep"
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[30] <- "No Prep for Irr"
 
 boxplot(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2015_lossperacres2$damagecause, col = 'lightblue', ylab = "Insurance Caim Loss per Acre ($)",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres2$damagecause, las = 3, cex.main = 1.5, cex.lab = 1.4, cex.axis = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1, outline = FALSE)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_lossperacres2$loss), labels = pretty(palouse_sumloss_1989_2015_lossperacres2$loss))
@@ -938,7 +893,7 @@ graphics::title(xlab="Damage Cause", line=10.5, cex.lab = 1.4)
 graphics::title(main="PNW insurance loss per acre by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
 stripchart(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2015_lossperacres2$damagecause, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 #model_count <- glm(formula = log(loss) ~ damagecause + commodity, family = "poisson", data = palouse_sumloss_1989_2015_count)
 
@@ -997,11 +952,11 @@ library(htmltools)
 #--irrigation analysis 2018
 
 
-URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
-destfile <- "/tmp/threestate_palouse.zip"
-download.file(URL, destfile)
-outDir<-"/tmp"
-unzip(destfile,exdir=outDir)
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
+#destfile <- "/tmp/threestate_palouse.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
 counties <- readShapePoly('/tmp/threestate_palouse.shp',
                      proj4string=CRS
@@ -1187,8 +1142,8 @@ par(mar=c(9.5, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 boxplot(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, col = 'lightblue', ylab = "Insurance Claim Frequency", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_count$commodity, las = 3, cex.axis = 1.4, cex.main = 1.4, cex.lab = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_count$loss), labels = pretty(palouse_sumloss_1989_2015_count$loss))
 
-#stripchart(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, vertical = TRUE,  
-#    method = "jitter", add = TRUE, pch = 20, col=unique(as.numeric(palouse_sumloss_1989_2015_count$state)) )
+stripchart(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue" )
 
 graphics::title(xlab="Commodity", line=7.5, cex.lab = 1.4)
 graphics::title(main="IPNW insurance claims by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
@@ -1203,6 +1158,8 @@ axis(2, las = 1, cex.axis = 1.2, at = pretty(palouse_sumloss_1989_2015_count2$lo
 graphics::title(xlab="Damage Cause", line=11.5, cex.lab = 1.4)
 graphics::title(main="IPNW insurance claims by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
+stripchart(palouse_sumloss_1989_2015_count2$loss ~ palouse_sumloss_1989_2015_count2$damagecause, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue" )
 
 
 par(mar=c(8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
@@ -1219,8 +1176,8 @@ pts <- pretty(palouse_sumloss_1989_2015_loss$loss / 1000000)
 pts2 <- pretty(palouse_sumloss_1989_2015_loss$loss)
 axis(2, las = 1, cex.axis = 1.4, at = pts2, labels = paste(pts, "M", sep = ""))
 #abline(v = 14.5, lty = 2, color = "red")
-#stripchart(palouse_sumloss_1989_2015_loss$loss ~ palouse_sumloss_1989_2015_loss$commodity, vertical = TRUE,  
-#    method = "jitter", add = TRUE, pch = 20, col=unique(as.numeric(palouse_sumloss_1989_2015_loss$state)) )
+stripchart(palouse_sumloss_1989_2015_loss$loss ~ palouse_sumloss_1989_2015_loss$commodity, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue")
 
 graphics::title(xlab="Commodity", line=6, cex.lab = 1.4)
 graphics::title(main="IPNW insurance loss by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
@@ -1236,8 +1193,8 @@ boxplot(palouse_sumloss_1989_2015_loss2$loss ~ palouse_sumloss_1989_2015_loss2$d
 pts <- pretty(palouse_sumloss_1989_2015_loss2$loss / 1000000)
 pts2 <- pretty(palouse_sumloss_1989_2015_loss2$loss)
 axis(2, las = 1, cex.axis = 1.2, at = pts2, labels = paste(pts, "M", sep = ""))
-#stripchart(palouse_sumloss_1989_2015_loss2$loss ~ palouse_sumloss_1989_2015_loss2$damagecause, vertical = TRUE,  
- #   method = "jitter", add = TRUE, pch = 20, col=unique(as.numeric(palouse_sumloss_1989_2015_loss2$state)) )
+stripchart(palouse_sumloss_1989_2015_loss2$loss ~ palouse_sumloss_1989_2015_loss2$damagecause, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue" )
 
 graphics::title(xlab="Damage Cause", line=11, cex.lab = 1.4)
 graphics::title(main="IPNW insurance loss by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
@@ -1249,22 +1206,39 @@ par(mar=c(11.5, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 palouse_sumloss_1989_2015_lossperacres$commodity <- tolower(palouse_sumloss_1989_2015_lossperacres$commodity)
 palouse_sumloss_1989_2015_lossperacres$commodity <- stri_trans_general(palouse_sumloss_1989_2015_lossperacres$commodity, id = "Title")
 
+palouse_sumloss_1989_2015_lossperacres$commodity <- factor(palouse_sumloss_1989_2015_lossperacres$commodity)
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[1] <- "Gross Revenue"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[2] <- "Gross Revenue-Lite"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[33] <- "Farm Rev Protection"
+
 boxplot(palouse_sumloss_1989_2015_lossperacres$loss ~ palouse_sumloss_1989_2015_lossperacres$commodity, col = 'lightblue', ylab = "Insurance Claim Loss per Acre ($)", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres$commodity, las = 3, cex.axis = 1.4, cex.main = 1.4, cex.lab = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1, outline = FALSE)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_lossperacres$loss), labels = pretty(palouse_sumloss_1989_2015_lossperacres$loss))
 
-#stripchart(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, vertical = TRUE,  
-#    method = "jitter", add = TRUE, pch = 20, col=unique(as.numeric(palouse_sumloss_1989_2015_count$state)) )
+stripchart(palouse_sumloss_1989_2015_lossperacres$loss ~ palouse_sumloss_1989_2015_lossperacres$commodity, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue" )
 
 graphics::title(xlab="Commodity", line=10.5, cex.lab = 1.4)
 graphics::title(main="IPNW insurance loss per acre by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
 par(mar=c(11.8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 
+
+palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[20] <- "Snow/Lightning"
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[27] <- "No Prep for Irr"
+palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[26] <- "No Prep for Irr"
+palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
+
+
 boxplot(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2015_lossperacres2$damagecause, col = 'lightblue', ylab = "Insurance Caim Loss per Acre ($)",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres2$damagecause, las = 3, cex.main = 1.5, cex.lab = 1.4, cex.axis = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1, outline = FALSE)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_lossperacres2$loss), labels = pretty(palouse_sumloss_1989_2015_lossperacres2$loss))
 
 graphics::title(xlab="Damage Cause", line=10.5, cex.lab = 1.4)
 graphics::title(main="IPNW insurance loss per acre by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
+
+stripchart(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2015_lossperacres2$damagecause, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue" )
 
 
 ```

@@ -1,6 +1,6 @@
 ---
 title: 'Appendix B: Agricultural Insurance Loss and Relationships to Climate across the Inland Pacific Northwest Region of the United States'
-author: "Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip Mote, Stephen Lee"
+author: "Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip W. Mote, Stephen S. Lee"
 date: "September 2019"
 output:
   html_document:
@@ -19,7 +19,8 @@ mainfont: serif
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, out.width='600px', out.height='600px', dpi=200)
 
-#rmarkdown::render(input = "/dmine/code/git/paper-PHD1/appendix/paper-PHD1-appendix_PCA.Rmd", output_file = paste("/tmp/seamon_PHD_appendix_B.html", sep=""))
+#rmarkdown::render(input = "/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_B.Rmd", output_file = paste("/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_B.html", sep=""))
+
 
 ```
 ![](https://dmine.io/waf/img/Step1.png)
@@ -113,115 +114,44 @@ library(repmis)
 
 #options(scipen=999)
 
-#load original data as txt file 
 
-rma1989 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1989.txt"), 
-sep = "|", header = FALSE, strip.white = TRUE)
+#------add crop insurance data
 
-rma1990 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1990.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/RMA_originaldata_txt.zip"
+#destfile <- "/tmp/RMA_originaldata_txt.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp/RMA_originaldata/"
+#unzip(destfile,exdir=outDir)
 
-rma1991 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1991.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
 
-rma1992 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1992.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
+rma1989 <- read.csv("/tmp/RMA_originaldata/1989.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1990 <- read.csv("/tmp/RMA_originaldata/1990.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1991 <- read.csv("/tmp/RMA_originaldata/1991.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1992 <- read.csv("/tmp/RMA_originaldata/1992.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1993 <- read.csv("/tmp/RMA_originaldata/1993.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1994 <- read.csv("/tmp/RMA_originaldata/1994.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1995 <- read.csv("/tmp/RMA_originaldata/1995.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1996 <- read.csv("/tmp/RMA_originaldata/1996.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1997 <- read.csv("/tmp/RMA_originaldata/1997.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1998 <- read.csv("/tmp/RMA_originaldata/1998.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1999 <- read.csv("/tmp/RMA_originaldata/1999.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2000 <- read.csv("/tmp/RMA_originaldata/2000.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2001 <- read.csv("/tmp/RMA_originaldata/2001.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2002 <- read.csv("/tmp/RMA_originaldata/2002.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2003 <- read.csv("/tmp/RMA_originaldata/2003.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2004 <- read.csv("/tmp/RMA_originaldata/2004.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2005 <- read.csv("/tmp/RMA_originaldata/2005.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2006 <- read.csv("/tmp/RMA_originaldata/2006.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2007 <- read.csv("/tmp/RMA_originaldata/2007.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2008 <- read.csv("/tmp/RMA_originaldata/2008.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2009 <- read.csv("/tmp/RMA_originaldata/2009.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2010 <- read.csv("/tmp/RMA_originaldata/2010.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2011 <- read.csv("/tmp/RMA_originaldata/2011.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2012 <- read.csv("/tmp/RMA_originaldata/2012.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2013 <- read.csv("/tmp/RMA_originaldata/2013.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2014 <- read.csv("/tmp/RMA_originaldata/2014.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2015 <- read.csv("/tmp/RMA_originaldata/2015.txt", sep = "|", header = FALSE, strip.white = TRUE)
 
-rma1993 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1993.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1994 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1994.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1995 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1995.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1996 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1996.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1997 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1997.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1998 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1998.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma1999 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/1999.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2000 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2000.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2001 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2001.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2002 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2002.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2003 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2003.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2004 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2004.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2005 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2005.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2006 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2006.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2007 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2007.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2008 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2008.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2009 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2009.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2010 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2010.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2011 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2011.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2012 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2012.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2013 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2013.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2014 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2014.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
-
-rma2015 <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/2015.txt"), 
-header = FALSE, strip.white = TRUE, sep = "|")
 
 #load individual files from 1989 to 2000
 RMA_1989 <- rbind(rma1989, rma1990, rma1991, rma1992, rma1993, rma1994, rma1995, rma1996, rma1997, rma1998, rma1999, rma2000)
@@ -354,7 +284,9 @@ sumloss_nonpalouse <- RMA_damage_PNW[!RMA_damage_PNW$county %in% palousecounties
 
 #----
 
+
 ```
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
@@ -367,6 +299,7 @@ In Step 2, we document the following table, which is an example of the original 
 knitr::kable(RMA_PNW[1:10,], format="markdown") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
@@ -379,15 +312,12 @@ In Step 3, the following table is an example of an aggregated dataset derived fr
 knitr::kable(RMA_damage_PNW[1:10,], format="markdown") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
-
-
-<br></br>
-
 ![](https://dmine.io/waf/img/Step1.png)
 
+
 <br></br>
 
-##Step 4: inland Pacific Northwest (iPNW) Study Area
+##Step 4: Inland Pacific Northwest (iPNW) Study Area
 
 In Step 4, we document the 24 county iPNW study area.
 
@@ -401,11 +331,11 @@ library(dplyr)
 library(raster)
 library(htmltools)
 
-URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
-destfile <- "/tmp/states_conus.zip"
-download.file(URL, destfile)
-outDir<-"/tmp"
-unzip(destfile,exdir=outDir)
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
+#destfile <- "/tmp/states_conus.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
 states <- readShapePoly('/tmp/states_conus.shp',
                         proj4string=CRS
@@ -417,13 +347,13 @@ projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 #setwd("/dmine/data/counties/")
 
 
-URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
-destfile <- "/tmp/threestate_palouse.zip"
-download.file(URL, destfile)
-outDir<-"/tmp"
-unzip(destfile,exdir=outDir)
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
+#destfile <- "/tmp/threestate_palouse.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
-counties_palouse <- readShapePoly('/tmp/threestate_palouse.shp',
+counties <- readShapePoly('/tmp/threestate_palouse.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
@@ -483,12 +413,8 @@ addScaleBar(mapz, position = c("topright"), options = scaleBarOptions())
 
 
 ```
-
-
-
-<br></br>
-
 ![](https://dmine.io/waf/img/Step1.png)
+
 
 <br></br>
 
@@ -499,6 +425,8 @@ In Step 5, we perform a PCA for the insurance loss for the entire PNW, by county
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
+library(ggplot2)
+library(ggfortify)
 #PNW by commodity
 
 library(reshape2) ; RMA_damage_PNW_transformed_commodity <- dcast(RMA_damage_PNW, county + state ~ commodity, value.var = c("loss"), sum)
@@ -540,6 +468,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 
 ```
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
@@ -549,6 +478,10 @@ In Step 6, we perform a PCA for the insurance loss for the entire PNW, for all c
 
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+library(ggplot2)
+library(ggfortify)
+
 
   library(reshape2) ; RMA_damage_PNW_transformed_year <- dcast(RMA_damage_PNW, year ~ damagecause, value.var = c("loss"), sum)
 #RMA_damage_PNW_transformed_year$statecounty <- paste(RMA_damage_PNW_transformed_year$county, "_", RMA_damage_PNW_transformed_year$state, sep="")
@@ -586,6 +519,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 
 ```
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
@@ -597,6 +531,8 @@ In Step 7, we perform a PCA for the insurance loss for the entire PNW, for all c
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
+library(ggplot2)
+library(ggfortify)
 
 #PNW damage cause as loadings using months as groups
 
@@ -648,8 +584,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 
 ```
-
-
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
@@ -659,6 +594,8 @@ In Step 8, we perform a PCA for the insurance loss for the entire PNW, for wheat
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
+library(ggplot2)
+library(ggfortify)
 
 #PNW damage cause as loadings using years as groups, JUST FOR WHEAT
 
@@ -698,6 +635,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 
 ```
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
@@ -709,6 +647,9 @@ In Step 9, we perform a PCA for the insurance loss for the entire PNW, for wheat
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
 #PNW wheat
+
+library(ggplot2)
+library(ggfortify)
 
 RMA_damage_PNW_wheat <- subset(RMA_damage_PNW, commodity == "WHEAT")
 
@@ -752,6 +693,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 
 ```
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
@@ -762,6 +704,9 @@ In Step 5, we perform a PCA for the insurance loss for the entire PNW, for apple
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
 #PNW apples
+
+library(ggplot2)
+library(ggfortify)
 
 RMA_damage_PNW_apples <- subset(RMA_damage_PNW, commodity == "APPLES")
 
@@ -802,7 +747,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 
 ```
-
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
@@ -815,6 +760,9 @@ In Step 11, we perform a PCA for the insurance loss for the entire PNW, for barl
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
 #PNW barley
+
+library(ggplot2)
+library(ggfortify)
 
 RMA_damage_PNW_barley <- subset(RMA_damage_PNW, commodity == "BARLEY")
 
@@ -856,11 +804,11 @@ plot(prop_varex, xlab = "Principal Component",
 
 
 ```
-
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
-##Step 12: PCA: IPNW insurance loss by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+##Step 12: PCA: PNW insurance loss by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
 In Step 5, we perform a PCA for the insurance loss for the inland PNW, for all commodities by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
@@ -869,6 +817,9 @@ In Step 5, we perform a PCA for the insurance loss for the inland PNW, for all c
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
 #all PNW by damage
+
+library(ggplot2)
+library(ggfortify)
 
   library(reshape2) ; RMA_damage_PNW_transformed <- dcast(RMA_damage_PNW, county + state ~ damagecause, value.var = c("loss"), sum)
 RMA_damage_PNW_transformed$statecounty <- paste(RMA_damage_PNW_transformed$county, "_", RMA_damage_PNW_transformed$state, sep="")
@@ -903,17 +854,21 @@ plot(prop_varex, xlab = "Principal Component",
 
 
 ```
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
-##Step 13: PCA: IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+##Step 13: PCA: WHEAT IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
-In Step 5, we perform a PCA for the insurance loss for the inland PNW, for all commodities by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
+In Step 5, we perform a PCA for the insurance loss for the inland PNW, for WHEAT by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
 #just the IPNW
+
+library(ggplot2)
+library(ggfortify)
 
 RMA_damage_IPNW$log10loss <- log10(RMA_damage_IPNW$loss)
 
@@ -932,9 +887,34 @@ pca_RMA_damage_IPNW_exogenous <- prcomp(RMA_damage_IPNW_exogenous, scale = TRUE,
 
 RMA_damage_IPNW_exogenous_factor <- cbind(RMA_damage_IPNW_exogenous[2:3], RMA_damage_IPNW_exogenous[5:6], RMA_damage_IPNW_exogenous[8], RMA_damage_IPNW_exogenous[11], RMA_damage_IPNW_exogenous[13:14], RMA_damage_IPNW_exogenous[16:17])
 
-fit <- princomp(RMA_damage_IPNW_exogenous_factor, cor=TRUE)
+fit <- prcomp(RMA_damage_IPNW_exogenous_factor, cor=TRUE, center = TRUE, scale = TRUE)
 
-ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous_factor, scale = TRUE, center = TRUE), frame = TRUE, frame.type = 'norm', data = RMA_damage_IPNW_transformed, colour = 'state', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 2, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous)) + theme(legend.position = "none") + ggtitle("Principle Components: IPNW insurance loss\nby county with damage cause loadings ") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
+comp <- data.frame(fit$x[,1:2])
+# Plot
+#plot(comp, pch=16, col=rgb(0,0,0,0.5))
+
+
+wss <- (nrow(RMA_damage_IPNW_exogenous_factor)-1)*sum(apply(RMA_damage_IPNW_exogenous_factor,2,var))
+for (i in 1:23) wss[i] <- sum(kmeans(RMA_damage_IPNW_exogenous_factor,
+                                     centers=i)$withinss)
+plot(1:23, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares", main = "KMeans COUNTIES Elbow Plot")
+
+```
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+k <- kmeans(comp, 4, nstart=25, iter.max=1000)
+library(RColorBrewer)
+library(scales)
+palette(alpha(brewer.pal(9,'Set2'), 1))
+#plot(comp, col=k$clust, pch=2)
+
+
+kclust <- data.frame(k$clust)
+kclust$k.clust <- factor(kclust$k.clust)
+
+ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous_factor, scale = TRUE, center = TRUE), frame = TRUE, frame.type = 'norm', data = kclust, colour = 'k.clust', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 4, label = FALSE, label.size = 3, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous)) + theme(legend.position = "none") + ggtitle("Principle Components: IPNW insurance loss\nby county with damage cause loadings ") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))  + theme(legend.position="bottom") 
 
 ```
 
@@ -958,20 +938,200 @@ plot(prop_varex, xlab = "Principal Component",
 
 
 ```
-
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
-##Step 14: PCA: IPNW insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
+##Step 14: PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: PC1 and PC2 table
 
-In Step 5, we perform a PCA for the insurance loss for the inland PNW, for all commodities by year, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
+In Step 14, we summarize our PCA findings for the inland PNW, for wheat by county, using damage cause as the factor loadings.  Here we plot PC1 and PC2 loadings.
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+#--create table of PC1 and PC2 loadings
+
+PC_table <- cbind(fit$x[,1], fit$x[,2])
+colnames(PC_table) <- c("PC1", "PC2")
+PC_table <- as.data.frame(PC_table)
+PC_table$PC1 <- round(PC_table$PC1, 3)
+PC_table$PC2 <- round(PC_table$PC2, 3)
+
+htmlTable(PC_table,
+          cgroup = c("2001-2015"),
+          n.cgroup = c(2),
+          caption = "Damage cause variable loadings by COUNTY",
+          align = "c",
+          rnames = rownames(PC_table),
+          css.cell = "padding-left: .5em; padding-right: .5em;")
+
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+<br></br>
+
+##Step 15: PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: Spatial Mapping of PC1 and PC2
+
+In Step 15, we summarize our PCA findings for the inland PNW, for wheat by county, using damage cause as the factor loadings.  We take PC1 and PC2 loadings and plot each as a map.
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+#-map PC loadings
+
+PC1_map <- as.data.frame(fit$x[,1])
+PC1_map$NAME <- rownames(PC1_map)
+colnames(PC1_map) <- c("PC1", "NAME")
+PC1_NAME <- cbind(PC1_map, t(as.data.frame(strsplit(PC1_map$NAME, split='_', fixed=TRUE))))
+colnames(PC1_NAME) <- c("PC1", "Statecounty", "NAME", "STATE")
+
+PC1_map <- merge(counties, PC1_NAME, by=c("NAME"), all = FALSE)
+
+PC2_map <- as.data.frame(fit$x[,2])
+PC2_map$NAME <- rownames(PC2_map)
+colnames(PC2_map) <- c("PC2", "NAME")
+PC2_NAME <- cbind(PC2_map, t(as.data.frame(strsplit(PC2_map$NAME, split='_', fixed=TRUE))))
+colnames(PC2_NAME) <- c("PC2", "Statecounty", "NAME", "STATE")
+
+PC2_map <- merge(counties, PC2_NAME, by=c("NAME"), all = FALSE)
+
+
+#PC1 map
+
+#-----
+
+PC1_map$PC1[is.na(PC1_map$PC1)] <- 0
+
+ 
+## Make vector of colors for values smaller than 0 (20 colors)
+rc1 <- colorRampPalette(colors = c("blue", "lightblue", "white"), space = "Lab")(14)
+
+## Make vector of colors for values larger than 0 (180 colors)
+rc2 <- colorRampPalette(colors = c("white", "red"), space = "Lab")(8)
+
+## Combine the two color palettes
+rampcols <- c(rc1, rc2)
+
+
+
+# pal <- colorNumeric(colorRampPalette(c("blue", "lightblue", "white", "lightpink", "red"))(7), na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))
+ pal <- colorNumeric(palette = rampcols, na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))
+
+map <- leaflet(data = PC1_map, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.1)) %>%  
+  addProviderTiles(providers$Hydda.Base) %>%
+   addProviderTiles(providers$Stamen.TonerLines) %>%
+  
+  addMiniMap(
+    tiles = providers$Stamen.TonerLite,
+    position = 'topleft', 
+    width = 100, height = 100,
+    toggleDisplay = FALSE) %>%
+  
+  
+   #addControl(title, position = "topleft", className="map-title") %>%
+  
+  
+  fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(PC1_map$PC1),  fillOpacity = .8, weight = 1, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% addPolygons(data = states, fillOpacity = 0, weight = 4, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% 
+  
+    addLegend(pal = pal, values = na.omit(~PC1), group = "circles", title = paste("PC1 Loadings", sep = ""), na.label = "", position = "topright") %>%
+
+  
+  #label = lapply(labs, HTML),
+
+addLabelOnlyMarkers(data = PC2_map, lng = lat_long[,1], lat = lat_long[,2],  label = lapply(round(PC1_map$PC1, 2), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "20px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
+)) 
+        
+addScaleBar(map, position = c("topright"), options = scaleBarOptions())
+```
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+#-map PC loadings
+
+PC1_map <- as.data.frame(fit$x[,1])
+PC1_map$NAME <- rownames(PC1_map)
+colnames(PC1_map) <- c("PC1", "NAME")
+PC1_NAME <- cbind(PC1_map, t(as.data.frame(strsplit(PC1_map$NAME, split='_', fixed=TRUE))))
+colnames(PC1_NAME) <- c("PC1", "Statecounty", "NAME", "STATE")
+
+PC1_map <- merge(counties, PC1_NAME, by=c("NAME"), all = FALSE)
+
+PC2_map <- as.data.frame(fit$x[,2])
+PC2_map$NAME <- rownames(PC2_map)
+colnames(PC2_map) <- c("PC2", "NAME")
+PC2_NAME <- cbind(PC2_map, t(as.data.frame(strsplit(PC2_map$NAME, split='_', fixed=TRUE))))
+colnames(PC2_NAME) <- c("PC2", "Statecounty", "NAME", "STATE")
+
+PC2_map <- merge(counties, PC2_NAME, by=c("NAME"), all = FALSE)
+
+
+#PC1 map
+
+#-----
+
+PC1_map$PC1[is.na(PC1_map$PC1)] <- 0
+
+ 
+## Make vector of colors for values smaller than 0 (20 colors)
+rc1 <- colorRampPalette(colors = c("blue", "lightblue", "white"), space = "Lab")(14)
+
+## Make vector of colors for values larger than 0 (180 colors)
+rc2 <- colorRampPalette(colors = c("white", "red"), space = "Lab")(8)
+
+## Combine the two color palettes
+rampcols <- c(rc1, rc2)
+
+
+
+# pal <- colorNumeric(colorRampPalette(c("blue", "lightblue", "white", "lightpink", "red"))(7), na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))
+ pal <- colorNumeric(palette = rampcols, na.color = "#ffffff",domain = eval(parse(text=paste("PC2_map$", "PC2", sep=""))))
+
+map <- leaflet(data = PC2_map, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.1)) %>%  
+  addProviderTiles(providers$Hydda.Base) %>%
+   addProviderTiles(providers$Stamen.TonerLines) %>%
+  
+  addMiniMap(
+    tiles = providers$Stamen.TonerLite,
+    position = 'topleft', 
+    width = 100, height = 100,
+    toggleDisplay = FALSE) %>%
+  
+  
+   #addControl(title, position = "topleft", className="map-title") %>%
+  
+  
+  fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(PC2_map$PC2),  fillOpacity = .8, weight = 1, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% addPolygons(data = states, fillOpacity = 0, weight = 4, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% 
+  
+    addLegend(pal = pal, values = na.omit(~PC2), group = "circles", title = paste("PC2 Loadings", sep = ""), na.label = "", position = "topright") %>%
+
+  
+  #label = lapply(labs, HTML),
+
+addLabelOnlyMarkers(data = PC2_map, lng = lat_long[,1], lat = lat_long[,2],  label = lapply(round(PC2_map$PC2, 2), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "20px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
+)) 
+        
+addScaleBar(map, position = c("topright"), options = scaleBarOptions())
+```
+![](https://dmine.io/waf/img/Step1.png)
+
+<br></br>
+
+##Step 16: PCA: IPNW insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
+
+In Step 16, we perform a PCA for the insurance loss for the inland PNW, for all commodities by year, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
 #IPNW damage cause as loadings using years as groups
 
- library(reshape2) ; RMA_damage_IPNW_transformed_year <- dcast(RMA_damage_IPNW, year ~ damagecause, value.var = c("loss"), sum)
+library(ggplot2)
+library(ggfortify)
+
+RMA_damage_IPNW_wheat <- subset(RMA_damage_IPNW, commodity == "WHEAT")
+
+
+ library(reshape2) ; RMA_damage_IPNW_transformed_year <- dcast(RMA_damage_IPNW_wheat, year ~ damagecause, value.var = c("loss"), sum)
 #RMA_damage_PNW_transformed_year$statecounty <- paste(RMA_damage_PNW_transformed_year$county, "_", RMA_damage_PNW_transformed_year$state, sep="")
 rownames(RMA_damage_IPNW_transformed_year) <- RMA_damage_IPNW_transformed_year$year
 #RMA_damage_IPNW_exogenous_year <- RMA_damage_IPNW_transformed_year[,2:28]
@@ -979,11 +1139,36 @@ RMA_damage_IPNW_exogenous_year <- RMA_damage_IPNW_transformed_year
 
 #IPNW with years as the group
 
-RMA_damage_IPNW_exogenous_year <- cbind(RMA_damage_IPNW_exogenous_year[3:4], RMA_damage_IPNW_exogenous_year[7], RMA_damage_IPNW_exogenous_year[9], RMA_damage_IPNW_exogenous_year[,12:15], RMA_damage_IPNW_exogenous_year[18:19])
+RMA_damage_IPNW_exogenous_year <- cbind(RMA_damage_IPNW_exogenous_year[3:4], RMA_damage_IPNW_exogenous_year[7], RMA_damage_IPNW_exogenous_year[9], RMA_damage_IPNW_exogenous_year[,12:15], RMA_damage_IPNW_exogenous_year[18])
 
-fit <- princomp(RMA_damage_IPNW_exogenous_year, cor=TRUE)
+fit <- prcomp(RMA_damage_IPNW_exogenous_year, cor=TRUE, center = TRUE, scale = TRUE)
 
-ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous_year, center = TRUE, scale = TRUE), data = RMA_damage_IPNW_transformed_year, loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 2, legend = FALSE)  + theme_bw()  + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous_year)) + theme(legend.position = "none") + ggtitle("Principle Components: IPNW insurance loss\nby year with damage cause loadings") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
+wss <- (nrow(RMA_damage_IPNW_exogenous_year)-1)*sum(apply(RMA_damage_IPNW_exogenous_year,2,var))
+for (i in 1:14) wss[i] <- sum(kmeans(RMA_damage_IPNW_exogenous_year,
+                                     centers=i)$withinss)
+plot(1:14, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares", main = "Kmeans YEARS elbow plot")
+
+```
+
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+comp <- data.frame(fit$x[,1:3])
+
+k <- kmeans(comp, 3, nstart=25, iter.max=1000)
+library(RColorBrewer)
+library(scales)
+palette(alpha(brewer.pal(9,'Set2'), 1))
+#plot(comp, col=k$clust, pch=2)
+
+kclust <- data.frame(k$clust)
+kclust$k.clust <- factor(kclust$k.clust)
+
+#ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous_year, center = TRUE, scale = TRUE), colour = 'k.clust', data = kclust, loadings = TRUE, loadings.label = FALSE, loadings.label.size  = 6, label = FALSE, label.size = 5, legend = FALSE)  + theme_bw()  + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous_year)) + theme(legend.position = "none") + ggtitle("Principle Components: IPNW insurance loss\nby year with damage cause loadings") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif")) 
+
+ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous_year, scale = TRUE, center = TRUE), frame = TRUE, frame.type = 'norm', data = kclust, colour = 'k.clust', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 4, label = FALSE, label.size = 3, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous_year)) + theme(legend.position = "none") + ggtitle("Principle Components: IPNW insurance loss\nby year with damage cause loadings ") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif")) + theme(legend.position="bottom") 
 
 #ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE), data = RMA_damage_IPNW_transformed, colour = 'county', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 3, legend = FALSE) + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous)) + theme(legend.position = "none")
 
@@ -1010,117 +1195,14 @@ plot(prop_varex, xlab = "Principal Component",
 
 ```
 
-
-<br></br>
-
-##Step 15: PCA: IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2015
-
-In Step 5, we perform a PCA for the insurance loss for the inland PNW, for all commodities by year, with damage cause as the factor loadings.  Data for just 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
-
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-
-#just the IPNW 2015
-
-RMA_damage_IPNW_2015 <- subset(RMA_damage_IPNW, year == 2009)
-
- library(reshape2) ; RMA_damage_IPNW_transformed_2015 <- dcast(RMA_damage_IPNW_2015, county + state ~ damagecause, value.var = c("loss"), sum)
-RMA_damage_IPNW_transformed_2015$statecounty <- paste(RMA_damage_IPNW_transformed_2015$county, "_", RMA_damage_IPNW_transformed_2015$state, sep="")
-rownames(RMA_damage_IPNW_transformed_2015) <- RMA_damage_IPNW_transformed_2015$statecounty
-#RMA_damage_IPNW_exogenous_2015 <- RMA_damage_IPNW_transformed_2015[,3:21]
-RMA_damage_IPNW_exogenous_2015 <- RMA_damage_IPNW_transformed_2015
-
-#IPNW 2015
-RMA_damage_IPNW_exogenous_2015 <- cbind(RMA_damage_IPNW_exogenous_2015[4:5], RMA_damage_IPNW_exogenous_2015[,8:13], RMA_damage_IPNW_exogenous_2015[,15:16])
-
-fit <- princomp(RMA_damage_IPNW_exogenous_year, cor=TRUE)
-
-#RMA_damage_IPNW_exogenous <- scale(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE)
-pca_RMA_damage_IPNW_exogenous_2015 <- prcomp(RMA_damage_IPNW_exogenous_2015, scale = TRUE, center = TRUE)
-#ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous_2015, scale = TRUE, center = TRUE), data = RMA_damage_IPNW_transformed_2015, colour = 'state', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 3, legend = FALSE) + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous_2015)) + theme(legend.position = "none")
-
-ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous_2015, center = TRUE, scale = TRUE), frame = TRUE, frame.type = 'norm', data = RMA_damage_IPNW_transformed_2015, colour = 'state', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 2, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous_2015)) + theme(legend.position = "none") + ggtitle("Principle Components: 2015 IPNW insurance loss\nby county with damage cause loadings") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
-
-
-```
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-#pca_RMA_damage_IPNW_exogenous$rotation
-
-#plot(pca_RMA_damage_IPNW_exogenous$rotation)
-
-std_dev <- fit$sdev
-
-pr_var <- std_dev^2
-
-#pr_var[1:10]
-
-prop_varex <- pr_var/sum(pr_var)
-
-plot(prop_varex, xlab = "Principal Component",
-             ylab = "Proportion of Variance Explained",
-             type = "b", main = "Scree Plot")
-
-
-```
-
-
-<br></br>
-
-##Step 16: PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE loadings: Temporal Mapping of PC1 and PC2
-
-In Step 16, we summarize our PCA findings for the inland PNW, for wheat by year, using damage cause as the factor loadings.  We take PC1 and PC2 loadings and plot those for each year.
-
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-library(htmlTable)
-
-#year factanal
-
-#factanal
-#fit <- factanal(x = RMA_damage_PNW_exogenous_wheat_year_factor, factors = 3, rotation = "varimax")
-#load <- fit$loadings[,1:2] 
-#plot(load,type="n") # set up plot 
-#text(load,labels=names(RMA_damage_PNW_exogenous_wheat_year_factor),cex=.7) # add variable names
-
-library(FactoMineR)
-result <- FactoMineR::PCA(RMA_damage_PNW_exogenous_wheat_year_factor) # graphs generated automatically
-
-
-r2 <- fviz_pca_ind(result,
-         col.ind = "contrib", # Color by contribution
-         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07") #assign gradient
-         )
-
-
-#--create table of PC1 and PC2 loadings
-
-PC_table <- cbind(result$var$coord[,1], result$var$coord[,2])
-colnames(PC_table) <- c("PC1", "PC2")
-PC_table <- as.data.frame(PC_table)
-PC_table$PC1 <- round(PC_table$PC1, 3)
-PC_table$PC2 <- round(PC_table$PC2, 3)
-
-htmlTable(PC_table,
-          cgroup = c("2001-2015"),
-          n.cgroup = c(2),
-          caption = "Damage cause variable loadings by year",
-          align = "c",
-          rnames = rownames(PC_table),
-          css.cell = "padding-left: .5em; padding-right: .5em;")
-
-```
-
-
-
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
 
 #--year end
 
-PC_table_year <- cbind(result$ind$coord[,1], result$ind$coord[,2])
+fit <- prcomp(RMA_damage_IPNW_exogenous_year, cor=TRUE, center = TRUE, scale = TRUE)
+
+PC_table_year <- cbind(fit$x[,1], fit$x[,2])
 colnames(PC_table_year) <- c("PC1", "PC2")
 
 par(mar=c(6, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
@@ -1132,59 +1214,19 @@ barplot(t(PC_table_year), beside = T, las = 2, col=c("blue", "red"), cex.axis = 
 
 
 ```
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-#pca_RMA_damage_IPNW_exogenous$rotation
-
-#plot(pca_RMA_damage_IPNW_exogenous$rotation)
-
-std_dev <- fit$sdev
-
-pr_var <- std_dev^2
-
-#pr_var[1:10]
-
-prop_varex <- pr_var/sum(pr_var)
-
-plot(prop_varex, xlab = "Principal Component",
-             ylab = "Proportion of Variance Explained",
-             type = "b", main = "Scree Plot")
-
-
-```
-
+![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
-##Step 16: PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE loadings: Temporal Mapping of PC1 and PC2
+##Step 17: PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE loadings: PC1 and PC2 table
 
-In Step 16, we summarize our PCA findings for the inland PNW, for wheat by year, using damage cause as the factor loadings.  We take PC1 and PC2 loadings and plot those for each year.
-
+In Step 17, we summarize our PCA findings for the inland PNW, for wheat by year, using damage cause as the factor loadings.  Here we plot PC1 and PC2 loadings.
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-library(htmlTable)
-
-#year factanal
-
-#factanal
-#fit <- factanal(x = RMA_damage_PNW_exogenous_wheat_year_factor, factors = 3, rotation = "varimax")
-#load <- fit$loadings[,1:2] 
-#plot(load,type="n") # set up plot 
-#text(load,labels=names(RMA_damage_PNW_exogenous_wheat_year_factor),cex=.7) # add variable names
-
-library(FactoMineR)
-result <- FactoMineR::PCA(t(RMA_damage_PNW_exogenous_wheat_year_factor)) # graphs generated automatically
-
-
-r2 <- fviz_pca_ind(result,
-         col.ind = "contrib", # Color by contribution
-         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07") #assign gradient
-         )
-
 
 #--create table of PC1 and PC2 loadings
 
-PC_table <- cbind(result$var$coord[,1], result$var$coord[,2])
+PC_table <- cbind(fit$rotation[,1], fit$rotation[,2])
 colnames(PC_table) <- c("PC1", "PC2")
 PC_table <- as.data.frame(PC_table)
 PC_table$PC1 <- round(PC_table$PC1, 3)
@@ -1193,389 +1235,9 @@ PC_table$PC2 <- round(PC_table$PC2, 3)
 htmlTable(PC_table,
           cgroup = c("2001-2015"),
           n.cgroup = c(2),
-          caption = "Damage cause variable loadings by year",
+          caption = "Damage cause variable loadings by YEAR",
           align = "c",
           rnames = rownames(PC_table),
           css.cell = "padding-left: .5em; padding-right: .5em;")
 
 ```
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-
-#--year end
-
-PC_table_year <- cbind(result$var$coord[,1], result$var$coord[,2])
-colnames(PC_table_year) <- c("PC1", "PC2")
-
-par(mar=c(6, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
-
-barplot(t(PC_table_year), beside = T, las = 2, col=c("blue", "red"), cex.axis = 1.5, cex.names = 1.5)
-#legend("top", c("PC1","PC2"), pch=15, 
-#col=c("blue","red"), 
-#bty="n")
-
-
-```
-
-
-
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-#pca_RMA_damage_IPNW_exogenous$rotation
-
-#plot(pca_RMA_damage_IPNW_exogenous$rotation)
-
-std_dev <- fit$sdev
-
-pr_var <- std_dev^2
-
-#pr_var[1:10]
-
-prop_varex <- pr_var/sum(pr_var)
-
-plot(prop_varex, xlab = "Principal Component",
-             ylab = "Proportion of Variance Explained",
-             type = "b", main = "Scree Plot")
-
-
-```
-
-
-
-
-
-
-<br></br>
-
-##Step 17: PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: Spatial Mapping of PC1 and PC2
-
-In Step 17, we summarize our PCA findings for the inland PNW, for wheat by county, using damage cause as the factor loadings.  We take PC1 and PC2 loadings and plot each as a map.
-
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-
-
-
-#factanal
-#fit <- factanal(x = RMA_damage_IPNW_exogenous_factor, factors = 3, rotation = "varimax")
-#load <- fit$loadings[,1:2] 
-#plot(load,type="n") # set up plot 
-#text(load,labels=names(RMA_damage_IPNW_exogenous_factor),cex=.7) # add variable names
-
-library(FactoMineR)
-result <- FactoMineR::PCA(t(RMA_damage_IPNW_exogenous_factor), scale.unit = TRUE) # graphs generated automatically
-
-r2 <- fviz_pca_ind(result,
-         col.ind = "contrib", # Color by contribution
-         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07") #assign gradient
-         )
-
-
-#--create table of PC1 and PC2 loadings
-
-PC_table <- cbind(result$var$coord[,1], result$var$coord[,2])
-colnames(PC_table) <- c("PC1", "PC2")
-PC_table <- as.data.frame(PC_table)
-PC_table$PC1 <- round(PC_table$PC1, 3)
-PC_table$PC2 <- round(PC_table$PC2, 3)
-
-htmlTable(PC_table,
-          cgroup = c("2001-2015"),
-          n.cgroup = c(2),
-          caption = "Damage cause variable loadings by county",
-          align = "c",
-          rnames = rownames(PC_table),
-          css.cell = "padding-left: .5em; padding-right: .5em;")
-
-```
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-
-#-map PC loadings
-
-PC1_map <- as.data.frame(result$var$coord[,1])
-PC1_map$NAME <- rownames(PC1_map)
-colnames(PC1_map) <- c("PC1", "NAME")
-PC1_NAME <- cbind(PC1_map, t(as.data.frame(strsplit(PC1_map$NAME, split='_', fixed=TRUE))))
-colnames(PC1_NAME) <- c("PC1", "Statecounty", "NAME", "STATE")
-
-PC1_map <- merge(counties, PC1_NAME, by=c("NAME"), all = FALSE)
-
-PC2_map <- as.data.frame(result$var$coord[,2])
-PC2_map$NAME <- rownames(PC2_map)
-colnames(PC2_map) <- c("PC2", "NAME")
-PC2_NAME <- cbind(PC2_map, t(as.data.frame(strsplit(PC2_map$NAME, split='_', fixed=TRUE))))
-colnames(PC2_NAME) <- c("PC2", "Statecounty", "NAME", "STATE")
-
-PC2_map <- merge(counties, PC2_NAME, by=c("NAME"), all = FALSE)
-
-
-#PC1 map
-
-#-----
-
-PC1_map$PC1[is.na(PC1_map$PC1)] <- 0
-
- 
-## Make vector of colors for values smaller than 0 (20 colors)
-rc1 <- colorRampPalette(colors = c("blue", "lightblue", "white"), space = "Lab")(4)
-
-## Make vector of colors for values larger than 0 (180 colors)
-rc2 <- colorRampPalette(colors = c("white", "red"), space = "Lab")(16)
-
-## Combine the two color palettes
-rampcols <- c(rc1, rc2)
-
-
-
-# pal <- colorNumeric(colorRampPalette(c("blue", "lightblue", "white", "lightpink", "red"))(7), na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))
- pal <- colorNumeric(palette = rampcols, na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))
-
-map <- leaflet(data = PC1_map, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.1)) %>%  
-  addProviderTiles(providers$Hydda.Base) %>%
-   addProviderTiles(providers$Stamen.TonerLines) %>%
-  
-  addMiniMap(
-    tiles = providers$Stamen.TonerLite,
-    position = 'topleft', 
-    width = 100, height = 100,
-    toggleDisplay = FALSE) %>%
-  
-  
-   #addControl(title, position = "topleft", className="map-title") %>%
-  
-  
-  fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(PC1_map$PC1),  fillOpacity = .8, weight = 1, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% addPolygons(data = states, fillOpacity = 0, weight = 4, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% 
-  
-    addLegend(pal = pal, values = na.omit(~PC1), group = "circles", title = paste("PC1 Loadings", sep = ""), na.label = "", position = "topright") %>%
-
-  
-  #label = lapply(labs, HTML),
-
-addLabelOnlyMarkers(data = PC1_map, lng = lat_long[,1], lat = lat_long[,2],  label = lapply(round(PC1_map$PC1, 2), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "20px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
-)) 
-        
-addScaleBar(map, position = c("topright"), options = scaleBarOptions())
-```
-
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-#PC2 map
-
- 
-PC2_map$PC2[is.na(PC2_map$PC2)] <- 0
-
- 
-## Make vector of colors for values smaller than 0 (20 colors)
-rc1 <- colorRampPalette(colors = c("blue", "lightblue", "white"), space = "Lab")(4)
-
-## Make vector of colors for values larger than 0 (180 colors)
-rc2 <- colorRampPalette(colors = c("white", "red"), space = "Lab")(16)
-
-## Combine the two color palettes
-rampcols <- c(rc1, rc2)
-
-#-----
- #pal <- colorNumeric(brewer.pal(11,"RdBu"), na.color = "#ffffff",domain = eval(parse(text=paste("PC2_map$", "PC2", sep=""))))
- pal <- colorNumeric(palette = rampcols, na.color = "#ffffff",domain = eval(parse(text=paste("PC2_map$", "PC2", sep=""))))
-
-map <- leaflet(data = PC2_map, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.1)) %>%  
-  addProviderTiles(providers$Hydda.Base) %>%
-   addProviderTiles(providers$Stamen.TonerLines) %>%
-  
-  addMiniMap(
-    tiles = providers$Stamen.TonerLite,
-    position = 'topleft', 
-    width = 100, height = 100,
-    toggleDisplay = FALSE) %>%
-  
-  
-   #addControl(title, position = "topleft", className="map-title") %>%
-  
-  
-  fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(PC2_map$PC2),  fillOpacity = .8, weight = 1, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% addPolygons(data = states, fillOpacity = 0, weight = 4, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% 
-  
-    addLegend(pal = pal, values = na.omit(~PC2), group = "circles", title = paste("PC2 Variable Loadings", sep = ""), na.label = "", position = "topright") %>%
-
-  
-  
-
-addLabelOnlyMarkers(data = PC2_map, lng = lat_long[,1], lat = lat_long[,2], label = lapply(round(PC2_map$PC2, 2), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "20px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
-)) 
-        
-addScaleBar(map, position = c("topright"), options = scaleBarOptions())
-
-
-```
-
-
-
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-
-
-
-#factanal
-#fit <- factanal(x = RMA_damage_IPNW_exogenous_factor, factors = 3, rotation = "varimax")
-#load <- fit$loadings[,1:2] 
-#plot(load,type="n") # set up plot 
-#text(load,labels=names(RMA_damage_IPNW_exogenous_factor),cex=.7) # add variable names
-
-library(FactoMineR)
-result <- FactoMineR::PCA(RMA_damage_IPNW_exogenous_factor, scale.unit = TRUE) # graphs generated automatically
-
-r2 <- fviz_pca_ind(result,
-         col.ind = "contrib", # Color by contribution
-         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07") #assign gradient
-         )
-
-
-#--create table of PC1 and PC2 loadings
-
-PC_table <- cbind(result$var$coord[,1], result$var$coord[,2])
-colnames(PC_table) <- c("PC1", "PC2")
-PC_table <- as.data.frame(PC_table)
-PC_table$PC1 <- round(PC_table$PC1, 3)
-PC_table$PC2 <- round(PC_table$PC2, 3)
-
-htmlTable(PC_table,
-          cgroup = c("2001-2015"),
-          n.cgroup = c(2),
-          caption = "Damage cause variable loadings by county",
-          align = "c",
-          rnames = rownames(PC_table),
-          css.cell = "padding-left: .5em; padding-right: .5em;")
-
-```
-
-
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-
-#-map PC loadings
-
-PC1_map <- as.data.frame(result$ind$coord[,1])
-PC1_map$NAME <- rownames(PC1_map)
-colnames(PC1_map) <- c("PC1", "NAME")
-PC1_NAME <- cbind(PC1_map, t(as.data.frame(strsplit(PC1_map$NAME, split='_', fixed=TRUE))))
-colnames(PC1_NAME) <- c("PC1", "Statecounty", "NAME", "STATE")
-
-PC1_map <- merge(counties, PC1_NAME, by=c("NAME"), all = FALSE)
-
-PC2_map <- as.data.frame(result$ind$coord[,2])
-PC2_map$NAME <- rownames(PC2_map)
-colnames(PC2_map) <- c("PC2", "NAME")
-PC2_NAME <- cbind(PC2_map, t(as.data.frame(strsplit(PC2_map$NAME, split='_', fixed=TRUE))))
-colnames(PC2_NAME) <- c("PC2", "Statecounty", "NAME", "STATE")
-
-PC2_map <- merge(counties, PC2_NAME, by=c("NAME"), all = FALSE)
-
-
-#PC1 map
-
-#-----
-
-PC1_map$PC1[is.na(PC1_map$PC1)] <- 0
-
- 
-## Make vector of colors for values smaller than 0 (20 colors)
-rc1 <- colorRampPalette(colors = c("blue", "lightblue", "white"), space = "Lab")(4)
-
-## Make vector of colors for values larger than 0 (180 colors)
-rc2 <- colorRampPalette(colors = c("white", "red"), space = "Lab")(16)
-
-## Combine the two color palettes
-rampcols <- c(rc1, rc2)
-
-
-
-# pal <- colorNumeric(colorRampPalette(c("blue", "lightblue", "white", "lightpink", "red"))(7), na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))
- pal <- colorNumeric(palette = rampcols, na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))
-
-map <- leaflet(data = PC1_map, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.1)) %>%  
-  addProviderTiles(providers$Hydda.Base) %>%
-   addProviderTiles(providers$Stamen.TonerLines) %>%
-  
-  addMiniMap(
-    tiles = providers$Stamen.TonerLite,
-    position = 'topleft', 
-    width = 100, height = 100,
-    toggleDisplay = FALSE) %>%
-  
-  
-   #addControl(title, position = "topleft", className="map-title") %>%
-  
-  
-  fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(PC1_map$PC1),  fillOpacity = .8, weight = 1, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% addPolygons(data = states, fillOpacity = 0, weight = 4, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% 
-  
-    addLegend(pal = pal, values = na.omit(~PC1), group = "circles", title = paste("PC1 Loadings", sep = ""), na.label = "", position = "topright") %>%
-
-  
-  #label = lapply(labs, HTML),
-
-addLabelOnlyMarkers(data = PC1_map, lng = lat_long[,1], lat = lat_long[,2],  label = lapply(round(PC1_map$PC1, 2), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "20px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
-)) 
-        
-addScaleBar(map, position = c("topright"), options = scaleBarOptions())
-```
-
-
-
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-
-#PC2 map
-
- 
-PC2_map$PC2[is.na(PC2_map$PC2)] <- 0
-
- 
-## Make vector of colors for values smaller than 0 (20 colors)
-rc1 <- colorRampPalette(colors = c("blue", "lightblue", "white"), space = "Lab")(4)
-
-## Make vector of colors for values larger than 0 (180 colors)
-rc2 <- colorRampPalette(colors = c("white", "red"), space = "Lab")(16)
-
-## Combine the two color palettes
-rampcols <- c(rc1, rc2)
-
-#-----
- #pal <- colorNumeric(brewer.pal(11,"RdBu"), na.color = "#ffffff",domain = eval(parse(text=paste("PC2_map$", "PC2", sep=""))))
- pal <- colorNumeric(palette = rampcols, na.color = "#ffffff",domain = eval(parse(text=paste("PC2_map$", "PC2", sep=""))))
-
-map <- leaflet(data = PC2_map, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.1)) %>%  
-  addProviderTiles(providers$Hydda.Base) %>%
-   addProviderTiles(providers$Stamen.TonerLines) %>%
-  
-  addMiniMap(
-    tiles = providers$Stamen.TonerLite,
-    position = 'topleft', 
-    width = 100, height = 100,
-    toggleDisplay = FALSE) %>%
-  
-  
-   #addControl(title, position = "topleft", className="map-title") %>%
-  
-  
-  fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(PC2_map$PC2),  fillOpacity = .8, weight = 1, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% addPolygons(data = states, fillOpacity = 0, weight = 4, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% 
-  
-    addLegend(pal = pal, values = na.omit(~PC2), group = "circles", title = paste("PC2 Loadings", sep = ""), na.label = "", position = "topright") %>%
-
-  
-  
-
-addLabelOnlyMarkers(data = PC2_map, lng = lat_long[,1], lat = lat_long[,2], label = lapply(round(PC2_map$PC2, 2), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "20px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
-)) 
-        
-addScaleBar(map, position = c("topright"), options = scaleBarOptions())
-
-
-```
-
-
