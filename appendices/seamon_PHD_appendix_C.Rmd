@@ -149,6 +149,8 @@ header = TRUE, strip.white = TRUE, sep = ",")
 
 colnames(countiesfips) <- c("countyfips", "county", "state")
 
+countiesfips$countyfips <- sprintf("%05d", countiesfips$countyfips)
+
 OR2 <- merge(countiesfips, OR1, by=("countyfips"))
 ID2 <- merge(countiesfips, ID1, by=("countyfips"))
 WA2 <- merge(countiesfips, WA1, by=("countyfips"))
@@ -2842,7 +2844,12 @@ OR1 <- aggregate(.~countyfips, OR1, mean)
 countiesfips <- read.csv("/tmp/countiesfips.csv", 
 header = TRUE, strip.white = TRUE, sep = ",")
 
+countiesfips <- countiesfips[-1] 
+
 colnames(countiesfips) <- c("countyfips", "county", "state")
+
+countiesfips$countyfips <- sprintf("%05d", countiesfips$countyfips)
+
 
 OR2 <- merge(countiesfips, OR1, by=("countyfips"))
 ID2 <- merge(countiesfips, ID1, by=("countyfips"))
@@ -3401,81 +3408,6 @@ legend("topleft", legend=c("historical", "predicted"),
 ```
 ![](https://dmine.io/waf/img/Step1.png)
 
-###Step 8. Results of ensemble seasonal loss model for all 24 counties
-
-```{r message=TRUE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9}
-
-finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
-finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
-finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
-finaldat_loss_ensemble <- cbind.data.frame(data5a_statecountyear, mydat_loss_ensemble)
-
-NRMSE1 <- nrmse_func(finaldat$loss, finaldat$predictions)
-
-NRMSE2 <- nrmse_func(finaldat_loss$loss, finaldat_loss$predictions_loss)
-
-
- #loss historical vs predicted
-
-finaldat <- cbind.data.frame(data5a_statecountyear, mydat)
-finaldat_loss <- cbind.data.frame(data5a_statecountyear, mydat_loss)
-finaldat_loss_all <- cbind.data.frame(data5a_statecountyear, mydat_loss_all)
-finaldat_loss_ensemble <- cbind.data.frame(data5a_statecountyear, mydat_loss_ensemble)
-
-
-finaldat_loss$loss <- 10^finaldat_loss$loss
-finaldat_loss$predictions_loss <- 10^finaldat_loss$predictions_loss
-
-finaldat_loss_ensemble$loss <- 10^finaldat_loss_ensemble$loss
-finaldat_loss_ensemble$predictions_ensemble <- 10^finaldat_loss_ensemble$predictions_ensemble
-
-fd_loss <- aggregate(finaldat_loss_ensemble$loss, by=list(finaldat_loss_ensemble$year), FUN = "sum")
-fd_pred <- aggregate(finaldat_loss_ensemble$predictions_ensemble, by=list(finaldat_loss_ensemble$year), FUN = "sum")
-
-
-# 2.1. Average of actual data
-avr_y_actual <- mean(fd_loss$x)
-
-# 2.2. Total sum of squares
-ss_total <- sum((fd_loss$x - avr_y_actual)^2)
-
-# 2.3. Regression sum of squares
-ss_regression <- sum((fd_pred$x - avr_y_actual)^2)
-
-# 2.4. Residual sum of squares
-ss_residuals <- sum((fd_loss$x - fd_pred$x)^2)
-
-# 3. R2 Score
-r2 <- round(1 - ss_residuals / ss_total, 2)
-
-RMSE = function(m, o){
-  sqrt(mean((m - o)^2))
-}
-
-rmse <- round(RMSE(fd_pred$x, fd_loss$x), 2)
-
-#plot all counties combined, by year
-par(mar=c(6, 5.1, 2, 3), family = 'serif', mgp=c(3.5, .6, 0), las=0)
-
-
-plot(fd_loss$x ~ fd_loss$Group.1, col = "red", cex.lab = 1.5, cex.axis = 1.3, las = 2, yaxt = "n", xaxt = "n", xlab = "Year", ylab = "Annual Wheat/Drought Loss", main = paste("24 county iPNW study area: R2 = ", r2, " RMSE = ", rmse, sep=""))
-lines(fd_loss$x ~ fd_loss$Group.1, col = "red")
-points(fd_pred$x ~ fd_pred$Group.1, col = "blue")
-lines(fd_pred$x ~ fd_pred$Group.1, col = "blue")
-
-axis(1, fd_loss$Group.1, 2001:2015, col.axis = "black", las = 2, cex.axis = 1.3)
-
-pts <- pretty(fd_loss$x / 1000000)
-pts2 <- pretty(fd_loss$x)
-axis(2, las = 1, cex.axis = 1.3, at = pts2, labels = paste(pts, "M", sep = ""))
-
-
-
-legend("topleft", legend=c("historical", "predicted"),
-       col=c("red", "blue"), lty=1, cex=1.3)
-
-```
-![](https://dmine.io/waf/img/Step1.png)
 
 ###Step 8. Results of seasonal loss model by county
 
@@ -3490,9 +3422,9 @@ finaldat_loss$predictions_loss <- 10^finaldat_loss$predictions_loss
 
 finaldat_loss <- subset(finaldat_loss, county != "Kootenai" & county != "Clearwater")
 countyvector <- unique(finaldat_loss$county)
-county_rmse_r2 <- data.frame(matrix(ncol =2, nrow = 24))
+county_rmse_r2 <- data.frame(matrix(ncol =3, nrow = 24))
 county_rmse_r2$county <- countyvector
-colnames(county_rmse_r2) <- c("rmse", "r2", "county")
+colnames(county_rmse_r2) <- c("rmse", "r2", "nrmse", "county")
 
 
 ii = 0
@@ -3544,8 +3476,12 @@ rmse <- round(RMSE(countyplot$predictions_loss, countyplot$loss), 2)
 mae <- round(MAE(countyplot$predictions_loss, countyplot$loss), 2)
 
 
+n1 <- subset(finaldat_loss, county == i)
+nrmse <- nrmse_func(n1$loss, n1$predictions_loss)
+
 county_rmse_r2[ii,1] <-  rmse
 county_rmse_r2[ii,2] <- r2
+county_rmse_r2[ii,3] <- nrmse
 
 
 #plot all counties combined, by year
@@ -3554,7 +3490,7 @@ par(mar=c(6, 5.1, 2, 3), family = 'serif', mgp=c(3.5, .6, 0), las=0)
 
 
 plot(c(countyplot$loss) ~ c(countyplot$year), cex.lab = 1.5, cex.axis = 1.5, col = "red", 
-     las = 2, yaxt = "n", xaxt = "n", xlab = "Year", ylab = "Wheat/Drought Insurance Loss", main = paste(i, " County, Oregon: R2 = ", r2, " RMSE = ", rmse, sep="") )
+     las = 2, yaxt = "n", xaxt = "n", xlab = "Year", ylab = "Wheat/Drought Insurance Loss", main = paste(i, " County, ", countyplot$state.1[1], " ",  "R2 = ", r2, " RMSE = ", rmse, " NRMSE = ", nrmse, sep="") )
 
 lines(countyplot$loss ~ countyplot$year, col = "red")
 points(countyplot$predictions_loss ~ countyplot$year, col = "blue")
@@ -3567,10 +3503,117 @@ pts <- pretty(countyplot$loss / 1000000)
 pts2 <- pretty(countyplot$loss)
 axis(2, las = 1, cex.axis = 1.3, at = pts2, labels = paste(pts, "M", sep = ""))
 
-legend("topright", legend=c("historical", "predicted"),
+legend("topleft", legend=c("historical", "predicted"),
        col=c("red", "blue"), lty=1, cex=1.3)
 
 }
+
+
+
+```
+
+
+```{r message=TRUE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9}
+
+
+
+colnames(county_rmse_r2) <- c("rmse", "r2", "nrmse", "NAME")
+counties_error <- merge(counties, county_rmse_r2, by=c("NAME"))
+
+ 
+      pal <- colorNumeric(colorRampPalette(c("red", "orange", "yellow", "lightyellow"))(11), na.color = "#ffffff",
+                          domain = eval(parse(text=paste("counties_error$", "r2", sep=""))))
+      pal2 <- colorNumeric(colorRampPalette(c("lightyellow", "yellow", "orange", "red"))(11), na.color = "#ffffff",
+                          domain = eval(parse(text=paste("counties_error$", "r2", sep=""))))
+      
+       myLabelFormat = function(..., reverse_order = FALSE){ 
+    if(reverse_order){ 
+        function(type = "numeric", cuts){ 
+            cuts <- sort(cuts, decreasing = T)
+        } 
+    }else{
+        labelFormat(...)
+    }
+}
+      
+      #--
+      
+      #colorss = colorRampPalette(brewer.pal(11,"Spectral"))
+      
+      #finalcol <- colorss(len <- length(counties3$CORRELATION))
+      #finalcol2 <- topo.colors(length(counties3$CORRELATION))[order(order(counties3$CORRELATION))]
+      
+      #cellselect <- paste(monthend, monthnumber, sep="")
+      
+      #par(mfrow=c(1,4))
+      #layout(matrix(c(1,1,1,2), 1, 4, byrow = TRUE)) 
+      #par(mar = c(1,1,1,1) + 0.1)
+      #plot(counties3, col = finalcol2, xaxs="i", yaxs="i")
+      ##text(coordinates(counties2), labels=round(counties2$correlations, 2), cex=1.5, col = "black")
+      
+      #added from ID
+      #corre <- round(as.numeric(as.character(counties3$CORRELATION)), 2)
+      #text(coordinates(counties2), labels=paste(counties3$MONTHCOMBO, "\n", corre,  sep=""), cex=1.5, col = "white", font = 2)
+      
+      #--
+      
+      exte <- extent(counties_error)
+      
+      library(htmltools)
+      
+      tag.map.title <- tags$style(HTML("
+                                       .leaflet-control.map-title { 
+                                       transform: translate(-50%,20%);
+                                       position: fixed !important;
+                                       left: 50%;
+                                       text-align: center;
+                                       padding-left: 10px; 
+                                       padding-right: 10px; 
+                                       background: rgba(255,255,255,0.75);
+                                       font-weight: bold;
+                                       font-size: 24px;
+                                       }
+                                       "))
+      
+      title <- tags$div(
+        tag.map.title, HTML(paste("IPNW  Correlation, Climate vs. ", predictor_var, " by County for ", climate_var, sep=""))
+      )  
+
+      
+      lat_long <- coordinates(counties_error)
+      
+     
+      #labels <- paste(counties3$MONTHCOMBO, as.character(round(counties3$CORRELATION, 2)), sep = "<br/>")
+   
+      
+      #counties3$CORRELATION <- as.numeric(levels(counties3$CORRELATION))[counties3$CORRELATION]
+      #counties_error <- data.frame(counties_error)
+      labs <- lapply(seq(nrow(counties_error)), function(k) {
+        paste0(as.character(counties_error@data[k, "r2"]), '<br/>',
+                counties_error@data[k, "nrmse"]) 
+      })
+
+      map <- leaflet(data = counties_error) %>% 
+        
+        addProviderTiles(providers$Hydda.Base) %>%
+        addProviderTiles(providers$Stamen.TonerLines) %>%
+        
+        #addControl(title, position = "topleft", className="map-title") %>% 
+        
+        fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal2(counties_error$r2), fillOpacity = .8, weight = 2, stroke = TRUE, smoothFactor = 0.5, color = "black") %>%
+        addLabelOnlyMarkers(data = counties_error, lng = lat_long[,1], lat = lat_long[,2], label = lapply(labs, HTML), labelOptions = labelOptions(noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "14px", col = "white", style=list(
+                                  
+                                  'font-family'= 'serif',
+                                  'font-style'= 'bold',
+                                  'font-size' = '14px'
+                                  ))) %>%
+        
+        addLegend(pal = pal, values = counties_error$r2,  labels = c("1", "2"), opacity = .5, title = paste("R2/NRMSE",  " Results", sep="<br>"),
+                  position = "bottomright", labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE)))
+      
+      map
+      
+      
 ```
  
  
