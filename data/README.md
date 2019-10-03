@@ -2,7 +2,7 @@
 
 The following folders contain the available datasets used as part of dissertation analyses, documented in appendices A, B, and C.
 
-- seamon_dissertation_dataload.R.  This file loads all data dynamically from github into R.  This script should be run before running and appendices Rmarkdown (located in the appendices folder)
+- seamon_dissertation_dataload.R.  This file loads all data dynamically from github into R.  This script should be run before running the appendices as Rmarkdown (located in the appendices folder)
 
 - /RMA_Rda: RDA database files that contain aggregated PNW insurance loss claim data.
 
