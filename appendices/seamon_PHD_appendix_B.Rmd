@@ -34,6 +34,11 @@ Here we perform a variety of Principle Components Analyses (PCA) to better under
 
 <br></br>
 <br></br>
+
+**DATA PREPARATION**
+
+<br></br>
+
 **Step 1.** Data Preparation.  Here we load our agricultural insurance loss data and prepare it for PCA Analysis.
 
 **Step 2.** Data Preparation. Original Insurance Loss Dataset - Pacific Northwest
@@ -41,6 +46,12 @@ Here we perform a variety of Principle Components Analyses (PCA) to better under
 **Step 3.** Data Preparation.  Aggregated Insurance Loss Dataset - Pacific Northwest
 
 **Step 4.** 24-county inland Pacific Northwest (iPNW) Study Area.
+
+<br></br>
+
+**Pacific Northwest PCA**
+
+<br></br>
 
 **Step 5.** PCA: PNW insurance loss, by COUNTY with COMMODITY loadings: 2001 to 2015
 
@@ -56,17 +67,26 @@ Here we perform a variety of Principle Components Analyses (PCA) to better under
 
 **Step 11.** PCA: PNW BARLEY insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
-**Step 12.** PCA: IPNW insurance loss by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+<br></br>
 
-**Step 13.** PCA: IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+**Inland Pacific Northwest PCA**
 
-**Step 14.** PCA: IPNW insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
+<br></br>
 
-**Step 15.** PCA: IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2015
+**Step 12.** PCA: IPNW insurance loss by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015: ALL COMMODITIES
 
-**Step 16.** PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE loadings: Temporal Mapping of PC1 and PC2
+**Step 13.** PCA: IPNW WHEAT insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015: KMEANS CLUSTERING
 
-**Step 17.** PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: Spatial Mapping of PC1 and PC2
+**Step 14:** PCA: IPNW WHEAT insurance loss by COUNTY with DAMAGE CAUSE loadings: PC1 and PC2 table
+
+**Step 15.** PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: Spatial Mapping of PC1 and PC2
+
+**Step 16.** PCA: IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015: KMEANS CLUSTERING
+
+**Step 17.** PCA: IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015: PC1 vs PC2 barplot
+
+**Step 18:** PCA: IPNW WHEAT insurance loss by YEAR with DAMAGE CAUSE loadings: PC1 and PC2 table
+
 <br></br>
 <br></br>
 
@@ -699,7 +719,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 ##Step 10: PCA: PNW APPLES insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
-In Step 5, we perform a PCA for the insurance loss for the entire PNW, for apples by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
+In Step 10, we perform a PCA for the insurance loss for the entire PNW, for apples by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
@@ -808,9 +828,9 @@ plot(prop_varex, xlab = "Principal Component",
 
 <br></br>
 
-##Step 12: PCA: PNW insurance loss by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+##Step 12: PCA: IPNW insurance loss by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
-In Step 5, we perform a PCA for the insurance loss for the inland PNW, for all commodities by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
+In Step 12, we perform a PCA for the insurance loss for the inland PNW, for all commodities by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
 
 
@@ -858,9 +878,9 @@ plot(prop_varex, xlab = "Principal Component",
 
 <br></br>
 
-##Step 13: PCA: WHEAT IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+##Step 13: PCA + KMEANS: WHEAT IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
-In Step 5, we perform a PCA for the insurance loss for the inland PNW, for WHEAT by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
+In Step 13, we perform a PCA for the insurance loss for the inland PNW, for wheat by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
@@ -944,7 +964,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 ##Step 14: PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: PC1 and PC2 table
 
-In Step 14, we summarize our PCA findings for the inland PNW, for wheat by county, using damage cause as the factor loadings.  Here we plot PC1 and PC2 loadings.
+In Step 14, we summarize our PCA findings for the inland PNW, for wheat by county, using damage cause as the factor loadings.  Here we plot PC1 and PC2 loadings as a table.
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
@@ -1116,9 +1136,9 @@ addScaleBar(map, position = c("topright"), options = scaleBarOptions())
 
 <br></br>
 
-##Step 16: PCA: IPNW insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
+##Step 16: PCA + KMEANS: IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
 
-In Step 16, we perform a PCA for the insurance loss for the inland PNW, for all commodities by year, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
+In Step 16, we perform a PCA for the insurance loss for the inland PNW, for wheat, by year, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
@@ -1195,6 +1215,10 @@ plot(prop_varex, xlab = "Principal Component",
 
 ```
 
+##Step 17: PCA:IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015: PC1 vs PC2 barplot
+
+In Step 17, we plot PC1 loadings vs PC2 by year, as a barplot, to visualize orthogonal/opposing patterns.
+
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
 
@@ -1218,9 +1242,9 @@ barplot(t(PC_table_year), beside = T, las = 2, col=c("blue", "red"), cex.axis = 
 
 <br></br>
 
-##Step 17: PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE loadings: PC1 and PC2 table
+##Step 18: PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE loadings: PC1 and PC2 table
 
-In Step 17, we summarize our PCA findings for the inland PNW, for wheat by year, using damage cause as the factor loadings.  Here we plot PC1 and PC2 loadings.
+In Step 18, we summarize our PCA findings for the inland PNW, for wheat by year, using damage cause as the factor loadings.  Here we plot PC1 and PC2 loadings as a table.
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
