@@ -1402,12 +1402,16 @@ kclust$k.clust <- factor(kclust$k.clust)
 
 fit <- prcomp(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE)
 
+biplot(prcomp(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE, pc.biplot = TRUE))
 
 ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE), frame = TRUE, frame.type = 'norm', data = kclust, colour = 'k.clust', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 4, label = FALSE, label.size = 3, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous)) + theme(legend.position = "none") + ggtitle("Principle Components: IPNW insurance loss\nby county with damage cause loadings ") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))  + theme(legend.position="bottom") 
 
 ```
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+library(magrittr)
+library(plotly)
 
 #pca_RMA_damage_IPNW_exogenous$rotation
 
@@ -1431,11 +1435,18 @@ plot(prop_varex, xlab = "Principal Component",
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
 loads <- fit$rotation[,1:3]
-fit1 <- as.data.frame(fit$x[,1:3])
+fit1 <- as.data.frame(fit$rotation[,1:3])
 
 fit2 <- merge(fit$x, kclust, by="row.names",all.x=TRUE)
 
-p <- plot_ly(fit2, x = ~PC2, y = ~PC1, z = ~PC3, color = ~k.clust, colors = c('#BF382A', '#0C4B8E')) 
+#p <- plot_ly(fit2, x = ~PC2, y = ~PC1, z = ~PC3, color = ~k.clust, colors = c('#BF382A', '#0C4B8E')) 
+
+p <- plot_ly() %>%
+  add_trace(x=fit2$PC1, y=fit2$PC2, z=fit2$PC3,
+            type="scatter3d", mode="markers",
+            marker = list(color=fit2$k.clust, 
+               colorscale = c("#FFE1A1", "#683531"), 
+               opacity = 0.7)) 
 
 for (k in 1:nrow(loads)) {
    x <- c(0, loads[k,1])
