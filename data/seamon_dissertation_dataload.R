@@ -71,6 +71,18 @@ download.file(URL, destfile)
 outDir<-"/tmp"
 unzip(destfile,exdir=outDir)
 
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/CPI/CPI.zip"
+destfile <- "/tmp/CPI.zip"
+download.file(URL, destfile)
+outDir<-"/tmp"
+unzip(destfile,exdir=outDir)
+
+URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/wheatproduction/wheatyields.zip"
+destfile <- "/tmp/wheatyields.zip"
+download.file(URL, destfile)
+outDir<-"/tmp"
+unzip(destfile,exdir=outDir)
+
 
 
 
@@ -86,12 +98,22 @@ write.csv(countiesfips, file = "/tmp/countiesfips.csv")
 
 
 wheatprice <- read.csv(text=RCurl::getURL
-                       ("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/wheat_prices/wheat_prices_1989_2015.csv"), header = TRUE, strip.white = TRUE, sep = ",")
-wheatprice <- wheatprice[-1]
+                       ("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/wheat_prices/wheat_prices_monthly_1998_2017.csv"), header = TRUE, strip.white = TRUE, sep = ",")
+#wheatprice <- wheatprice[-1]
 
-colnames(wheatprice) <- c("year", "price")
+colnames(wheatprice) <- c("year", "month", "price")
 
 write.csv(wheatprice, file = "/tmp/wheatprice.csv")
+
+
+
+wheatproduction <- read.csv(text=getURL
+                            ("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/wheatproduction/wheatproduction_WA_ID_OR_2001_2015.csv"), 
+                            header = TRUE, strip.white = TRUE, sep = ",")
+
+colnames(wheatproduction) <- c("Year", "State", "Value")
+
+write.csv(wheatproduction, file = "/tmp/wheatproduction.csv")
 
 
 
