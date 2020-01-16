@@ -77,7 +77,7 @@ Several steps were performed to examine the full set of data, and to narrow down
 
 ##Step 1: Data Preparation
 
-In order to generate any of the following tables and graphs, we download all data locally to your /tmp directory, from the seamon_dissertation_dataload.R file from the following location:
+In order to generate any of the following tables and graphs, we download all data locally to your /tmp/seamon directory, from the seamon_dissertation_dataload.R file from the following location:
 
 http://github.com/erichseamon/seamon_dissertation/data/
 
@@ -101,10 +101,10 @@ the dataload.R file has a multitude of datasets, including:
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE}
 
-download.file("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/seamon_dissertation_dataload.R", destfile = "/tmp/dataload.R")
+download.file("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/seamon_dissertation_dataload.R", destfile = "/tmp/seamon/dataload.R")
 
 usePackage("RCurl")
-source("/tmp/dataload.R", local=FALSE)
+source("/tmp/seamon/dataload.R", local=FALSE)
 
 ```
 
@@ -133,39 +133,39 @@ usePackage("repmis")
 #------add crop insurance data
 
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/RMA_originaldata_txt.zip"
-#destfile <- "/tmp/RMA_originaldata_txt.zip"
+#destfile <- "/tmp/seamon/RMA_originaldata_txt.zip"
 #download.file(URL, destfile)
-#outDir<-"/tmp/RMA_originaldata/"
+#outDir<-"/tmp/seamon/RMA_originaldata/"
 #unzip(destfile,exdir=outDir)
 
 
-rma1989 <- read.csv("/tmp/RMA_originaldata/1989.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1990 <- read.csv("/tmp/RMA_originaldata/1990.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1991 <- read.csv("/tmp/RMA_originaldata/1991.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1992 <- read.csv("/tmp/RMA_originaldata/1992.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1993 <- read.csv("/tmp/RMA_originaldata/1993.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1994 <- read.csv("/tmp/RMA_originaldata/1994.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1995 <- read.csv("/tmp/RMA_originaldata/1995.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1996 <- read.csv("/tmp/RMA_originaldata/1996.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1997 <- read.csv("/tmp/RMA_originaldata/1997.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1998 <- read.csv("/tmp/RMA_originaldata/1998.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1999 <- read.csv("/tmp/RMA_originaldata/1999.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2000 <- read.csv("/tmp/RMA_originaldata/2000.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2001 <- read.csv("/tmp/RMA_originaldata/2001.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2002 <- read.csv("/tmp/RMA_originaldata/2002.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2003 <- read.csv("/tmp/RMA_originaldata/2003.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2004 <- read.csv("/tmp/RMA_originaldata/2004.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2005 <- read.csv("/tmp/RMA_originaldata/2005.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2006 <- read.csv("/tmp/RMA_originaldata/2006.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2007 <- read.csv("/tmp/RMA_originaldata/2007.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2008 <- read.csv("/tmp/RMA_originaldata/2008.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2009 <- read.csv("/tmp/RMA_originaldata/2009.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2010 <- read.csv("/tmp/RMA_originaldata/2010.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2011 <- read.csv("/tmp/RMA_originaldata/2011.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2012 <- read.csv("/tmp/RMA_originaldata/2012.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2013 <- read.csv("/tmp/RMA_originaldata/2013.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2014 <- read.csv("/tmp/RMA_originaldata/2014.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2015 <- read.csv("/tmp/RMA_originaldata/2015.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1989 <- read.csv("/tmp/seamon/RMA_originaldata/1989.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1990 <- read.csv("/tmp/seamon/RMA_originaldata/1990.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1991 <- read.csv("/tmp/seamon/RMA_originaldata/1991.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1992 <- read.csv("/tmp/seamon/RMA_originaldata/1992.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1993 <- read.csv("/tmp/seamon/RMA_originaldata/1993.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1994 <- read.csv("/tmp/seamon/RMA_originaldata/1994.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1995 <- read.csv("/tmp/seamon/RMA_originaldata/1995.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1996 <- read.csv("/tmp/seamon/RMA_originaldata/1996.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1997 <- read.csv("/tmp/seamon/RMA_originaldata/1997.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1998 <- read.csv("/tmp/seamon/RMA_originaldata/1998.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1999 <- read.csv("/tmp/seamon/RMA_originaldata/1999.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2000 <- read.csv("/tmp/seamon/RMA_originaldata/2000.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2001 <- read.csv("/tmp/seamon/RMA_originaldata/2001.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2002 <- read.csv("/tmp/seamon/RMA_originaldata/2002.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2003 <- read.csv("/tmp/seamon/RMA_originaldata/2003.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2004 <- read.csv("/tmp/seamon/RMA_originaldata/2004.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2005 <- read.csv("/tmp/seamon/RMA_originaldata/2005.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2006 <- read.csv("/tmp/seamon/RMA_originaldata/2006.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2007 <- read.csv("/tmp/seamon/RMA_originaldata/2007.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2008 <- read.csv("/tmp/seamon/RMA_originaldata/2008.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2009 <- read.csv("/tmp/seamon/RMA_originaldata/2009.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2010 <- read.csv("/tmp/seamon/RMA_originaldata/2010.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2011 <- read.csv("/tmp/seamon/RMA_originaldata/2011.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2012 <- read.csv("/tmp/seamon/RMA_originaldata/2012.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2013 <- read.csv("/tmp/seamon/RMA_originaldata/2013.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2014 <- read.csv("/tmp/seamon/RMA_originaldata/2014.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2015 <- read.csv("/tmp/seamon/RMA_originaldata/2015.txt", sep = "|", header = FALSE, strip.white = TRUE)
 
 
 #load individual files from 1989 to 2000
@@ -346,24 +346,24 @@ usePackage("raster")
 usePackage("htmltools")
 
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
-#destfile <- "/tmp/states_conus.zip"
+#destfile <- "/tmp/seamon/states_conus.zip"
 #download.file(URL, destfile)
-#outDir<-"/tmp"
+#outDir<-"/tmp/seamon"
 #unzip(destfile,exdir=outDir)
 
-states <- readShapePoly('/tmp/states_conus.shp',
+states <- readShapePoly('/tmp/seamon/states_conus.shp',
                         proj4string=CRS
                         ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/threestate_boundary.zip"
-#destfile <- "/tmp/threestate_boundary.zip"
+#destfile <- "/tmp/seamon/threestate_boundary.zip"
 #download.file(URL, destfile)
-#outDir<-"/tmp"
+#outDir<-"/tmp/seamon"
 #unzip(destfile,exdir=outDir)
     
-threestates <- readShapePoly('/tmp/threestate_boundary.shp', 
+threestates <- readShapePoly('/tmp/seamon/threestate_boundary.shp', 
                                   proj4string=CRS
                                   ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
         projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
@@ -372,34 +372,34 @@ threestates <- readShapePoly('/tmp/threestate_boundary.shp',
 #setwd("/dmine/data/counties/")
         
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_willamette.zip"
-#destfile <- "/tmp/threestate_willamette.zip"
+#destfile <- "/tmp/seamon/threestate_willamette.zip"
 #download.file(URL, destfile)
-#outDir<-"/tmp"
+#outDir<-"/tmp/seamon"
 #unzip(destfile,exdir=outDir)
 
-counties_willamette <- readShapePoly('/tmp/threestate_willamette.shp',
+counties_willamette <- readShapePoly('/tmp/seamon/threestate_willamette.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_southernID.zip"
-#destfile <- "/tmp/threestate_southernID.zip"
+#destfile <- "/tmp/seamon/threestate_southernID.zip"
 #download.file(URL, destfile)
-#outDir<-"/tmp"
+#outDir<-"/tmp/seamon"
 #unzip(destfile,exdir=outDir)
 
-counties_ID <- readShapePoly('/tmp/threestate_southernID.shp',
+counties_ID <- readShapePoly('/tmp/seamon/threestate_southernID.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
-#destfile <- "/tmp/threestate_palouse.zip"
+#destfile <- "/tmp/seamon/threestate_palouse.zip"
 #download.file(URL, destfile)
-#outDir<-"/tmp"
+#outDir<-"/tmp/seamon"
 #unzip(destfile,exdir=outDir)
 
-counties_palouse <- readShapePoly('/tmp/threestate_palouse.shp',
+counties_palouse <- readShapePoly('/tmp/seamon/threestate_palouse.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
@@ -977,12 +977,12 @@ usePackage("htmltools")
 
 
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
-#destfile <- "/tmp/threestate_palouse.zip"
+#destfile <- "/tmp/seamon/threestate_palouse.zip"
 #download.file(URL, destfile)
-#outDir<-"/tmp"
+#outDir<-"/tmp/seamon"
 #unzip(destfile,exdir=outDir)
 
-counties <- readShapePoly('/tmp/threestate_palouse.shp',
+counties <- readShapePoly('/tmp/seamon/threestate_palouse.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
@@ -1763,7 +1763,7 @@ htmlTable(YYY2,
 
 usePackage("maptools")
 
-states <- readShapePoly('/tmp/states_conus.shp', 
+states <- readShapePoly('/tmp/seamon/states_conus.shp', 
                                   proj4string=CRS
                                   ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
         projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
@@ -2804,11 +2804,11 @@ htmlTable(YYY2,
 
 ##Step 7: Nationwide Wheat Prices per metric ton: 2001-2015 
 
-wheatprice <- read.csv("/tmp/wheatprice.csv", header=TRUE, strip.white =TRUE)
+wheatprice <- read.csv("/tmp/seamon/wheatprice.csv", header=TRUE, strip.white =TRUE)
 colnames(wheatprice) <- c("ID", "year", "month","price")
 wheatprice_all <- subset(wheatprice, year >= 2001 & year <= 2015)
 
-cpi <- data.frame(read.csv("/tmp/CPI.csv", header = TRUE, strip.white = TRUE))
+cpi <- data.frame(read.csv("/tmp/seamon/CPI.csv", header = TRUE, strip.white = TRUE))
 cpi <- subset(cpi, year >= 2001 & year <= 2015)
 
 
@@ -2843,7 +2843,7 @@ graphics::title(ylab="Price per metric ton ($)", line=3.5, cex.lab = 1.4)
 
 #--wheat production PNW 2001 - 2015
 
-wheatproduction <- read.csv("/tmp/wheatproduction.csv", header=TRUE, strip.white =TRUE)
+wheatproduction <- read.csv("/tmp/seamon/wheatproduction.csv", header=TRUE, strip.white =TRUE)
 #colnames(wheatprice) <- c("Year", "Month","Value")
 
 ggplot(wheatproduction, aes(fill=State, y=Value, x=Year)) + 
@@ -2934,21 +2934,21 @@ county_wheat_droughtheat2015 <- merge(counties, WHEAT_damage_top_agg_droughtheat
 
 #yields
 
-WA_wheat_yields <- read.csv("/tmp/Washington_yields_winterwheat.csv", header = TRUE)
+WA_wheat_yields <- read.csv("/tmp/seamon/Washington_yields_winterwheat.csv", header = TRUE)
 WA_wheat_yields <- data.frame(WA_wheat_yields$Year, WA_wheat_yields$State, WA_wheat_yields$County,WA_wheat_yields$Value)
 colnames(WA_wheat_yields) <- c("year", "state", "county", "value")
 WA_wheat_yields$county <- tolower(WA_wheat_yields$county)
 WA_wheat_yields$county <- sapply(WA_wheat_yields$county, simpleCap)
 WA_wheat_yields$value <- as.numeric(gsub(",","",WA_wheat_yields$value))
 
-ID_wheat_yields <- read.csv("/tmp/Idaho_yields_winterwheat.csv", header = TRUE)
+ID_wheat_yields <- read.csv("/tmp/seamon/Idaho_yields_winterwheat.csv", header = TRUE)
 ID_wheat_yields <- data.frame(ID_wheat_yields$Year, ID_wheat_yields$State, ID_wheat_yields$County,ID_wheat_yields$Value)
 colnames(ID_wheat_yields) <- c("year", "state", "county", "value")
 ID_wheat_yields$county <- tolower(ID_wheat_yields$county)
 ID_wheat_yields$county <- sapply(ID_wheat_yields$county, simpleCap)
 ID_wheat_yields$value <- as.numeric(gsub(",","",ID_wheat_yields$value))
 
-OR_wheat_yields <- read.csv("/tmp/Oregon_yields_winterwheat.csv", header = TRUE)
+OR_wheat_yields <- read.csv("/tmp/seamon/Oregon_yields_winterwheat.csv", header = TRUE)
 OR_wheat_yields <- data.frame(OR_wheat_yields$Year, OR_wheat_yields$State, OR_wheat_yields$County,OR_wheat_yields$Value)
 colnames(OR_wheat_yields) <- c("year", "state", "county", "value")
 OR_wheat_yields$county <- tolower(OR_wheat_yields$county)
@@ -3603,21 +3603,21 @@ simpleCap <- function(x) {
       sep="", collapse=" ")
 }
 
-WA_wheat_yields <- read.csv("/tmp/Washington_yields_winterwheat.csv", header = TRUE)
+WA_wheat_yields <- read.csv("/tmp/seamon/Washington_yields_winterwheat.csv", header = TRUE)
 WA_wheat_yields <- data.frame(WA_wheat_yields$Year, WA_wheat_yields$State, WA_wheat_yields$County,WA_wheat_yields$Value)
 colnames(WA_wheat_yields) <- c("year", "state", "county", "value")
 WA_wheat_yields$county <- tolower(WA_wheat_yields$county)
 WA_wheat_yields$county <- sapply(WA_wheat_yields$county, simpleCap)
 WA_wheat_yields$value <- as.numeric(gsub(",","",WA_wheat_yields$value))
 
-ID_wheat_yields <- read.csv("/tmp/Idaho_yields_winterwheat.csv", header = TRUE)
+ID_wheat_yields <- read.csv("/tmp/seamon/Idaho_yields_winterwheat.csv", header = TRUE)
 ID_wheat_yields <- data.frame(ID_wheat_yields$Year, ID_wheat_yields$State, ID_wheat_yields$County,ID_wheat_yields$Value)
 colnames(ID_wheat_yields) <- c("year", "state", "county", "value")
 ID_wheat_yields$county <- tolower(ID_wheat_yields$county)
 ID_wheat_yields$county <- sapply(ID_wheat_yields$county, simpleCap)
 ID_wheat_yields$value <- as.numeric(gsub(",","",ID_wheat_yields$value))
 
-OR_wheat_yields <- read.csv("/tmp/Oregon_yields_winterwheat.csv", header = TRUE)
+OR_wheat_yields <- read.csv("/tmp/seamon/Oregon_yields_winterwheat.csv", header = TRUE)
 OR_wheat_yields <- data.frame(OR_wheat_yields$Year, OR_wheat_yields$State, OR_wheat_yields$County,OR_wheat_yields$Value)
 colnames(OR_wheat_yields) <- c("year", "state", "county", "value")
 OR_wheat_yields$county <- tolower(OR_wheat_yields$county)
@@ -4734,3 +4734,10 @@ title(ylab="Dry peas insurance claim loss ($)", line=5, cex.lab = 1.4)
            
 ```
 
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+
+#remove downloaded data from your /tmp/seamon workspace
+
+unlink("/tmp/seamon", recursive=TRUE)
+
+```

@@ -6,79 +6,79 @@
 #09/29/2019
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/climatology.zip"
-destfile <- "/tmp/climatology.zip"
+destfile <- "/tmp/seamon/climatology.zip"
 download.file(URL, destfile)
 outDir<-"/tmp/climatology/"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/RMA_originaldata_txt.zip"
-destfile <- "/tmp/RMA_originaldata_txt.zip"
+destfile <- "/tmp/seamon/RMA_originaldata_txt.zip"
 download.file(URL, destfile)
 outDir<-"/tmp/RMA_originaldata/"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_matrices/climate_matrices.zip"
-destfile <- "/tmp/climate_matrices.zip"
+destfile <- "/tmp/seamon/climate_matrices.zip"
 download.file(URL, destfile)
 outDir<-"/tmp/climate_matrices"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_correlation_summaries/climate_correlations_summaries.zip"
-destfile <- "/tmp/climate_correlations_summaries.zip"
+destfile <- "/tmp/seamon/climate_correlations_summaries.zip"
 download.file(URL, destfile)
 outDir<-"/tmp/climate_correlations_summaries"
 unzip(destfile,exdir=outDir) 
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_correlations/climate_correlations.zip"
-destfile <- "/tmp/climate_correlations.zip"
+destfile <- "/tmp/seamon/climate_correlations.zip"
 download.file(URL, destfile)
 outDir<-"/tmp/climate_correlations"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_outputs/climate_outputs.zip"
-destfile <- "/tmp/climate_outputs.zip"
+destfile <- "/tmp/seamon/climate_outputs.zip"
 download.file(URL, destfile)
 outDir<-"/tmp/climate_outputs"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
-destfile <- "/tmp/states_conus.zip"
+destfile <- "/tmp/seamon/states_conus.zip"
 download.file(URL, destfile)
 outDir<-"/tmp"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/threestate_boundary.zip"
-destfile <- "/tmp/threestate_boundary.zip"
+destfile <- "/tmp/seamon/threestate_boundary.zip"
 download.file(URL, destfile)
 outDir<-"/tmp"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_willamette.zip"
-destfile <- "/tmp/threestate_willamette.zip"
+destfile <- "/tmp/seamon/threestate_willamette.zip"
 download.file(URL, destfile)
 outDir<-"/tmp"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_southernID.zip"
-destfile <- "/tmp/threestate_southernID.zip"
+destfile <- "/tmp/seamon/threestate_southernID.zip"
 download.file(URL, destfile)
 outDir<-"/tmp"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
-destfile <- "/tmp/threestate_palouse.zip"
+destfile <- "/tmp/seamon/threestate_palouse.zip"
 download.file(URL, destfile)
 outDir<-"/tmp"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/CPI/CPI.zip"
-destfile <- "/tmp/CPI.zip"
+destfile <- "/tmp/seamon/CPI.zip"
 download.file(URL, destfile)
 outDir<-"/tmp"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/wheatproduction/wheatyields.zip"
-destfile <- "/tmp/wheatyields.zip"
+destfile <- "/tmp/seamon/wheatyields.zip"
 download.file(URL, destfile)
 outDir<-"/tmp"
 unzip(destfile,exdir=outDir)
@@ -93,7 +93,7 @@ countiesfips <- read.csv(text=getURL
 
 colnames(countiesfips) <- c("countyfips", "county", "state")
 
-write.csv(countiesfips, file = "/tmp/countiesfips.csv")
+write.csv(countiesfips, file = "/tmp/seamon/countiesfips.csv")
 
 
 
@@ -103,7 +103,7 @@ wheatprice <- read.csv(text=RCurl::getURL
 
 colnames(wheatprice) <- c("year", "month", "price")
 
-write.csv(wheatprice, file = "/tmp/wheatprice.csv")
+write.csv(wheatprice, file = "/tmp/seamon/wheatprice.csv")
 
 
 
@@ -113,7 +113,7 @@ wheatproduction <- read.csv(text=getURL
 
 colnames(wheatproduction) <- c("Year", "State", "Value")
 
-write.csv(wheatproduction, file = "/tmp/wheatproduction.csv")
+write.csv(wheatproduction, file = "/tmp/seamon/wheatproduction.csv")
 
 
 
