@@ -17,13 +17,21 @@ mainfont: serif
 ---
  
 
-```{r setup, include=FALSE}
+
+```{r setup, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE, out.width='600px', out.height='600px', dpi=200)
 
 #rmarkdown::render(input = "/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_A.Rmd", output_file = paste("/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_A.html", sep=""))
 
+usePackage <- function(p) {
+    if (!is.element(p, installed.packages()[,1]))
+        install.packages(p, dep = TRUE, repos = "http://cran.us.r-project.org")
+    require(p, character.only = TRUE)
+}
+
 ```
 ![](https://dmine.io/waf/img/Step1.png)
+
 **Dissertation Appendix A**
 
 **Chapter 1: Agricultural Insurance Loss Analysis of the Pacific Northwest, 2001 to 2015**
@@ -64,44 +72,58 @@ Several steps were performed to examine the full set of data, and to narrow down
 **Step 14.** PEAS: IPNW region overview of Insurance Loss 2001-2015
 
 
-
 ![](https://dmine.io/waf/img/Step1.png)
 
 
 ##Step 1: Data Preparation
 
-The first step was to load Pacific Northwest agricultural insurance commodity loss data, aggregate by county, damage cause and commodity, remove zeros, transform the loss values ($) into cube root and logrithmic outputs, and scale and center the data.  
+In order to generate any of the following tables and graphs, we download all data locally to your /tmp directory, from the seamon_dissertation_dataload.R file from the following location:
 
-Original data file for all insurance claims for the Pacific Northwest, can be found here:
+http://github.com/erichseamon/seamon_dissertation/data/
 
-https://github.com/erichseamon/paper-PHD1/blob/master/data/RMA_PNW_2001_2015.csv
+Then you will be able to re-generate any of the provided Rmarkdown files from:
 
-Aggregated data file, which summarizes data by year, county, commodity, and damage cause, for just the Pacific Northwest, can be found here:
+http://github.com/erichseamon/seamon_dissertation/appendices/
 
-https://github.com/erichseamon/paper-PHD1/blob/master/data/RMA_damage_PNW_2001_2015.csv
+the dataload.R file has a multitude of datasets, including:
+<br></br>
+* climatology summary data by county for the study area examined (inland Pacific Northwest);
+<br></br>
+* original RMA crop insurance data;
+<br></br>
+* state polygon shapefile;
+<br></br>
+* consumer price indexing;
+<br></br>
+* wheat yields; and
+<br></br>
+* wheat pricing
 
-All code that generates the following graphs and tables, can be found here:
+```{r message=FALSE, warning=FALSE, echo = FALSE}
 
-https://github.com/erichseamon/paper-PHD1/
+download.file("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/seamon_dissertation_dataload.R", destfile = "/tmp/dataload.R")
+
+usePackage("RCurl")
+source("/tmp/dataload.R", local=FALSE)
+
+```
 
 
-
-
-```{r message=FALSE, warning=FALSE}
-library(knitr)
-library(tab)
-library(car)
-library(RCurl)
-library(lme4)
-library(ez)
-library(lattice)
-library(ggplot2)
-library(coefplot2)
-library(broom)
-library(htmlTable)
-library(gridExtra)
-library(kableExtra)
-library(repmis)
+```{r message=FALSE, warning=FALSE, echo = FALSE}
+usePackage("knitr")
+usePackage("tab")
+usePackage("car")
+usePackage("RCurl")
+usePackage("lme4")
+usePackage("ez")
+usePackage("lattice")
+usePackage("ggplot2")
+usePackage("coefplot2")
+usePackage("broom")
+usePackage("htmlTable")
+usePackage("gridExtra")
+usePackage("kableExtra")
+usePackage("repmis")
 
 
 
@@ -285,7 +307,7 @@ sumloss_nonpalouse <- RMA_damage_PNW[!RMA_damage_PNW$county %in% palousecounties
 The following table is an example of the original data that was acquired from the USDA Risk Management Agency (RMA).  Each record represents an individual insurance claim.
 
 
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+```{r message=FALSE, warning=FALSE, error=TRUE, , echo = FALSE, fig.width = 10, fig.height = 9}
 
 knitr::kable(RMA_PNW[1:10,], format="markdown") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
@@ -295,10 +317,10 @@ knitr::kable(RMA_PNW[1:10,], format="markdown") %>%
 
 ##Step 3. Aggregated Insurance Loss Dataset - Pacific Northwest
 
-The following table is an example of an aggregated dataset derived from the original files.  Here we have summarized claims by year, county, commodity, and damage cause.  Each unique combination is summarized, which includes the total summarized loss, the number of claims, the total summarized acreage, loss per acre, loss per claim, and acres per claim.  This dataset was the basis for our data examination.
+The following table is an example of an aggregated dataset derived from the original files.  Here we have summarized claims by year, county, commodity, and damage cause.  Each unique combination is summarized, which echos the total summarized loss, the number of claims, the total summarized acreage, loss per acre, loss per claim, and acres per claim.  This dataset was the basis for our data examination.
 
 
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
 knitr::kable(RMA_damage_PNW[1:10,], format="markdown") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
@@ -313,15 +335,15 @@ knitr::kable(RMA_damage_PNW[1:10,], format="markdown") %>%
 The following map shows the three key agricultural regions that make up over 95% of all agricultural insurance loss for the three state region of Washington, Oregon, and Idaho.
 
 
-```{r message=FALSE, warning=FALSE, error=TRUE}
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE}
 
-library(data.table)
-library(maptools)
-library(classInt)
-library(leaflet)
-library(dplyr)
-library(raster)
-library(htmltools)
+usePackage("data.table")
+usePackage("maptools")
+usePackage("classInt")
+usePackage("leaflet")
+usePackage("dplyr")
+usePackage("raster")
+usePackage("htmltools")
 
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
 #destfile <- "/tmp/states_conus.zip"
@@ -419,9 +441,9 @@ addScaleBar(mapz, position = c("bottomright"), options = scaleBarOptions())
 
 Here we examine the PNW region's insurance loss by year, damage cause, and commodity, and county, from 1989 to 2015.  From the results of this examination, we narrow our time frame to 2001 to 2015. 
 
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
-library(htmlTable)
-library(gridExtra)
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 10, fig.height = 9}
+usePackage("htmlTable")
+usePackage("gridExtra")
 
 #palouse_sumloss_aggregate <- subset(palouse_sumloss_aggregate, year >= 2001 & year <= 2015)
 
@@ -466,7 +488,7 @@ mtext("Insurance Claim Loss ($)", cex = 1.9, side=2, line=6.5)
 
 #--Analysis for Entire PNW, from 2001 to 2015
 
-library(stringi)
+usePackage("stringi")
 
 palouse_sumloss_1989_2015 <- aggregate(RMA_PNW$loss, list(RMA_PNW$year), FUN = "sum")
 palouse_sumloss_1989_2015_dc <- aggregate(RMA_PNW$loss, list(RMA_PNW$damagecause), FUN = "sum")
@@ -674,14 +696,16 @@ htmlTable(dd2,
 
 Below we examine the PNW insurance claim counts by the same factors: by commodity, damage cause, year, and county.  
 
-```{r message=FALSE, warning=TRUE, error=TRUE, fig.width = 10, fig.height = 9, fig.show='hold'}
+```{r message=FALSE, warning=TRUE, echo = FALSE, error=TRUE, fig.width = 10, fig.height = 9, fig.show='hold'}
 
-library(plotly)
-library(gridExtra)
-library(knitr)
-library(kableExtra)
-library(htmlTable)
-library(stringi)
+usePackage("plotly")
+usePackage("gridExtra")
+usePackage("knitr")
+usePackage("kableExtra")
+usePackage("htmlTable")
+usePackage("stringi")
+usePackage("extrafont")
+
 
 #pie chart for 2007-2015
 
@@ -925,7 +949,7 @@ palouse_sumloss_1989_2015_loss_barplot$commodity <- tolower(palouse_sumloss_1989
 palouse_sumloss_1989_2015_loss_barplot$commodity <- stri_trans_general(palouse_sumloss_1989_2015_loss_barplot$commodity, id = "Title")
 
 gg1 <- ggplot(palouse_sumloss_1989_2015_loss_barplot, aes(fill=region, y=loss, x=commodity)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("PNW vs IPNW loss vs. commodity: 2001 to 2015") + theme(axis.title.y = element_text(family = "Serif", size=24), axis.title.x = element_text(family = "Serif", size = 24), axis.text.x = element_text(size=rel(2.3), angle = 90, hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(2.3), hjust = 1, family = "Serif")) + theme(plot.title = element_text(family = "Serif", vjust = 2))  + theme(legend.text=element_text(family = "Serif", size=24)) + theme(legend.title=element_text(family = "Serif", size=24, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(labels = paste(pts, "M", sep = ""), breaks = pts * 1000000 ) + ylab("Insurance Claim Loss ($)") + theme(legend.position="bottom") + scale_fill_manual("legend", values = c("PNW minus IPNW" = "red", "IPNW" = "blue")) 
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("PNW vs IPNW loss vs. commodity: 2001 to 2015") + theme(axis.title.y = element_text(size=24), axis.title.x = element_text(size = 24), axis.text.x = element_text(size=rel(2.3), angle = 90, hjust = 1), axis.text.y = element_text(size=rel(2.3), hjust = 1)) + theme(plot.title = element_text(vjust = 2))  + theme(legend.text=element_text(size=24)) + theme(legend.title=element_text(size=24, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(labels = paste(pts, "M", sep = ""), breaks = pts * 1000000 ) + ylab("Insurance Claim Loss ($)") + theme(legend.position="bottom") + scale_fill_manual("legend", values = c("PNW minus IPNW" = "red", "IPNW" = "blue")) 
 
 print(gg1)
 
@@ -940,15 +964,15 @@ print(gg1)
 
 ##Step 7: IPNW Study Area
 
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
-library(data.table)
-library(maptools)
-library(classInt)
-library(leaflet)
-library(dplyr)
-library(raster)
-library(htmltools)
+usePackage("data.table")
+usePackage("maptools")
+usePackage("classInt")
+usePackage("leaflet")
+usePackage("dplyr")
+usePackage("raster")
+usePackage("htmltools")
 #--irrigation analysis 2018
 
 
@@ -1027,14 +1051,14 @@ addScaleBar(mapz, position = c("topright"), options = scaleBarOptions())
 
 ##Step 8: IPNW insurance claim loss summary
 
-```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 9}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 9}
 
-library(plotly)
-library(gridExtra)
-library(knitr)
-library(kableExtra)
-library(htmlTable)
-library(stringi)
+usePackage("plotly")
+usePackage("gridExtra")
+usePackage("knitr")
+usePackage("kableExtra")
+usePackage("htmlTable")
+usePackage("stringi")
 
 #pie chart for 2007-2015
 
@@ -1251,7 +1275,7 @@ stripchart(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2
 
 ##Step 9: IPNW insurance claim count summary
 
-```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 palouse_sumloss_aggregate <- subset(RMA_damage_IPNW, year >= 2001 & year <= 2015) 
 
 #palouse_sumloss_1989_2015 <- subset(palouse_sumloss_aggregate, commodity == "WHEAT")
@@ -1312,9 +1336,9 @@ htmlTable(dd2,
 
 
 
-library(plotly)
-library(gridExtra)
-library(stringi)
+usePackage("plotly")
+usePackage("gridExtra")
+usePackage("stringi")
 
 #pie chart for 2007-2015
 
@@ -1382,11 +1406,6 @@ htmlTable(YYY2,
           css.cell = "padding-left: .5em; padding-right: .5em;")
 
 
-
-
-
-library(plotly)
-library(gridExtra)
 
 #pie chart for 2007-2015
 
@@ -1479,7 +1498,7 @@ p
 
 ##Step 10: APPLES, 2001-2015 for the IPNW
 
-```{r message=FALSE, warning=FALSE, error=TRUE}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE}
 
 #--reduce years to 2001-2015
 xxyear <- subset(RMA_damage_IPNW, year >= 2001)
@@ -1580,10 +1599,10 @@ palouse_sumloss_aggregate_barley$damagecause <- factor(palouse_sumloss_aggregate
 
 
 
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE, fig.width = 10, fig.height = 7}
 
-library(plotly)
-library(gridExtra)
+usePackage("plotly")
+usePackage("gridExtra")
 
 #pie chart for 2007-2015
 
@@ -1740,9 +1759,11 @@ htmlTable(YYY2,
 
 
 
-```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
-states <- readShapePoly('/dmine/data/states/states.shp', 
+usePackage("maptools")
+
+states <- readShapePoly('/tmp/states_conus.shp', 
                                   proj4string=CRS
                                   ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
         projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
@@ -1759,7 +1780,7 @@ APPLES_damage <- subset(APPLES, damagecause == "Hail" | damagecause == "Frost" |
 APPLES_damage$damagecause <- factor(APPLES_damage$damagecause)
 #aggregate(WHEAT_damage$loss, list(WHEAT_damage$damagecause), FUN = "sum")
 
-library(scales)
+usePackage("scales")
 
 APPLES_damage_top <- subset(APPLES_damage, damagecause == "Hail" | damagecause == "Frost" | damagecause == "Freeze")
 APPLES_damage_top <- subset(APPLES_damage_top, year >= 2001 & year <= 2015)
@@ -1840,7 +1861,7 @@ county_apples_hailfrostfreeze2012 <- merge(counties, APPLES_damage_top_agg_hailf
 par(mar=c(11,8,6,2), family = 'serif', mgp = c(5, 1, 0)) 
 
 gg2 <- ggplot(APPLES_damage_top, aes(fill=damagecause, y=loss, x=year)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW apples loss vs. year - top damage causes") + theme(axis.title.y = element_text(family = "Serif", size=24), axis.title.x = element_text(family = "Serif", size = 24), axis.text.y = element_text(size=rel(2.5), hjust = 1, family = "Serif"), axis.text.x = element_text(size=rel(2.5), angle = 90, hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Hail" = "red", "Frost" = "blue", "Freeze" = "gray")) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW apples loss vs. year - top damage causes") + theme(axis.title.y = element_text(size=24), axis.title.x = element_text(size = 24), axis.text.y = element_text(size=rel(2.5), hjust = 1), axis.text.x = element_text(size=rel(2.5), angle = 90, hjust = 1)) + theme(plot.title = element_text(size =28))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(size=14)) + scale_fill_manual("legend", values = c("Hail" = "red", "Frost" = "blue", "Freeze" = "gray")) + theme(legend.title=element_text(size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
 
 print(gg2)
 
@@ -2103,7 +2124,7 @@ graphics::title(xlab="Counties", line=7, cex.lab = 1.4)
 graphics::title(ylab="Apples insurance claim loss ($)", line=4, cex.lab = 1.4)
 
 gg3 <- ggplot(apples_hailfrostfreeze_count2006, aes(fill=damagecause, y=count, x=county)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("2006 IPNW apples counts vs. county: Hail/Frost/Freeze") + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(2), angle = 90, hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(2), family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Hail" = "red", "Frost" = "blue", "Freeze" = "gray")) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) +  theme(legend.position="bottom") + scale_y_discrete(limits=c(1:10))
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("2006 IPNW apples counts vs. county: Hail/Frost/Freeze") + theme(axis.title.y = element_text(size=16), axis.title.x = element_text(size = 16), axis.text.x = element_text(size=rel(2), angle = 90, hjust = 1), axis.text.y = element_text(size=rel(2))) + theme(plot.title = element_text(size =28))  + theme(legend.text=element_text(size=14)) + scale_fill_manual("legend", values = c("Hail" = "red", "Frost" = "blue", "Freeze" = "gray")) + theme(legend.title=element_text(size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) +  theme(legend.position="bottom") + scale_y_discrete(limits=c(1:10))
 
 print(gg3)
 
@@ -2156,10 +2177,10 @@ graphics::title(ylab="Apples insurance claim loss ($)", line=4, cex.lab = 1.4)
 
 ##Step 11: BARLEY, 2001-2015 for the IPNW
 
-```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE, fig.width = 10, fig.height = 7}
 
-library(plotly)
-library(gridExtra)
+usePackage("plotly")
+usePackage("gridExtra")
 
 #pie chart for 2007-2015
 
@@ -2285,9 +2306,9 @@ htmlTable(YYY2,
 
 
 
-```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
-library(RColorBrewer)
+usePackage("RColorBrewer")
 
 #states <- readShapePoly('/dmine/data/states/states.shp', 
 #                                  proj4string=CRS
@@ -2306,7 +2327,7 @@ BARLEY_damage <- subset(BARLEY, damagecause == "Drought" | damagecause == "Heat"
 BARLEY_damage$damagecause <- factor(BARLEY_damage$damagecause)
 #aggregate(WHEAT_damage$loss, list(WHEAT_damage$damagecause), FUN = "sum")
 
-library(scales)
+usePackage("scales")
 
 BARLEY_damage_top <- subset(BARLEY_damage, damagecause == "Heat" | damagecause == "Drought" | damagecause == "Excessive Moisture")
 BARLEY_damage_top$damagecause <- factor(BARLEY_damage_top$damagecause, levels = c("Excessive Moisture", "Heat", "Drought"))
@@ -2353,7 +2374,7 @@ county_barley_droughtheat <- merge(counties, BARLEY_damage_top_agg_droughtheat, 
 par(mar = c(5, 5, 4, 1), family = 'serif')
 
 ggplot(BARLEY_damage_top, aes(fill=damagecause, y=loss, x=year)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW barley loss vs. year - top damage causes") + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Drought" = "red", "Heat" = "blue", "Excessive Moisture" = "gray")) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW barley loss vs. year - top damage causes") + theme(axis.title.y = element_text(size=16), axis.title.x = element_text(size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1)) + theme(plot.title = element_text(size =28))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(size=14)) + scale_fill_manual("legend", values = c("Drought" = "red", "Heat" = "blue", "Excessive Moisture" = "gray")) + theme(legend.title=element_text(size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
 
 
 barley <- palouse_sumloss_aggregate_barley
@@ -2421,7 +2442,7 @@ stripchart(log10_loss ~ county, data = palouse_sumloss_aggregate_barley, vertica
 
 #---2011
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -2502,7 +2523,7 @@ graphics::title(ylab="Insurance claim loss ($)", line=4, cex.lab = 1.4)
 
 #---2015
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -2573,7 +2594,7 @@ graphics::title(ylab="Insurance claim loss ($)", line=4, cex.lab = 1.4)
 
 #---2001 - 2015
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -2653,11 +2674,11 @@ graphics::title(ylab="Insurance claim loss ($)", line=4, cex.lab = 1.4)
 
 ##Step 12: WHEAT, 2001-2015 for the IPNW
 
-```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
-library(plotly)
-library(gridExtra)
-library(scales)
+usePackage("plotly")
+usePackage("gridExtra")
+usePackage("scales")
 
 #pie chart for 2007-2015
 
@@ -2783,13 +2804,17 @@ htmlTable(YYY2,
 
 ##Step 7: Nationwide Wheat Prices per metric ton: 2001-2015 
 
-wheatprice <- read.csv("/dmine/data/USDAprices/wheatprices_1998_2017.csv", header=TRUE, strip.white =TRUE)
-colnames(wheatprice) <- c("year", "month","price")
+wheatprice <- read.csv("/tmp/wheatprice.csv", header=TRUE, strip.white =TRUE)
+colnames(wheatprice) <- c("ID", "year", "month","price")
 wheatprice_all <- subset(wheatprice, year >= 2001 & year <= 2015)
 
-cpi <- data.frame(read.csv("/dmine/data/FRED/cpi/CPIAUCSL2001_2015.csv", header = TRUE, strip.white = TRUE))
+cpi <- data.frame(read.csv("/tmp/CPI.csv", header = TRUE, strip.white = TRUE))
+cpi <- subset(cpi, year >= 2001 & year <= 2015)
+
+
 
 wheatprice_all$price_adjusted <- wheatprice_all$price * cpi$ratio
+wheatprice_all <- wheatprice_all[-1]
 colnames(wheatprice_all) <- c("year", "month","price", "price_adjusted")
 
 par(mar=c(5.8, 7.1, 4, 2.1), family = 'serif', mgp=c(3, 1, 0), las=0)
@@ -2818,11 +2843,11 @@ graphics::title(ylab="Price per metric ton ($)", line=3.5, cex.lab = 1.4)
 
 #--wheat production PNW 2001 - 2015
 
-wheatproduction <- read.csv("/dmine/data/NASS/wheatproduction_WA_ID_OR_2001_2015.csv", header=TRUE, strip.white =TRUE)
-colnames(wheatprice) <- c("year", "month","price")
+wheatproduction <- read.csv("/tmp/wheatproduction.csv", header=TRUE, strip.white =TRUE)
+#colnames(wheatprice) <- c("Year", "Month","Value")
 
 ggplot(wheatproduction, aes(fill=State, y=Value, x=Year)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("PNW Wheat production, 2001 to 2015 ") + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.9), angle = 90, hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14))  + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Wheat production ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom") + scale_fill_manual("legend", values = c("IDAHO" = "gray", "OREGON" = "blue", "WASHINGTON" = "red"))
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("PNW Wheat production, 2001 to 2015 ") + theme(axis.title.y = element_text(size=16), axis.title.x = element_text(size = 16), axis.text.x = element_text(size=rel(1.9), angle = 90, hjust = 1), axis.text.y = element_text(size=rel(1.5))) + theme(plot.title = element_text(size =28))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(size=14))  + theme(legend.title=element_text(size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(name = "Wheat production ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom") + scale_fill_manual("legend", values = c("IDAHO" = "gray", "OREGON" = "blue", "WASHINGTON" = "red"))
 
 #wheatprice_year <- aggregate(wheatprice_all$price, list(wheatprice$year), FUN="mean")
 #colnames(wheatprice_year) <- c("year", "price")
@@ -2839,11 +2864,11 @@ ggplot(wheatproduction, aes(fill=State, y=Value, x=Year)) +
 ```
 
 
-```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
 
-library(RColorBrewer)
-library(scales)
+usePackage("RColorBrewer")
+usePackage("scales")
 
 simpleCap <- function(x) {
   s <- strsplit(x, " ")[[1]]
@@ -2909,21 +2934,21 @@ county_wheat_droughtheat2015 <- merge(counties, WHEAT_damage_top_agg_droughtheat
 
 #yields
 
-WA_wheat_yields <- read.csv("/dmine/data/NASS/Washington_yields_winterwheat.csv", header = TRUE)
+WA_wheat_yields <- read.csv("/tmp/Washington_yields_winterwheat.csv", header = TRUE)
 WA_wheat_yields <- data.frame(WA_wheat_yields$Year, WA_wheat_yields$State, WA_wheat_yields$County,WA_wheat_yields$Value)
 colnames(WA_wheat_yields) <- c("year", "state", "county", "value")
 WA_wheat_yields$county <- tolower(WA_wheat_yields$county)
 WA_wheat_yields$county <- sapply(WA_wheat_yields$county, simpleCap)
 WA_wheat_yields$value <- as.numeric(gsub(",","",WA_wheat_yields$value))
 
-ID_wheat_yields <- read.csv("/dmine/data/NASS/Idaho_yields_winterwheat.csv", header = TRUE)
+ID_wheat_yields <- read.csv("/tmp/Idaho_yields_winterwheat.csv", header = TRUE)
 ID_wheat_yields <- data.frame(ID_wheat_yields$Year, ID_wheat_yields$State, ID_wheat_yields$County,ID_wheat_yields$Value)
 colnames(ID_wheat_yields) <- c("year", "state", "county", "value")
 ID_wheat_yields$county <- tolower(ID_wheat_yields$county)
 ID_wheat_yields$county <- sapply(ID_wheat_yields$county, simpleCap)
 ID_wheat_yields$value <- as.numeric(gsub(",","",ID_wheat_yields$value))
 
-OR_wheat_yields <- read.csv("/dmine/data/NASS/Oregon_yields_winterwheat.csv", header = TRUE)
+OR_wheat_yields <- read.csv("/tmp/Oregon_yields_winterwheat.csv", header = TRUE)
 OR_wheat_yields <- data.frame(OR_wheat_yields$Year, OR_wheat_yields$State, OR_wheat_yields$County,OR_wheat_yields$Value)
 colnames(OR_wheat_yields) <- c("year", "state", "county", "value")
 OR_wheat_yields$county <- tolower(OR_wheat_yields$county)
@@ -2953,14 +2978,14 @@ iPNW_yields_map <- merge(counties, iPNW_wheat_yields_annual_average, by=c("NAME"
 par(mar = c(5, 5, 4, 1), family = 'serif')
 
 ggplot(WHEAT_damage_top, aes(fill=damagecause, y=loss, x=year)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW wheat loss vs. year - top damage causes") + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Drought" = "red", "Heat" = "blue", "Excessive Moisture" = "gray")) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW wheat loss vs. year - top damage causes") + theme(axis.title.y = element_text(size=16), axis.title.x = element_text(size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1)) + theme(plot.title = element_text(size =28))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(size=14)) + scale_fill_manual("legend", values = c("Drought" = "red", "Heat" = "blue", "Excessive Moisture" = "gray")) + theme(legend.title=element_text(size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
 
 #--decline in price replacing excess moisture
 
 par(mar = c(5, 5, 4, 1), family = 'serif')
 
 ggplot(WHEAT_damage_top_decline, aes(fill=damagecause, y=loss, x=year)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW wheat loss vs. year - top damage causes + Decline in Price") + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Drought" = "red", "Heat" = "blue", "Decline in Price" = "gray")) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW wheat loss vs. year - top damage causes + Decline in Price") + theme(axis.title.y = element_text(size=16), axis.title.x = element_text(size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1)) + theme(plot.title = element_text(size =28))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(size=14)) + scale_fill_manual("legend", values = c("Drought" = "red", "Heat" = "blue", "Decline in Price" = "gray")) + theme(legend.title=element_text(size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
 
 #--decline in price as well as excess moisture, heat, and drought
 
@@ -2970,7 +2995,7 @@ WHEAT_damage_top_decline_moisture <- subset(WHEAT_damage_top_decline_moisture, y
 par(mar = c(5, 5, 4, 1), family = 'serif')
 
 ggplot(WHEAT_damage_top_decline_moisture) + 
-    geom_bar( aes(fill=damagecause, y=loss, x=year), stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW wheat loss top damage causes \nvs. wheat production") + theme(axis.title.y = element_text(family = "Serif", size=24), axis.title.x = element_text(family = "Serif", size = 24), axis.text.x = element_text(size=rel(2.5), angle = 90, hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(2.5), hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Drought" = "red", "Heat" = "darkred", "Excessive Moisture" = "blue", "Decline in Price" = "gray")) + theme(legend.title=element_text(family = "Serif", size=24, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom") 
+    geom_bar( aes(fill=damagecause, y=loss, x=year), stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW wheat loss top damage causes \nvs. wheat production") + theme(axis.title.y = element_text(size=24), axis.title.x = element_text(size = 24), axis.text.x = element_text(size=rel(2.5), angle = 90, hjust = 1), axis.text.y = element_text(size=rel(2.5), hjust = 1)) + theme(plot.title = element_text(size =28))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(size=14)) + scale_fill_manual("legend", values = c("Drought" = "red", "Heat" = "darkred", "Excessive Moisture" = "blue", "Decline in Price" = "gray")) + theme(legend.title=element_text(size=24, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom") 
 
 #+ geom_line(data=iPNW_wheat_yields_annual_average_barplot, aes(x=Year, y=ave_yield), colour = "blue")
 
@@ -3054,7 +3079,7 @@ stripchart(log10_loss ~ county, data = palouse_sumloss_aggregate_wheat2, vertica
 
 #---
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -3135,7 +3160,7 @@ graphics::title(ylab="Insurance claim loss ($)", line=5, cex.lab = 1.4)
   
   #---
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -3209,7 +3234,7 @@ graphics::title(ylab="Insurance claim loss ($)", line=5, cex.lab = 1.4)
   
   #---
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -3280,7 +3305,7 @@ graphics::title(ylab="Insurance claim loss ($)", line=5, cex.lab = 1.4)
 
   #---
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -3350,12 +3375,12 @@ graphics::title(ylab="Insurance claim loss ($)", line=5, cex.lab = 1.4)
 
 #interaction plots for wheat
 
-library(plotly)
-library(gridExtra)
-library(knitr)
-library(kableExtra)
-library(htmlTable)
-library(plotrix)
+usePackage("plotly")
+usePackage("gridExtra")
+usePackage("knitr")
+usePackage("kableExtra")
+usePackage("htmlTable")
+usePackage("plotrix")
 
 #pie chart for 2007-2015
 
@@ -3570,7 +3595,7 @@ graphics::title(ylab="Wheat Claim Frequency: All Damage Causes", line=3.5, cex.l
 
 #model_count <- glm(formula = log(loss) ~ damagecause + commodity, family = "poisson", data = palouse_sumloss_1989_2015_count)
 
-library(Hmisc)
+usePackage("Hmisc")
 
 simpleCap <- function(x) {
   s <- strsplit(x, " ")[[1]]
@@ -3578,21 +3603,21 @@ simpleCap <- function(x) {
       sep="", collapse=" ")
 }
 
-WA_wheat_yields <- read.csv("/dmine/data/NASS/Washington_yields_winterwheat.csv", header = TRUE)
+WA_wheat_yields <- read.csv("/tmp/Washington_yields_winterwheat.csv", header = TRUE)
 WA_wheat_yields <- data.frame(WA_wheat_yields$Year, WA_wheat_yields$State, WA_wheat_yields$County,WA_wheat_yields$Value)
 colnames(WA_wheat_yields) <- c("year", "state", "county", "value")
 WA_wheat_yields$county <- tolower(WA_wheat_yields$county)
 WA_wheat_yields$county <- sapply(WA_wheat_yields$county, simpleCap)
 WA_wheat_yields$value <- as.numeric(gsub(",","",WA_wheat_yields$value))
 
-ID_wheat_yields <- read.csv("/dmine/data/NASS/Idaho_yields_winterwheat.csv", header = TRUE)
+ID_wheat_yields <- read.csv("/tmp/Idaho_yields_winterwheat.csv", header = TRUE)
 ID_wheat_yields <- data.frame(ID_wheat_yields$Year, ID_wheat_yields$State, ID_wheat_yields$County,ID_wheat_yields$Value)
 colnames(ID_wheat_yields) <- c("year", "state", "county", "value")
 ID_wheat_yields$county <- tolower(ID_wheat_yields$county)
 ID_wheat_yields$county <- sapply(ID_wheat_yields$county, simpleCap)
 ID_wheat_yields$value <- as.numeric(gsub(",","",ID_wheat_yields$value))
 
-OR_wheat_yields <- read.csv("/dmine/data/NASS/Oregon_yields_winterwheat.csv", header = TRUE)
+OR_wheat_yields <- read.csv("/tmp/Oregon_yields_winterwheat.csv", header = TRUE)
 OR_wheat_yields <- data.frame(OR_wheat_yields$Year, OR_wheat_yields$State, OR_wheat_yields$County,OR_wheat_yields$Value)
 colnames(OR_wheat_yields) <- c("year", "state", "county", "value")
 OR_wheat_yields$county <- tolower(OR_wheat_yields$county)
@@ -3757,10 +3782,10 @@ pts2 <- pretty(wheat_aggregated_drought_heat$loss)
 
 ##Step 13: CHERRIES, 2001-2015 for the IPNW
 
-```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
-library(plotly)
-library(gridExtra)
+usePackage("plotly")
+usePackage("gridExtra")
 
 #pie chart for 2007-2015
 
@@ -3892,9 +3917,9 @@ htmlTable(YYY2,
 
 
 
-```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
-library(RColorBrewer)
+usePackage("RColorBrewer")
 
 
 CHERRIES <- subset(RMA_damage_IPNW, commodity == "CHERRIES")
@@ -3954,7 +3979,7 @@ county_cherries_moisturefrostfreeze2015 <- merge(counties, CHERRIES_damage_top_a
 par(mar = c(5, 5, 4, 1), family = 'serif')
 
 ggplot(CHERRIES_damage_top, aes(fill=damagecause, y=loss, x=year)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW cherries loss vs. year - top damage causes") + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Excessive Moisture" = "red", "Frost" = "blue", "Freeze" = "gray")) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW cherries loss vs. year - top damage causes") + theme(axis.title.y = element_text(size=16), axis.title.x = element_text(size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1)) + theme(plot.title = element_text(size =28))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(size=14)) + scale_fill_manual("legend", values = c("Excessive Moisture" = "red", "Frost" = "blue", "Freeze" = "gray")) + theme(legend.title=element_text(size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
 
 
 cherries <- palouse_sumloss_aggregate_cherries
@@ -4022,7 +4047,7 @@ stripchart(log10_loss ~ county, data = palouse_sumloss_aggregate_cherries, verti
 
 #---
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -4093,7 +4118,7 @@ title(ylab="Cherries insurance claim loss ($)", line=5, cex.lab = 1.4)
   
   #----
   
-  library(htmltools)
+  usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -4165,7 +4190,7 @@ title(ylab="Cherries insurance claim loss ($)", line=5, cex.lab = 1.4)
   
   #---
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -4242,10 +4267,10 @@ title(ylab="Cherries insurance claim loss ($)", line=5, cex.lab = 1.4)
 
 ##Step 14: DRY PEAS, 2001-2015 for the IPNW
 
-```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
-library(plotly)
-library(gridExtra)
+usePackage("plotly")
+usePackage("gridExtra")
 
 #pie chart for 2007-2015
 
@@ -4371,7 +4396,7 @@ htmlTable(YYY2,
 
 
 
-```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
 
 DRYPEAS <- subset(RMA_damage_IPNW, commodity == "DRY PEAS")
@@ -4426,7 +4451,7 @@ county_drypeas_excessivemoisture2011 <- merge(counties, DRYPEAS_damage_top_agg_e
 par(mar = c(5, 5, 4, 1), family = 'serif')
 
 ggplot(DRYPEAS_damage_top, aes(fill=damagecause, y=loss, x=year)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW dry peas loss vs. year - top damage causes") + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Excessive Moisture" = "gray", "Heat" = "blue", "Drought" = "red")) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW dry peas loss vs. year - top damage causes") + theme(axis.title.y = element_text(size=16), axis.title.x = element_text(size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1)) + theme(plot.title = element_text(size =28))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(size=14)) + scale_fill_manual("legend", values = c("Excessive Moisture" = "gray", "Heat" = "blue", "Drought" = "red")) + theme(legend.title=element_text(size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
 
 drypeas <- palouse_sumloss_aggregate_drypeas
 #i <- interaction.plot(x.factor     = drypeas$year,
@@ -4494,7 +4519,7 @@ stripchart(log10_loss ~ county, data = palouse_sumloss_aggregate_drypeas, vertic
 
 #---
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -4565,7 +4590,7 @@ title(ylab="Dry peas insurance claim loss ($)", line=5, cex.lab = 1.4)
   
   #----
   
-  library(htmltools)
+  usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 
@@ -4637,7 +4662,7 @@ title(ylab="Dry peas insurance claim loss ($)", line=5, cex.lab = 1.4)
   
   #---
 
-library(htmltools)
+usePackage("htmltools")
   
   tag.map.title <- tags$style(HTML("
   .leaflet-control.map-title { 

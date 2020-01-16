@@ -1,7 +1,7 @@
 ---
 title: 'Appendix A: Agricultural Insurance Loss and Relationships to Climate across
   the Inland Pacific Northwest Region of the United States'
-author: "Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip Mote, Stephen Lee"
+author: "Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip W. Mote, Stephen S. Lee"
 date: "September 2019"
 output:
   html_document:
@@ -20,7 +20,7 @@ mainfont: serif
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, out.width='600px', out.height='600px', dpi=200)
 
-#rmarkdown::render(input = "/dmine/code/git/paper-PHD1/appendix/paper-PHD1-appendix_EDA.Rmd", output_file = paste("/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_A.html", sep=""))
+#rmarkdown::render(input = "/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_A.Rmd", output_file = paste("/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_A.html", sep=""))
 
 ```
 ![](https://dmine.io/waf/img/Step1.png)
@@ -101,267 +101,179 @@ library(broom)
 library(htmlTable)
 library(gridExtra)
 library(kableExtra)
+library(repmis)
+
+
 
 #options(scipen=999)
 
-#load original data as txt file 
 
-rma1988 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1988.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1989 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1989.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1990 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1990.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1991 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1991.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1992 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1992.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1993 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1993.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1994 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1994.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1995 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1995.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1996 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1996.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1997 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1997.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1998 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1998.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1999 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/1999.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2000 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2000.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2001 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2001.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2002 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2002.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2003 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2003.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2004 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2004.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2005 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2005.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2006 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2006.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2007 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2007.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2008 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2008.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2009 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2009.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2010 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2010.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2011 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2011.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2012 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2012.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2013 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2013.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2014 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2014.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2015 <- read.csv("/dmine/data/USDA/crop_indemnity_txt/2015.txt", sep = "|", header = FALSE, strip.white = TRUE)
+#------add crop insurance data
 
-#load original data as from github as a joint file - 1989 to 2001 and 2001 to 2015
-
-#RMA_2015 <- read.csv("https://raw.githubusercontent.com/erichseamon/paper-PHD1/master/data/RMA_csv/US_RMA_2001_2015.csv", sep = ",", header = FALSE, strip.white = TRUE)
-
-#RMA_1989 <- read.csv("https://raw.githubusercontent.com/erichseamon/paper-PHD1/master/data/RMA_csv/US_RMA_1989_2000.csv", sep = ",", header = FALSE, strip.white = TRUE)
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/RMA_originaldata_txt.zip"
+#destfile <- "/tmp/RMA_originaldata_txt.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp/RMA_originaldata/"
+#unzip(destfile,exdir=outDir)
 
 
+rma1989 <- read.csv("/tmp/RMA_originaldata/1989.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1990 <- read.csv("/tmp/RMA_originaldata/1990.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1991 <- read.csv("/tmp/RMA_originaldata/1991.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1992 <- read.csv("/tmp/RMA_originaldata/1992.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1993 <- read.csv("/tmp/RMA_originaldata/1993.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1994 <- read.csv("/tmp/RMA_originaldata/1994.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1995 <- read.csv("/tmp/RMA_originaldata/1995.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1996 <- read.csv("/tmp/RMA_originaldata/1996.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1997 <- read.csv("/tmp/RMA_originaldata/1997.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1998 <- read.csv("/tmp/RMA_originaldata/1998.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1999 <- read.csv("/tmp/RMA_originaldata/1999.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2000 <- read.csv("/tmp/RMA_originaldata/2000.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2001 <- read.csv("/tmp/RMA_originaldata/2001.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2002 <- read.csv("/tmp/RMA_originaldata/2002.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2003 <- read.csv("/tmp/RMA_originaldata/2003.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2004 <- read.csv("/tmp/RMA_originaldata/2004.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2005 <- read.csv("/tmp/RMA_originaldata/2005.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2006 <- read.csv("/tmp/RMA_originaldata/2006.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2007 <- read.csv("/tmp/RMA_originaldata/2007.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2008 <- read.csv("/tmp/RMA_originaldata/2008.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2009 <- read.csv("/tmp/RMA_originaldata/2009.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2010 <- read.csv("/tmp/RMA_originaldata/2010.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2011 <- read.csv("/tmp/RMA_originaldata/2011.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2012 <- read.csv("/tmp/RMA_originaldata/2012.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2013 <- read.csv("/tmp/RMA_originaldata/2013.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2014 <- read.csv("/tmp/RMA_originaldata/2014.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2015 <- read.csv("/tmp/RMA_originaldata/2015.txt", sep = "|", header = FALSE, strip.white = TRUE)
+
+
+#load individual files from 1989 to 2000
 RMA_1989 <- rbind(rma1989, rma1990, rma1991, rma1992, rma1993, rma1994, rma1995, rma1996, rma1997, rma1998, rma1999, rma2000)
 
+#filter columns
 RMA_1989 <- data.frame(RMA_1989[,1], RMA_1989[,3], RMA_1989[,5], RMA_1989[,7], RMA_1989[,12], RMA_1989[,13], RMA_1989[,14], RMA_1989[,15])
 
+#set column names
 colnames(RMA_1989) <- c("year", "state", "county", "commodity", "damagecause", "monthcode", "month", "loss")
-#write.csv(RMA_1989, file = "/dmine/code/git/paper-PHD1/data/RMA_csv/US_RMA_1989_2000.csv")
-#save(RMA_1989,file="/dmine/code/git/paper-PHD1/data/RMA_Rda/US_RMA_1989_2000.Rda")
 
+#load individual files from 2001 to 2015
 RMA <- rbind(rma2001, rma2002, rma2003, rma2004, rma2005, rma2006, rma2007, rma2008, rma2009, rma2010, rma2011, rma2012, rma2013, rma2014, rma2015)
 
+#filter columns
 RMA <- data.frame(RMA[,1], RMA[,3], RMA[,5], RMA[,7], RMA[,12], RMA[,13], RMA[,14], RMA[,15], RMA[,16])
 
+#set column names
 colnames(RMA) <- c("year", "state", "county", "commodity", "damagecause", "monthcode", "month", "acres", "loss")
-#write.csv(RMA, file = "/dmine/code/git/paper-PHD1/data/RMA_csv/US_RMA_2001_2015.csv")
-#save(RMA,file="/dmine/code/git/paper-PHD1/data/RMA_Rda/US_RMA_2001_2015.Rda")
 
-
+#subset 2001 to 2015 for ID, WA, and OR
 RMA_PNW <- subset(RMA, state == "WA" | state == "OR" | state == "ID" )
-#save(RMA_PNW,file="/dmine/code/git/paper-PHD1/data/RMA_Rda/PNW_RMA_2001_2015.Rda")
-#write.csv(RMA_PNW, file = "/dmine/code/git/paper-PHD1/data/RMA_csv/RMA_PNW_2001_2015.csv")
 
+#subset 1989 to 2000 for ID, WA, and OR
 RMA_PNW_1989 <- subset(RMA_1989, state == "WA" | state == "OR" | state == "ID" )
-#save(RMA_PNW_1989,file="/dmine/code/git/paper-PHD1/data/RMA_Rda/PNW_RMA_1989_2000.Rda")
-write.csv(RMA_PNW_1989, file = "/dmine/code/git/paper-PHD1/data/RMA_csv/RMA_PNW_1989_2000.csv")
 
-
+#calculate loss per acre
 RMA_PNW$lossperacre <- RMA_PNW$loss / RMA_PNW$acres
 
+#remove records with missing months
 RMA_PNW <- subset(RMA_PNW, month != "")
 
+#set a crop year column (i.e. water year)
 RMA_PNW$cropyear <- RMA_PNW$year
 
+#make oct/nov/dec part of the crop year
 RMA_PNW$cropyear[RMA_PNW$monthcode >= 10] <- RMA_PNW$year + 1
 
+#remove 2016
 RMA_PNW <- subset(RMA_PNW, year != 2016)
 
 
-
+#aggregate by year/state/county/commodity, for total loss in $
 RMA_commodity_loss <- aggregate(RMA$loss, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity), FUN = sum)
 colnames(RMA_commodity_loss) <- c("year", "state", "county", "commodity", "loss")
 RMA_commodity_loss <- subset(RMA_commodity_loss, commodity != "ADJUSTED GROSS REVENUE")
 
+#aggregate by year/state/county/commodity for total number of claims
 RMA_commodity_count <- aggregate(RMA$loss, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity), FUN = length)
 colnames(RMA_commodity_count) <- c("year", "state", "county", "commodity", "count")
 RMA_commodity_count <- subset(RMA_commodity_count, commodity != "ADJUSTED GROSS REVENUE")
 
-
+#aggregate for year/state/county/commodity for acreage
 RMA_commodity_acres <- aggregate(RMA$acres, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity), FUN = sum)
 colnames(RMA_commodity_acres) <- c("year", "state", "county", "commodity", "acres")
 RMA_commodity_acres <- subset(RMA_commodity_acres, commodity != "ADJUSTED GROSS REVENUE")
 
-
+#aggregate for year/state/county/damage cause for total loss in $
 RMA_damage_loss <- aggregate(RMA$loss, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity, RMA$damagecause), FUN = sum)
 colnames(RMA_damage_loss) <- c("year", "state", "county", "commodity", "damagecause", "loss")
 
-
+#aggregate for year/state/county/commodity/damage cause by total loss in $
 RMA_damage_count <- aggregate(RMA$loss, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity, RMA$damagecause), FUN = length)
 colnames(RMA_damage_count) <- c("year", "state", "county", "commodity", "damagecause", "count")
 
-
+#aggregate by year/state/county/commodity/damage cause by acres
 RMA_damage_acres <- aggregate(RMA$acres, by = list(RMA$year, RMA$state, RMA$county, RMA$commodity, RMA$damagecause), FUN = sum)
 colnames(RMA_damage_acres) <- c("year", "state", "county", "commodity", "damaecause", "acres")
 
-
+#combine all the aggregated commodity values (loss, count, acreage)
 RMA_commodity_combined <- cbind(RMA_commodity_loss, RMA_commodity_count$count, RMA_commodity_acres$acres)
 colnames(RMA_commodity_combined) <- c("year", "state", "county", "commodity", "loss", "count", "acres")
 
+#calculate lossperacre for aggregated commodity
 RMA_commodity_combined$lossperacre <- RMA_commodity_combined$loss / RMA_commodity_combined$acres
+
+#calculate loss per claim for aggregated commodity
 RMA_commodity_combined$lossperclaim <- RMA_commodity_combined$loss / RMA_commodity_combined$count
+
+#calculate acres per claim for aggregated commodity
 RMA_commodity_combined$acresperclaim <- RMA_commodity_combined$acres / RMA_commodity_combined$count
 
-
+#combine all aggregated damage cause values (loss, count, acreage) 
 RMA_damage_combined <- cbind(RMA_damage_loss, RMA_damage_count$count, RMA_damage_acres$acres)
 colnames(RMA_damage_combined) <- c("year", "state", "county", "commodity", "damagecause", "loss", "count", "acres")
+
+#calculate lossperacre for aggregated damage cause
 RMA_damage_combined$lossperacre <- RMA_damage_combined$loss / RMA_damage_combined$acres
+
+#calculate loss per claim for aggregated damage cause
 RMA_damage_combined$lossperclaim <- RMA_damage_combined$loss / RMA_damage_combined$count
+
+#calculate acres per claim for aggregated damage cause
 RMA_damage_combined$acresperclaim <- RMA_damage_combined$acres / RMA_damage_combined$count
 
-
+#set NAs for loss per acre for damage cause combo to zero.  
 RMA_damage_combined$lossperacre[!is.finite(RMA_damage_combined$lossperacre)] <- 0
-#write.csv(RMA_commodity_combined, file = paste("/nfs/soilsesfeedback-data/data/RMA/RMA_commodity_combined.csv", sep=""))
-#write.csv(RMA_damage_combined, file = paste("/nfs/soilsesfeedback-data/data/RMA/RMA_damage_combined.csv", sep=""))
 
 #subset for PNW - 2001 - 2015
 RMA_damage_PNW <- subset(RMA_damage_combined, state == "WA" | state == "OR" | state == "ID")
 
+#remove all other counties values
 RMA_damage_PNW <- subset(RMA_damage_PNW, county != "All Other Counties")
-#write.csv(RMA_damage_PNW, file = "/dmine/data/USDA/crop_indemnity_PNW/RMA_damage_PNW_2001_2015.csv")
 
+#subset just for Idaho
 RMA_Idaho <- subset(RMA_damage_PNW, state == "ID")
+
+#subset just for Oregon
 RMA_Oregon <- subset(RMA_damage_PNW, state == "OR")
+
+#subset just for Washington
 RMA_Washington <- subset(RMA_damage_PNW, state == "WA")
 
+#subset just for iPNW counties for Idaho
 RMA_Idaho_IPNW <- subset(RMA_Idaho, county == "Idaho" | county == "Lewis" | county ==  "Nez Perce" | county ==  "Latah" | county ==  "Benewah")
+
+#subset just for iPNW counties for Oregon
 RMA_Oregon_IPNW <- subset(RMA_Oregon, county == "Wasco" | county ==  "Sherman" | county ==  "Gilliam" | county ==  "Morrow" | county ==  "Umatilla" | county ==  "Union" | county ==  "Wallowa")
+
+#subset just for iPNW counties for Washington
 RMA_Washington_IPNW <- subset(RMA_Washington, county ==  "Douglas" | county ==  "Grant" | county ==  "Benton" | county ==  "Franklin" | county ==  "Walla Walla" | county ==  "Adams" | county ==  "Lincoln" | county ==  "Spokane" | county ==  "Whitman" | county ==  "Columbia" | county ==  "Garfield" | county ==  "Asotin")
 
+
+#combine all iPNW counties
 RMA_damage_IPNW <- rbind(RMA_Idaho_IPNW,RMA_Oregon_IPNW,RMA_Washington_IPNW)
 
-#-load summarized data
-Southern_ID_sumloss <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/dmine_anova/master/PNW_summary_all.csv"), 
-header = TRUE)
-
-Southern_ID_sumloss_all_sum <- RMA_damage_PNW
-
-Southern_ID_sumloss_all_sum  <- aggregate(loss ~ year + 
-                                            damagecause + state + county + commodity,  
-                                         Southern_ID_sumloss, sum)
-
-Southern_ID_count_all_count  <- aggregate(count ~ year + 
-                                            damagecause + county + commodity,  
-                                          Southern_ID_sumloss, sum)
-Southern_ID_sumloss_all_sum <- 
-  Southern_ID_sumloss_all_sum[Southern_ID_sumloss_all_sum$loss >= 1, ]
-
-#---subsetting for palouse/IPNW for sum, count, and lossperacre
-
-#- SUM: sumloss_palouse_sum
-#- COUNT: count_palouse_count
-#- LOSSPERACRE: palouse_lossperacres
-
  palousecounties    <-  c("Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai","Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin","Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa")
-
-sumloss_palouse <- Southern_ID_sumloss[Southern_ID_sumloss$county %in% palousecounties, ]
-sumloss_nonpalouse <- Southern_ID_sumloss[!Southern_ID_sumloss$county %in% palousecounties, ]
-                      
-
-sumloss_palouse_sum  <- aggregate(loss ~ year + 
-                                            damagecause + county + state + commodity,  
-                                          sumloss_palouse, sum)
-count_palouse_count  <- aggregate(count ~ year + 
-                                            damagecause + county + state + commodity,  
-                                          sumloss_palouse, sum)
-
-palouse_lossperacres  <- aggregate(lossperacres ~ year + 
-                                            damagecause + county + state + commodity,  
-                                          sumloss_palouse, mean)
-sumloss_palouse_sum <- 
-  sumloss_palouse_sum[sumloss_palouse_sum$loss >= 1, ]
-
-
-#creating transforms for sum loss - cube root, square root, inverse, log10 and natural log, and then scale and center
-
-Math.cbrt <- function(x) {
-  sign(x) * abs(x)^(1/3)
-}
-
-#-calculate cube loss
-sumloss_palouse_sum$cube_loss <- Math.cbrt(sumloss_palouse_sum$loss)
-
-#-remove zeros
-sumloss_palouse_sum <- subset(sumloss_palouse_sum, loss > 0)
-
-#-use a log transform 
-
-sumloss_palouse_sum$log10_loss <- log10(sumloss_palouse_sum$loss)
-sumloss_palouse_sum$log_loss <- log(sumloss_palouse_sum$loss)
-
-#-inverse transform
-sumloss_palouse_sum$inverse_loss <- 1/sumloss_palouse_sum$loss
-
-#sq root transformation
-sumloss_palouse_sum$sqroot_loss <- sqrt(sumloss_palouse_sum$loss)
-
-#--scale and center
-sumloss_palouse_sum$scaled_cube_loss <- scale(sumloss_palouse_sum$cube_loss)
-sumloss_palouse_sum$scaled_inverse_loss <- 
-  scale(sumloss_palouse_sum$inverse_loss, center = TRUE, scale = TRUE)
-
-#----
-
-
-#-Loading all WHEAT claims for the palouse from 1989-2015
-palouse_sumloss <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/dmine_anova/master/Palouse_summary_sumloss.csv"), 
-header = TRUE)
-palouse_counts <- read.csv(text=getURL
-("https://raw.githubusercontent.com/erichseamon/dmine_anova/master/Palouse_summary_counts.csv"), 
-header = TRUE)
-
-
-#use a cube transformation on loss for WHEAT claims
-Math.cbrt <- function(x) {
-  sign(x) * abs(x)^(1/3)
-}
-
-Southern_ID_sumloss_all_sum$cube_loss <- Math.cbrt(Southern_ID_sumloss_all_sum$loss)
-Southern_ID_count_all_count$cube_counts <- Math.cbrt(Southern_ID_count_all_count$count)
-
-
-#--aggregate palouse but not by county
-palouse_sumloss_aggregate_county <- aggregate(loss ~ damagecause + year + commodity + county, 
-                                       palouse_sumloss, mean)
-
-#--aggregate palouse
-palouse_sumloss_aggregate <- aggregate(loss ~ damagecause + year + commodity + county, 
-                                       palouse_sumloss, sum)
-
-#-calculate cube loss
-palouse_sumloss_aggregate$cube_loss <- Math.cbrt(palouse_sumloss_aggregate$loss)
-
-#-remove zeros
-palouse_sumloss_aggregate <- subset(palouse_sumloss_aggregate, loss > 0)
-
-#-use a log transform 
-
-palouse_sumloss_aggregate$log10_loss <- log10(palouse_sumloss_aggregate$loss)
-palouse_sumloss_aggregate$log_loss <- log(palouse_sumloss_aggregate$loss)
-
-#-inverse transform
-palouse_sumloss_aggregate$inverse_loss <- 1/palouse_sumloss_aggregate$loss
-
-#sq root transformation
-palouse_sumloss_aggregate$sqroot_loss <- sqrt(palouse_sumloss_aggregate$loss)
-
-#--scale and center
-palouse_sumloss_aggregate$scaled_cube_loss <- scale(palouse_sumloss_aggregate$cube_loss)
-palouse_sumloss_aggregate$scaled_inverse_loss <- 
-  scale(palouse_sumloss_aggregate$inverse_loss, center = TRUE, scale = TRUE)
+ 
+sumloss_palouse <- RMA_damage_PNW[RMA_damage_PNW$county %in% palousecounties, ] 
+sumloss_nonpalouse <- RMA_damage_PNW[!RMA_damage_PNW$county %in% palousecounties, ]
 
 #----
 
@@ -411,39 +323,68 @@ library(dplyr)
 library(raster)
 library(htmltools)
 
-states <- readShapePoly('/dmine/data/states/states.shp', 
-                                  proj4string=CRS
-                                  ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
-        projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-        
-        
-threestates <- readShapePoly('/dmine/data/states/threestate_boundary.shp', 
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
+#destfile <- "/tmp/states_conus.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
+
+states <- readShapePoly('/tmp/states_conus.shp',
+                        proj4string=CRS
+                        ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+
+
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/threestate_boundary.zip"
+#destfile <- "/tmp/threestate_boundary.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
+    
+threestates <- readShapePoly('/tmp/threestate_boundary.shp', 
                                   proj4string=CRS
                                   ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
         projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 
 #setwd("/dmine/data/counties/")
+        
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_willamette.zip"
+#destfile <- "/tmp/threestate_willamette.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
-counties_willamette <- readShapePoly('/dmine/data/counties/threestate_willamette.shp',
+counties_willamette <- readShapePoly('/tmp/threestate_willamette.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_southernID.zip"
+#destfile <- "/tmp/threestate_southernID.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
-counties_ID <- readShapePoly('/dmine/data/counties/threestate_southernID.shp',
+counties_ID <- readShapePoly('/tmp/threestate_southernID.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
+#destfile <- "/tmp/threestate_palouse.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
-counties_palouse <- readShapePoly('/dmine/data/counties/threestate_palouse.shp',
+counties_palouse <- readShapePoly('/tmp/threestate_palouse.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 #pal <- colorNumeric(palette = c("white", "orange", "darkorange", "red", "darkred"),
 #                    domain = counties$NAME)
+
 
 
 exte <- as.vector(extent(threestates))
@@ -479,9 +420,18 @@ addScaleBar(mapz, position = c("bottomright"), options = scaleBarOptions())
 Here we examine the PNW region's insurance loss by year, damage cause, and commodity, and county, from 1989 to 2015.  From the results of this examination, we narrow our time frame to 2001 to 2015. 
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+library(htmlTable)
+library(gridExtra)
+
 #palouse_sumloss_aggregate <- subset(palouse_sumloss_aggregate, year >= 2001 & year <= 2015)
 
 #palouse_sumloss_1989_2015 <- subset(palouse_sumloss_aggregate, commodity == "WHEAT")
+RMA_PNW2 <- RMA_PNW[-8]
+RMA_PNW2 <- RMA_PNW2[-9]
+RMA_PNW2 <- RMA_PNW2[-9]
+
+RMA_all <- rbind(RMA_PNW_1989, RMA_PNW2)
+
 
 #barplot of 1989 to 2015
 
@@ -496,9 +446,12 @@ RMA_PNW_aggregates_d <- aggregate(RMA_PNW$loss, by=list(RMA_PNW$damagecause), FU
 RMA_PNW_1989_aggregates_d <- aggregate(RMA_PNW_1989$loss, by=list(RMA_PNW_1989$damagecause), FUN = "sum")
 RMA_allyear_d <- rbind(RMA_PNW_1989_aggregates_d, RMA_PNW_aggregates_d)
 colnames(RMA_allyear_d) <- c("Damagecause", "Loss")
+
+RMA_allyear_d <- aggregate(RMA_allyear_d$Loss, list(RMA_allyear_d$Damagecause), FUN = "sum")
+colnames(RMA_allyear_d) <- c("Damagecause", "Loss")
 RMA_allyear_d <- RMA_allyear_d[order(-RMA_allyear_d$Loss),] 
 
-par(mar=c(12, 8.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(14, 8.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
 #levels(YYY1$commodity)[1] <- "ADJ GROSS REVENUE"
 barplot(RMA_allyear$Loss, names.arg = RMA_allyear$Year, las = 3, main = "", yaxt="n", col = "lightblue", xlab = "", cex.main = 1.9, cex.lab = 1.9, cex.names = 1.9, font.lab = 1, font.axis = 1) 
 graphics::title(main = "PNW total insurance loss by \ndamage cause: 1989 to 2015", line = 1, adj = 0, cex.main = 3)
@@ -507,7 +460,7 @@ pts2 <- pretty(RMA_allyear$Loss)
 axis(2, las = 1, cex.axis = 1.9, at = pts2, labels = paste(pts, "M", sep = ""))
 #abline(v = 14.5, lty = 2, color = "red")
 
-mtext("Year", cex = 1.9, side=1, line=6)
+mtext("Year", cex = 1.9, side=1, line=8)
 mtext("Insurance Claim Loss ($)", cex = 1.9, side=2, line=6.5)
 
 
@@ -515,10 +468,10 @@ mtext("Insurance Claim Loss ($)", cex = 1.9, side=2, line=6.5)
 
 library(stringi)
 
-palouse_sumloss_1989_2015 <- aggregate(Southern_ID_sumloss$loss, list(Southern_ID_sumloss$year), FUN = "sum")
-palouse_sumloss_1989_2015_dc <- aggregate(Southern_ID_sumloss$loss, list(Southern_ID_sumloss$damagecause), FUN = "sum")
+palouse_sumloss_1989_2015 <- aggregate(RMA_PNW$loss, list(RMA_PNW$year), FUN = "sum")
+palouse_sumloss_1989_2015_dc <- aggregate(RMA_PNW$loss, list(RMA_PNW$damagecause), FUN = "sum")
 
-palouse_sumloss_1989_2015_c <- aggregate(Southern_ID_sumloss$loss, list(Southern_ID_sumloss$commodity), FUN = "sum")
+palouse_sumloss_1989_2015_c <- aggregate(RMA_PNW$loss, list(RMA_PNW$commodity), FUN = "sum")
 
 colnames(palouse_sumloss_1989_2015_c) <- c("commodity", "loss")
 
@@ -590,7 +543,7 @@ htmlTable(dd3,
 
 #--barplot of damage causes from 2001 to 2015
 
-levels(YYY1$damagecause)[8] <- "Excessive Moisture"
+levels(YYY1$damagecause)[10] <- "Excessive Moisture"
 par(mar=c(18, 8.1, 6, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 #levels(YYY1$commodity)[1] <- "ADJ GROSS REVENUE"
 barplot(YYY1$loss, names.arg = YYY1$damagecause, las = 3, main = "", yaxt="n", col = "lightblue", xlab = "", cex.main = 1.9, cex.lab = 1.9, cex.names = 1.9, font.lab = 1, font.axis = 1) 
@@ -639,9 +592,10 @@ dd2[is.na(dd2)] <- ""
 
 YYY1$commodity <- tolower(YYY1$commodity)
 YYY1$commodity <- stri_trans_general(YYY1$commodity, id = "Title")
+YYY1$commodity <- factor(YYY1$commodity)
 
-par(mar=c(14, 7.5, 6, 2.1), family = 'serif', mgp=c(7, 1, 0), las=0)
-#levels(YYY1$commodity)[1] <- "ADJ GROSS REVENUE"
+par(mar=c(18, 7.5, 6, 2.1), family = 'serif', mgp=c(7, 1, 0), las=0)
+levels(YYY1$commodity)[1] <- "Gross Revenue"
 barplot(YYY1$loss, names.arg = YYY1$commodity, las = 3, yaxt="n", col = "lightblue", cex.main = 1.5, cex.lab = 1.4, cex.names = 1.9, font.lab = 1, font.axis = 1) 
 graphics::title(main = "PNW total insurance loss by \ncommodity: 2001 to 2015", line = 1, adj = 0, cex.main = 3)
 pts <- pretty(YYY1$loss / 1000000)
@@ -650,7 +604,7 @@ axis(2, las = 1, cex.axis = 1.9, at = pts2, labels = paste(pts, "M", sep = ""))
 #abline(v = 14.5, lty = 2, color = "red")
 
 mtext("Insurance Claim Loss ($)", cex = 1.9, side=2, line=6)
-mtext("Commodity", cex = 1.9, side=1, line=8)
+mtext("Commodity", cex = 1.9, side=1, line=15)
 
 
 htmlTable(dd2,
@@ -739,11 +693,11 @@ addNoAnswer <- function(x){
 }
 
 
-palouse_sumloss_1989_2015_lossperacres <- aggregate(Southern_ID_sumloss$lossperacres, list( Southern_ID_sumloss$year, Southern_ID_sumloss$state, Southern_ID_sumloss$commodity), FUN = "mean")
+palouse_sumloss_1989_2015_lossperacres <- aggregate(RMA_PNW$lossperacre, list( RMA_PNW$year, RMA_PNW$state, RMA_PNW$commodity), FUN = "mean")
 
 colnames(palouse_sumloss_1989_2015_lossperacres) <- c("year", "state", "commodity",  "lossperacres")
 
-palouse_sumloss_1989_2015_lossperacres2 <- aggregate(Southern_ID_sumloss$lossperacres, list( Southern_ID_sumloss$year, Southern_ID_sumloss$damagecause), FUN = "mean")
+palouse_sumloss_1989_2015_lossperacres2 <- aggregate(RMA_PNW$lossperacre, list( RMA_PNW$year, RMA_PNW$damagecause), FUN = "mean")
 
 colnames(palouse_sumloss_1989_2015_lossperacres2) <- c("year", "damagecause", "lossperacres")
 
@@ -776,11 +730,11 @@ levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[22] <- "Lack Irrig P
 
 
 
-palouse_sumloss_1989_2015_loss <- aggregate(Southern_ID_sumloss$loss, by = list( Southern_ID_sumloss$year, Southern_ID_sumloss$commodity), FUN = "sum")
+palouse_sumloss_1989_2015_loss <- aggregate(RMA_PNW$loss, by = list( RMA_PNW$year, RMA_PNW$commodity), FUN = "sum")
 
 colnames(palouse_sumloss_1989_2015_loss) <- c("year", "commodity",  "loss")
 
-palouse_sumloss_1989_2015_loss2 <- aggregate(Southern_ID_sumloss$loss, list( Southern_ID_sumloss$year, Southern_ID_sumloss$damagecause), FUN = "sum")
+palouse_sumloss_1989_2015_loss2 <- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$damagecause), FUN = "sum")
 
 colnames(palouse_sumloss_1989_2015_loss2) <- c("year", "damagecause", "loss")
 
@@ -803,11 +757,11 @@ levels(palouse_sumloss_1989_2015_loss2$damagecause)[4] <- "Excessive Moisture"
 
 
 
-palouse_sumloss_1989_2015_count <- aggregate(Southern_ID_sumloss$loss, list( Southern_ID_sumloss$year, Southern_ID_sumloss$state, Southern_ID_sumloss$commodity), FUN = "length")
+palouse_sumloss_1989_2015_count <- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$state, RMA_PNW$commodity), FUN = "length")
 
 colnames(palouse_sumloss_1989_2015_count) <- c("year", "state", "commodity",  "loss")
 
-palouse_sumloss_1989_2015_count2 <- aggregate(Southern_ID_sumloss$loss, list( Southern_ID_sumloss$year, Southern_ID_sumloss$damagecause), FUN = "length")
+palouse_sumloss_1989_2015_count2 <- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$damagecause), FUN = "length")
 
 colnames(palouse_sumloss_1989_2015_count2) <- c("year", "damagecause", "loss")
 
@@ -832,13 +786,15 @@ levels(palouse_sumloss_1989_2015_count2$damagecause)[11] <- "Other"
 palouse_sumloss_1989_2015_count$commodity <- tolower(palouse_sumloss_1989_2015_count$commodity)
 palouse_sumloss_1989_2015_count$commodity <- stri_trans_general(palouse_sumloss_1989_2015_count$commodity, id = "Title")
 
-par(mar=c(9.5, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(12, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 
+palouse_sumloss_1989_2015_count$commodity <- factor(palouse_sumloss_1989_2015_count$commodity)
+levels(palouse_sumloss_1989_2015_count$commodity)[1] <- "Gross Revenue-Lite"
 boxplot(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, col = 'lightblue', ylab = "Insurance Claim Frequency", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_count$commodity, las = 3, cex.axis = 1.4, cex.main = 1.4, cex.lab = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_count$loss), labels = pretty(palouse_sumloss_1989_2015_count$loss))
 
 stripchart(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 graphics::title(xlab="Commodity", line=7.5, cex.lab = 1.4)
 graphics::title(main="PNW insurance claims by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
@@ -854,7 +810,7 @@ graphics::title(xlab="Damage Cause", line=11.5, cex.lab = 1.4)
 graphics::title(main="PNW insurance claims by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
 stripchart(palouse_sumloss_1989_2015_count2$loss ~ palouse_sumloss_1989_2015_count2$damagecause, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 
 par(mar=c(8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
@@ -873,7 +829,7 @@ axis(2, las = 1, cex.axis = 1.4, at = pts2, labels = paste(pts, "M", sep = ""))
 #abline(v = 14.5, lty = 2, color = "red")
 
 stripchart(palouse_sumloss_1989_2015_loss$loss ~ palouse_sumloss_1989_2015_loss$commodity, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 graphics::title(xlab="Commodity", line=6, cex.lab = 1.4)
 graphics::title(main="PNW insurance loss by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
@@ -891,28 +847,44 @@ pts2 <- pretty(palouse_sumloss_1989_2015_loss2$loss)
 axis(2, las = 1, cex.axis = 1.2, at = pts2, labels = paste(pts, "M", sep = ""))
 
 stripchart(palouse_sumloss_1989_2015_loss2$loss ~ palouse_sumloss_1989_2015_loss2$damagecause, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 graphics::title(xlab="Damage Cause", line=11, cex.lab = 1.4)
 graphics::title(main="PNW insurance loss by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
 
 
-par(mar=c(11.5, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(14, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 
 palouse_sumloss_1989_2015_lossperacres$commodity <- tolower(palouse_sumloss_1989_2015_lossperacres$commodity)
 palouse_sumloss_1989_2015_lossperacres$commodity <- stri_trans_general(palouse_sumloss_1989_2015_lossperacres$commodity, id = "Title")
+
+
+palouse_sumloss_1989_2015_lossperacres[ palouse_sumloss_1989_2015_lossperacres == "-Inf" ] <- 0
+palouse_sumloss_1989_2015_lossperacres[ palouse_sumloss_1989_2015_lossperacres == "Inf" ] <- 0
+
+
+
+palouse_sumloss_1989_2015_lossperacres$commodity <- factor(palouse_sumloss_1989_2015_lossperacres$commodity)
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[2] <- "Gross Revenue-Lite"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[39] <- "Revenue Protection"
+
 
 boxplot(palouse_sumloss_1989_2015_lossperacres$loss ~ palouse_sumloss_1989_2015_lossperacres$commodity, col = 'lightblue', ylab = "Insurance Claim Loss per Acre ($)", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres$commodity, las = 3, cex.axis = 1.4, cex.main = 1.4, cex.lab = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1, outline = FALSE)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_lossperacres$loss), labels = pretty(palouse_sumloss_1989_2015_lossperacres$loss))
 
 stripchart(palouse_sumloss_1989_2015_lossperacres$loss ~ palouse_sumloss_1989_2015_lossperacres$commodity, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 graphics::title(xlab="Commodity", line=10.5, cex.lab = 1.4)
 graphics::title(main="PNW insurance loss per acre by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
 par(mar=c(11.8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+
+palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[19] <- "Hurricanes/Trop Dep"
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[30] <- "No Prep for Irr"
 
 boxplot(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2015_lossperacres2$damagecause, col = 'lightblue', ylab = "Insurance Caim Loss per Acre ($)",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres2$damagecause, las = 3, cex.main = 1.5, cex.lab = 1.4, cex.axis = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1, outline = FALSE)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_lossperacres2$loss), labels = pretty(palouse_sumloss_1989_2015_lossperacres2$loss))
@@ -921,11 +893,11 @@ graphics::title(xlab="Damage Cause", line=10.5, cex.lab = 1.4)
 graphics::title(main="PNW insurance loss per acre by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
 stripchart(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2015_lossperacres2$damagecause, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20 )
+    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
 #model_count <- glm(formula = log(loss) ~ damagecause + commodity, family = "poisson", data = palouse_sumloss_1989_2015_count)
 
-palouse_sumloss_1989_2015_loss_barplot <- aggregate(Southern_ID_sumloss$loss, by = list(Southern_ID_sumloss$commodity), FUN = "sum")
+palouse_sumloss_1989_2015_loss_barplot <- aggregate(RMA_PNW$loss, by = list(RMA_PNW$commodity), FUN = "sum")
 colnames(palouse_sumloss_1989_2015_loss_barplot) <- c("commodity", "loss")
 
 sumloss_nonpalouse$region <- "PNW minus IPNW"
@@ -953,7 +925,7 @@ palouse_sumloss_1989_2015_loss_barplot$commodity <- tolower(palouse_sumloss_1989
 palouse_sumloss_1989_2015_loss_barplot$commodity <- stri_trans_general(palouse_sumloss_1989_2015_loss_barplot$commodity, id = "Title")
 
 gg1 <- ggplot(palouse_sumloss_1989_2015_loss_barplot, aes(fill=region, y=loss, x=commodity)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("PNW vs IPNW loss vs. commodity: 2001 to 2015") + theme(axis.title.y = element_text(family = "Serif", size=18), axis.title.x = element_text(family = "Serif", size = 18), axis.text.x = element_text(size=rel(1.9), angle = 90, hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.9), hjust = 1, family = "Serif")) + theme(plot.title = element_text(family = "Serif", vjust = 2))  + theme(legend.text=element_text(family = "Serif", size=14)) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(labels = paste(pts, "M", sep = ""), breaks = pts * 1000000 ) + ylab("Insurance Claim Loss ($)") + theme(legend.position="bottom") + scale_fill_discrete(name = "Legend")
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("PNW vs IPNW loss vs. commodity: 2001 to 2015") + theme(axis.title.y = element_text(family = "Serif", size=24), axis.title.x = element_text(family = "Serif", size = 24), axis.text.x = element_text(size=rel(2.3), angle = 90, hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(2.3), hjust = 1, family = "Serif")) + theme(plot.title = element_text(family = "Serif", vjust = 2))  + theme(legend.text=element_text(family = "Serif", size=24)) + theme(legend.title=element_text(family = "Serif", size=24, face = "bold")) + theme(plot.title = element_text(size=24, face = "bold")) + scale_y_continuous(labels = paste(pts, "M", sep = ""), breaks = pts * 1000000 ) + ylab("Insurance Claim Loss ($)") + theme(legend.position="bottom") + scale_fill_manual("legend", values = c("PNW minus IPNW" = "red", "IPNW" = "blue")) 
 
 print(gg1)
 
@@ -980,9 +952,13 @@ library(htmltools)
 #--irrigation analysis 2018
 
 
-#setwd("/dmine/data/counties/")
+#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
+#destfile <- "/tmp/threestate_palouse.zip"
+#download.file(URL, destfile)
+#outDir<-"/tmp"
+#unzip(destfile,exdir=outDir)
 
-counties <- readShapePoly('/dmine/data/counties/threestate_palouse.shp',
+counties <- readShapePoly('/tmp/threestate_palouse.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
@@ -1070,13 +1046,13 @@ addNoAnswer <- function(x){
 }
 
 
-palouse_sumloss_1989_2015_lossperacres <- aggregate(palouse_lossperacres$lossperacres, list( palouse_lossperacres$year, palouse_lossperacres$state, palouse_lossperacres$commodity), FUN = "mean")
+palouse_sumloss_1989_2015_lossperacres <- aggregate(RMA_damage_IPNW$lossperacre, list( RMA_damage_IPNW$year, RMA_damage_IPNW$state, RMA_damage_IPNW$commodity), FUN = "mean")
 
 
 
 colnames(palouse_sumloss_1989_2015_lossperacres) <- c("year", "state", "commodity",  "lossperacres")
 
-palouse_sumloss_1989_2015_lossperacres2 <- aggregate(palouse_lossperacres$lossperacres, list( palouse_lossperacres$year, palouse_lossperacres$damagecause), FUN = "mean")
+palouse_sumloss_1989_2015_lossperacres2 <- aggregate(RMA_damage_IPNW$lossperacre, list( RMA_damage_IPNW$year, RMA_damage_IPNW$damagecause), FUN = "mean")
 
 colnames(palouse_sumloss_1989_2015_lossperacres2) <- c("year", "damagecause", "lossperacres")
 
@@ -1105,11 +1081,11 @@ levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[21] <- "Lack Irrig P
 
 
 
-palouse_sumloss_1989_2015_loss <- aggregate(sumloss_palouse_sum$loss, by = list( sumloss_palouse_sum$year, sumloss_palouse_sum$commodity), FUN = "sum")
+palouse_sumloss_1989_2015_loss <- aggregate(RMA_damage_IPNW$loss, by = list( RMA_damage_IPNW$year, RMA_damage_IPNW$commodity), FUN = "sum")
 
 colnames(palouse_sumloss_1989_2015_loss) <- c("year", "commodity",  "loss")
 
-palouse_sumloss_1989_2015_loss2 <- aggregate(sumloss_palouse_sum$loss, list( sumloss_palouse_sum$year, sumloss_palouse_sum$damagecause), FUN = "sum")
+palouse_sumloss_1989_2015_loss2 <- aggregate(RMA_damage_IPNW$loss, list( RMA_damage_IPNW$year, RMA_damage_IPNW$damagecause), FUN = "sum")
 
 colnames(palouse_sumloss_1989_2015_loss2) <- c("year", "damagecause", "loss")
 
@@ -1132,11 +1108,11 @@ levels(palouse_sumloss_1989_2015_loss2$damagecause)[4] <- "Excessive Moisture"
 
 
 
-palouse_sumloss_1989_2015_count <- aggregate(count_palouse_count$count, list( count_palouse_count$year, count_palouse_count$state, count_palouse_count$commodity), FUN = "sum")
+palouse_sumloss_1989_2015_count <- aggregate(RMA_damage_IPNW$count, list( RMA_damage_IPNW$year, RMA_damage_IPNW$state, RMA_damage_IPNW$commodity), FUN = "sum")
 
 colnames(palouse_sumloss_1989_2015_count) <- c("year", "state", "commodity",  "loss")
 
-palouse_sumloss_1989_2015_count2 <- aggregate(count_palouse_count$count, list( count_palouse_count$year, count_palouse_count$damagecause), FUN = "sum")
+palouse_sumloss_1989_2015_count2 <- aggregate(RMA_damage_IPNW$count, list( RMA_damage_IPNW$year, RMA_damage_IPNW$damagecause), FUN = "sum")
 
 colnames(palouse_sumloss_1989_2015_count2) <- c("year", "damagecause", "loss")
 
@@ -1166,8 +1142,8 @@ par(mar=c(9.5, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 boxplot(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, col = 'lightblue', ylab = "Insurance Claim Frequency", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_count$commodity, las = 3, cex.axis = 1.4, cex.main = 1.4, cex.lab = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_count$loss), labels = pretty(palouse_sumloss_1989_2015_count$loss))
 
-#stripchart(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, vertical = TRUE,  
-#    method = "jitter", add = TRUE, pch = 20, col=unique(as.numeric(palouse_sumloss_1989_2015_count$state)) )
+stripchart(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue" )
 
 graphics::title(xlab="Commodity", line=7.5, cex.lab = 1.4)
 graphics::title(main="IPNW insurance claims by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
@@ -1182,6 +1158,8 @@ axis(2, las = 1, cex.axis = 1.2, at = pretty(palouse_sumloss_1989_2015_count2$lo
 graphics::title(xlab="Damage Cause", line=11.5, cex.lab = 1.4)
 graphics::title(main="IPNW insurance claims by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
+stripchart(palouse_sumloss_1989_2015_count2$loss ~ palouse_sumloss_1989_2015_count2$damagecause, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue" )
 
 
 par(mar=c(8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
@@ -1198,8 +1176,8 @@ pts <- pretty(palouse_sumloss_1989_2015_loss$loss / 1000000)
 pts2 <- pretty(palouse_sumloss_1989_2015_loss$loss)
 axis(2, las = 1, cex.axis = 1.4, at = pts2, labels = paste(pts, "M", sep = ""))
 #abline(v = 14.5, lty = 2, color = "red")
-#stripchart(palouse_sumloss_1989_2015_loss$loss ~ palouse_sumloss_1989_2015_loss$commodity, vertical = TRUE,  
-#    method = "jitter", add = TRUE, pch = 20, col=unique(as.numeric(palouse_sumloss_1989_2015_loss$state)) )
+stripchart(palouse_sumloss_1989_2015_loss$loss ~ palouse_sumloss_1989_2015_loss$commodity, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue")
 
 graphics::title(xlab="Commodity", line=6, cex.lab = 1.4)
 graphics::title(main="IPNW insurance loss by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
@@ -1215,8 +1193,8 @@ boxplot(palouse_sumloss_1989_2015_loss2$loss ~ palouse_sumloss_1989_2015_loss2$d
 pts <- pretty(palouse_sumloss_1989_2015_loss2$loss / 1000000)
 pts2 <- pretty(palouse_sumloss_1989_2015_loss2$loss)
 axis(2, las = 1, cex.axis = 1.2, at = pts2, labels = paste(pts, "M", sep = ""))
-#stripchart(palouse_sumloss_1989_2015_loss2$loss ~ palouse_sumloss_1989_2015_loss2$damagecause, vertical = TRUE,  
- #   method = "jitter", add = TRUE, pch = 20, col=unique(as.numeric(palouse_sumloss_1989_2015_loss2$state)) )
+stripchart(palouse_sumloss_1989_2015_loss2$loss ~ palouse_sumloss_1989_2015_loss2$damagecause, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue" )
 
 graphics::title(xlab="Damage Cause", line=11, cex.lab = 1.4)
 graphics::title(main="IPNW insurance loss by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
@@ -1228,22 +1206,39 @@ par(mar=c(11.5, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 palouse_sumloss_1989_2015_lossperacres$commodity <- tolower(palouse_sumloss_1989_2015_lossperacres$commodity)
 palouse_sumloss_1989_2015_lossperacres$commodity <- stri_trans_general(palouse_sumloss_1989_2015_lossperacres$commodity, id = "Title")
 
+palouse_sumloss_1989_2015_lossperacres$commodity <- factor(palouse_sumloss_1989_2015_lossperacres$commodity)
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[1] <- "Gross Revenue"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[2] <- "Gross Revenue-Lite"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[33] <- "Farm Rev Protection"
+
 boxplot(palouse_sumloss_1989_2015_lossperacres$loss ~ palouse_sumloss_1989_2015_lossperacres$commodity, col = 'lightblue', ylab = "Insurance Claim Loss per Acre ($)", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres$commodity, las = 3, cex.axis = 1.4, cex.main = 1.4, cex.lab = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1, outline = FALSE)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_lossperacres$loss), labels = pretty(palouse_sumloss_1989_2015_lossperacres$loss))
 
-#stripchart(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, vertical = TRUE,  
-#    method = "jitter", add = TRUE, pch = 20, col=unique(as.numeric(palouse_sumloss_1989_2015_count$state)) )
+stripchart(palouse_sumloss_1989_2015_lossperacres$loss ~ palouse_sumloss_1989_2015_lossperacres$commodity, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue" )
 
 graphics::title(xlab="Commodity", line=10.5, cex.lab = 1.4)
 graphics::title(main="IPNW insurance loss per acre by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
 
 par(mar=c(11.8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 
+
+palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[20] <- "Snow/Lightning"
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[27] <- "No Prep for Irr"
+palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[26] <- "No Prep for Irr"
+palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
+
+
 boxplot(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2015_lossperacres2$damagecause, col = 'lightblue', ylab = "Insurance Caim Loss per Acre ($)",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres2$damagecause, las = 3, cex.main = 1.5, cex.lab = 1.4, cex.axis = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1, outline = FALSE)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_lossperacres2$loss), labels = pretty(palouse_sumloss_1989_2015_lossperacres2$loss))
 
 graphics::title(xlab="Damage Cause", line=10.5, cex.lab = 1.4)
 graphics::title(main="IPNW insurance loss per acre by damage cause: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)
+
+stripchart(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2015_lossperacres2$damagecause, vertical = TRUE,  
+    method = "jitter", add = TRUE, pch = 20, col="blue" )
 
 
 ```
@@ -1257,11 +1252,11 @@ graphics::title(main="IPNW insurance loss per acre by damage cause: 2001 to 2015
 ##Step 9: IPNW insurance claim count summary
 
 ```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
-palouse_sumloss_aggregate <- subset(palouse_sumloss_aggregate, year >= 2001 & year <= 2015) 
+palouse_sumloss_aggregate <- subset(RMA_damage_IPNW, year >= 2001 & year <= 2015) 
 
 #palouse_sumloss_1989_2015 <- subset(palouse_sumloss_aggregate, commodity == "WHEAT")
 
-palouse_sumloss_1989_2015 <- aggregate(palouse_sumloss_aggregate$loss, list(palouse_sumloss_aggregate$year), FUN = "sum")
+palouse_sumloss_1989_2015 <- aggregate(RMA_damage_IPNW$loss, list(RMA_damage_IPNW$year), FUN = "sum")
 
 colnames(palouse_sumloss_1989_2015) <- c("year", "loss")
 
@@ -1419,7 +1414,7 @@ tt3 <- ttheme_default(core=list(fg_params=list(hjust=0, x=0.1)),
 YYY1<- YYY1[seq(dim(YYY1)[1],1),]
 
 YYY2 <- YYY1
-levels(YYY2$commodity)[8] <- "Excessive Moisture"
+levels(YYY2$commodity)[10] <- "Excessive Moisture"
 YYY2$loss <- format(YYY2$loss,big.mark=",",scientific=FALSE)
 YYY2$loss <- paste("$", YYY2$loss, sep="")
 YYY2$loss <- gsub(" ", "", YYY2$loss, fixed = TRUE)
@@ -1432,7 +1427,7 @@ colnames(YYY2) <- c("damage cause", "loss")
 #kable(YYY1, format = "html", row.names = FALSE) %>% kable_styling(bootstrap_options = c("striped", "hover", "bordered"), full_width = FALSE)
 
 par(mar=c(15.5, 9.8, 6, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
-levels(YYY1$commodity)[8] <- "Excessive Moisture"
+levels(YYY1$commodity)[10] <- "Excessive Moisture"
 barplot(YYY1$loss, names.arg = YYY1$commodity, cex.names = 1.9, las = 3, yaxt="n", col = "lightblue")
 pts <- pretty(YYY1$loss / 1000000)
 pts2 <- pretty(YYY1$loss)
@@ -1487,7 +1482,8 @@ p
 ```{r message=FALSE, warning=FALSE, error=TRUE}
 
 #--reduce years to 2001-2015
-xxyear <- subset(palouse_sumloss_aggregate, year >= 2001)
+xxyear <- subset(RMA_damage_IPNW, year >= 2001)
+xxyear$log10_loss <- log10(xxyear$loss)
 
 #missing data review of data from 2001-2015 for all commodities and all damage causes
 #ezDesign(xxyear, year, damagecause)
@@ -1598,7 +1594,7 @@ addNoAnswer <- function(x){
   return(x)
 }
 
-APPLES <- subset(palouse_sumloss_aggregate, commodity == "APPLES")
+APPLES <- subset(RMA_damage_IPNW, commodity == "APPLES")
 
 palouse_sumloss_1989_2015 <- aggregate(APPLES$loss, list(APPLES$damagecause), FUN = "sum")
 colnames(palouse_sumloss_1989_2015) <- c("damagecause", "loss")
@@ -1753,10 +1749,9 @@ states <- readShapePoly('/dmine/data/states/states.shp',
 
 #--interaction plot loss vs year for all damage causes, all Palouse counties
 
-APPLES <- subset(palouse_sumloss_aggregate, commodity == "APPLES")
+APPLES <- subset(RMA_damage_IPNW, commodity == "APPLES")
 
-
-levels(APPLES$damagecause)[8] <- "Excessive Moisture"
+levels(APPLES$damagecause)[10] <- "Excessive Moisture"
 APPLES$damagecause <- factor(APPLES$damagecause)
 
 APPLES_damage <- subset(APPLES, damagecause == "Hail" | damagecause == "Frost" | damagecause == "Freeze" | damagecause == "Cold Wet Weather" | damagecause == "Wind/Excess Wind" | damagecause == "Heat")
@@ -1767,6 +1762,8 @@ APPLES_damage$damagecause <- factor(APPLES_damage$damagecause)
 library(scales)
 
 APPLES_damage_top <- subset(APPLES_damage, damagecause == "Hail" | damagecause == "Frost" | damagecause == "Freeze")
+APPLES_damage_top <- subset(APPLES_damage_top, year >= 2001 & year <= 2015)
+
 
 APPLES_damage_top_agg_hailfrostfreeze <- aggregate(APPLES_damage_top$loss, by = list(APPLES_damage_top$county), FUN = "sum")
 colnames(APPLES_damage_top_agg_hailfrostfreeze) <- c("NAME", "loss")
@@ -1800,7 +1797,7 @@ county_apples_hailfrostfreeze2006 <- merge(counties, APPLES_damage_top_agg_hailf
 
 #how many claims of hail in walla walla in 2006?  2!
 
-apples_hailfrostfreeze_count2006 <- subset(count_palouse_count, commodity == "APPLES")
+apples_hailfrostfreeze_count2006 <- subset(RMA_damage_IPNW, commodity == "APPLES")
 apples_hailfrostfreeze_count2006 <- subset(apples_hailfrostfreeze_count2006, year == "2006")
 apples_hailfrostfreeze_count2006 <- subset(apples_hailfrostfreeze_count2006, damagecause == "Hail" | damagecause == "Frost" | damagecause == "Freeze")
 
@@ -1840,10 +1837,10 @@ county_apples_hailfrostfreeze2012 <- merge(counties, APPLES_damage_top_agg_hailf
 #ggplot(APPLES_damage_top, aes(fill=damagecause, y=loss, x=year)) + 
 #    geom_bar( stat="identity") + theme_bw() + ggtitle("IPNW apples loss vs. year - top damage causes") + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1, family = "Serif")) + theme(plot.title = element_text(hjust = 0.5, family = "Serif"))  +  scale_x_discrete(limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=18)) + scale_y_continuous(label = unit_format(unit = "M", scale = 1e-6, digits = 0))
 
-par(mar = c(5, 5, 4, 1))
+par(mar=c(11,8,6,2), family = 'serif', mgp = c(5, 1, 0)) 
 
 gg2 <- ggplot(APPLES_damage_top, aes(fill=damagecause, y=loss, x=year)) + 
-    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW apples loss vs. year - top damage causes") + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), angle = 90, hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Hail" = "red", "Frost" = "blue", "Freeze" = "gray")) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
+    geom_bar( stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW apples loss vs. year - top damage causes") + theme(axis.title.y = element_text(family = "Serif", size=24), axis.title.x = element_text(family = "Serif", size = 24), axis.text.y = element_text(size=rel(2.5), hjust = 1, family = "Serif"), axis.text.x = element_text(size=rel(2.5), angle = 90, hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Hail" = "red", "Frost" = "blue", "Freeze" = "gray")) + theme(legend.title=element_text(family = "Serif", size=16, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom")
 
 print(gg2)
 
@@ -1941,7 +1938,12 @@ labs2 <- lapply(seq(nrow(counties_apples@data)), function(i) {
       })
 
 
+
 #-----2001 - 2015
+
+county_apples_hailfrostfreeze2 <- county_apples_hailfrostfreeze
+county_apples_hailfrostfreeze2$loss[is.na(county_apples_hailfrostfreeze2$loss)] <- 0
+
 
  pal <- colorNumeric(colorRampPalette(c("lightblue", "blue"))(11), na.color = "#ffffff",
                       domain = eval(parse(text=paste("county_apples_hailfrostfreeze$", "loss", sep=""))))
@@ -1953,7 +1955,7 @@ map <- leaflet(data = county_apples_hailfrostfreeze, options = leafletOptions(zo
   addMiniMap(
     tiles = providers$Stamen.TonerLite,
     position = 'topleft', 
-    width = 200, height = 200,
+    width = 100, height = 100,
     toggleDisplay = FALSE) %>%
   
   
@@ -1965,7 +1967,7 @@ map <- leaflet(data = county_apples_hailfrostfreeze, options = leafletOptions(zo
     addLegend(pal = pal, values = na.omit(~loss), group = "circles", title = paste("Apples hail frost<br>freeze 2001 to 2015", sep = ""), na.label = "", position = "topright", labFormat = labelFormat(prefix = "$")) %>%
 
 
-addLabelOnlyMarkers(data = county_apples_hailfrostfreeze, lng = lat_long[,1], lat = lat_long[,2], label = lapply(labs, HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "18px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
+addLabelOnlyMarkers(data = county_apples_hailfrostfreeze, lng = lat_long[,1], lat = lat_long[,2], label = lapply(paste(round((county_apples_hailfrostfreeze2$loss / 1000000), 2), "M", sep=""), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "24px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
 )) 
         
 addScaleBar(map, position = c("topright"), options = scaleBarOptions())
@@ -2146,225 +2148,6 @@ graphics::title(xlab="Counties", line=7, cex.lab = 1.4)
 graphics::title(ylab="Apples insurance claim loss ($)", line=4, cex.lab = 1.4)
 
 
-#markerOptions(riseOnHover = TRUE)
- # addLegend(colors = ~NAME, labels = ~NAME, values = ~NAME, opacity = 0.5, title = NULL,
-  #          position = "bottomright")
-
-library(plotly)
-library(gridExtra)
-library(knitr)
-library(kableExtra)
-library(htmlTable)
-
-#pie chart for 2007-2015
-
-options(scipen=999)
-
-addNoAnswer <- function(x){
-  if(is.factor(x)) return(factor(x, levels=c(levels(x), "No Answer")))
-  return(x)
-}
-
-#--counts wheat drought
-
-palouse_sumloss_aggregate_wheat <- subset(palouse_counts, commodity == "APPLES")
-
-palouse_sumloss_1989_2015_count <- aggregate(palouse_sumloss_aggregate_wheat$count, list( palouse_sumloss_aggregate_wheat$month, palouse_sumloss_aggregate_wheat$year, palouse_sumloss_aggregate_wheat$damagecause, palouse_sumloss_aggregate_wheat$county, palouse_sumloss_aggregate_wheat$state), FUN = "sum")
-
-palouse_sumloss_1989_2015_count_year <- aggregate(palouse_sumloss_aggregate_wheat$count, list(palouse_sumloss_aggregate_wheat$year, palouse_sumloss_aggregate_wheat$damagecause, palouse_sumloss_aggregate_wheat$county, palouse_sumloss_aggregate_wheat$state), FUN = "sum")
-
-palouse_sumloss_1989_2015_count_year_nocounty <- aggregate(palouse_sumloss_aggregate_wheat$count, list(palouse_sumloss_aggregate_wheat$year, palouse_sumloss_aggregate_wheat$damagecause, palouse_sumloss_aggregate_wheat$state), FUN = "sum")
-
-colnames(palouse_sumloss_1989_2015_count) <- c("month", "year", "damagecause", "county", "state", "count")
-colnames(palouse_sumloss_1989_2015_count_year) <- c("year", "damagecause", "county", "state", "count")
-colnames(palouse_sumloss_1989_2015_count_year_nocounty) <- c("year", "damagecause", "state", "count")
-
-#--loss
-
-palouse_sumloss_aggregate_wheat_loss <- subset(palouse_sumloss, commodity == "APPLES")
-
-palouse_sumloss_1989_2015_loss <- aggregate(palouse_sumloss_aggregate_wheat_loss$loss, list( palouse_sumloss_aggregate_wheat_loss$month, palouse_sumloss_aggregate_wheat_loss$year, palouse_sumloss_aggregate_wheat_loss$damagecause, palouse_sumloss_aggregate_wheat_loss$county, palouse_sumloss_aggregate_wheat_loss$state), FUN = "sum")
-
-palouse_sumloss_1989_2015_loss_year <- aggregate(palouse_sumloss_aggregate_wheat_loss$loss, list(palouse_sumloss_aggregate_wheat_loss$year, palouse_sumloss_aggregate_wheat_loss$damagecause, palouse_sumloss_aggregate_wheat_loss$county, palouse_sumloss_aggregate_wheat_loss$state), FUN = "sum")
-
-colnames(palouse_sumloss_1989_2015_loss) <- c("month", "year", "damagecause", "county", "state", "loss")
-colnames(palouse_sumloss_1989_2015_loss_year) <- c("year", "damagecause", "county", "state", "loss")
-
-
-
-
-
-
-#palouse_sumloss_1989_2015_count_county <- aggregate(palouse_sumloss_aggregate_wheat$loss, list( palouse_sumloss_aggregate_wheat$damagecause, palouse_sumloss_aggregate_wheat$year, palouse_sumloss_aggregate_wheat$county ), FUN = "length")
-
-#colnames(palouse_sumloss_1989_2015_count) <- c("damagecause", "year", "loss")
-
-#colnames(palouse_sumloss_1989_2015_count_county) <- c("damagecause", "year", "county", "loss")
-
-
-#-boxplots of count data for all commodities and all damage causes- 1989-2015
-
-#palouse_sumloss_1989_2015_count_commodity <- subset(palouse_sumloss_1989_2015_count, loss > 20)
-#palouse_sumloss_1989_2015_count_commodity <- subset(palouse_sumloss_1989_2015_count_commodity, commodity != "ADJUSTED GROSS REVENUE")
-#palouse_sumloss_1989_2015_count$damagecause <- factor(palouse_sumloss_1989_2015_count$damagecause)
-
-#palouse_sumloss_1989_2015_count_commodity$commodity <- factor(palouse_sumloss_1989_2015_count_commodity$commodity)
-
-
-#par(mar=c(8.8, 6.1, 2.1, 2.1), mgp=c(3, 1, 0), las=0)
-
-
-
-psc_drought <- subset(palouse_sumloss_1989_2015_count_year, damagecause == "Hail" | damagecause == "Frost" | damagecause == "Freeze")
-
-#--create missing county year data where no values are found
-d1 <- data.frame(unique(palouse_counts$county))
-colnames(d1) <- "county"
-
-d2 <- data.frame(unique(palouse_counts$year))
-colnames(d2) <- "year"
-d2 <- d2[order(d2$year),]
-d2 <- data.frame(d2)
-colnames(d2) <- "year"
-
-d2a <- c("WA", "WA", "WA", "WA", "WA", "WA", "OR", "OR", "WA", "ID", "ID", "ID", "ID", "ID", "ID", "WA", "OR", "OR", "OR", "OR", "OR", "OR", "WA", "WA", "ID", "WA")
-
-d2a <- data.frame(d2a)
-colnames(d2a) <- "state"
-
-d1 <- data.frame(d1[rep(seq_len(nrow(d1)), each=27),])
-d2 <- do.call("rbind", replicate(26, d2, simplify = FALSE))
-d2a <- data.frame(d2a[rep(seq_len(nrow(d2a)), each=27),])
-
-d3 <- cbind(d1, d2a, d2)
-colnames(d3) <- c("county", "state", "year")
-
-psc_drought2 <- merge(d3, psc_drought, by = c("year", "county"), all = TRUE)
-psc_drought2$count[is.na(psc_drought2$count)] <- 0
-
-psc_drought2 <- subset(psc_drought2, year >= 2001)
-
-psc_drought2$countystate <- paste(psc_drought2$county, psc_drought2$state.x, sep=", ")
-
-#figure out which counties have all zeros and eliminate
-psc_drought2a <- aggregate(psc_drought2$count, by = list(psc_drought2$countystate), FUN = "sum")
-colnames(psc_drought2a) <- c("countystate", "count")
-
-psc <- subset(psc_drought2a, count != 0)
-
-
-psc3 <- subset(psc_drought2, countystate %in% psc$countystate )
-
-
-
-par(mar=c(5,6,4,2)+0.1, family = 'serif', mgp=c(5,1,0))
-interaction.plot(x.factor     = psc3$year,
-                 trace.factor = psc3$countystate, 
-                 response     = psc3$count, 
-                 fun = sum,
-                 las = 2,
-                 type="l",
-                 col=c("black","red1","green1", "blue1", "yellow1", "red2","green2", "blue2", "yellow2","red3","green3", "blue3", "yellow3","red4","green4", "blue4", "yellow4"),  ### Colors for levels of trace var.
-                 #pch=c(19, 17, 15),             ### Symbols for levels of trace var.
-                 fixed=FALSE,                    ### Order by factor order in data
-                 leg.bty = "n",
-                 ylab="",
-                 legend = FALSE,
-                 xlab="")
-                 #main="Annual Apples Insurance Claim Frequency \n by county for the IPNW Study Area, 1989-2015: HAIL/FROST/FREEZE", las = 2)
-
-graphics::title(main="Annual IPNW Apples Insurance Claim Frequency by county\n2001-2015: HAIL/FROST/FREEZE", adj = 0, cex.main = 1.9)
-graphics::title(xlab="Years", line=4, cex.lab = 1.4)
-graphics::title(ylab="Apples Claim Frequency: Hail/Frost/Freeze", line=3.5, cex.lab = 1.4)
-
-
-psc_drought <- palouse_sumloss_1989_2015_count_year
-
-#--create missing county year data where no values are found
-d1 <- data.frame(unique(palouse_counts$county))
-colnames(d1) <- "county"
-
-d2 <- data.frame(unique(palouse_counts$year))
-colnames(d2) <- "year"
-d2 <- d2[order(d2$year),]
-d2 <- data.frame(d2)
-colnames(d2) <- "year"
-
-d2a <- c("WA", "WA", "WA", "WA", "WA", "WA", "OR", "OR", "WA", "ID", "ID", "ID", "ID", "ID", "ID", "WA", "OR", "OR", "OR", "OR", "OR", "OR", "WA", "WA", "ID", "WA")
-
-d2a <- data.frame(d2a)
-colnames(d2a) <- "state"
-
-d1 <- data.frame(d1[rep(seq_len(nrow(d1)), each=27),])
-d2 <- do.call("rbind", replicate(26, d2, simplify = FALSE))
-d2a <- data.frame(d2a[rep(seq_len(nrow(d2a)), each=27),])
-
-d3 <- cbind(d1, d2a, d2)
-colnames(d3) <- c("county", "state", "year")
-
-psc_drought2 <- merge(d3, psc_drought, by = c("year", "county"), all = TRUE)
-psc_drought2$count[is.na(psc_drought2$count)] <- 0
-
-psc_drought2 <- subset(psc_drought2, year >= 2001)
-
-psc_drought2$countystate <- paste(psc_drought2$county, psc_drought2$state.x, sep=", ")
-
-#figure out which counties have all zeros and eliminate
-psc_drought2a <- aggregate(psc_drought2$count, by = list(psc_drought2$countystate), FUN = "sum")
-colnames(psc_drought2a) <- c("countystate", "count")
-
-psc <- subset(psc_drought2a, count != 0)
-
-
-psc3 <- subset(psc_drought2, countystate %in% psc$countystate )
-
-
-#par(mar=c(5,6,4,2)+0.1, family = 'serif', mgp=c(5,1,0))
-interaction.plot(x.factor     = psc3$year,
-                 trace.factor = psc3$countystate, 
-                 response     = psc3$count, 
-                 fun = sum,
-                 las = 2,
-                 type="l",
-                 col=c("black","red1","green1", "blue1", "yellow1", "red2","green2", "blue2", "yellow2","red3","green3", "blue3", "yellow3","red4","green4", "blue4", "yellow4"),  ### Colors for levels of trace var.
-                 #pch=c(19, 17, 15),             ### Symbols for levels of trace var.
-                 fixed=FALSE,                    ### Order by factor order in data
-                 leg.bty = "n",
-                 ylab="",
-                 legend = FALSE,
-                 xlab="")
-                 #main="Annual Apples Insurance Claim Frequency \n by county for the IPNW Study Area, 1989-2015: ALL DAMAGE CAUSES", las = 2)
-
-graphics::title(main="Annual IPNW Apples Insurance Claim Frequency by county\n2001-2015: All Damage Causes", adj = 0, cex.main = 1.9)
-graphics::title(xlab="Years", line=4, cex.lab = 1.4)
-graphics::title(ylab="Apples Claim Frequency: All Damage Causes", line=3.5, cex.lab = 1.4)
-
-#boxplot(palouse_sumloss_1989_2015_loss_year$loss ~ palouse_sumloss_1989_2015_loss_year$year, ylab = "Insurance Claim Frequency", xlab = "", names.arg = palouse_sumloss_1989_2015_loss_year$year, las = 3, main = "IPNW Wheat Insurance Loss Frequencies/Year 1989-2015")
-
-#title(xlab="Year", line=7)
-
-
-#boxplot(palouse_sumloss_1989_2015_count_year_nocounty$count ~ palouse_sumloss_1989_2015_count_year_nocounty$year, ylab = "Insurance Claim Frequency", xlab = "", names.arg = palouse_sumloss_1989_2015_count_year_nocounty$year, las = 3, main = "IPNW Wheat Insurance Loss Frequencies/Year 1989-2015")
-
-#title(xlab="Damage Cause", line=7)
-
-
-#plot(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$damagecause, ylab = "Insurance Claim Frequency", xlab = "", names.arg = palouse_sumloss_1989_2015_count$damagecause, las = 3, main = "IPNW Wheat Insurance Loss Frequencies/Year 1989-2015")
-
-#title(xlab="Damage Cause", line=7)
-
-
-#psc_drought <- subset(palouse_sumloss_1989_2015_count_county, damagecause == "Drought")
-
-
-#barplot(psc_drought$loss, ylab = "Insurance Claim Frequency", xlab = "", names.arg = psc_drought$year, las = 3, main = "IPNW Wheat Insurance Loss Frequencies/Year 1989-2015")
-
-#title(xlab="Damage Cause", line=7)
-
-#model_count <- glm(formula = log(loss) ~ damagecause + commodity, family = "poisson", data = palouse_sumloss_1989_2015_count)
-
-
-
 ```
 
 ![](https://dmine.io/waf/img/Step1.png)
@@ -2387,7 +2170,7 @@ addNoAnswer <- function(x){
   return(x)
 }
 
-BARLEY <- subset(palouse_sumloss_aggregate, commodity == "BARLEY")
+BARLEY <- subset(RMA_damage_IPNW, commodity == "BARLEY")
 
 palouse_sumloss_1989_2015 <- aggregate(BARLEY$loss, list(BARLEY$damagecause), FUN = "sum")
 colnames(palouse_sumloss_1989_2015) <- c("damagecause", "loss")
@@ -2506,16 +2289,16 @@ htmlTable(YYY2,
 
 library(RColorBrewer)
 
-states <- readShapePoly('/dmine/data/states/states.shp', 
-                                  proj4string=CRS
-                                  ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
-        projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+#states <- readShapePoly('/dmine/data/states/states.shp', 
+#                                  proj4string=CRS
+#                                  ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+#        projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 
 #--interaction plot loss vs year for all damage causes, all Palouse counties
-BARLEY <- subset(palouse_sumloss_aggregate, commodity == "BARLEY")
+BARLEY <- subset(RMA_damage_IPNW, commodity == "BARLEY")
 
-levels(BARLEY$damagecause)[8] <- "Excessive Moisture"
+levels(BARLEY$damagecause)[10] <- "Excessive Moisture"
 BARLEY$damagecause <- factor(BARLEY$damagecause)
 
 BARLEY_damage <- subset(BARLEY, damagecause == "Drought" | damagecause == "Heat" | damagecause == "Excessive Moisture" | damagecause == "Hail" | damagecause == "Frost" | damagecause == "Decline in Price" | damagecause == "Cold Wet Weather")
@@ -2885,7 +2668,7 @@ addNoAnswer <- function(x){
   return(x)
 }
 
-WHEAT <- subset(palouse_sumloss_aggregate, commodity == "WHEAT")
+WHEAT <- subset(RMA_damage_IPNW, commodity == "WHEAT")
 
 palouse_sumloss_1989_2015 <- aggregate(WHEAT$loss, list(WHEAT$damagecause), FUN = "sum")
 colnames(palouse_sumloss_1989_2015) <- c("damagecause", "loss")
@@ -3058,6 +2841,7 @@ ggplot(wheatproduction, aes(fill=State, y=Value, x=Year)) +
 
 ```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
+
 library(RColorBrewer)
 library(scales)
 
@@ -3067,8 +2851,10 @@ simpleCap <- function(x) {
       sep="", collapse=" ")
 }
 
+WHEAT <- subset(RMA_damage_IPNW, commodity == "WHEAT")
+
 #--interaction plot loss vs year for all damage causes, all Palouse counties
-levels(WHEAT$damagecause)[8] <- "Excessive Moisture"
+levels(WHEAT$damagecause)[10] <- "Excessive Moisture"
 WHEAT$damagecause <- factor(WHEAT$damagecause)
 
 WHEAT_damage <- subset(WHEAT, damagecause == "Drought" | damagecause == "Heat" | damagecause == "Decline in Price" | damagecause == "Frost" | damagecause == "Hail" | damagecause == "Excessive Moisture" | damagecause == "Freeze" | damagecause == "Cold Winter" | damagecause == "Cold Wet Weather")
@@ -3092,9 +2878,9 @@ WHEAT_damage_top_decline_moisture$damagecause <- factor(WHEAT_damage_top_decline
 
 
 WHEAT_damage_droughtheat <- subset(WHEAT_damage, damagecause == "Heat" | damagecause == "Drought")
-WHEAT_damage_droughtheat2009 <- subset(WHEAT_damage, year == 2009)
-WHEAT_damage_droughtheat2011 <- subset(WHEAT_damage, year == 2011)
-WHEAT_damage_droughtheat2015 <- subset(WHEAT_damage, year == 2015)
+WHEAT_damage_droughtheat2009 <- subset(WHEAT_damage_droughtheat, year == 2009)
+WHEAT_damage_droughtheat2011 <- subset(WHEAT_damage_droughtheat, year == 2011)
+WHEAT_damage_droughtheat2015 <- subset(WHEAT_damage_droughtheat, year == 2015)
 
 WHEAT_damage_droughtheat_annual_ave <- aggregate(WHEAT_damage_droughtheat$loss, by=list(WHEAT_damage_droughtheat$county), FUN = "mean")
 
@@ -3184,7 +2970,9 @@ WHEAT_damage_top_decline_moisture <- subset(WHEAT_damage_top_decline_moisture, y
 par(mar = c(5, 5, 4, 1), family = 'serif')
 
 ggplot(WHEAT_damage_top_decline_moisture) + 
-    geom_bar( aes(fill=damagecause, y=loss, x=year), stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW wheat loss top damage causes \nvs. wheat production") + theme(axis.title.y = element_text(family = "Serif", size=24), axis.title.x = element_text(family = "Serif", size = 24), axis.text.x = element_text(size=rel(2.5), angle = 90, hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(2.5), hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Drought" = "red", "Heat" = "darkred", "Excessive Moisture" = "blue", "Decline in Price" = "gray")) + theme(legend.title=element_text(family = "Serif", size=24, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Wheat Production/Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom") + geom_line(data=iPNW_wheat_yields_annual_average_barplot, aes(x=Year, y=ave_yield), colour = "blue")
+    geom_bar( aes(fill=damagecause, y=loss, x=year), stat="identity") + theme_bw() + theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank()) + ggtitle("IPNW wheat loss top damage causes \nvs. wheat production") + theme(axis.title.y = element_text(family = "Serif", size=24), axis.title.x = element_text(family = "Serif", size = 24), axis.text.x = element_text(size=rel(2.5), angle = 90, hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(2.5), hjust = 1, family = "Serif")) + theme(plot.title = element_text(size =28, family = "Serif"))  +  scale_x_discrete(name = "Years", limits=c(2001:2015)) + theme(legend.text=element_text(family = "Serif", size=14)) + scale_fill_manual("legend", values = c("Drought" = "red", "Heat" = "darkred", "Excessive Moisture" = "blue", "Decline in Price" = "gray")) + theme(legend.title=element_text(family = "Serif", size=24, face = "bold")) + theme(plot.title = element_text(size=24, family = "Serif", face = "bold")) + scale_y_continuous(name = "Insurance claim loss ($)", label = unit_format(unit = "M", scale = 1e-6, digits = 0)) + theme(legend.position="bottom") 
+
+#+ geom_line(data=iPNW_wheat_yields_annual_average_barplot, aes(x=Year, y=ave_yield), colour = "blue")
 
 
 
@@ -3207,12 +2995,14 @@ wheat <- palouse_sumloss_aggregate_wheat
 
 #EDA for wheat
 
-palouse_sumloss_aggregate_wheat2 <- subset(palouse_sumloss_aggregate, commodity == "WHEAT")
+RMA_damage_IPNW$log10_loss <- log10(RMA_damage_IPNW$loss)
+
+palouse_sumloss_aggregate_wheat2 <- subset(RMA_damage_IPNW, commodity == "WHEAT")
 palouse_sumloss_aggregate_wheat2 <- subset(palouse_sumloss_aggregate_wheat2, damagecause != "Hurricane/Tropical Depression")
 palouse_sumloss_aggregate_wheat2 <- subset(palouse_sumloss_aggregate_wheat2, damagecause != "Inability to Prepare Land for Irr")
 
-levels(palouse_sumloss_aggregate_wheat2$damagecause)[8] <- "Excessive Moisture"
-levels(palouse_sumloss_aggregate_wheat2$damagecause)[24] <- "Snow/Lighning"
+levels(palouse_sumloss_aggregate_wheat2$damagecause)[10] <- "Excessive Moisture"
+levels(palouse_sumloss_aggregate_wheat2$damagecause)[26] <- "Snow/Lighning"
 
 palouse_sumloss_aggregate_wheat2$damagecause <- factor(palouse_sumloss_aggregate_wheat2$damagecause)
 
@@ -3248,6 +3038,7 @@ stripchart(log10_loss ~ damagecause, data = palouse_sumloss_aggregate_wheat2, ve
 
 par(mar=c(10,8,6,2), family = 'serif', mgp = c(5, 1, 0)) 
 
+palouse_sumloss_aggregate_wheat2$county <- factor(palouse_sumloss_aggregate_wheat2$county)
 boxplot(log10_loss ~ county, palouse_sumloss_aggregate_wheat2, yaxt = 'n', col = "lightblue", las = 3, cex.main = 1.5, cex.lab = 1.4, cex.axis = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1, outline = FALSE)
 
 pts <- pretty(palouse_sumloss_aggregate_wheat2$log10_loss)
@@ -3299,7 +3090,7 @@ map <- leaflet(data = county_wheat_droughtheat, options = leafletOptions(zoomCon
   addMiniMap(
     tiles = providers$Stamen.TonerLite,
     position = 'topleft', 
-    width = 200, height = 200,
+    width = 100, height = 100,
     toggleDisplay = FALSE) %>%
   
   
@@ -3308,12 +3099,11 @@ map <- leaflet(data = county_wheat_droughtheat, options = leafletOptions(zoomCon
   
   fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(fillColor = ~pal(county_wheat_droughtheat$loss),  fillOpacity = .8, weight = 1, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% addPolygons(data = states, fillOpacity = 0, weight = 4, stroke = TRUE, smoothFactor = 0.5, color = "black") %>% 
   
-    addLegend(data = iPNW_yields_map, pal = pal, values = na.omit(~ave_yield), group = "circles", title = paste("Wheat loss: 2001 to 2015 <br>due to drought/heat", sep = ""), na.label = "", position = "topright", labFormat = labelFormat(prefix = "$")) %>%
-
+    
+addLegend(pal = pal, data = county_wheat_droughtheat, values = na.omit(~loss), group = "circles", title = paste("Wheat loss: 2001 to 2015<br>due to drought/heat", sep = ""), na.label = "", position = "topright", labFormat = labelFormat(prefix = "$")) %>% 
   
-  
 
-addLabelOnlyMarkers(data = county_wheat_droughtheat, lng = lat_long[,1], lat = lat_long[,2], label = lapply(paste(round((county_wheat_droughtheat$loss / 1000000), 0), "M", sep=""), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "16px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
+addLabelOnlyMarkers(data = county_wheat_droughtheat, lng = lat_long[,1], lat = lat_long[,2], label = lapply(paste(round((county_wheat_droughtheat$loss / 1000000), 0), "M", sep=""), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "24px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
 )) 
         
 addScaleBar(map, position = c("topright"), options = scaleBarOptions())
@@ -3578,27 +3368,27 @@ addNoAnswer <- function(x){
 
 #--counts wheat drought
 
-palouse_sumloss_aggregate_wheat <- subset(palouse_counts, commodity == "WHEAT")
+palouse_sumloss_aggregate_wheat <- subset(RMA_damage_IPNW, commodity == "WHEAT")
 
-palouse_sumloss_1989_2015_count <- aggregate(palouse_sumloss_aggregate_wheat$count, list( palouse_sumloss_aggregate_wheat$month, palouse_sumloss_aggregate_wheat$year, palouse_sumloss_aggregate_wheat$damagecause, palouse_sumloss_aggregate_wheat$county, palouse_sumloss_aggregate_wheat$state), FUN = "sum")
+palouse_sumloss_1989_2015_count <- aggregate(palouse_sumloss_aggregate_wheat$count, list( palouse_sumloss_aggregate_wheat$year, palouse_sumloss_aggregate_wheat$damagecause, palouse_sumloss_aggregate_wheat$county, palouse_sumloss_aggregate_wheat$state), FUN = "sum")
 
 palouse_sumloss_1989_2015_count_year <- aggregate(palouse_sumloss_aggregate_wheat$count, list(palouse_sumloss_aggregate_wheat$year, palouse_sumloss_aggregate_wheat$damagecause, palouse_sumloss_aggregate_wheat$county, palouse_sumloss_aggregate_wheat$state), FUN = "sum")
 
 palouse_sumloss_1989_2015_count_year_nocounty <- aggregate(palouse_sumloss_aggregate_wheat$count, list(palouse_sumloss_aggregate_wheat$year, palouse_sumloss_aggregate_wheat$damagecause, palouse_sumloss_aggregate_wheat$state), FUN = "sum")
 
-colnames(palouse_sumloss_1989_2015_count) <- c("month", "year", "damagecause", "county", "state", "count")
+colnames(palouse_sumloss_1989_2015_count) <- c("year", "damagecause", "county", "state", "count")
 colnames(palouse_sumloss_1989_2015_count_year) <- c("year", "damagecause", "county", "state", "count")
 colnames(palouse_sumloss_1989_2015_count_year_nocounty) <- c("year", "damagecause", "state", "count")
 
 #--loss
 
-palouse_sumloss_aggregate_wheat_loss <- subset(palouse_sumloss, commodity == "WHEAT")
+palouse_sumloss_aggregate_wheat_loss <- subset(RMA_damage_IPNW, commodity == "WHEAT")
 
-palouse_sumloss_1989_2015_loss <- aggregate(palouse_sumloss_aggregate_wheat_loss$loss, list( palouse_sumloss_aggregate_wheat_loss$month, palouse_sumloss_aggregate_wheat_loss$year, palouse_sumloss_aggregate_wheat_loss$damagecause, palouse_sumloss_aggregate_wheat_loss$county, palouse_sumloss_aggregate_wheat_loss$state), FUN = "sum")
+palouse_sumloss_1989_2015_loss <- aggregate(palouse_sumloss_aggregate_wheat_loss$loss, list( palouse_sumloss_aggregate_wheat_loss$year, palouse_sumloss_aggregate_wheat_loss$damagecause, palouse_sumloss_aggregate_wheat_loss$county, palouse_sumloss_aggregate_wheat_loss$state), FUN = "sum")
 
 palouse_sumloss_1989_2015_loss_year <- aggregate(palouse_sumloss_aggregate_wheat_loss$loss, list(palouse_sumloss_aggregate_wheat_loss$year, palouse_sumloss_aggregate_wheat_loss$damagecause, palouse_sumloss_aggregate_wheat_loss$county, palouse_sumloss_aggregate_wheat_loss$state), FUN = "sum")
 
-colnames(palouse_sumloss_1989_2015_loss) <- c("month", "year", "damagecause", "county", "state", "loss")
+colnames(palouse_sumloss_1989_2015_loss) <- c("year", "damagecause", "county", "state", "loss")
 colnames(palouse_sumloss_1989_2015_loss_year) <- c("year", "damagecause", "county", "state", "loss")
 
 
@@ -3629,23 +3419,25 @@ colnames(palouse_sumloss_1989_2015_loss_year) <- c("year", "damagecause", "count
 psc_drought <- subset(palouse_sumloss_1989_2015_count_year, damagecause == "Drought")
 
 #--create missing county year data where no values are found
-d1 <- data.frame(unique(palouse_counts$county))
+d1 <- data.frame(unique(RMA_damage_IPNW$county))
 colnames(d1) <- "county"
 
-d2 <- data.frame(unique(palouse_counts$year))
+d2 <- data.frame(unique(RMA_damage_IPNW$year))
 colnames(d2) <- "year"
 d2 <- d2[order(d2$year),]
 d2 <- data.frame(d2)
 colnames(d2) <- "year"
 
-d2a <- c("WA", "WA", "WA", "WA", "WA", "WA", "OR", "OR", "WA", "ID", "ID", "ID", "ID", "ID", "ID", "WA", "OR", "OR", "OR", "OR", "OR", "OR", "WA", "WA", "ID", "WA")
+#d2a <- c("WA", "WA", "WA", "WA", "WA", "WA", "OR", "OR", "WA", "ID", "ID", "ID", "ID", "ID", "ID", "WA", "OR", "OR", "OR", "OR", "OR", "OR", "WA", "WA", "ID", "WA")
+
+d2a <- c("ID", "ID", "ID", "ID", "ID", "OR", "OR", "OR", "OR", "OR", "OR", "OR", "WA", "WA", "WA", "WA", "WA", "WA", "WA", "WA", "WA", "WA", "WA", "WA")
 
 d2a <- data.frame(d2a)
 colnames(d2a) <- "state"
 
-d1 <- data.frame(d1[rep(seq_len(nrow(d1)), each=27),])
-d2 <- do.call("rbind", replicate(26, d2, simplify = FALSE))
-d2a <- data.frame(d2a[rep(seq_len(nrow(d2a)), each=27),])
+d1 <- data.frame(d1[rep(seq_len(nrow(d1)), each=15),])
+d2 <- do.call("rbind", replicate(24, d2, simplify = FALSE))
+d2a <- data.frame(d2a[rep(seq_len(nrow(d2a)), each=15),])
 
 d3 <- cbind(d1, d2a, d2)
 colnames(d3) <- c("county", "state", "year")
@@ -3696,24 +3488,26 @@ psc_drought_all <- aggregate(palouse_sumloss_1989_2015_count_year$count, by = li
 colnames(psc_drought_all) <- c("state", "county", "year", "count")
 
 #--create missing county year data where no values are found
-d1 <- data.frame(unique(palouse_counts$county))
+d1 <- data.frame(unique(RMA_damage_IPNW$county))
 colnames(d1) <- "county"
 
-d2 <- data.frame(unique(palouse_counts$year))
+d2 <- data.frame(unique(RMA_damage_IPNW$year))
 colnames(d2) <- "year"
 d2 <- d2[order(d2$year),]
 d2 <- data.frame(d2)
 colnames(d2) <- "year"
 
 
-d2a <- c("WA", "WA", "WA", "WA", "WA", "WA", "OR", "OR", "WA", "ID", "ID", "ID", "ID", "ID", "ID", "WA", "OR", "OR", "OR", "OR", "OR", "OR", "WA", "WA", "ID", "WA")
+#d2a <- c("WA", "WA", "WA", "WA", "WA", "WA", "OR", "OR", "WA", "ID", "ID", "ID", "ID", "ID", "ID", "WA", "OR", "OR", "OR", "OR", "OR", "OR", "WA", "WA", "ID", "WA")
+
+d2a <- c("ID", "ID", "ID", "ID", "ID", "OR", "OR", "OR", "OR", "OR", "OR", "OR", "WA", "WA", "WA", "WA", "WA", "WA", "WA", "WA", "WA", "WA", "WA", "WA")
 
 d2a <- data.frame(d2a)
 colnames(d2a) <- "state"
 
-d1 <- data.frame(d1[rep(seq_len(nrow(d1)), each=27),])
-d2 <- do.call("rbind", replicate(26, d2, simplify = FALSE))
-d2a <- data.frame(d2a[rep(seq_len(nrow(d2a)), each=27),])
+d1 <- data.frame(d1[rep(seq_len(nrow(d1)), each=15),])
+d2 <- do.call("rbind", replicate(24, d2, simplify = FALSE))
+d2a <- data.frame(d2a[rep(seq_len(nrow(d2a)), each=15),])
 
 
 
@@ -3977,7 +3771,7 @@ addNoAnswer <- function(x){
   return(x)
 }
 
-CHERRIES <- subset(palouse_sumloss_aggregate, commodity == "CHERRIES")
+CHERRIES <- subset(RMA_damage_IPNW, commodity == "CHERRIES")
 palouse_sumloss_1989_2015 <- aggregate(CHERRIES$loss, list(CHERRIES$damagecause), FUN = "sum")
 colnames(palouse_sumloss_1989_2015) <- c("damagecause", "loss")
 
@@ -4103,9 +3897,9 @@ htmlTable(YYY2,
 library(RColorBrewer)
 
 
-CHERRIES <- subset(palouse_sumloss_aggregate, commodity == "CHERRIES")
+CHERRIES <- subset(RMA_damage_IPNW, commodity == "CHERRIES")
 
-levels(CHERRIES$damagecause)[8] <- "Excessive Moisture"
+levels(CHERRIES$damagecause)[10] <- "Excessive Moisture"
 CHERRIES$damagecause <- factor(CHERRIES$damagecause)
 
 
@@ -4462,7 +4256,7 @@ addNoAnswer <- function(x){
   return(x)
 }
 
-DRYPEAS <- subset(palouse_sumloss_aggregate, commodity == "DRY PEAS")
+DRYPEAS <- subset(RMA_damage_IPNW, commodity == "DRY PEAS")
 
 palouse_sumloss_1989_2015 <- aggregate(DRYPEAS$loss, list(DRYPEAS$damagecause), FUN = "sum")
 colnames(palouse_sumloss_1989_2015) <- c("damagecause", "loss")
@@ -4580,11 +4374,11 @@ htmlTable(YYY2,
 ```{r message=FALSE, warning=FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
 
-DRYPEAS <- subset(sumloss_palouse_sum, commodity == "DRY PEAS")
+DRYPEAS <- subset(RMA_damage_IPNW, commodity == "DRY PEAS")
 
 
 
-levels(DRYPEAS$damagecause)[8] <- "Excessive Moisture"
+levels(DRYPEAS$damagecause)[10] <- "Excessive Moisture"
 DRYPEAS$damagecause <- factor(DRYPEAS$damagecause)
 
 DRYPEAS_damage <- subset(DRYPEAS, damagecause == "Drought" | damagecause == "Heat" | damagecause == "Excessive Moisture" | damagecause == "Hail" | damagecause == "Cold Wet Weather" | damagecause == "Decline in Price" | damagecause == "Frost" | damagecause == "Wind/Excess Wind")
