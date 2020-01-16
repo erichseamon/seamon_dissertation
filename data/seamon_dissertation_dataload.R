@@ -8,79 +8,79 @@
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climatology/climatology.zip"
 destfile <- "/tmp/seamon/climatology.zip"
 download.file(URL, destfile)
-outDir<-"/tmp/climatology/"
+outDir<-"/tmp/seamon/climatology/"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/RMA_originaldata_txt.zip"
 destfile <- "/tmp/seamon/RMA_originaldata_txt.zip"
 download.file(URL, destfile)
-outDir<-"/tmp/RMA_originaldata/"
+outDir<-"/tmp/seamon/RMA_originaldata/"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_matrices/climate_matrices.zip"
 destfile <- "/tmp/seamon/climate_matrices.zip"
 download.file(URL, destfile)
-outDir<-"/tmp/climate_matrices"
+outDir<-"/tmp/seamon/climate_matrices"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_correlation_summaries/climate_correlations_summaries.zip"
 destfile <- "/tmp/seamon/climate_correlations_summaries.zip"
 download.file(URL, destfile)
-outDir<-"/tmp/climate_correlations_summaries"
+outDir<-"/tmp/seamon/climate_correlations_summaries"
 unzip(destfile,exdir=outDir) 
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_correlations/climate_correlations.zip"
 destfile <- "/tmp/seamon/climate_correlations.zip"
 download.file(URL, destfile)
-outDir<-"/tmp/climate_correlations"
+outDir<-"/tmp/seamon/climate_correlations"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/climate_outputs/climate_outputs.zip"
 destfile <- "/tmp/seamon/climate_outputs.zip"
 download.file(URL, destfile)
-outDir<-"/tmp/climate_outputs"
+outDir<-"/tmp/seamon/climate_outputs"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
 destfile <- "/tmp/seamon/states_conus.zip"
 download.file(URL, destfile)
-outDir<-"/tmp"
+outDir<-"/tmp/seamon/states_conus"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/threestate_boundary.zip"
 destfile <- "/tmp/seamon/threestate_boundary.zip"
 download.file(URL, destfile)
-outDir<-"/tmp"
+outDir<-"/tmp/seamon/threestate_boundary"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_willamette.zip"
 destfile <- "/tmp/seamon/threestate_willamette.zip"
 download.file(URL, destfile)
-outDir<-"/tmp"
+outDir<-"/tmp/seamon/threestate_willamette"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_southernID.zip"
 destfile <- "/tmp/seamon/threestate_southernID.zip"
 download.file(URL, destfile)
-outDir<-"/tmp"
+outDir<-"/tmp/seamon/threestate_southernID"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
 destfile <- "/tmp/seamon/threestate_palouse.zip"
 download.file(URL, destfile)
-outDir<-"/tmp"
+outDir<-"/tmp/seamon/threestate_palouse"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/CPI/CPI.zip"
 destfile <- "/tmp/seamon/CPI.zip"
 download.file(URL, destfile)
-outDir<-"/tmp"
+outDir<-"/tmp/seamon/CPI"
 unzip(destfile,exdir=outDir)
 
 URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/wheatproduction/wheatyields.zip"
 destfile <- "/tmp/seamon/wheatyields.zip"
 download.file(URL, destfile)
-outDir<-"/tmp"
+outDir<-"/tmp/seamon/wheatyields"
 unzip(destfile,exdir=outDir)
 
 
