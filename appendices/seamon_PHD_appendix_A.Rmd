@@ -9,8 +9,8 @@ output:
     code_folding: hide
     highlight: textmate
     theme: united
-    toc: yes
-    toc_float: yes
+    toc: true
+    toc_float: true
   pdf_document: default
 params: null
 mainfont: serif
@@ -75,7 +75,7 @@ Several steps were performed to examine the full set of data, and to narrow down
 ![](https://dmine.io/waf/img/Step1.png)
 
 
-##Step 1: Data Preparation
+## Step 1: Data Preparation
 
 In order to generate any of the following tables and graphs, we download all data locally to your /tmp/seamon directory, from the seamon_dissertation_dataload.R file from the following location:
 
@@ -304,7 +304,9 @@ sumloss_nonpalouse <- RMA_damage_PNW[!RMA_damage_PNW$county %in% palousecounties
 ```
 <br></br>
 
-##Step 2. Original Insurance Loss Dataset - Pacific Northwest
+![](https://dmine.io/waf/img/Step1.png)
+
+## Step 2. Original Insurance Loss Dataset - Pacific Northwest
 
 The following table is an example of the original data that was acquired from the USDA Risk Management Agency (RMA).  Each record represents an individual insurance claim.
 
@@ -317,7 +319,9 @@ knitr::kable(RMA_PNW[1:10,], format="markdown") %>%
 
 <br></br>
 
-##Step 3. Aggregated Insurance Loss Dataset - Pacific Northwest
+![](https://dmine.io/waf/img/Step1.png)
+
+## Step 3. Aggregated Insurance Loss Dataset - Pacific Northwest
 
 The following table is an example of an aggregated dataset derived from the original files.  Here we have summarized claims by year, county, commodity, and damage cause.  Each unique combination is summarized, which echos the total summarized loss, the number of claims, the total summarized acreage, loss per acre, loss per claim, and acres per claim.  This dataset was the basis for our data examination.
 
@@ -332,7 +336,7 @@ knitr::kable(RMA_damage_PNW[1:10,], format="markdown") %>%
 
 ![](https://dmine.io/waf/img/Step1.png)
 
-##Step 4: Pacific Northwest(PNW) Study Area
+## Step 4: Pacific Northwest(PNW) Study Area
 
 The following map shows the three key agricultural regions that make up over 95% of all agricultural insurance loss for the three state region of Washington, Oregon, and Idaho.
 
@@ -439,7 +443,7 @@ addScaleBar(mapz, position = c("bottomright"), options = scaleBarOptions())
 ![](https://dmine.io/waf/img/Step1.png)
 <br></br>
 
-##Step 5: PNW insurance claim loss summary
+## Step 5: PNW insurance claim loss summary
 
 Here we examine the PNW region's insurance loss by year, damage cause, and commodity, and county, from 1989 to 2015.  From the results of this examination, we narrow our time frame to 2001 to 2015. 
 
@@ -694,7 +698,7 @@ htmlTable(dd2,
 
 <br></br>
 
-##Step 6: PNW insurance claim freqency summary
+## Step 6: PNW insurance claim freqency summary
 
 Below we examine the PNW insurance claim counts by the same factors: by commodity, damage cause, year, and county.  
 
@@ -964,7 +968,7 @@ print(gg1)
 
 <br></br>
 
-##Step 7: IPNW Study Area
+## Step 7: IPNW Study Area
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
@@ -983,6 +987,12 @@ usePackage("htmltools")
 #download.file(URL, destfile)
 #outDir<-"/tmp/seamon"
 #unzip(destfile,exdir=outDir)
+
+states <- readShapePoly('/tmp/seamon/states_conus/states_conus.shp', 
+                                  proj4string=CRS
+                                  ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+        projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+        
 
 counties <- readShapePoly('/tmp/seamon/threestate_palouse/threestate_palouse.shp',
                      proj4string=CRS
@@ -1051,7 +1061,7 @@ addScaleBar(mapz, position = c("topright"), options = scaleBarOptions())
 
 <br></br>
 
-##Step 8: IPNW insurance claim loss summary
+## Step 8: IPNW insurance claim loss summary
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 9}
 
@@ -1275,7 +1285,7 @@ stripchart(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2
 
 <br></br>
 
-##Step 9: IPNW insurance claim count summary
+## Step 9: IPNW insurance claim count summary
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 palouse_sumloss_aggregate <- subset(RMA_damage_IPNW, year >= 2001 & year <= 2015) 
@@ -1498,7 +1508,7 @@ p
 
 <br></br>
 
-##Step 10: APPLES, 2001-2015 for the IPNW
+## Step 10: APPLES, 2001-2015 for the IPNW
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE}
 
@@ -2177,7 +2187,7 @@ graphics::title(ylab="Apples insurance claim loss ($)", line=4, cex.lab = 1.4)
 
 <br></br>
 
-##Step 11: BARLEY, 2001-2015 for the IPNW
+## Step 11: BARLEY, 2001-2015 for the IPNW
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE, fig.width = 10, fig.height = 7}
 
@@ -2674,7 +2684,7 @@ graphics::title(ylab="Insurance claim loss ($)", line=4, cex.lab = 1.4)
 
 <br></br>
 
-##Step 12: WHEAT, 2001-2015 for the IPNW
+## Step 12: WHEAT, 2001-2015 for the IPNW
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
@@ -2804,7 +2814,7 @@ htmlTable(YYY2,
           css.cell = "padding-left: .5em; padding-right: .5em;")
 
 
-##Step 7: Nationwide Wheat Prices per metric ton: 2001-2015 
+## Step 7: Nationwide Wheat Prices per metric ton: 2001-2015 
 
 wheatprice <- read.csv("/tmp/seamon/wheatprice.csv", header=TRUE, strip.white =TRUE)
 colnames(wheatprice) <- c("ID", "year", "month","price")
@@ -2936,21 +2946,21 @@ county_wheat_droughtheat2015 <- merge(counties, WHEAT_damage_top_agg_droughtheat
 
 #yields
 
-WA_wheat_yields <- read.csv("/tmp/seamon/Washington_yields_winterwheat.csv", header = TRUE)
+WA_wheat_yields <- read.csv("/tmp/seamon/wheatyields/Washington_yields_winterwheat.csv", header = TRUE)
 WA_wheat_yields <- data.frame(WA_wheat_yields$Year, WA_wheat_yields$State, WA_wheat_yields$County,WA_wheat_yields$Value)
 colnames(WA_wheat_yields) <- c("year", "state", "county", "value")
 WA_wheat_yields$county <- tolower(WA_wheat_yields$county)
 WA_wheat_yields$county <- sapply(WA_wheat_yields$county, simpleCap)
 WA_wheat_yields$value <- as.numeric(gsub(",","",WA_wheat_yields$value))
 
-ID_wheat_yields <- read.csv("/tmp/seamon/Idaho_yields_winterwheat.csv", header = TRUE)
+ID_wheat_yields <- read.csv("/tmp/seamon/wheatyields/Idaho_yields_winterwheat.csv", header = TRUE)
 ID_wheat_yields <- data.frame(ID_wheat_yields$Year, ID_wheat_yields$State, ID_wheat_yields$County,ID_wheat_yields$Value)
 colnames(ID_wheat_yields) <- c("year", "state", "county", "value")
 ID_wheat_yields$county <- tolower(ID_wheat_yields$county)
 ID_wheat_yields$county <- sapply(ID_wheat_yields$county, simpleCap)
 ID_wheat_yields$value <- as.numeric(gsub(",","",ID_wheat_yields$value))
 
-OR_wheat_yields <- read.csv("/tmp/seamon/Oregon_yields_winterwheat.csv", header = TRUE)
+OR_wheat_yields <- read.csv("/tmp/seamon/wheatyields/Oregon_yields_winterwheat.csv", header = TRUE)
 OR_wheat_yields <- data.frame(OR_wheat_yields$Year, OR_wheat_yields$State, OR_wheat_yields$County,OR_wheat_yields$Value)
 colnames(OR_wheat_yields) <- c("year", "state", "county", "value")
 OR_wheat_yields$county <- tolower(OR_wheat_yields$county)
@@ -3605,21 +3615,21 @@ simpleCap <- function(x) {
       sep="", collapse=" ")
 }
 
-WA_wheat_yields <- read.csv("/tmp/seamon/Washington_yields_winterwheat.csv", header = TRUE)
+WA_wheat_yields <- read.csv("/tmp/seamon/wheatyields/Washington_yields_winterwheat.csv", header = TRUE)
 WA_wheat_yields <- data.frame(WA_wheat_yields$Year, WA_wheat_yields$State, WA_wheat_yields$County,WA_wheat_yields$Value)
 colnames(WA_wheat_yields) <- c("year", "state", "county", "value")
 WA_wheat_yields$county <- tolower(WA_wheat_yields$county)
 WA_wheat_yields$county <- sapply(WA_wheat_yields$county, simpleCap)
 WA_wheat_yields$value <- as.numeric(gsub(",","",WA_wheat_yields$value))
 
-ID_wheat_yields <- read.csv("/tmp/seamon/Idaho_yields_winterwheat.csv", header = TRUE)
+ID_wheat_yields <- read.csv("/tmp/seamon/wheatyields/Idaho_yields_winterwheat.csv", header = TRUE)
 ID_wheat_yields <- data.frame(ID_wheat_yields$Year, ID_wheat_yields$State, ID_wheat_yields$County,ID_wheat_yields$Value)
 colnames(ID_wheat_yields) <- c("year", "state", "county", "value")
 ID_wheat_yields$county <- tolower(ID_wheat_yields$county)
 ID_wheat_yields$county <- sapply(ID_wheat_yields$county, simpleCap)
 ID_wheat_yields$value <- as.numeric(gsub(",","",ID_wheat_yields$value))
 
-OR_wheat_yields <- read.csv("/tmp/seamon/Oregon_yields_winterwheat.csv", header = TRUE)
+OR_wheat_yields <- read.csv("/tmp/seamon/wheatyields/Oregon_yields_winterwheat.csv", header = TRUE)
 OR_wheat_yields <- data.frame(OR_wheat_yields$Year, OR_wheat_yields$State, OR_wheat_yields$County,OR_wheat_yields$Value)
 colnames(OR_wheat_yields) <- c("year", "state", "county", "value")
 OR_wheat_yields$county <- tolower(OR_wheat_yields$county)
@@ -3782,7 +3792,7 @@ pts2 <- pretty(wheat_aggregated_drought_heat$loss)
 
 <br></br>
 
-##Step 13: CHERRIES, 2001-2015 for the IPNW
+## Step 13: CHERRIES, 2001-2015 for the IPNW
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
@@ -4267,7 +4277,7 @@ title(ylab="Cherries insurance claim loss ($)", line=5, cex.lab = 1.4)
 
 <br></br>
 
-##Step 14: DRY PEAS, 2001-2015 for the IPNW
+## Step 14: DRY PEAS, 2001-2015 for the IPNW
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
 
