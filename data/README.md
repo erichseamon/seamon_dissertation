@@ -24,5 +24,5 @@ The following folders contain the available datasets used as part of dissertatio
 
 - /wheat_prices.  Annual wheat prices used in Appendix C.
 
--/CPI.  Consumer pricing indexing data used in Appendix A.
+- /CPI.  Consumer pricing indexing data used in Appendix A.
 
