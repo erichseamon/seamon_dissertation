@@ -26,3 +26,5 @@ The following folders contain the available datasets used as part of dissertatio
 
 - /CPI.  Consumer pricing indexing data used in Appendix A.
 
+- /wheatproduction. NASS wheat production data, used in Appendix A.
+
