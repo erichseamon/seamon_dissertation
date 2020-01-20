@@ -8,7 +8,9 @@ The included folders contain analysis code, Rmarkdown, and data for reproducibil
 
 1. clone repo
 2. Run the seamon_dissertation_dataload.R file in the /data folder, within R.  This will download all data and place the needed datasets into your /tmp folder.
-3. Run the Rmarkdown appendices (A, B, or C), located in the /appendices folder.  
+3. Run the Rmarkdown appendices (A, B, or C), located in the /appendices folder.  Running each appendix will download the seamon_dissertation_dataload.R file and place it in /tmp/seamon.  Then this script is run within the appendix code to download all data and place the needed datasets into your /tmp/seamon folder.  The data is removed at the end of each appendix markdown.
+
+NOTE:  If you wish to examine the data directly, you can run the seamon_dissertation_dataload.R file directly.  The file is within the /data folder.
 
 - /appendices.  Contains Rmarkdown and html that re-create appendix analyses that refer to particular chapters.
 - /code. modular code that performs analysis and modeling.
