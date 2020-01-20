@@ -4,12 +4,12 @@ author: "Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip W. Mote, Step
 date: "September 2019"
 output:
   html_document:
-    code_folding: hide
     css: custom.css
+    code_folding: hide
+    highlight: textmate
+    theme: united
     toc: true
     toc_float: true
-    theme: united
-    highlight: textmate
   pdf_document: default
 params: null
 mainfont: serif
@@ -21,23 +21,25 @@ knitr::opts_chunk$set(echo = TRUE, out.width='600px', out.height='600px', dpi=20
 
 #rmarkdown::render(input = "/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_B.Rmd", output_file = paste("/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_B.html", sep=""))
 
+usePackage <- function(p) {
+    if (!is.element(p, installed.packages()[,1]))
+        install.packages(p, dep = TRUE, repos = "http://cran.us.r-project.org")
+    require(p, character.only = TRUE)
+}
 
 ```
 ![](https://dmine.io/waf/img/Step1.png)
 
 
-**Appendix B Summary Statement: Agricultural Insurance Loss and Principle Components Analysis**
+*Appendix B Summary Statement: Agricultural Insurance Loss and Principle Components Analysis*
 
-Appendix B documents the exploratory data analysis process, examining the relationships of agricultural commodity loss, at a county level, from 1989-2015, across the three state region of the Pacific Northwest (Washington, Idaho, and Oregon), and then focus in on the 24 county region of the Inland Pacific Northwest (IPNW). 
+Appendix B documents the exploratory data analysis process, examining the relationships of agricultural commodity loss, at a county level, from 1989-2015, across the three state region of the Pacific Northwest (Washington, Idaho, and Oregon), and then focuses in on the 24 county region of the Inland Pacific Northwest (IPNW). 
 
 Here we perform a variety of Principle Components Analyses (PCA) to better understand the combined effects of differing damage causes, commodities, counties, and years on overall loss. 
 
 <br></br>
-<br></br>
 
-**DATA PREPARATION**
-
-<br></br>
+*DATA PREPARATION*
 
 **Step 1.** Data Preparation.  Here we load our agricultural insurance loss data and prepare it for PCA Analysis.
 
@@ -49,9 +51,7 @@ Here we perform a variety of Principle Components Analyses (PCA) to better under
 
 <br></br>
 
-**Pacific Northwest PCA**
-
-<br></br>
+*Pacific Northwest PCA*
 
 **Step 5.** PCA: PNW insurance loss, by COUNTY with COMMODITY loadings: 2001 to 2015
 
@@ -69,9 +69,7 @@ Here we perform a variety of Principle Components Analyses (PCA) to better under
 
 <br></br>
 
-**Inland Pacific Northwest PCA**
-
-<br></br>
+*Inland Pacific Northwest PCA*
 
 **Step 12.** PCA: IPNW insurance loss by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015: ALL COMMODITIES
 
@@ -94,41 +92,58 @@ Here we perform a variety of Principle Components Analyses (PCA) to better under
 ![](https://dmine.io/waf/img/Step1.png)
 
 
-##Step 1: Data Preparation
+```{r message=FALSE, warning=FALSE, echo = FALSE}
 
-The first step was to load Pacific Northwest agricultural insurance commodity loss data, aggregate by county, damage cause and commodity, remove zeros, transform the loss values ($) into cube root and logrithmic outputs, and scale and center the data.  
+dir.create("/tmp/seamon")
 
-Original data file for all insurance claims for the Pacific Northwest, can be found here:
+download.file("https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/seamon_dissertation_dataload.R", destfile = "/tmp/seamon/dataload.R")
 
-https://github.com/erichseamon/paper-PHD1/blob/master/data/RMA_PNW_2001_2015.csv
+usePackage("RCurl")
+source("/tmp/seamon/dataload.R", local=FALSE)
 
-Aggregated data file, which summarizes data by year, county, commodity, and damage cause, for just the Pacific Northwest, can be found here:
+```
 
-https://github.com/erichseamon/paper-PHD1/blob/master/data/RMA_damage_PNW_2001_2015.csv
+## Step 1: Data Preparation
 
-All code that generates the following graphs and tables, can be found here:
+In order to generate any of the following tables and graphs, we download all data locally to your /tmp/seamon/seamon directory, from the seamon_dissertation_dataload.R file from the following location:
 
-https://github.com/erichseamon/paper-PHD1/
+http://github.com/erichseamon/seamon_dissertation/data/
 
+Then you will be able to re-generate any of the provided Rmarkdown files from:
 
+http://github.com/erichseamon/seamon_dissertation/appendices/
+
+the dataload.R file has a multitude of datasets, including:
+<br></br>
+* climatology summary data by county for the study area examined (inland Pacific Northwest);
+<br></br>
+* original RMA crop insurance data;
+<br></br>
+* state polygon shapefile;
+<br></br>
+* consumer price indexing;
+<br></br>
+* wheat yields; and
+<br></br>
+* wheat pricing
 
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
-library(knitr)
-library(tab)
-library(car)
-library(RCurl)
-library(lme4)
-library(ez)
-library(lattice)
-library(ggplot2)
-library(coefplot2)
-library(broom)
-library(htmlTable)
-library(gridExtra)
-library(kableExtra)
-library(repmis)
+usePackage("knitr")
+usePackage("tab")
+usePackage("car")
+usePackage("RCurl")
+usePackage("lme4")
+usePackage("ez")
+usePackage("lattice")
+usePackage("ggplot2")
+usePackage("coefplot2")
+usePackage("broom")
+usePackage("htmlTable")
+usePackage("gridExtra")
+usePackage("kableExtra")
+usePackage("repmis")
 
 
 
@@ -138,39 +153,39 @@ library(repmis)
 #------add crop insurance data
 
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/RMA_originaldata_txt.zip"
-#destfile <- "/tmp/RMA_originaldata_txt.zip"
+#destfile <- "/tmp/seamon/RMA_originaldata_txt.zip"
 #download.file(URL, destfile)
-#outDir<-"/tmp/RMA_originaldata/"
+#outDir<-"/tmp/seamon/RMA_originaldata/"
 #unzip(destfile,exdir=outDir)
 
 
-rma1989 <- read.csv("/tmp/RMA_originaldata/1989.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1990 <- read.csv("/tmp/RMA_originaldata/1990.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1991 <- read.csv("/tmp/RMA_originaldata/1991.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1992 <- read.csv("/tmp/RMA_originaldata/1992.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1993 <- read.csv("/tmp/RMA_originaldata/1993.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1994 <- read.csv("/tmp/RMA_originaldata/1994.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1995 <- read.csv("/tmp/RMA_originaldata/1995.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1996 <- read.csv("/tmp/RMA_originaldata/1996.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1997 <- read.csv("/tmp/RMA_originaldata/1997.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1998 <- read.csv("/tmp/RMA_originaldata/1998.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma1999 <- read.csv("/tmp/RMA_originaldata/1999.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2000 <- read.csv("/tmp/RMA_originaldata/2000.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2001 <- read.csv("/tmp/RMA_originaldata/2001.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2002 <- read.csv("/tmp/RMA_originaldata/2002.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2003 <- read.csv("/tmp/RMA_originaldata/2003.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2004 <- read.csv("/tmp/RMA_originaldata/2004.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2005 <- read.csv("/tmp/RMA_originaldata/2005.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2006 <- read.csv("/tmp/RMA_originaldata/2006.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2007 <- read.csv("/tmp/RMA_originaldata/2007.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2008 <- read.csv("/tmp/RMA_originaldata/2008.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2009 <- read.csv("/tmp/RMA_originaldata/2009.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2010 <- read.csv("/tmp/RMA_originaldata/2010.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2011 <- read.csv("/tmp/RMA_originaldata/2011.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2012 <- read.csv("/tmp/RMA_originaldata/2012.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2013 <- read.csv("/tmp/RMA_originaldata/2013.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2014 <- read.csv("/tmp/RMA_originaldata/2014.txt", sep = "|", header = FALSE, strip.white = TRUE)
-rma2015 <- read.csv("/tmp/RMA_originaldata/2015.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1989 <- read.csv("/tmp/seamon/RMA_originaldata/1989.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1990 <- read.csv("/tmp/seamon/RMA_originaldata/1990.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1991 <- read.csv("/tmp/seamon/RMA_originaldata/1991.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1992 <- read.csv("/tmp/seamon/RMA_originaldata/1992.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1993 <- read.csv("/tmp/seamon/RMA_originaldata/1993.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1994 <- read.csv("/tmp/seamon/RMA_originaldata/1994.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1995 <- read.csv("/tmp/seamon/RMA_originaldata/1995.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1996 <- read.csv("/tmp/seamon/RMA_originaldata/1996.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1997 <- read.csv("/tmp/seamon/RMA_originaldata/1997.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1998 <- read.csv("/tmp/seamon/RMA_originaldata/1998.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma1999 <- read.csv("/tmp/seamon/RMA_originaldata/1999.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2000 <- read.csv("/tmp/seamon/RMA_originaldata/2000.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2001 <- read.csv("/tmp/seamon/RMA_originaldata/2001.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2002 <- read.csv("/tmp/seamon/RMA_originaldata/2002.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2003 <- read.csv("/tmp/seamon/RMA_originaldata/2003.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2004 <- read.csv("/tmp/seamon/RMA_originaldata/2004.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2005 <- read.csv("/tmp/seamon/RMA_originaldata/2005.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2006 <- read.csv("/tmp/seamon/RMA_originaldata/2006.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2007 <- read.csv("/tmp/seamon/RMA_originaldata/2007.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2008 <- read.csv("/tmp/seamon/RMA_originaldata/2008.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2009 <- read.csv("/tmp/seamon/RMA_originaldata/2009.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2010 <- read.csv("/tmp/seamon/RMA_originaldata/2010.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2011 <- read.csv("/tmp/seamon/RMA_originaldata/2011.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2012 <- read.csv("/tmp/seamon/RMA_originaldata/2012.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2013 <- read.csv("/tmp/seamon/RMA_originaldata/2013.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2014 <- read.csv("/tmp/seamon/RMA_originaldata/2014.txt", sep = "|", header = FALSE, strip.white = TRUE)
+rma2015 <- read.csv("/tmp/seamon/RMA_originaldata/2015.txt", sep = "|", header = FALSE, strip.white = TRUE)
 
 
 #load individual files from 1989 to 2000
@@ -310,7 +325,7 @@ sumloss_nonpalouse <- RMA_damage_PNW[!RMA_damage_PNW$county %in% palousecounties
 
 <br></br>
 
-##Step 2. Original Insurance Loss Dataset - Pacific Northwest
+## Step 2. Original Insurance Loss Dataset - Pacific Northwest
 
 In Step 2, we document the following table, which is an example of the original data that was acquired from the USDA Risk Management Agency (RMA).  Each record represents an individual insurance claim.
 
@@ -323,7 +338,7 @@ knitr::kable(RMA_PNW[1:10,], format="markdown") %>%
 
 <br></br>
 
-##Step 3. Aggregated Insurance Loss Dataset - Pacific Northwest
+## Step 3. Aggregated Insurance Loss Dataset - Pacific Northwest
 
 In Step 3, the following table is an example of an aggregated dataset derived from the original insurance loss csv files.  Here we have summarized claims by year, county, commodity, and damage cause.  Each unique combination is summarized, which includes the total summarized loss, the number of claims, the total summarized acreage, loss per acre, loss per claim, and acres per claim.  This dataset was the basis for our data examination.
 
@@ -337,27 +352,27 @@ knitr::kable(RMA_damage_PNW[1:10,], format="markdown") %>%
 
 <br></br>
 
-##Step 4: Inland Pacific Northwest (iPNW) Study Area
+## Step 4: Inland Pacific Northwest (iPNW) Study Area
 
 In Step 4, we document the 24 county iPNW study area.
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
-library(data.table)
-library(maptools)
-library(classInt)
-library(leaflet)
-library(dplyr)
-library(raster)
-library(htmltools)
+usePackage("data.table")
+usePackage("maptools")
+usePackage("classInt")
+usePackage("leaflet")
+usePackage("dplyr")
+usePackage("raster")
+usePackage("htmltools")
 
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"
-#destfile <- "/tmp/states_conus.zip"
+#destfile <- "/tmp/seamon/states_conus.zip"
 #download.file(URL, destfile)
-#outDir<-"/tmp"
+#outDir<-"/tmp/seamon"
 #unzip(destfile,exdir=outDir)
 
-states <- readShapePoly('/tmp/states_conus.shp',
+states <- readShapePoly('/tmp/seamon/states_conus/states_conus.shp',
                         proj4string=CRS
                         ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
@@ -368,12 +383,12 @@ projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 
 #URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"
-#destfile <- "/tmp/threestate_palouse.zip"
+#destfile <- "/tmp/seamon/threestate_palouse.zip"
 #download.file(URL, destfile)
-#outDir<-"/tmp"
+#outDir<-"/tmp/seamon"
 #unzip(destfile,exdir=outDir)
 
-counties <- readShapePoly('/tmp/threestate_palouse.shp',
+counties <- readShapePoly('/tmp/seamon/threestate_palouse/threestate_palouse.shp',
                      proj4string=CRS
                      ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
@@ -438,18 +453,20 @@ addScaleBar(mapz, position = c("topright"), options = scaleBarOptions())
 
 <br></br>
 
-##Step 5: PCA: PNW insurance loss, by COUNTY with COMMODITY loadings: 2001 to 2015
+## Step 5: PCA: PNW insurance loss, by COUNTY with COMMODITY loadings: 2001 to 2015
 
 In Step 5, we perform a PCA for the insurance loss for the entire PNW, by county, with commodity as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
-library(ggplot2)
-library(ggfortify)
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2")
+
 #PNW by commodity
 
-library(reshape2) ; RMA_damage_PNW_transformed_commodity <- dcast(RMA_damage_PNW, county + state ~ commodity, value.var = c("loss"), sum)
+RMA_damage_PNW_transformed_commodity <- dcast(RMA_damage_PNW, county + state ~ commodity, value.var = c("loss"), sum)
 RMA_damage_PNW_transformed_commodity$statecounty <- paste(RMA_damage_PNW_transformed_commodity$county, "_", RMA_damage_PNW_transformed_commodity$state, sep="")
 rownames(RMA_damage_PNW_transformed_commodity) <- RMA_damage_PNW_transformed_commodity$statecounty
 RMA_damage_PNW_exogenous_commodity <- RMA_damage_PNW_transformed_commodity[,3:41]
@@ -492,18 +509,18 @@ plot(prop_varex, xlab = "Principal Component",
 
 <br></br>
 
-##Step 6: PCA: PNW insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
+## Step 6: PCA: PNW insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
 
 In Step 6, we perform a PCA for the insurance loss for the entire PNW, for all commodities by year, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
-library(ggplot2)
-library(ggfortify)
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2")
 
-
-  library(reshape2) ; RMA_damage_PNW_transformed_year <- dcast(RMA_damage_PNW, year ~ damagecause, value.var = c("loss"), sum)
+RMA_damage_PNW_transformed_year <- dcast(RMA_damage_PNW, year ~ damagecause, value.var = c("loss"), sum)
 #RMA_damage_PNW_transformed_year$statecounty <- paste(RMA_damage_PNW_transformed_year$county, "_", RMA_damage_PNW_transformed_year$state, sep="")
 rownames(RMA_damage_PNW_transformed_year) <- RMA_damage_PNW_transformed_year$year
 RMA_damage_PNW_exogenous_year <- RMA_damage_PNW_transformed_year[,2:31]
@@ -543,7 +560,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 <br></br>
 
-##Step 7: PCA: PNW insurance loss, by MONTH with DAMAGE CAUSE loadings: 2001 to 2015
+## Step 7: PCA: PNW insurance loss, by MONTH with DAMAGE CAUSE loadings: 2001 to 2015
 
 In Step 7, we perform a PCA for the insurance loss for the entire PNW, for all commodities by month, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
@@ -551,8 +568,9 @@ In Step 7, we perform a PCA for the insurance loss for the entire PNW, for all c
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
-library(ggplot2)
-library(ggfortify)
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2")
 
 #PNW damage cause as loadings using months as groups
 
@@ -561,7 +579,7 @@ RMA_PNW_noneg <- subset(RMA_PNW, lossperacre != Inf)
 RMA_PNW_noneg2 <- subset(RMA_PNW_noneg, lossperacre >=0 )
 RMA_PNW_noneg3 <- subset(RMA_PNW_noneg2, month !="" )
 
-  library(reshape2) ; RMA_damage_PNW_transformed_month <- dcast(RMA_PNW_noneg3, month ~ damagecause, value.var = c("loss"), mean)
+RMA_damage_PNW_transformed_month <- dcast(RMA_PNW_noneg3, month ~ damagecause, value.var = c("loss"), mean)
 
 is.nan.data.frame <- function(x)
 do.call(cbind, lapply(x, is.nan))
@@ -608,19 +626,20 @@ plot(prop_varex, xlab = "Principal Component",
 
 <br></br>
 
-##Step 8: PCA: PNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
+## Step 8: PCA: PNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
 
 In Step 8, we perform a PCA for the insurance loss for the entire PNW, for wheat by year, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
-library(ggplot2)
-library(ggfortify)
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2")
 
 #PNW damage cause as loadings using years as groups, JUST FOR WHEAT
 
 RMA_damage_PNW_wheat_year <- subset(RMA_damage_PNW, commodity == "WHEAT")
-  library(reshape2) ; RMA_damage_PNW_transformed_wheat_year <- dcast(RMA_damage_PNW_wheat_year, year ~ damagecause, value.var = c("loss"), sum)
+RMA_damage_PNW_transformed_wheat_year <- dcast(RMA_damage_PNW_wheat_year, year ~ damagecause, value.var = c("loss"), sum)
 #RMA_damage_PNW_transformed_year$statecounty <- paste(RMA_damage_PNW_transformed_year$county, "_", RMA_damage_PNW_transformed_year$state, sep="")
 rownames(RMA_damage_PNW_transformed_wheat_year) <- RMA_damage_PNW_transformed_wheat_year$year
 RMA_damage_PNW_exogenous_wheat_year <- RMA_damage_PNW_transformed_wheat_year
@@ -659,7 +678,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 <br></br>
 
-##Step 9: PCA: PNW WHEAT insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+## Step 9: PCA: PNW WHEAT insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
 In Step 9, we perform a PCA for the insurance loss for the entire PNW, for wheat by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
@@ -668,12 +687,13 @@ In Step 9, we perform a PCA for the insurance loss for the entire PNW, for wheat
 
 #PNW wheat
 
-library(ggplot2)
-library(ggfortify)
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2") 
 
 RMA_damage_PNW_wheat <- subset(RMA_damage_PNW, commodity == "WHEAT")
 
-library(reshape2) ; RMA_damage_PNW_transformed_wheat <- dcast(RMA_damage_PNW_wheat, county + state ~ damagecause, value.var = c("loss"), sum)
+RMA_damage_PNW_transformed_wheat <- dcast(RMA_damage_PNW_wheat, county + state ~ damagecause, value.var = c("loss"), sum)
 RMA_damage_PNW_transformed_wheat$statecounty <- paste(RMA_damage_PNW_transformed_wheat$county, "_", RMA_damage_PNW_transformed_wheat$state, sep="")
 rownames(RMA_damage_PNW_transformed_wheat) <- RMA_damage_PNW_transformed_wheat$statecounty
 #RMA_damage_PNW_exogenous_wheat <- RMA_damage_PNW_transformed_wheat[,3:27]
@@ -717,7 +737,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 <br></br>
 
-##Step 10: PCA: PNW APPLES insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+## Step 10: PCA: PNW APPLES insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
 In Step 10, we perform a PCA for the insurance loss for the entire PNW, for apples by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
@@ -725,12 +745,12 @@ In Step 10, we perform a PCA for the insurance loss for the entire PNW, for appl
 
 #PNW apples
 
-library(ggplot2)
-library(ggfortify)
-
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2")
 RMA_damage_PNW_apples <- subset(RMA_damage_PNW, commodity == "APPLES")
 
-  library(reshape2) ; RMA_damage_PNW_transformed_apples <- dcast(RMA_damage_PNW_apples, county + state ~ damagecause, value.var = c("loss"), sum)
+RMA_damage_PNW_transformed_apples <- dcast(RMA_damage_PNW_apples, county + state ~ damagecause, value.var = c("loss"), sum)
 RMA_damage_PNW_transformed_apples$statecounty <- paste(RMA_damage_PNW_transformed_apples$county, "_", RMA_damage_PNW_transformed_apples$state, sep="")
 rownames(RMA_damage_PNW_transformed_apples) <- RMA_damage_PNW_transformed_apples$statecounty
 RMA_damage_PNW_exogenous_apples <- RMA_damage_PNW_transformed_apples[,3:24]
@@ -771,7 +791,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 <br></br>
 
-##Step 11: PCA: PNW BARLEY insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+## Step 11: PCA: PNW BARLEY insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
 In Step 11, we perform a PCA for the insurance loss for the entire PNW, for barley by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
@@ -781,12 +801,13 @@ In Step 11, we perform a PCA for the insurance loss for the entire PNW, for barl
 
 #PNW barley
 
-library(ggplot2)
-library(ggfortify)
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2")
 
 RMA_damage_PNW_barley <- subset(RMA_damage_PNW, commodity == "BARLEY")
 
-  library(reshape2) ; RMA_damage_PNW_transformed_barley <- dcast(RMA_damage_PNW_barley, county + state ~ damagecause, value.var = c("loss"), sum)
+RMA_damage_PNW_transformed_barley <- dcast(RMA_damage_PNW_barley, county + state ~ damagecause, value.var = c("loss"), sum)
 RMA_damage_PNW_transformed_barley$statecounty <- paste(RMA_damage_PNW_transformed_barley$county, "_", RMA_damage_PNW_transformed_barley$state, sep="")
 rownames(RMA_damage_PNW_transformed_barley) <- RMA_damage_PNW_transformed_barley$statecounty
 #RMA_damage_PNW_exogenous_barley <- RMA_damage_PNW_transformed_barley[,3:23]
@@ -828,7 +849,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 <br></br>
 
-##Step 12: PCA: IPNW insurance loss by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+## Step 12: PCA: IPNW insurance loss by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
 In Step 12, we perform a PCA for the insurance loss for the inland PNW, for all commodities by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
@@ -838,10 +859,12 @@ In Step 12, we perform a PCA for the insurance loss for the inland PNW, for all 
 
 #all PNW by damage
 
-library(ggplot2)
-library(ggfortify)
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2")
 
-  library(reshape2) ; RMA_damage_PNW_transformed <- dcast(RMA_damage_PNW, county + state ~ damagecause, value.var = c("loss"), sum)
+
+RMA_damage_PNW_transformed <- dcast(RMA_damage_PNW, county + state ~ damagecause, value.var = c("loss"), sum)
 RMA_damage_PNW_transformed$statecounty <- paste(RMA_damage_PNW_transformed$county, "_", RMA_damage_PNW_transformed$state, sep="")
 rownames(RMA_damage_PNW_transformed) <- RMA_damage_PNW_transformed$statecounty
 RMA_damage_PNW_exogenous <- RMA_damage_PNW_transformed[,3:32]
@@ -878,7 +901,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 <br></br>
 
-##Step 13: PCA + KMEANS: WHEAT IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+## Step 13: PCA + KMEANS: WHEAT IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
 
 In Step 13, we perform a PCA for the insurance loss for the inland PNW, for wheat by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
@@ -887,14 +910,15 @@ In Step 13, we perform a PCA for the insurance loss for the inland PNW, for whea
 
 #just the IPNW
 
-library(ggplot2)
-library(ggfortify)
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2")
 
 RMA_damage_IPNW$log10loss <- log10(RMA_damage_IPNW$loss)
 
 
 RMA_damage_IPNW_wheat <- subset(RMA_damage_IPNW, commodity == "WHEAT")
- library(reshape2) ; RMA_damage_IPNW_transformed <- dcast(RMA_damage_IPNW_wheat, county + state ~ damagecause, value.var = c("loss"), sum)
+RMA_damage_IPNW_transformed <- dcast(RMA_damage_IPNW_wheat, county + state ~ damagecause, value.var = c("loss"), sum)
 RMA_damage_IPNW_transformed$statecounty <- paste(RMA_damage_IPNW_transformed$county, "_", RMA_damage_IPNW_transformed$state, sep="")
 rownames(RMA_damage_IPNW_transformed) <- RMA_damage_IPNW_transformed$statecounty
 RMA_damage_IPNW_exogenous <- RMA_damage_IPNW_transformed[,3:26]
@@ -922,11 +946,42 @@ plot(1:23, wss, type="b", xlab="Number of Clusters",
 
 ```
 
+
+
+``` {r, warning = FALSE, message = FALSE}
+
+  #identify the optimum number of clusters using NbClust
+  par(mar=c(1,1,1,1))
+  usePackage("NbClust")
+  usePackage("factoextra")
+  
+  clustering_distance <- c("euclidean")
+  clust<-NbClust(fit$x[,1:3], diss=NULL, distance = clustering_distance, min.nc=2, max.nc=20, method = "kmeans", index = "all") 
+  
+  #clust<-NbClust(damage_loss[,1:(length(waterscarcity)-4)], diss=NULL, distance = clustering_distance, min.nc=2, max.nc=20, method = "kmeans", index = "all") 
+  
+  #res$All.index
+  #res$Best.nc
+  #res$All.CriticalValues
+  #res$Best.partition
+  
+  maxclusters <- length(unique(clust$Best.partition))
+  km.res <- kmeans(fit$x[,1:2], maxclusters, nstart = 25)
+  #pam.res <- pam(damage_loss, maxclusters)
+  hc.cut <- hcut(fit$x[,1:2], k = maxclusters, hc_method = "complete")
+
+```
+
+
+
+
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
-k <- kmeans(comp, 4, nstart=25, iter.max=1000)
-library(RColorBrewer)
-library(scales)
+usePackage("RColorBrewer")
+usePackage("scales")
+
+k <- kmeans(comp, 2, nstart=25, iter.max=1000)
+
 palette(alpha(brewer.pal(9,'Set2'), 1))
 #plot(comp, col=k$clust, pch=2)
 
@@ -956,13 +1011,34 @@ plot(prop_varex, xlab = "Principal Component",
              ylab = "Proportion of Variance Explained",
              type = "b", main = "Scree Plot")
 
-
 ```
 ![](https://dmine.io/waf/img/Step1.png)
 
 <br></br>
 
-##Step 14: PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: PC1 and PC2 table
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+usePackage("plotly")
+
+fit1 <- as.data.frame(fit$x[,1:3])
+
+fit2 <- merge(fit$x, kclust, by="row.names",all.x=TRUE)
+
+p <- plot_ly(fit2, x = ~PC2, y = ~PC1, z = ~PC3, color = ~k.clust, colors = c('#BF382A', '#0C4B8E')) 
+
+p
+
+```
+
+
+
+
+![](https://dmine.io/waf/img/Step1.png)
+
+<br></br>
+
+## Step 14: PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: PC1 and PC2 table
 
 In Step 14, we summarize our PCA findings for the inland PNW, for wheat by county, using damage cause as the factor loadings.  Here we plot PC1 and PC2 loadings as a table.
 
@@ -989,7 +1065,7 @@ htmlTable(PC_table,
 
 <br></br>
 
-##Step 15: PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: Spatial Mapping of PC1 and PC2
+## Step 15: PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: Spatial Mapping of PC1 and PC2
 
 In Step 15, we summarize our PCA findings for the inland PNW, for wheat by county, using damage cause as the factor loadings.  We take PC1 and PC2 loadings and plot each as a map.
 
@@ -1136,7 +1212,7 @@ addScaleBar(map, position = c("topright"), options = scaleBarOptions())
 
 <br></br>
 
-##Step 16: PCA + KMEANS: IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
+## Step 16: PCA + KMEANS: IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015
 
 In Step 16, we perform a PCA for the insurance loss for the inland PNW, for wheat, by year, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
 
@@ -1145,13 +1221,14 @@ In Step 16, we perform a PCA for the insurance loss for the inland PNW, for whea
 
 #IPNW damage cause as loadings using years as groups
 
-library(ggplot2)
-library(ggfortify)
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2")
 
 RMA_damage_IPNW_wheat <- subset(RMA_damage_IPNW, commodity == "WHEAT")
 
 
- library(reshape2) ; RMA_damage_IPNW_transformed_year <- dcast(RMA_damage_IPNW_wheat, year ~ damagecause, value.var = c("loss"), sum)
+RMA_damage_IPNW_transformed_year <- dcast(RMA_damage_IPNW_wheat, year ~ damagecause, value.var = c("loss"), sum)
 #RMA_damage_PNW_transformed_year$statecounty <- paste(RMA_damage_PNW_transformed_year$county, "_", RMA_damage_PNW_transformed_year$state, sep="")
 rownames(RMA_damage_IPNW_transformed_year) <- RMA_damage_IPNW_transformed_year$year
 #RMA_damage_IPNW_exogenous_year <- RMA_damage_IPNW_transformed_year[,2:28]
@@ -1174,12 +1251,13 @@ plot(1:14, wss, type="b", xlab="Number of Clusters",
 
 ```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
 
+usePackage("RColorBrewer")
+usePackage("scales")
 
 comp <- data.frame(fit$x[,1:3])
 
 k <- kmeans(comp, 3, nstart=25, iter.max=1000)
-library(RColorBrewer)
-library(scales)
+
 palette(alpha(brewer.pal(9,'Set2'), 1))
 #plot(comp, col=k$clust, pch=2)
 
@@ -1215,7 +1293,7 @@ plot(prop_varex, xlab = "Principal Component",
 
 ```
 
-##Step 17: PCA:IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015: PC1 vs PC2 barplot
+## Step 17: PCA:IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015: PC1 vs PC2 barplot
 
 In Step 17, we plot PC1 loadings vs PC2 by year, as a barplot, to visualize orthogonal/opposing patterns.
 
@@ -1242,7 +1320,7 @@ barplot(t(PC_table_year), beside = T, las = 2, col=c("blue", "red"), cex.axis = 
 
 <br></br>
 
-##Step 18: PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE loadings: PC1 and PC2 table
+## Step 18: PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE loadings: PC1 and PC2 table
 
 In Step 18, we summarize our PCA findings for the inland PNW, for wheat by year, using damage cause as the factor loadings.  Here we plot PC1 and PC2 loadings as a table.
 
@@ -1263,5 +1341,171 @@ htmlTable(PC_table,
           align = "c",
           rnames = rownames(PC_table),
           css.cell = "padding-left: .5em; padding-right: .5em;")
+
+```
+
+
+
+![](https://dmine.io/waf/img/Step1.png)
+
+<br></br>
+
+## Step 19: EXPERIMENTAL: PCA + KMEANS: WHEAT IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015
+
+In Step 19, we perform a PCA for the insurance loss for the inland PNW, for wheat by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
+
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+#just the IPNW
+
+usePackage("ggplot2")
+usePackage("ggfortify")
+usePackage("reshape2")
+
+RMA_damage_IPNW$log10loss <- log10(RMA_damage_IPNW$loss)
+
+
+RMA_damage_IPNW_wheat <- subset(RMA_damage_IPNW, commodity == "WHEAT")
+RMA_damage_IPNW_transformed <- dcast(RMA_damage_IPNW_wheat, county + state + year ~ damagecause, value.var = c("loss"), sum)
+RMA_damage_IPNW_transformed$statecounty <- paste(RMA_damage_IPNW_transformed$county, "_", RMA_damage_IPNW_transformed$state, "_", RMA_damage_IPNW_transformed$year, sep="")
+rownames(RMA_damage_IPNW_transformed) <- RMA_damage_IPNW_transformed$statecounty
+RMA_damage_IPNW_exogenous <- RMA_damage_IPNW_transformed[, -c(1,2,3,4,7,10,12,13,28)]
+
+#RMA_damage_IPNW_exogenous <- RMA_damage_IPNW_transformed[,4:27]
+
+
+#IPNW
+
+#RMA_damage_IPNW_exogenous <- scale(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE)
+pca_RMA_damage_IPNW_exogenous <- prcomp(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE)
+
+RMA_damage_IPNW_exogenous_factor <- cbind(RMA_damage_IPNW_exogenous[2:3], RMA_damage_IPNW_exogenous[5:6], RMA_damage_IPNW_exogenous[8], RMA_damage_IPNW_exogenous[11], RMA_damage_IPNW_exogenous[13:14], RMA_damage_IPNW_exogenous[16:17])
+
+fit <- prcomp(RMA_damage_IPNW_exogenous_factor, cor=TRUE, center = TRUE, scale = TRUE)
+
+comp <- data.frame(fit$x[,1:2])
+# Plot
+#plot(comp, pch=16, col=rgb(0,0,0,0.5))
+
+
+wss <- (nrow(RMA_damage_IPNW_exogenous)-1)*sum(apply(RMA_damage_IPNW_exogenous,2,var))
+for (i in 1:23) wss[i] <- sum(kmeans(RMA_damage_IPNW_exogenous,
+                                     centers=i)$withinss)
+plot(1:23, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares", main = "KMeans COUNTIES Elbow Plot")
+
+```
+
+
+
+``` {r}
+
+  #identify the optimum number of clusters using NbClust
+  par(mar=c(1,1,1,1))
+  usePackage("NbClust")
+  usePackage("factoextra")
+  
+  clustering_distance <- c("euclidean")
+  clust<-NbClust(fit$x[,1:3], diss=NULL, distance = clustering_distance, min.nc=2, max.nc=20, method = "kmeans", index = "all") 
+  
+#  clust<-NbClust(damage_loss[,1:(length(waterscarcity)-4)], diss=NULL, distance = clustering_distance, min.nc=2, max.nc=20, method = "kmeans", index = "all") 
+  
+  #res$All.index
+  #res$Best.nc
+  #res$All.CriticalValues
+  #res$Best.partition
+  
+  maxclusters <- length(unique(clust$Best.partition))
+  km.res <- kmeans(RMA_damage_IPNW_exogenous, maxclusters, nstart = 25)
+  #pam.res <- pam(RMA_damage_IPNW_exogenous, maxclusters)
+  hc.cut <- hcut(RMA_damage_IPNW_exogenous, k = maxclusters, hc_method = "complete")
+
+```
+
+
+
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+usePackage("RColorBrewer")
+usePackage("scales")
+
+k <- kmeans(fit$x, maxclusters, nstart=25, iter.max=1000)
+
+palette(alpha(brewer.pal(9,'Set2'), 1))
+#plot(comp, col=k$clust, pch=2)
+
+
+kclust <- data.frame(k$clust)
+kclust$k.clust <- factor(kclust$k.clust)
+
+fit <- prcomp(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE)
+
+#biplot(prcomp(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE, pc.biplot = TRUE))
+
+ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE), frame = TRUE, frame.type = 'norm', data = kclust, colour = 'k.clust', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 4, label = FALSE, label.size = 3, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous)) + theme(legend.position = "none") + ggtitle("Principle Components: IPNW insurance loss\nby county with damage cause loadings ") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))  + theme(legend.position="bottom") 
+
+```
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+usePackage("magrittr")
+usePackage("plotly")
+
+#pca_RMA_damage_IPNW_exogenous$rotation
+
+#plot(pca_RMA_damage_IPNW_exogenous$rotation)
+
+std_dev <- fit$sdev
+
+pr_var <- std_dev^2
+
+#pr_var[1:10]
+
+prop_varex <- pr_var/sum(pr_var)
+
+plot(prop_varex, xlab = "Principal Component",
+             ylab = "Proportion of Variance Explained",
+             type = "b", main = "Scree Plot")
+
+
+```
+
+```{r message=FALSE, warning=FALSE, error=TRUE, fig.width = 10, fig.height = 9}
+
+loads <- fit$rotation[,1:3]
+fit1 <- as.data.frame(fit$rotation[,1:3])
+
+fit2 <- merge(fit$x, kclust, by="row.names",all.x=TRUE)
+
+#p <- plot_ly(fit2, x = ~PC2, y = ~PC1, z = ~PC3, color = ~k.clust, colors = c('#BF382A', '#0C4B8E')) 
+
+p <- plot_ly() %>%
+  add_trace(x=fit2$PC1, y=fit2$PC2, z=fit2$PC3,
+            type="scatter3d", mode="markers",
+            marker = list(color=fit2$k.clust, 
+               colorscale = c("#FFE1A1", "#683531"), 
+               opacity = 0.7)) 
+
+for (k in 1:nrow(loads)) {
+   x <- c(0, loads[k,1])
+   y <- c(0, loads[k,2])
+   z <- c(0, loads[k,3])
+   p <- p %>% add_trace(x=x, y=y, z=z,
+            type="scatter3d", mode="lines",
+            line = list(width=8),
+            opacity = 1) 
+}
+
+print(p)
+```
+
+
+```{r message=FALSE, warning=FALSE, echo = FALSE, error=TRUE,  fig.width = 10, fig.height = 7}
+
+#remove downloaded data from your /tmp/seamon/seamon workspace
+
+unlink("/tmp/seamon/", recursive=TRUE)
 
 ```
