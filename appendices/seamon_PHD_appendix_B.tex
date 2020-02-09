@@ -1,0 +1,2568 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+    \setmainfont[]{serif}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdftitle={Appendix B: Agricultural Insurance Loss and Relationships to Climate across the Inland Pacific Northwest Region of the United States},
+            pdfauthor={Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip W. Mote, Stephen S. Lee},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Fix footnotes in tables (requires footnote package)
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+\title{Appendix B: Agricultural Insurance Loss and Relationships to Climate
+across the Inland Pacific Northwest Region of the United States}
+\author{Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip W. Mote,
+Stephen S. Lee}
+\date{September 2019}
+
+\begin{document}
+\maketitle
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\emph{Appendix B Summary Statement: Agricultural Insurance Loss and
+Principle Components Analysis}
+
+Appendix B documents the exploratory data analysis process, examining
+the relationships of agricultural commodity loss, at a county level,
+from 1989-2015, across the three state region of the Pacific Northwest
+(Washington, Idaho, and Oregon), and then focuses in on the 24 county
+region of the Inland Pacific Northwest (IPNW).
+
+Here we perform a variety of Principle Components Analyses (PCA) to
+better understand the combined effects of differing damage causes,
+commodities, counties, and years on overall loss.
+
+\emph{DATA PREPARATION}
+
+\textbf{Step 1.} Data Preparation. Here we load our agricultural
+insurance loss data and prepare it for PCA Analysis.
+
+\textbf{Step 2.} Data Preparation. Original Insurance Loss Dataset -
+Pacific Northwest
+
+\textbf{Step 3.} Data Preparation. Aggregated Insurance Loss Dataset -
+Pacific Northwest
+
+\textbf{Step 4.} 24-county inland Pacific Northwest (iPNW) Study Area.
+
+\emph{Pacific Northwest PCA}
+
+\textbf{Step 5.} PCA: PNW insurance loss, by COUNTY with COMMODITY
+loadings: 2001 to 2015
+
+\textbf{Step 6.} PCA: PNW insurance loss, by YEAR with DAMAGE CAUSE
+loadings: 2001 to 2015
+
+\textbf{Step 7.} PCA: PNW insurance loss, by MONTH with DAMAGE CAUSE
+loadings: 2001 to 2015
+
+\textbf{Step 8.} PCA: PNW WHEAT insurance loss, by YEAR with DAMAGE
+CAUSE loadings: 2001 to 2015
+
+\textbf{Step 9.} PCA: PNW WHEAT insurance loss, by COUNTY with DAMAGE
+CAUSE loadings: 2001 to 2015
+
+\textbf{Step 10.} PCA: PNW APPLES insurance loss, by COUNTY with DAMAGE
+CAUSE loadings: 2001 to 2015
+
+\textbf{Step 11.} PCA: PNW BARLEY insurance loss, by COUNTY with DAMAGE
+CAUSE loadings: 2001 to 2015
+
+\emph{Inland Pacific Northwest PCA}
+
+\textbf{Step 12.} PCA: IPNW insurance loss by COUNTY with DAMAGE CAUSE
+loadings: 2001 to 2015: ALL COMMODITIES
+
+\textbf{Step 13.} PCA: IPNW WHEAT insurance loss, by COUNTY with DAMAGE
+CAUSE loadings: 2001 to 2015: KMEANS CLUSTERING
+
+\textbf{Step 14:} PCA: IPNW WHEAT insurance loss by COUNTY with DAMAGE
+CAUSE loadings: PC1 and PC2 table
+
+\textbf{Step 15.} PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE
+loadings: Spatial Mapping of PC1 and PC2
+
+\textbf{Step 16.} PCA: IPNW WHEAT insurance loss, by YEAR with DAMAGE
+CAUSE loadings: 2001 to 2015: KMEANS CLUSTERING
+
+\textbf{Step 17.} PCA: IPNW WHEAT insurance loss, by YEAR with DAMAGE
+CAUSE loadings: 2001 to 2015: PC1 vs PC2 barplot
+
+\textbf{Step 18:} PCA: IPNW WHEAT insurance loss by YEAR with DAMAGE
+CAUSE loadings: PC1 and PC2 table
+
+\textbf{Step 19:} PCA: EXPERIMENTAL PCA + KMEANS: IPNW WHEAT insurance
+loss by COUNTY with DAMAGE CAUSE loadings: 2001 TO 2015
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-1-data-preparation}{%
+\subsection{Step 1: Data Preparation}\label{step-1-data-preparation}}
+
+In order to generate any of the following tables and graphs, we download
+all data locally to your /tmp/seamon/seamon directory, from the
+seamon\_dissertation\_dataload.R file from the following location:
+
+\url{http://github.com/erichseamon/seamon_dissertation/data/}
+
+Then you will be able to re-generate any of the provided Rmarkdown files
+from:
+
+\url{http://github.com/erichseamon/seamon_dissertation/appendices/}
+
+the dataload.R file has a multitude of datasets, including: *
+climatology summary data by county for the study area examined (inland
+Pacific Northwest); * original RMA crop insurance data; * state polygon
+shapefile; * consumer price indexing; * wheat yields; and * wheat
+pricing
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"knitr"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"tab"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"car"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"RCurl"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"lme4"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ez"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"lattice"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"coefplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"broom"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"htmlTable"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"gridExtra"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"kableExtra"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"repmis"}\NormalTok{)}
+
+
+
+\CommentTok{#options(scipen=999)}
+
+
+\CommentTok{#------add crop insurance data}
+
+\CommentTok{#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/RMA_originaldata/RMA_originaldata_txt.zip"}
+\CommentTok{#destfile <- "/tmp/seamon/RMA_originaldata_txt.zip"}
+\CommentTok{#download.file(URL, destfile)}
+\CommentTok{#outDir<-"/tmp/seamon/RMA_originaldata/"}
+\CommentTok{#unzip(destfile,exdir=outDir)}
+
+
+\NormalTok{rma1989 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1989.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma1990 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1990.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma1991 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1991.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma1992 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1992.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma1993 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1993.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma1994 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1994.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma1995 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1995.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma1996 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1996.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma1997 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1997.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma1998 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1998.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma1999 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/1999.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2000 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2000.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2001 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2001.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2002 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2002.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2003 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2003.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2004 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2004.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2005 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2005.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2006 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2006.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2007 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2007.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2008 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2008.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2009 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2009.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2010 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2010.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2011 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2011.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2012 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2012.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2013 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2013.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2014 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2014.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{rma2015 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"/tmp/seamon/RMA_originaldata/2015.txt"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"|"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{strip.white =} \OtherTok{TRUE}\NormalTok{)}
+
+
+\CommentTok{#load individual files from 1989 to 2000}
+\NormalTok{RMA_}\DecValTok{1989}\NormalTok{ <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(rma1989, rma1990, rma1991, rma1992, rma1993, rma1994, rma1995, rma1996, rma1997, rma1998, rma1999, rma2000)}
+
+\CommentTok{#filter columns}
+\NormalTok{RMA_}\DecValTok{1989}\NormalTok{ <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(RMA_}\DecValTok{1989}\NormalTok{[,}\DecValTok{1}\NormalTok{], RMA_}\DecValTok{1989}\NormalTok{[,}\DecValTok{3}\NormalTok{], RMA_}\DecValTok{1989}\NormalTok{[,}\DecValTok{5}\NormalTok{], RMA_}\DecValTok{1989}\NormalTok{[,}\DecValTok{7}\NormalTok{], RMA_}\DecValTok{1989}\NormalTok{[,}\DecValTok{12}\NormalTok{], RMA_}\DecValTok{1989}\NormalTok{[,}\DecValTok{13}\NormalTok{], RMA_}\DecValTok{1989}\NormalTok{[,}\DecValTok{14}\NormalTok{], RMA_}\DecValTok{1989}\NormalTok{[,}\DecValTok{15}\NormalTok{])}
+
+\CommentTok{#set column names}
+\KeywordTok{colnames}\NormalTok{(RMA_}\DecValTok{1989}\NormalTok{) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"state"}\NormalTok{, }\StringTok{"county"}\NormalTok{, }\StringTok{"commodity"}\NormalTok{, }\StringTok{"damagecause"}\NormalTok{, }\StringTok{"monthcode"}\NormalTok{, }\StringTok{"month"}\NormalTok{, }\StringTok{"loss"}\NormalTok{)}
+
+\CommentTok{#load individual files from 2001 to 2015}
+\NormalTok{RMA <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(rma2001, rma2002, rma2003, rma2004, rma2005, rma2006, rma2007, rma2008, rma2009, rma2010, rma2011, rma2012, rma2013, rma2014, rma2015)}
+
+\CommentTok{#filter columns}
+\NormalTok{RMA <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(RMA[,}\DecValTok{1}\NormalTok{], RMA[,}\DecValTok{3}\NormalTok{], RMA[,}\DecValTok{5}\NormalTok{], RMA[,}\DecValTok{7}\NormalTok{], RMA[,}\DecValTok{12}\NormalTok{], RMA[,}\DecValTok{13}\NormalTok{], RMA[,}\DecValTok{14}\NormalTok{], RMA[,}\DecValTok{15}\NormalTok{], RMA[,}\DecValTok{16}\NormalTok{])}
+
+\CommentTok{#set column names}
+\KeywordTok{colnames}\NormalTok{(RMA) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"state"}\NormalTok{, }\StringTok{"county"}\NormalTok{, }\StringTok{"commodity"}\NormalTok{, }\StringTok{"damagecause"}\NormalTok{, }\StringTok{"monthcode"}\NormalTok{, }\StringTok{"month"}\NormalTok{, }\StringTok{"acres"}\NormalTok{, }\StringTok{"loss"}\NormalTok{)}
+
+\CommentTok{#subset 2001 to 2015 for ID, WA, and OR}
+\NormalTok{RMA_PNW <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA, state }\OperatorTok{==}\StringTok{ "WA"} \OperatorTok{|}\StringTok{ }\NormalTok{state }\OperatorTok{==}\StringTok{ "OR"} \OperatorTok{|}\StringTok{ }\NormalTok{state }\OperatorTok{==}\StringTok{ "ID"}\NormalTok{ )}
+
+\CommentTok{#subset 1989 to 2000 for ID, WA, and OR}
+\NormalTok{RMA_PNW_}\DecValTok{1989}\NormalTok{ <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_}\DecValTok{1989}\NormalTok{, state }\OperatorTok{==}\StringTok{ "WA"} \OperatorTok{|}\StringTok{ }\NormalTok{state }\OperatorTok{==}\StringTok{ "OR"} \OperatorTok{|}\StringTok{ }\NormalTok{state }\OperatorTok{==}\StringTok{ "ID"}\NormalTok{ )}
+
+\CommentTok{#calculate loss per acre}
+\NormalTok{RMA_PNW}\OperatorTok{$}\NormalTok{lossperacre <-}\StringTok{ }\NormalTok{RMA_PNW}\OperatorTok{$}\NormalTok{loss }\OperatorTok{/}\StringTok{ }\NormalTok{RMA_PNW}\OperatorTok{$}\NormalTok{acres}
+
+\CommentTok{#remove records with missing months}
+\NormalTok{RMA_PNW <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_PNW, month }\OperatorTok{!=}\StringTok{ ""}\NormalTok{)}
+
+\CommentTok{#set a crop year column (i.e. water year)}
+\NormalTok{RMA_PNW}\OperatorTok{$}\NormalTok{cropyear <-}\StringTok{ }\NormalTok{RMA_PNW}\OperatorTok{$}\NormalTok{year}
+
+\CommentTok{#make oct/nov/dec part of the crop year}
+\NormalTok{RMA_PNW}\OperatorTok{$}\NormalTok{cropyear[RMA_PNW}\OperatorTok{$}\NormalTok{monthcode }\OperatorTok{>=}\StringTok{ }\DecValTok{10}\NormalTok{] <-}\StringTok{ }\NormalTok{RMA_PNW}\OperatorTok{$}\NormalTok{year }\OperatorTok{+}\StringTok{ }\DecValTok{1}
+
+\CommentTok{#remove 2016}
+\NormalTok{RMA_PNW <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_PNW, year }\OperatorTok{!=}\StringTok{ }\DecValTok{2016}\NormalTok{)}
+
+
+\CommentTok{#aggregate by year/state/county/commodity, for total loss in $}
+\NormalTok{RMA_commodity_loss <-}\StringTok{ }\KeywordTok{aggregate}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{loss, }\DataTypeTok{by =} \KeywordTok{list}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{year, RMA}\OperatorTok{$}\NormalTok{state, RMA}\OperatorTok{$}\NormalTok{county, RMA}\OperatorTok{$}\NormalTok{commodity), }\DataTypeTok{FUN =}\NormalTok{ sum)}
+\KeywordTok{colnames}\NormalTok{(RMA_commodity_loss) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"state"}\NormalTok{, }\StringTok{"county"}\NormalTok{, }\StringTok{"commodity"}\NormalTok{, }\StringTok{"loss"}\NormalTok{)}
+\NormalTok{RMA_commodity_loss <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_commodity_loss, commodity }\OperatorTok{!=}\StringTok{ "ADJUSTED GROSS REVENUE"}\NormalTok{)}
+
+\CommentTok{#aggregate by year/state/county/commodity for total number of claims}
+\NormalTok{RMA_commodity_count <-}\StringTok{ }\KeywordTok{aggregate}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{loss, }\DataTypeTok{by =} \KeywordTok{list}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{year, RMA}\OperatorTok{$}\NormalTok{state, RMA}\OperatorTok{$}\NormalTok{county, RMA}\OperatorTok{$}\NormalTok{commodity), }\DataTypeTok{FUN =}\NormalTok{ length)}
+\KeywordTok{colnames}\NormalTok{(RMA_commodity_count) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"state"}\NormalTok{, }\StringTok{"county"}\NormalTok{, }\StringTok{"commodity"}\NormalTok{, }\StringTok{"count"}\NormalTok{)}
+\NormalTok{RMA_commodity_count <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_commodity_count, commodity }\OperatorTok{!=}\StringTok{ "ADJUSTED GROSS REVENUE"}\NormalTok{)}
+
+\CommentTok{#aggregate for year/state/county/commodity for acreage}
+\NormalTok{RMA_commodity_acres <-}\StringTok{ }\KeywordTok{aggregate}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{acres, }\DataTypeTok{by =} \KeywordTok{list}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{year, RMA}\OperatorTok{$}\NormalTok{state, RMA}\OperatorTok{$}\NormalTok{county, RMA}\OperatorTok{$}\NormalTok{commodity), }\DataTypeTok{FUN =}\NormalTok{ sum)}
+\KeywordTok{colnames}\NormalTok{(RMA_commodity_acres) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"state"}\NormalTok{, }\StringTok{"county"}\NormalTok{, }\StringTok{"commodity"}\NormalTok{, }\StringTok{"acres"}\NormalTok{)}
+\NormalTok{RMA_commodity_acres <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_commodity_acres, commodity }\OperatorTok{!=}\StringTok{ "ADJUSTED GROSS REVENUE"}\NormalTok{)}
+
+\CommentTok{#aggregate for year/state/county/damage cause for total loss in $}
+\NormalTok{RMA_damage_loss <-}\StringTok{ }\KeywordTok{aggregate}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{loss, }\DataTypeTok{by =} \KeywordTok{list}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{year, RMA}\OperatorTok{$}\NormalTok{state, RMA}\OperatorTok{$}\NormalTok{county, RMA}\OperatorTok{$}\NormalTok{commodity, RMA}\OperatorTok{$}\NormalTok{damagecause), }\DataTypeTok{FUN =}\NormalTok{ sum)}
+\KeywordTok{colnames}\NormalTok{(RMA_damage_loss) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"state"}\NormalTok{, }\StringTok{"county"}\NormalTok{, }\StringTok{"commodity"}\NormalTok{, }\StringTok{"damagecause"}\NormalTok{, }\StringTok{"loss"}\NormalTok{)}
+
+\CommentTok{#aggregate for year/state/county/commodity/damage cause by total loss in $}
+\NormalTok{RMA_damage_count <-}\StringTok{ }\KeywordTok{aggregate}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{loss, }\DataTypeTok{by =} \KeywordTok{list}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{year, RMA}\OperatorTok{$}\NormalTok{state, RMA}\OperatorTok{$}\NormalTok{county, RMA}\OperatorTok{$}\NormalTok{commodity, RMA}\OperatorTok{$}\NormalTok{damagecause), }\DataTypeTok{FUN =}\NormalTok{ length)}
+\KeywordTok{colnames}\NormalTok{(RMA_damage_count) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"state"}\NormalTok{, }\StringTok{"county"}\NormalTok{, }\StringTok{"commodity"}\NormalTok{, }\StringTok{"damagecause"}\NormalTok{, }\StringTok{"count"}\NormalTok{)}
+
+\CommentTok{#aggregate by year/state/county/commodity/damage cause by acres}
+\NormalTok{RMA_damage_acres <-}\StringTok{ }\KeywordTok{aggregate}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{acres, }\DataTypeTok{by =} \KeywordTok{list}\NormalTok{(RMA}\OperatorTok{$}\NormalTok{year, RMA}\OperatorTok{$}\NormalTok{state, RMA}\OperatorTok{$}\NormalTok{county, RMA}\OperatorTok{$}\NormalTok{commodity, RMA}\OperatorTok{$}\NormalTok{damagecause), }\DataTypeTok{FUN =}\NormalTok{ sum)}
+\KeywordTok{colnames}\NormalTok{(RMA_damage_acres) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"state"}\NormalTok{, }\StringTok{"county"}\NormalTok{, }\StringTok{"commodity"}\NormalTok{, }\StringTok{"damaecause"}\NormalTok{, }\StringTok{"acres"}\NormalTok{)}
+
+\CommentTok{#combine all the aggregated commodity values (loss, count, acreage)}
+\NormalTok{RMA_commodity_combined <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_commodity_loss, RMA_commodity_count}\OperatorTok{$}\NormalTok{count, RMA_commodity_acres}\OperatorTok{$}\NormalTok{acres)}
+\KeywordTok{colnames}\NormalTok{(RMA_commodity_combined) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"state"}\NormalTok{, }\StringTok{"county"}\NormalTok{, }\StringTok{"commodity"}\NormalTok{, }\StringTok{"loss"}\NormalTok{, }\StringTok{"count"}\NormalTok{, }\StringTok{"acres"}\NormalTok{)}
+
+\CommentTok{#calculate lossperacre for aggregated commodity}
+\NormalTok{RMA_commodity_combined}\OperatorTok{$}\NormalTok{lossperacre <-}\StringTok{ }\NormalTok{RMA_commodity_combined}\OperatorTok{$}\NormalTok{loss }\OperatorTok{/}\StringTok{ }\NormalTok{RMA_commodity_combined}\OperatorTok{$}\NormalTok{acres}
+
+\CommentTok{#calculate loss per claim for aggregated commodity}
+\NormalTok{RMA_commodity_combined}\OperatorTok{$}\NormalTok{lossperclaim <-}\StringTok{ }\NormalTok{RMA_commodity_combined}\OperatorTok{$}\NormalTok{loss }\OperatorTok{/}\StringTok{ }\NormalTok{RMA_commodity_combined}\OperatorTok{$}\NormalTok{count}
+
+\CommentTok{#calculate acres per claim for aggregated commodity}
+\NormalTok{RMA_commodity_combined}\OperatorTok{$}\NormalTok{acresperclaim <-}\StringTok{ }\NormalTok{RMA_commodity_combined}\OperatorTok{$}\NormalTok{acres }\OperatorTok{/}\StringTok{ }\NormalTok{RMA_commodity_combined}\OperatorTok{$}\NormalTok{count}
+
+\CommentTok{#combine all aggregated damage cause values (loss, count, acreage) }
+\NormalTok{RMA_damage_combined <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_damage_loss, RMA_damage_count}\OperatorTok{$}\NormalTok{count, RMA_damage_acres}\OperatorTok{$}\NormalTok{acres)}
+\KeywordTok{colnames}\NormalTok{(RMA_damage_combined) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"state"}\NormalTok{, }\StringTok{"county"}\NormalTok{, }\StringTok{"commodity"}\NormalTok{, }\StringTok{"damagecause"}\NormalTok{, }\StringTok{"loss"}\NormalTok{, }\StringTok{"count"}\NormalTok{, }\StringTok{"acres"}\NormalTok{)}
+
+\CommentTok{#calculate lossperacre for aggregated damage cause}
+\NormalTok{RMA_damage_combined}\OperatorTok{$}\NormalTok{lossperacre <-}\StringTok{ }\NormalTok{RMA_damage_combined}\OperatorTok{$}\NormalTok{loss }\OperatorTok{/}\StringTok{ }\NormalTok{RMA_damage_combined}\OperatorTok{$}\NormalTok{acres}
+
+\CommentTok{#calculate loss per claim for aggregated damage cause}
+\NormalTok{RMA_damage_combined}\OperatorTok{$}\NormalTok{lossperclaim <-}\StringTok{ }\NormalTok{RMA_damage_combined}\OperatorTok{$}\NormalTok{loss }\OperatorTok{/}\StringTok{ }\NormalTok{RMA_damage_combined}\OperatorTok{$}\NormalTok{count}
+
+\CommentTok{#calculate acres per claim for aggregated damage cause}
+\NormalTok{RMA_damage_combined}\OperatorTok{$}\NormalTok{acresperclaim <-}\StringTok{ }\NormalTok{RMA_damage_combined}\OperatorTok{$}\NormalTok{acres }\OperatorTok{/}\StringTok{ }\NormalTok{RMA_damage_combined}\OperatorTok{$}\NormalTok{count}
+
+\CommentTok{#set NAs for loss per acre for damage cause combo to zero.  }
+\NormalTok{RMA_damage_combined}\OperatorTok{$}\NormalTok{lossperacre[}\OperatorTok{!}\KeywordTok{is.finite}\NormalTok{(RMA_damage_combined}\OperatorTok{$}\NormalTok{lossperacre)] <-}\StringTok{ }\DecValTok{0}
+
+\CommentTok{#subset for PNW - 2001 - 2015}
+\NormalTok{RMA_damage_PNW <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_combined, state }\OperatorTok{==}\StringTok{ "WA"} \OperatorTok{|}\StringTok{ }\NormalTok{state }\OperatorTok{==}\StringTok{ "OR"} \OperatorTok{|}\StringTok{ }\NormalTok{state }\OperatorTok{==}\StringTok{ "ID"}\NormalTok{)}
+
+\CommentTok{#remove all other counties values}
+\NormalTok{RMA_damage_PNW <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_PNW, county }\OperatorTok{!=}\StringTok{ "All Other Counties"}\NormalTok{)}
+
+\CommentTok{#subset just for Idaho}
+\NormalTok{RMA_Idaho <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_PNW, state }\OperatorTok{==}\StringTok{ "ID"}\NormalTok{)}
+
+\CommentTok{#subset just for Oregon}
+\NormalTok{RMA_Oregon <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_PNW, state }\OperatorTok{==}\StringTok{ "OR"}\NormalTok{)}
+
+\CommentTok{#subset just for Washington}
+\NormalTok{RMA_Washington <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_PNW, state }\OperatorTok{==}\StringTok{ "WA"}\NormalTok{)}
+
+\CommentTok{#subset just for iPNW counties for Idaho}
+\NormalTok{RMA_Idaho_IPNW <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_Idaho, county }\OperatorTok{==}\StringTok{ "Idaho"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{ "Lewis"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Nez Perce"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Latah"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Benewah"}\NormalTok{)}
+
+\CommentTok{#subset just for iPNW counties for Oregon}
+\NormalTok{RMA_Oregon_IPNW <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_Oregon, county }\OperatorTok{==}\StringTok{ "Wasco"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Sherman"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Gilliam"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Morrow"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Umatilla"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Union"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Wallowa"}\NormalTok{)}
+
+\CommentTok{#subset just for iPNW counties for Washington}
+\NormalTok{RMA_Washington_IPNW <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_Washington, county }\OperatorTok{==}\StringTok{  "Douglas"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Grant"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Benton"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Franklin"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Walla Walla"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Adams"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Lincoln"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Spokane"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Whitman"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Columbia"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Garfield"} \OperatorTok{|}\StringTok{ }\NormalTok{county }\OperatorTok{==}\StringTok{  "Asotin"}\NormalTok{)}
+
+
+\CommentTok{#combine all iPNW counties}
+\NormalTok{RMA_damage_IPNW <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(RMA_Idaho_IPNW,RMA_Oregon_IPNW,RMA_Washington_IPNW)}
+
+\NormalTok{ palousecounties    <-}\StringTok{  }\KeywordTok{c}\NormalTok{(}\StringTok{"Idaho"}\NormalTok{, }\StringTok{"Lewis"}\NormalTok{, }\StringTok{"Nez Perce"}\NormalTok{, }\StringTok{"Clearwater"}\NormalTok{, }\StringTok{"Latah"}\NormalTok{, }\StringTok{"Benewah"}\NormalTok{, }\StringTok{"Kootenai"}\NormalTok{,}\StringTok{"Douglas"}\NormalTok{, }\StringTok{"Grant"}\NormalTok{, }\StringTok{"Benton"}\NormalTok{, }\StringTok{"Franklin"}\NormalTok{, }\StringTok{"Walla Walla"}\NormalTok{, }\StringTok{"Adams"}\NormalTok{, }\StringTok{"Lincoln"}\NormalTok{, }\StringTok{"Spokane"}\NormalTok{, }\StringTok{"Whitman"}\NormalTok{, }\StringTok{"Columbia"}\NormalTok{, }\StringTok{"Garfield"}\NormalTok{, }\StringTok{"Asotin"}\NormalTok{,}\StringTok{"Wasco"}\NormalTok{, }\StringTok{"Sherman"}\NormalTok{, }\StringTok{"Gilliam"}\NormalTok{, }\StringTok{"Morrow"}\NormalTok{, }\StringTok{"Umatilla"}\NormalTok{, }\StringTok{"Union"}\NormalTok{, }\StringTok{"Wallowa"}\NormalTok{)}
+ 
+\NormalTok{sumloss_palouse <-}\StringTok{ }\NormalTok{RMA_damage_PNW[RMA_damage_PNW}\OperatorTok{$}\NormalTok{county }\OperatorTok{%in%}\StringTok{ }\NormalTok{palousecounties, ] }
+\NormalTok{sumloss_nonpalouse <-}\StringTok{ }\NormalTok{RMA_damage_PNW[}\OperatorTok{!}\NormalTok{RMA_damage_PNW}\OperatorTok{$}\NormalTok{county }\OperatorTok{%in%}\StringTok{ }\NormalTok{palousecounties, ]}
+
+\CommentTok{#----}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-2.-original-insurance-loss-dataset---pacific-northwest}{%
+\subsection{Step 2. Original Insurance Loss Dataset - Pacific
+Northwest}\label{step-2.-original-insurance-loss-dataset---pacific-northwest}}
+
+In Step 2, we document the following table, which is an example of the
+original data that was acquired from the USDA Risk Management Agency
+(RMA). Each record represents an individual insurance claim.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(RMA_PNW[}\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{,], }\DataTypeTok{format=}\StringTok{"markdown"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable_styling}\NormalTok{(}\DataTypeTok{bootstrap_options =} \KeywordTok{c}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\StringTok{"hover"}\NormalTok{, }\StringTok{"condensed"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrllllrlrrrr@{}}
+\toprule
+\begin{minipage}[b]{0.04\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[b]{0.03\columnwidth}\raggedleft
+year\strut
+\end{minipage} & \begin{minipage}[b]{0.04\columnwidth}\raggedright
+state\strut
+\end{minipage} & \begin{minipage}[b]{0.05\columnwidth}\raggedright
+county\strut
+\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\raggedright
+commodity\strut
+\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\raggedright
+damagecause\strut
+\end{minipage} & \begin{minipage}[b]{0.06\columnwidth}\raggedleft
+monthcode\strut
+\end{minipage} & \begin{minipage}[b]{0.04\columnwidth}\raggedright
+month\strut
+\end{minipage} & \begin{minipage}[b]{0.06\columnwidth}\raggedleft
+acres\strut
+\end{minipage} & \begin{minipage}[b]{0.06\columnwidth}\raggedleft
+loss\strut
+\end{minipage} & \begin{minipage}[b]{0.07\columnwidth}\raggedleft
+lossperacre\strut
+\end{minipage} & \begin{minipage}[b]{0.06\columnwidth}\raggedleft
+cropyear\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.04\columnwidth}\raggedright
+11338\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright
+Ada\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+Drought\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+9\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+SEP\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+17.000\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+153.00\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+9.000000\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2001\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.04\columnwidth}\raggedright
+11339\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright
+Ada\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+Heat\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+8\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+AUG\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+105.200\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+5249.00\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+49.895437\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2001\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.04\columnwidth}\raggedright
+11340\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright
+Ada\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+Freeze\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+4\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+APR\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+125.000\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+4500.00\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+36.000000\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2001\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.04\columnwidth}\raggedright
+11341\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright
+Ada\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+Wind/Excess Wind\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+5\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+MAY\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+50.000\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+1800.00\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+36.000000\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2001\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.04\columnwidth}\raggedright
+11342\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright
+Ada\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+Wind/Excess Wind\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+4\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+APR\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+92.500\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+3330.00\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+36.000000\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2001\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.04\columnwidth}\raggedright
+11343\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright
+Bannock\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+WHEAT\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+Drought\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+8\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+AUG\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+133.000\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+1212.00\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+9.112782\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2001\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.04\columnwidth}\raggedright
+11344\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright
+Bannock\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+WHEAT\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+Drought\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+9\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+SEP\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+777.520\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+24807.00\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+31.905289\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2001\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.04\columnwidth}\raggedright
+11345\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright
+Bannock\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+WHEAT\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+Drought\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+7\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+JUL\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+3529.754\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+54726.46\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+15.504327\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2001\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.04\columnwidth}\raggedright
+11346\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright
+Bannock\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+WHEAT\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+Heat\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+7\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+JUL\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+19.796\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2371.60\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+119.801980\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2001\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.04\columnwidth}\raggedright
+11347\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright
+Bannock\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+WHEAT\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright
+Heat\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+8\strut
+\end{minipage} & \begin{minipage}[t]{0.04\columnwidth}\raggedright
+AUG\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+25.000\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+904.00\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+36.160000\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft
+2001\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-3.-aggregated-insurance-loss-dataset---pacific-northwest}{%
+\subsection{Step 3. Aggregated Insurance Loss Dataset - Pacific
+Northwest}\label{step-3.-aggregated-insurance-loss-dataset---pacific-northwest}}
+
+In Step 3, the following table is an example of an aggregated dataset
+derived from the original insurance loss csv files. Here we have
+summarized claims by year, county, commodity, and damage cause. Each
+unique combination is summarized, which includes the total summarized
+loss, the number of claims, the total summarized acreage, loss per acre,
+loss per claim, and acres per claim. This dataset was the basis for our
+data examination.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(RMA_damage_PNW[}\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{,], }\DataTypeTok{format=}\StringTok{"markdown"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable_styling}\NormalTok{(}\DataTypeTok{bootstrap_options =} \KeywordTok{c}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\StringTok{"hover"}\NormalTok{, }\StringTok{"condensed"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrllllrrrrrr@{}}
+\toprule
+\begin{minipage}[b]{0.02\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[b]{0.03\columnwidth}\raggedleft
+year\strut
+\end{minipage} & \begin{minipage}[b]{0.03\columnwidth}\raggedright
+state\strut
+\end{minipage} & \begin{minipage}[b]{0.06\columnwidth}\raggedright
+county\strut
+\end{minipage} & \begin{minipage}[b]{0.09\columnwidth}\raggedright
+commodity\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+damagecause\strut
+\end{minipage} & \begin{minipage}[b]{0.03\columnwidth}\raggedleft
+loss\strut
+\end{minipage} & \begin{minipage}[b]{0.03\columnwidth}\raggedleft
+count\strut
+\end{minipage} & \begin{minipage}[b]{0.03\columnwidth}\raggedleft
+acres\strut
+\end{minipage} & \begin{minipage}[b]{0.07\columnwidth}\raggedleft
+lossperacre\strut
+\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\raggedleft
+lossperclaim\strut
+\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\raggedleft
+acresperclaim\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.02\columnwidth}\raggedright
+11\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2014\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedright
+Ada\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Area Plan Crops Only\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+1398\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+0\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+0.0000000\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+1398.0\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+0\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.02\columnwidth}\raggedright
+12\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2015\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedright
+Ada\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Area Plan Crops Only\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+11810\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+0\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+0.0000000\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+11810.0\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+0\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.02\columnwidth}\raggedright
+211\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2008\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedright
+OR\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedright
+Baker\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Area Plan Crops Only\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+15292\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+5482\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+2.7894929\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+7646.0\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+2741\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.02\columnwidth}\raggedright
+212\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2010\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedright
+OR\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedright
+Baker\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Area Plan Crops Only\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+1819\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2282\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+0.7971078\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+909.5\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+1141\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.02\columnwidth}\raggedright
+215\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2009\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedright
+Bannock\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Area Plan Crops Only\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2284\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+600\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+3.8066667\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+2284.0\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+600\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.02\columnwidth}\raggedright
+245\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2008\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedright
+Bear Lake\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Area Plan Crops Only\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+8102\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2468\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+3.2828201\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+8102.0\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+2468\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.02\columnwidth}\raggedright
+246\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2012\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedright
+Bear Lake\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Area Plan Crops Only\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+7459\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2468\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+3.0222853\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+7459.0\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+2468\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.02\columnwidth}\raggedright
+291\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2010\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedright
+Bingham\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Area Plan Crops Only\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+4197\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+192\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+21.8593750\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+4197.0\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+192\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.02\columnwidth}\raggedright
+292\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2011\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedright
+Bingham\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Area Plan Crops Only\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+7769\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+240\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+32.3708333\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+7769.0\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+240\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.02\columnwidth}\raggedright
+293\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+2012\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedright
+ID\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedright
+Bingham\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+All Other Crops\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Area Plan Crops Only\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+6786\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.03\columnwidth}\raggedleft
+168\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft
+40.3928571\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+6786.0\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedleft
+168\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-4-inland-pacific-northwest-ipnw-study-area}{%
+\subsection{Step 4: Inland Pacific Northwest (iPNW) Study
+Area}\label{step-4-inland-pacific-northwest-ipnw-study-area}}
+
+In Step 4, we document the 24 county iPNW study area.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"data.table"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"maptools"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"classInt"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"leaflet"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"raster"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"htmltools"}\NormalTok{)}
+
+\CommentTok{#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/states/states_conus.zip"}
+\CommentTok{#destfile <- "/tmp/seamon/states_conus.zip"}
+\CommentTok{#download.file(URL, destfile)}
+\CommentTok{#outDir<-"/tmp/seamon"}
+\CommentTok{#unzip(destfile,exdir=outDir)}
+
+\NormalTok{states <-}\StringTok{ }\KeywordTok{readShapePoly}\NormalTok{(}\StringTok{'/tmp/seamon/states_conus/states_conus.shp'}\NormalTok{,}
+                        \DataTypeTok{proj4string=}\NormalTok{CRS}
+\NormalTok{                        (}\StringTok{"+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"}\NormalTok{))}
+\NormalTok{projection =}\StringTok{ }\KeywordTok{CRS}\NormalTok{(}\StringTok{"+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"}\NormalTok{)}
+
+
+
+\CommentTok{#setwd("/dmine/data/counties/")}
+
+
+\CommentTok{#URL <- "https://raw.githubusercontent.com/erichseamon/seamon_dissertation/master/data/counties/threestate_palouse.zip"}
+\CommentTok{#destfile <- "/tmp/seamon/threestate_palouse.zip"}
+\CommentTok{#download.file(URL, destfile)}
+\CommentTok{#outDir<-"/tmp/seamon"}
+\CommentTok{#unzip(destfile,exdir=outDir)}
+
+\NormalTok{counties <-}\StringTok{ }\KeywordTok{readShapePoly}\NormalTok{(}\StringTok{'/tmp/seamon/threestate_palouse/threestate_palouse.shp'}\NormalTok{,}
+                     \DataTypeTok{proj4string=}\NormalTok{CRS}
+\NormalTok{                     (}\StringTok{"+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"}\NormalTok{))}
+\NormalTok{projection =}\StringTok{ }\KeywordTok{CRS}\NormalTok{(}\StringTok{"+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"}\NormalTok{)}
+
+
+\CommentTok{#pal <- colorNumeric(palette = c("white", "orange", "darkorange", "red", "darkred"),}
+\CommentTok{#                    domain = counties$NAME)}
+\NormalTok{exte <-}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(}\KeywordTok{extent}\NormalTok{(counties))}
+
+\CommentTok{#label <- paste(sep = "<br/>", counties$NAME, round(counties$NAME, 0))}
+\CommentTok{#markers <- data.frame(label)}
+\CommentTok{#labs <- as.list(counties$NAME)}
+
+\NormalTok{counties <-}\StringTok{ }\NormalTok{counties[counties}\OperatorTok{$}\NormalTok{NAME }\OperatorTok{!=}\StringTok{ "Kootenai"}\NormalTok{,]}
+\NormalTok{counties <-}\StringTok{ }\NormalTok{counties[counties}\OperatorTok{$}\NormalTok{NAME }\OperatorTok{!=}\StringTok{ "Clearwater"}\NormalTok{,]}
+
+\NormalTok{      lat_long <-}\StringTok{ }\KeywordTok{coordinates}\NormalTok{(counties)}
+
+\NormalTok{ counties_a <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(counties)}
+\NormalTok{      labs <-}\StringTok{ }\KeywordTok{lapply}\NormalTok{(}\KeywordTok{seq}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(counties_a)), }\ControlFlowTok{function}\NormalTok{(i) \{}
+        \KeywordTok{paste0}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(counties_a[i, }\StringTok{"NAME"}\NormalTok{]))}
+\NormalTok{      \})}
+
+\CommentTok{#leaflet(data = counties, options = leafletOptions(minZoom = 6, maxZoom = 6)) %>%  addProviderTiles("Stamen.TonerLite") %>% fitBounds(exte[1], exte[3], exte[2], exte[4]) %>% addPolygons(color = "blue",  weight = 1) %>%}
+
+      
+\CommentTok{#--}
+
+
+\NormalTok{mapz <-}\StringTok{ }\KeywordTok{leaflet}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ counties, }\DataTypeTok{options =} \KeywordTok{leafletOptions}\NormalTok{(}\DataTypeTok{zoomControl =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{zoomSnap =} \FloatTok{.4}\NormalTok{, }\DataTypeTok{zoomDelta =} \FloatTok{.4}\NormalTok{)) }\OperatorTok{%>%}\StringTok{  }
+\StringTok{  }\KeywordTok{addProviderTiles}\NormalTok{(providers}\OperatorTok{$}\NormalTok{Hydda.Base) }\OperatorTok{%>%}
+\StringTok{   }\KeywordTok{addProviderTiles}\NormalTok{(providers}\OperatorTok{$}\NormalTok{Stamen.TonerLines) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }
+\StringTok{ }
+\StringTok{  }
+\StringTok{  }\KeywordTok{fitBounds}\NormalTok{(exte[}\DecValTok{1}\NormalTok{], exte[}\DecValTok{3}\NormalTok{], exte[}\DecValTok{2}\NormalTok{], exte[}\DecValTok{4}\NormalTok{]) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{addPolygons}\NormalTok{(}\DataTypeTok{color =} \StringTok{"lightyellow"}\NormalTok{,  }\DataTypeTok{fillOpacity =} \FloatTok{.8}\NormalTok{, }\DataTypeTok{weight =} \DecValTok{1}\NormalTok{) }\OperatorTok{%>%}\StringTok{  }\KeywordTok{addPolygons}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ states, }\DataTypeTok{fillOpacity =} \DecValTok{0}\NormalTok{, }\DataTypeTok{weight =} \DecValTok{4}\NormalTok{, }\DataTypeTok{stroke =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{smoothFactor =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{) }\OperatorTok{%>%}\StringTok{  }\KeywordTok{addPolygons}\NormalTok{(}\DataTypeTok{color =} \StringTok{"gray"}\NormalTok{,  }\DataTypeTok{fillOpacity =} \DecValTok{0}\NormalTok{, }\DataTypeTok{weight =} \DecValTok{2}\NormalTok{) }\OperatorTok{%>%}\StringTok{  }
+
+\StringTok{  }
+\StringTok{ }\CommentTok{# addMiniMap(}
+\CommentTok{#    tiles = providers$Stamen.TonerLite,}
+\CommentTok{#    position = 'topleft', }
+\CommentTok{#    width = 175, height = 175,}
+\CommentTok{#    toggleDisplay = FALSE) %>%}
+\StringTok{  }
+\StringTok{  }
+\KeywordTok{addLabelOnlyMarkers}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ counties, }\DataTypeTok{lng =}\NormalTok{ lat_long[,}\DecValTok{1}\NormalTok{], }\DataTypeTok{lat =}\NormalTok{ lat_long[,}\DecValTok{2}\NormalTok{], }\DataTypeTok{label =} \KeywordTok{lapply}\NormalTok{(labs, HTML), }\DataTypeTok{labelOptions =} \KeywordTok{labelOptions}\NormalTok{(}\DataTypeTok{style =} \KeywordTok{list}\NormalTok{(}\StringTok{"font-family"}\NormalTok{ =}\StringTok{ "serif"}\NormalTok{), }\DataTypeTok{noHide =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{direction =} \StringTok{'middle'}\NormalTok{, }\DataTypeTok{textOnly =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{textsize =} \StringTok{"16px"}\NormalTok{, }\DataTypeTok{color =} \StringTok{"white"}\NormalTok{,  }\DataTypeTok{offset =} \KeywordTok{c}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{0}\NormalTok{), }\KeywordTok{markerOptions}\NormalTok{(}\DataTypeTok{riseOnHover =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{col =} \StringTok{"white"}\NormalTok{)}
+\NormalTok{)) }
+        
+\KeywordTok{addScaleBar}\NormalTok{(mapz, }\DataTypeTok{position =} \KeywordTok{c}\NormalTok{(}\StringTok{"topright"}\NormalTok{), }\DataTypeTok{options =} \KeywordTok{scaleBarOptions}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{htmlwidget-9b63410989326dee42b0}{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#markerOptions(map, riseOnHover = TRUE)}
+ \CommentTok{# addLegend(colors = ~NAME, labels = ~NAME, values = ~NAME, opacity = 0.5, title = NULL,}
+  \CommentTok{#          position = "bottomright")}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-5-pca-pnw-insurance-loss-by-county-with-commodity-loadings-2001-to-2015}{%
+\subsection{Step 5: PCA: PNW insurance loss, by COUNTY with COMMODITY
+loadings: 2001 to
+2015}\label{step-5-pca-pnw-insurance-loss-by-county-with-commodity-loadings-2001-to-2015}}
+
+In Step 5, we perform a PCA for the insurance loss for the entire PNW,
+by county, with commodity as the factor loadings. Data from 2001 is 2015
+is used. We additionally have generated a scree plot that shows the
+proportion of variance explained by the individual components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+
+\CommentTok{#PNW by commodity}
+
+\NormalTok{RMA_damage_PNW_transformed_commodity <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_damage_PNW, county }\OperatorTok{+}\StringTok{ }\NormalTok{state }\OperatorTok{~}\StringTok{ }\NormalTok{commodity, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), sum)}
+\NormalTok{RMA_damage_PNW_transformed_commodity}\OperatorTok{$}\NormalTok{statecounty <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(RMA_damage_PNW_transformed_commodity}\OperatorTok{$}\NormalTok{county, }\StringTok{"_"}\NormalTok{, RMA_damage_PNW_transformed_commodity}\OperatorTok{$}\NormalTok{state, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_transformed_commodity) <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_commodity}\OperatorTok{$}\NormalTok{statecounty}
+\NormalTok{RMA_damage_PNW_exogenous_commodity <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_commodity[,}\DecValTok{3}\OperatorTok{:}\DecValTok{41}\NormalTok{]}
+
+\NormalTok{RMA_damage_PNW_exogenous_commodity <-}\StringTok{ }\NormalTok{RMA_damage_PNW_exogenous_commodity[}\OperatorTok{-}\DecValTok{1}\NormalTok{]}
+\NormalTok{RMA_damage_PNW_exogenous_commodity <-}\StringTok{ }\NormalTok{RMA_damage_PNW_exogenous_commodity[}\OperatorTok{-}\DecValTok{20}\NormalTok{]}
+\NormalTok{RMA_damage_PNW_exogenous_commodity <-}\StringTok{ }\NormalTok{RMA_damage_PNW_exogenous_commodity[}\OperatorTok{-}\DecValTok{37}\NormalTok{]}
+
+
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{princomp}\NormalTok{(RMA_damage_PNW_exogenous_commodity, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{)}
+\CommentTok{#ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_commodity, scale = TRUE, center = TRUE), data = RMA_damage_PNW_transformed_commodity, colour = 'county', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 3, legend = FALSE) + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_commodity)) + theme(legend.position = "none")}
+
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_PNW_exogenous_commodity, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{frame =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{frame.type =} \StringTok{'norm'}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ RMA_damage_PNW_transformed_commodity, }\DataTypeTok{colour =} \StringTok{'state'}\NormalTok{, }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{3}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{2}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_exogenous_commodity)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: PNW insurance loss}\CharTok{\textbackslash{}n}\StringTok{by county with commodity loadings "}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-6-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-7-1}
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-6-pca-pnw-insurance-loss-by-year-with-damage-cause-loadings-2001-to-2015}{%
+\subsection{Step 6: PCA: PNW insurance loss, by YEAR with DAMAGE CAUSE
+loadings: 2001 to
+2015}\label{step-6-pca-pnw-insurance-loss-by-year-with-damage-cause-loadings-2001-to-2015}}
+
+In Step 6, we perform a PCA for the insurance loss for the entire PNW,
+for all commodities by year, with damage cause as the factor loadings.
+Data from 2001 is 2015 is used. We additionally have generated a scree
+plot that shows the proportion of variance explained by the individual
+components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+
+\NormalTok{RMA_damage_PNW_transformed_year <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_damage_PNW, year }\OperatorTok{~}\StringTok{ }\NormalTok{damagecause, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), sum)}
+\CommentTok{#RMA_damage_PNW_transformed_year$statecounty <- paste(RMA_damage_PNW_transformed_year$county, "_", RMA_damage_PNW_transformed_year$state, sep="")}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_transformed_year) <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_year}\OperatorTok{$}\NormalTok{year}
+\NormalTok{RMA_damage_PNW_exogenous_year <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_year[,}\DecValTok{2}\OperatorTok{:}\DecValTok{31}\NormalTok{]}
+
+\CommentTok{#PNW using year as group - with damage cause as loadings}
+\CommentTok{#fit <- princomp(RMA_damage_PNW_exogenous_year, cor=TRUE, scale = TRUE, center = TRUE)}
+
+\NormalTok{RMA_damage_PNW_exogenous_year_factor <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_damage_PNW_exogenous_year[,}\DecValTok{2}\OperatorTok{:}\DecValTok{3}\NormalTok{], RMA_damage_PNW_exogenous_year[}\DecValTok{6}\NormalTok{], RMA_damage_PNW_exogenous_year[}\DecValTok{8}\NormalTok{], RMA_damage_PNW_exogenous_year[,}\DecValTok{11}\OperatorTok{:}\DecValTok{14}\NormalTok{], RMA_damage_PNW_exogenous_year[}\DecValTok{16}\OperatorTok{:}\DecValTok{17}\NormalTok{])}
+
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{princomp}\NormalTok{(RMA_damage_PNW_exogenous_year_factor, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_PNW_exogenous_year_factor, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{),  }\DataTypeTok{data =}\NormalTok{ RMA_damage_PNW_exogenous_year_factor, }\DataTypeTok{colour =} \KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_exogenous_year_factor), }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{3}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{2}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_exogenous_year_factor)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: PNW insurance loss}\CharTok{\textbackslash{}n}\StringTok{by year with damage cause loadings "}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-8-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-9-1}
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-7-pca-pnw-insurance-loss-by-month-with-damage-cause-loadings-2001-to-2015}{%
+\subsection{Step 7: PCA: PNW insurance loss, by MONTH with DAMAGE CAUSE
+loadings: 2001 to
+2015}\label{step-7-pca-pnw-insurance-loss-by-month-with-damage-cause-loadings-2001-to-2015}}
+
+In Step 7, we perform a PCA for the insurance loss for the entire PNW,
+for all commodities by month, with damage cause as the factor loadings.
+Data from 2001 is 2015 is used. We additionally have generated a scree
+plot that shows the proportion of variance explained by the individual
+components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+
+\CommentTok{#PNW damage cause as loadings using months as groups}
+
+\CommentTok{#remove negatives related to lossperacre calc}
+\NormalTok{RMA_PNW_noneg <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_PNW, lossperacre }\OperatorTok{!=}\StringTok{ }\OtherTok{Inf}\NormalTok{)}
+\NormalTok{RMA_PNW_noneg2 <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_PNW_noneg, lossperacre }\OperatorTok{>=}\DecValTok{0}\NormalTok{ )}
+\NormalTok{RMA_PNW_noneg3 <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_PNW_noneg2, month }\OperatorTok{!=}\StringTok{""}\NormalTok{ )}
+
+\NormalTok{RMA_damage_PNW_transformed_month <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_PNW_noneg3, month }\OperatorTok{~}\StringTok{ }\NormalTok{damagecause, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), mean)}
+
+\NormalTok{is.nan.data.frame <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)}
+\KeywordTok{do.call}\NormalTok{(cbind, }\KeywordTok{lapply}\NormalTok{(x, is.nan))}
+
+\NormalTok{RMA_damage_PNW_transformed_month[}\KeywordTok{is.nan}\NormalTok{(RMA_damage_PNW_transformed_month)] <-}\StringTok{ }\DecValTok{0}
+
+\CommentTok{#RMA_damage_PNW_transformed_year$statecounty <- paste(RMA_damage_PNW_transformed_year$county, "_", RMA_damage_PNW_transformed_year$state, sep="")}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_transformed_month) <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_month}\OperatorTok{$}\NormalTok{month}
+\NormalTok{RMA_damage_PNW_exogenous_month <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_month[,}\DecValTok{2}\OperatorTok{:}\DecValTok{31}\NormalTok{]}
+
+\NormalTok{RMA_damage_PNW_exogenous_month <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_damage_PNW_exogenous_month[,}\DecValTok{2}\OperatorTok{:}\DecValTok{3}\NormalTok{], RMA_damage_PNW_exogenous_month[}\DecValTok{6}\NormalTok{], RMA_damage_PNW_exogenous_month[}\DecValTok{8}\NormalTok{], RMA_damage_PNW_exogenous_month[,}\DecValTok{11}\OperatorTok{:}\DecValTok{14}\NormalTok{], RMA_damage_PNW_exogenous_month[}\DecValTok{16}\OperatorTok{:}\DecValTok{17}\NormalTok{])}
+
+
+\CommentTok{#ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_year, center = TRUE, scale = TRUE), data = RMA_damage_PNW_transformed_year, colour = 'year', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 3, legend = FALSE) + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_year)) + theme(legend.position = "none")}
+
+\CommentTok{#PNW using month as group - with damage cause as loadings}
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{princomp}\NormalTok{(RMA_damage_PNW_exogenous_month, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_PNW_exogenous_month, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{),  }\DataTypeTok{data =}\NormalTok{ RMA_damage_PNW_transformed_month, }\DataTypeTok{colour =} \StringTok{'month'}\NormalTok{, }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{3}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{2}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_exogenous_month)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: PNW insurance loss}\CharTok{\textbackslash{}n}\StringTok{by month with damage cause loadings "}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-10-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-11-1}
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-8-pca-pnw-wheat-insurance-loss-by-year-with-damage-cause-loadings-2001-to-2015}{%
+\subsection{Step 8: PCA: PNW WHEAT insurance loss, by YEAR with DAMAGE
+CAUSE loadings: 2001 to
+2015}\label{step-8-pca-pnw-wheat-insurance-loss-by-year-with-damage-cause-loadings-2001-to-2015}}
+
+In Step 8, we perform a PCA for the insurance loss for the entire PNW,
+for wheat by year, with damage cause as the factor loadings. Data from
+2001 is 2015 is used. We additionally have generated a scree plot that
+shows the proportion of variance explained by the individual components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+
+\CommentTok{#PNW damage cause as loadings using years as groups, JUST FOR WHEAT}
+
+\NormalTok{RMA_damage_PNW_wheat_year <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_PNW, commodity }\OperatorTok{==}\StringTok{ "WHEAT"}\NormalTok{)}
+\NormalTok{RMA_damage_PNW_transformed_wheat_year <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_damage_PNW_wheat_year, year }\OperatorTok{~}\StringTok{ }\NormalTok{damagecause, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), sum)}
+\CommentTok{#RMA_damage_PNW_transformed_year$statecounty <- paste(RMA_damage_PNW_transformed_year$county, "_", RMA_damage_PNW_transformed_year$state, sep="")}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_transformed_wheat_year) <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_wheat_year}\OperatorTok{$}\NormalTok{year}
+\NormalTok{RMA_damage_PNW_exogenous_wheat_year <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_wheat_year}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\DecValTok{8}\NormalTok{, }\FloatTok{6.1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\FloatTok{2.1}\NormalTok{), }\DataTypeTok{family =} \StringTok{'serif'}\NormalTok{, }\DataTypeTok{mgp=}\KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{las=}\DecValTok{0}\NormalTok{)}
+
+\CommentTok{#PNW using year as group - with damage cause as loadings: JUST FOR WHEAT}
+
+\NormalTok{RMA_damage_PNW_exogenous_wheat_year_factor <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_damage_PNW_exogenous_wheat_year[,}\DecValTok{3}\OperatorTok{:}\DecValTok{4}\NormalTok{], RMA_damage_PNW_exogenous_wheat_year[}\DecValTok{7}\NormalTok{], RMA_damage_PNW_exogenous_wheat_year[}\DecValTok{9}\NormalTok{], RMA_damage_PNW_exogenous_wheat_year[,}\DecValTok{12}\OperatorTok{:}\DecValTok{15}\NormalTok{], RMA_damage_PNW_exogenous_wheat_year[}\DecValTok{17}\OperatorTok{:}\DecValTok{18}\NormalTok{])}
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{princomp}\NormalTok{(RMA_damage_PNW_exogenous_wheat_year_factor, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_PNW_exogenous_wheat_year_factor, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{),  }\DataTypeTok{data =}\NormalTok{ RMA_damage_PNW_exogenous_wheat_year_factor, }\DataTypeTok{colour =} \KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_exogenous_wheat_year_factor), }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{3}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{2}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_exogenous_wheat_year_factor)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: PNW WHEAT insurance loss}\CharTok{\textbackslash{}n}\StringTok{by year with damage cause loadings "}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-12-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-13-1}
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-9-pca-pnw-wheat-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}{%
+\subsection{Step 9: PCA: PNW WHEAT insurance loss, by COUNTY with DAMAGE
+CAUSE loadings: 2001 to
+2015}\label{step-9-pca-pnw-wheat-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}}
+
+In Step 9, we perform a PCA for the insurance loss for the entire PNW,
+for wheat by county, with damage cause as the factor loadings. Data from
+2001 is 2015 is used. We additionally have generated a scree plot that
+shows the proportion of variance explained by the individual components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#PNW wheat}
+
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{) }
+
+\NormalTok{RMA_damage_PNW_wheat <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_PNW, commodity }\OperatorTok{==}\StringTok{ "WHEAT"}\NormalTok{)}
+
+\NormalTok{RMA_damage_PNW_transformed_wheat <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_damage_PNW_wheat, county }\OperatorTok{+}\StringTok{ }\NormalTok{state }\OperatorTok{~}\StringTok{ }\NormalTok{damagecause, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), sum)}
+\NormalTok{RMA_damage_PNW_transformed_wheat}\OperatorTok{$}\NormalTok{statecounty <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(RMA_damage_PNW_transformed_wheat}\OperatorTok{$}\NormalTok{county, }\StringTok{"_"}\NormalTok{, RMA_damage_PNW_transformed_wheat}\OperatorTok{$}\NormalTok{state, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_transformed_wheat) <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_wheat}\OperatorTok{$}\NormalTok{statecounty}
+\CommentTok{#RMA_damage_PNW_exogenous_wheat <- RMA_damage_PNW_transformed_wheat[,3:27]}
+\NormalTok{RMA_damage_PNW_exogenous_wheat <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_wheat}
+
+\CommentTok{#ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_month), data = RMA_damage_PNW_transformed_month, colour = 'month', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 3, legend = FALSE) + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_month)) + theme(legend.position = "none")}
+
+\CommentTok{#PNW wheat}
+
+\NormalTok{RMA_damage_PNW_exogenous_wheat <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_damage_PNW_exogenous_wheat[,}\DecValTok{4}\OperatorTok{:}\DecValTok{5}\NormalTok{], RMA_damage_PNW_exogenous_wheat[}\DecValTok{8}\NormalTok{], RMA_damage_PNW_exogenous_wheat[}\DecValTok{10}\NormalTok{], RMA_damage_PNW_exogenous_wheat[,}\DecValTok{13}\OperatorTok{:}\DecValTok{16}\NormalTok{], RMA_damage_PNW_exogenous_wheat[}\DecValTok{18}\OperatorTok{:}\DecValTok{19}\NormalTok{])}
+
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{princomp}\NormalTok{(RMA_damage_PNW_exogenous_wheat, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{)}
+\CommentTok{#ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_wheat, scale = TRUE, center = TRUE), data = RMA_damage_PNW_transformed_wheat, colour = 'county', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 3, legend = FALSE) + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_wheat)) + theme(legend.position = "none")}
+
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_PNW_exogenous_wheat, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{frame =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{frame.type =} \StringTok{'norm'}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ RMA_damage_PNW_transformed_wheat, }\DataTypeTok{colour =} \StringTok{'state'}\NormalTok{, }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{3}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{2}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_exogenous_wheat)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: PNW wheat insurance loss}\CharTok{\textbackslash{}n}\StringTok{by county with damage cause loadings "}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-14-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-15-1}
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-10-pca-pnw-apples-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}{%
+\subsection{Step 10: PCA: PNW APPLES insurance loss, by COUNTY with
+DAMAGE CAUSE loadings: 2001 to
+2015}\label{step-10-pca-pnw-apples-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}}
+
+In Step 10, we perform a PCA for the insurance loss for the entire PNW,
+for apples by county, with damage cause as the factor loadings. Data
+from 2001 is 2015 is used. We additionally have generated a scree plot
+that shows the proportion of variance explained by the individual
+components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#PNW apples}
+
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+\NormalTok{RMA_damage_PNW_apples <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_PNW, commodity }\OperatorTok{==}\StringTok{ "APPLES"}\NormalTok{)}
+
+\NormalTok{RMA_damage_PNW_transformed_apples <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_damage_PNW_apples, county }\OperatorTok{+}\StringTok{ }\NormalTok{state }\OperatorTok{~}\StringTok{ }\NormalTok{damagecause, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), sum)}
+\NormalTok{RMA_damage_PNW_transformed_apples}\OperatorTok{$}\NormalTok{statecounty <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(RMA_damage_PNW_transformed_apples}\OperatorTok{$}\NormalTok{county, }\StringTok{"_"}\NormalTok{, RMA_damage_PNW_transformed_apples}\OperatorTok{$}\NormalTok{state, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_transformed_apples) <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_apples}\OperatorTok{$}\NormalTok{statecounty}
+\NormalTok{RMA_damage_PNW_exogenous_apples <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_apples[,}\DecValTok{3}\OperatorTok{:}\DecValTok{24}\NormalTok{]}
+
+\NormalTok{RMA_damage_PNW_exogenous_apples <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_damage_PNW_exogenous_apples[,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{], RMA_damage_PNW_exogenous_apples[,}\DecValTok{7}\OperatorTok{:}\DecValTok{10}\NormalTok{], RMA_damage_PNW_exogenous_apples[,}\DecValTok{13}\OperatorTok{:}\DecValTok{14}\NormalTok{])}
+
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{princomp}\NormalTok{(RMA_damage_PNW_exogenous_apples, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{)}
+\CommentTok{#PNW apples}
+
+\CommentTok{#ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_apples), data = RMA_damage_PNW_transformed_apples, colour = 'county', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 3, legend = FALSE) + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_apples)) + theme(legend.position = "none")}
+
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_PNW_exogenous_apples, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{frame =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{frame.type =} \StringTok{'norm'}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ RMA_damage_PNW_transformed_apples, }\DataTypeTok{colour =} \StringTok{'state'}\NormalTok{, }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{3}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{2}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_exogenous_apples)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: PNW apples insurance loss}\CharTok{\textbackslash{}n}\StringTok{by county with damage cause loadings "}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-16-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-17-1}
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-11-pca-pnw-barley-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}{%
+\subsection{Step 11: PCA: PNW BARLEY insurance loss, by COUNTY with
+DAMAGE CAUSE loadings: 2001 to
+2015}\label{step-11-pca-pnw-barley-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}}
+
+In Step 11, we perform a PCA for the insurance loss for the entire PNW,
+for barley by county, with damage cause as the factor loadings. Data
+from 2001 is 2015 is used. We additionally have generated a scree plot
+that shows the proportion of variance explained by the individual
+components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#PNW barley}
+
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+
+\NormalTok{RMA_damage_PNW_barley <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_PNW, commodity }\OperatorTok{==}\StringTok{ "BARLEY"}\NormalTok{)}
+
+\NormalTok{RMA_damage_PNW_transformed_barley <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_damage_PNW_barley, county }\OperatorTok{+}\StringTok{ }\NormalTok{state }\OperatorTok{~}\StringTok{ }\NormalTok{damagecause, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), sum)}
+\NormalTok{RMA_damage_PNW_transformed_barley}\OperatorTok{$}\NormalTok{statecounty <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(RMA_damage_PNW_transformed_barley}\OperatorTok{$}\NormalTok{county, }\StringTok{"_"}\NormalTok{, RMA_damage_PNW_transformed_barley}\OperatorTok{$}\NormalTok{state, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_transformed_barley) <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_barley}\OperatorTok{$}\NormalTok{statecounty}
+\CommentTok{#RMA_damage_PNW_exogenous_barley <- RMA_damage_PNW_transformed_barley[,3:23]}
+\NormalTok{RMA_damage_PNW_exogenous_barley <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed_barley}
+
+\NormalTok{RMA_damage_PNW_exogenous_barley <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_damage_PNW_exogenous_barley[,}\DecValTok{3}\OperatorTok{:}\DecValTok{4}\NormalTok{], RMA_damage_PNW_exogenous_barley[}\DecValTok{7}\NormalTok{], RMA_damage_PNW_exogenous_barley[}\DecValTok{9}\NormalTok{], RMA_damage_PNW_exogenous_barley[,}\DecValTok{12}\OperatorTok{:}\DecValTok{15}\NormalTok{], RMA_damage_PNW_exogenous_barley[}\DecValTok{17}\OperatorTok{:}\DecValTok{18}\NormalTok{])}
+
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{princomp}\NormalTok{(RMA_damage_PNW_exogenous_barley, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{)}
+
+\CommentTok{#PNW barley}
+
+\CommentTok{#ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_barley), data = RMA_damage_PNW_transformed_barley, colour = 'county', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 3, legend = FALSE) + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_barley)) + theme(legend.position = "none")}
+
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_PNW_exogenous_barley, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{frame =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{frame.type =} \StringTok{'norm'}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ RMA_damage_PNW_transformed_barley, }\DataTypeTok{colour =} \StringTok{'state'}\NormalTok{, }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{3}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{2}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_exogenous_barley)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: PNW barley insurance loss}\CharTok{\textbackslash{}n}\StringTok{by county with damage cause loadings "}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-18-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-19-1}
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-12-pca-ipnw-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}{%
+\subsection{Step 12: PCA: IPNW insurance loss by COUNTY with DAMAGE
+CAUSE loadings: 2001 to
+2015}\label{step-12-pca-ipnw-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}}
+
+In Step 12, we perform a PCA for the insurance loss for the inland PNW,
+for all commodities by county, with damage cause as the factor loadings.
+Data from 2001 is 2015 is used. We additionally have generated a scree
+plot that shows the proportion of variance explained by the individual
+components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#all PNW by damage}
+
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+
+
+\NormalTok{RMA_damage_PNW_transformed <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_damage_PNW, county }\OperatorTok{+}\StringTok{ }\NormalTok{state }\OperatorTok{~}\StringTok{ }\NormalTok{damagecause, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), sum)}
+\NormalTok{RMA_damage_PNW_transformed}\OperatorTok{$}\NormalTok{statecounty <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(RMA_damage_PNW_transformed}\OperatorTok{$}\NormalTok{county, }\StringTok{"_"}\NormalTok{, RMA_damage_PNW_transformed}\OperatorTok{$}\NormalTok{state, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_transformed) <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed}\OperatorTok{$}\NormalTok{statecounty}
+\NormalTok{RMA_damage_PNW_exogenous <-}\StringTok{ }\NormalTok{RMA_damage_PNW_transformed[,}\DecValTok{3}\OperatorTok{:}\DecValTok{32}\NormalTok{]}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\DecValTok{8}\NormalTok{, }\FloatTok{6.1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\FloatTok{2.1}\NormalTok{), }\DataTypeTok{family =} \StringTok{'serif'}\NormalTok{, }\DataTypeTok{mgp=}\KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{las=}\DecValTok{0}\NormalTok{)}
+
+\NormalTok{fit <-}\StringTok{ }\NormalTok{stats}\OperatorTok{::}\KeywordTok{princomp}\NormalTok{(RMA_damage_PNW_exogenous, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_PNW_exogenous, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{frame =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{frame.type =} \StringTok{'norm'}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ RMA_damage_PNW_transformed, }\DataTypeTok{colour =} \StringTok{'state'}\NormalTok{, }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{3}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{2}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_PNW_exogenous)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: IPNW insurance loss}\CharTok{\textbackslash{}n}\StringTok{by county with damage cause loadings: 2001 to 2015"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-20-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\DecValTok{8}\NormalTok{, }\FloatTok{6.1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\FloatTok{2.1}\NormalTok{), }\DataTypeTok{family =} \StringTok{'serif'}\NormalTok{, }\DataTypeTok{mgp=}\KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{las=}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-21-1}
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-13-pca-kmeans-wheat-ipnw-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}{%
+\subsection{Step 13: PCA + KMEANS: WHEAT IPNW insurance loss, by COUNTY
+with DAMAGE CAUSE loadings: 2001 to
+2015}\label{step-13-pca-kmeans-wheat-ipnw-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}}
+
+In Step 13, we perform a PCA for the insurance loss for the inland PNW,
+for wheat by county, with damage cause as the factor loadings. Data from
+2001 is 2015 is used. We additionally have generated a scree plot that
+shows the proportion of variance explained by the individual components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#just the IPNW}
+
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+
+\NormalTok{RMA_damage_IPNW}\OperatorTok{$}\NormalTok{log10loss <-}\StringTok{ }\KeywordTok{log10}\NormalTok{(RMA_damage_IPNW}\OperatorTok{$}\NormalTok{loss)}
+
+
+\NormalTok{RMA_damage_IPNW_wheat <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_IPNW, commodity }\OperatorTok{==}\StringTok{ "WHEAT"}\NormalTok{)}
+\NormalTok{RMA_damage_IPNW_transformed <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_damage_IPNW_wheat, county }\OperatorTok{+}\StringTok{ }\NormalTok{state }\OperatorTok{~}\StringTok{ }\NormalTok{damagecause, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), sum)}
+\NormalTok{RMA_damage_IPNW_transformed}\OperatorTok{$}\NormalTok{statecounty <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(RMA_damage_IPNW_transformed}\OperatorTok{$}\NormalTok{county, }\StringTok{"_"}\NormalTok{, RMA_damage_IPNW_transformed}\OperatorTok{$}\NormalTok{state, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_IPNW_transformed) <-}\StringTok{ }\NormalTok{RMA_damage_IPNW_transformed}\OperatorTok{$}\NormalTok{statecounty}
+\NormalTok{RMA_damage_IPNW_exogenous <-}\StringTok{ }\NormalTok{RMA_damage_IPNW_transformed[,}\DecValTok{3}\OperatorTok{:}\DecValTok{26}\NormalTok{]}
+
+
+\CommentTok{#IPNW}
+
+\CommentTok{#RMA_damage_IPNW_exogenous <- scale(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE)}
+\NormalTok{pca_RMA_damage_IPNW_exogenous <-}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(RMA_damage_IPNW_exogenous, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{RMA_damage_IPNW_exogenous_factor <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_damage_IPNW_exogenous[}\DecValTok{2}\OperatorTok{:}\DecValTok{3}\NormalTok{], RMA_damage_IPNW_exogenous[}\DecValTok{5}\OperatorTok{:}\DecValTok{6}\NormalTok{], RMA_damage_IPNW_exogenous[}\DecValTok{8}\NormalTok{], RMA_damage_IPNW_exogenous[}\DecValTok{11}\NormalTok{], RMA_damage_IPNW_exogenous[}\DecValTok{13}\OperatorTok{:}\DecValTok{14}\NormalTok{], RMA_damage_IPNW_exogenous[}\DecValTok{16}\OperatorTok{:}\DecValTok{17}\NormalTok{])}
+
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(RMA_damage_IPNW_exogenous_factor, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{comp <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{])}
+\CommentTok{# Plot}
+\CommentTok{#plot(comp, pch=16, col=rgb(0,0,0,0.5))}
+
+
+\NormalTok{wss <-}\StringTok{ }\NormalTok{(}\KeywordTok{nrow}\NormalTok{(RMA_damage_IPNW_exogenous_factor)}\OperatorTok{-}\DecValTok{1}\NormalTok{)}\OperatorTok{*}\KeywordTok{sum}\NormalTok{(}\KeywordTok{apply}\NormalTok{(RMA_damage_IPNW_exogenous_factor,}\DecValTok{2}\NormalTok{,var))}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{23}\NormalTok{) wss[i] <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{kmeans}\NormalTok{(RMA_damage_IPNW_exogenous_factor,}
+                                     \DataTypeTok{centers=}\NormalTok{i)}\OperatorTok{$}\NormalTok{withinss)}
+\KeywordTok{plot}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{23}\NormalTok{, wss, }\DataTypeTok{type=}\StringTok{"b"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"Number of Clusters"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Within groups sum of squares"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"KMeans COUNTIES Elbow Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-22-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#identify the optimum number of clusters using NbClust}
+  \KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+  \KeywordTok{usePackage}\NormalTok{(}\StringTok{"NbClust"}\NormalTok{)}
+  \KeywordTok{usePackage}\NormalTok{(}\StringTok{"factoextra"}\NormalTok{)}
+  
+\NormalTok{  clustering_distance <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"euclidean"}\NormalTok{)}
+\NormalTok{  clust<-}\KeywordTok{NbClust}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{], }\DataTypeTok{diss=}\OtherTok{NULL}\NormalTok{, }\DataTypeTok{distance =}\NormalTok{ clustering_distance, }\DataTypeTok{min.nc=}\DecValTok{2}\NormalTok{, }\DataTypeTok{max.nc=}\DecValTok{20}\NormalTok{, }\DataTypeTok{method =} \StringTok{"kmeans"}\NormalTok{, }\DataTypeTok{index =} \StringTok{"all"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-23-1}
+
+\begin{verbatim}
+## *** : The Hubert index is a graphical method of determining the number of clusters.
+##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
+##                 significant increase of the value of the measure i.e the significant peak in Hubert
+##                 index second differences plot. 
+## 
+\end{verbatim}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-23-2}
+
+\begin{verbatim}
+## *** : The D index is a graphical method of determining the number of clusters. 
+##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
+##                 second differences plot) that corresponds to a significant increase of the value of
+##                 the measure. 
+##  
+## ******************************************************************* 
+## * Among all indices:                                                
+## * 6 proposed 2 as the best number of clusters 
+## * 4 proposed 3 as the best number of clusters 
+## * 2 proposed 4 as the best number of clusters 
+## * 2 proposed 6 as the best number of clusters 
+## * 1 proposed 7 as the best number of clusters 
+## * 2 proposed 8 as the best number of clusters 
+## * 3 proposed 17 as the best number of clusters 
+## * 1 proposed 19 as the best number of clusters 
+## * 3 proposed 20 as the best number of clusters 
+## 
+##                    ***** Conclusion *****                            
+##  
+## * According to the majority rule, the best number of clusters is  2 
+##  
+##  
+## *******************************************************************
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#clust<-NbClust(damage_loss[,1:(length(waterscarcity)-4)], diss=NULL, distance = clustering_distance, min.nc=2, max.nc=20, method = "kmeans", index = "all") }
+  
+  \CommentTok{#res$All.index}
+  \CommentTok{#res$Best.nc}
+  \CommentTok{#res$All.CriticalValues}
+  \CommentTok{#res$Best.partition}
+  
+\NormalTok{  maxclusters <-}\StringTok{ }\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(clust}\OperatorTok{$}\NormalTok{Best.partition))}
+\NormalTok{  km.res <-}\StringTok{ }\KeywordTok{kmeans}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{], maxclusters, }\DataTypeTok{nstart =} \DecValTok{25}\NormalTok{)}
+  \CommentTok{#pam.res <- pam(damage_loss, maxclusters)}
+\NormalTok{  hc.cut <-}\StringTok{ }\KeywordTok{hcut}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{], }\DataTypeTok{k =}\NormalTok{ maxclusters, }\DataTypeTok{hc_method =} \StringTok{"complete"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"RColorBrewer"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"scales"}\NormalTok{)}
+
+\NormalTok{k <-}\StringTok{ }\KeywordTok{kmeans}\NormalTok{(comp, }\DecValTok{2}\NormalTok{, }\DataTypeTok{nstart=}\DecValTok{25}\NormalTok{, }\DataTypeTok{iter.max=}\DecValTok{1000}\NormalTok{)}
+
+\KeywordTok{palette}\NormalTok{(}\KeywordTok{alpha}\NormalTok{(}\KeywordTok{brewer.pal}\NormalTok{(}\DecValTok{9}\NormalTok{,}\StringTok{'Set2'}\NormalTok{), }\DecValTok{1}\NormalTok{))}
+\CommentTok{#plot(comp, col=k$clust, pch=2)}
+
+
+\NormalTok{kclust <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(k}\OperatorTok{$}\NormalTok{clust)}
+\NormalTok{kclust}\OperatorTok{$}\NormalTok{k.clust <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(kclust}\OperatorTok{$}\NormalTok{k.clust)}
+
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_IPNW_exogenous_factor, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{frame =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{frame.type =} \StringTok{'norm'}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ kclust, }\DataTypeTok{colour =} \StringTok{'k.clust'}\NormalTok{, }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{4}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{3}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_IPNW_exogenous)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: IPNW insurance loss}\CharTok{\textbackslash{}n}\StringTok{by county with damage cause loadings "}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{))  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position=}\StringTok{"bottom"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-24-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-25-1}
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"plotly"}\NormalTok{)}
+
+\NormalTok{fit1 <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{])}
+
+\NormalTok{fit2 <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x, kclust, }\DataTypeTok{by=}\StringTok{"row.names"}\NormalTok{,}\DataTypeTok{all.x=}\OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{p <-}\StringTok{ }\KeywordTok{plot_ly}\NormalTok{(fit2, }\DataTypeTok{x =} \OperatorTok{~}\NormalTok{PC2, }\DataTypeTok{y =} \OperatorTok{~}\NormalTok{PC1, }\DataTypeTok{z =} \OperatorTok{~}\NormalTok{PC3, }\DataTypeTok{color =} \OperatorTok{~}\NormalTok{k.clust, }\DataTypeTok{colors =} \KeywordTok{c}\NormalTok{(}\StringTok{'#BF382A'}\NormalTok{, }\StringTok{'#0C4B8E'}\NormalTok{)) }
+
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{htmlwidget-390322772dc11ff07b2e}{}
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-14-pca-ipnw-wheat-loss-by-county-with-damage-cause-loadings-pc1-and-pc2-table}{%
+\subsection{Step 14: PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE
+loadings: PC1 and PC2
+table}\label{step-14-pca-ipnw-wheat-loss-by-county-with-damage-cause-loadings-pc1-and-pc2-table}}
+
+In Step 14, we summarize our PCA findings for the inland PNW, for wheat
+by county, using damage cause as the factor loadings. Here we plot PC1
+and PC2 loadings as a table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#--create table of PC1 and PC2 loadings}
+
+\NormalTok{PC_table <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\NormalTok{], fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{2}\NormalTok{])}
+\KeywordTok{colnames}\NormalTok{(PC_table) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC1"}\NormalTok{, }\StringTok{"PC2"}\NormalTok{)}
+\NormalTok{PC_table <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(PC_table)}
+\NormalTok{PC_table}\OperatorTok{$}\NormalTok{PC1 <-}\StringTok{ }\KeywordTok{round}\NormalTok{(PC_table}\OperatorTok{$}\NormalTok{PC1, }\DecValTok{3}\NormalTok{)}
+\NormalTok{PC_table}\OperatorTok{$}\NormalTok{PC2 <-}\StringTok{ }\KeywordTok{round}\NormalTok{(PC_table}\OperatorTok{$}\NormalTok{PC2, }\DecValTok{3}\NormalTok{)}
+
+\KeywordTok{htmlTable}\NormalTok{(PC_table,}
+          \DataTypeTok{cgroup =} \KeywordTok{c}\NormalTok{(}\StringTok{"2001-2015"}\NormalTok{),}
+          \DataTypeTok{n.cgroup =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{),}
+          \DataTypeTok{caption =} \StringTok{"Damage cause variable loadings by COUNTY"}\NormalTok{,}
+          \DataTypeTok{align =} \StringTok{"c"}\NormalTok{,}
+          \DataTypeTok{rnames =} \KeywordTok{rownames}\NormalTok{(PC_table),}
+          \DataTypeTok{css.cell =} \StringTok{"padding-left: .5em; padding-right: .5em;"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Damage cause variable loadings by COUNTY
+
+2001-2015
+
+PC1
+
+PC2
+
+Adams\_WA
+
+-3.574
+
+1.325
+
+Asotin\_WA
+
+1.703
+
+0.967
+
+Benewah\_ID
+
+1.807
+
+-0.563
+
+Benton\_WA
+
+1.247
+
+1.232
+
+Columbia\_WA
+
+1.559
+
+0.633
+
+Douglas\_WA
+
+0.111
+
+0.762
+
+Franklin\_WA
+
+1.208
+
+1.038
+
+Garfield\_WA
+
+1.575
+
+0.831
+
+Gilliam\_OR
+
+0.475
+
+1.027
+
+Grant\_WA
+
+0.136
+
+0.859
+
+Idaho\_ID
+
+1.132
+
+-2.574
+
+Latah\_ID
+
+1.298
+
+-1.538
+
+Lewis\_ID
+
+0.691
+
+-2.392
+
+Lincoln\_WA
+
+-2.988
+
+1.015
+
+Morrow\_OR
+
+-1.805
+
+1.347
+
+Nez Perce\_ID
+
+1.167
+
+-0.583
+
+Sherman\_OR
+
+1.39
+
+0.415
+
+Spokane\_WA
+
+0.836
+
+-1.319
+
+Umatilla\_OR
+
+-7.766
+
+0.232
+
+Union\_OR
+
+1.928
+
+0.884
+
+Walla Walla\_WA
+
+-2.215
+
+-0.184
+
+Wallowa\_OR
+
+1.918
+
+0.579
+
+Wasco\_OR
+
+0.908
+
+-0.221
+
+Whitman\_WA
+
+-2.74
+
+-3.773
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-15-pca-ipnw-wheat-loss-by-county-with-damage-cause-loadings-spatial-mapping-of-pc1-and-pc2}{%
+\subsection{Step 15: PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE
+loadings: Spatial Mapping of PC1 and
+PC2}\label{step-15-pca-ipnw-wheat-loss-by-county-with-damage-cause-loadings-spatial-mapping-of-pc1-and-pc2}}
+
+In Step 15, we summarize our PCA findings for the inland PNW, for wheat
+by county, using damage cause as the factor loadings. We take PC1 and
+PC2 loadings and plot each as a map.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#-map PC loadings}
+
+\NormalTok{PC1_map <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\NormalTok{])}
+\NormalTok{PC1_map}\OperatorTok{$}\NormalTok{NAME <-}\StringTok{ }\KeywordTok{rownames}\NormalTok{(PC1_map)}
+\KeywordTok{colnames}\NormalTok{(PC1_map) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC1"}\NormalTok{, }\StringTok{"NAME"}\NormalTok{)}
+\NormalTok{PC1_NAME <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(PC1_map, }\KeywordTok{t}\NormalTok{(}\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{strsplit}\NormalTok{(PC1_map}\OperatorTok{$}\NormalTok{NAME, }\DataTypeTok{split=}\StringTok{'_'}\NormalTok{, }\DataTypeTok{fixed=}\OtherTok{TRUE}\NormalTok{))))}
+\KeywordTok{colnames}\NormalTok{(PC1_NAME) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC1"}\NormalTok{, }\StringTok{"Statecounty"}\NormalTok{, }\StringTok{"NAME"}\NormalTok{, }\StringTok{"STATE"}\NormalTok{)}
+
+\NormalTok{PC1_map <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(counties, PC1_NAME, }\DataTypeTok{by=}\KeywordTok{c}\NormalTok{(}\StringTok{"NAME"}\NormalTok{), }\DataTypeTok{all =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{PC2_map <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{2}\NormalTok{])}
+\NormalTok{PC2_map}\OperatorTok{$}\NormalTok{NAME <-}\StringTok{ }\KeywordTok{rownames}\NormalTok{(PC2_map)}
+\KeywordTok{colnames}\NormalTok{(PC2_map) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC2"}\NormalTok{, }\StringTok{"NAME"}\NormalTok{)}
+\NormalTok{PC2_NAME <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(PC2_map, }\KeywordTok{t}\NormalTok{(}\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{strsplit}\NormalTok{(PC2_map}\OperatorTok{$}\NormalTok{NAME, }\DataTypeTok{split=}\StringTok{'_'}\NormalTok{, }\DataTypeTok{fixed=}\OtherTok{TRUE}\NormalTok{))))}
+\KeywordTok{colnames}\NormalTok{(PC2_NAME) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC2"}\NormalTok{, }\StringTok{"Statecounty"}\NormalTok{, }\StringTok{"NAME"}\NormalTok{, }\StringTok{"STATE"}\NormalTok{)}
+
+\NormalTok{PC2_map <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(counties, PC2_NAME, }\DataTypeTok{by=}\KeywordTok{c}\NormalTok{(}\StringTok{"NAME"}\NormalTok{), }\DataTypeTok{all =} \OtherTok{FALSE}\NormalTok{)}
+
+
+\CommentTok{#PC1 map}
+
+\CommentTok{#-----}
+
+\NormalTok{PC1_map}\OperatorTok{$}\NormalTok{PC1[}\KeywordTok{is.na}\NormalTok{(PC1_map}\OperatorTok{$}\NormalTok{PC1)] <-}\StringTok{ }\DecValTok{0}
+
+ 
+\CommentTok{## Make vector of colors for values smaller than 0 (20 colors)}
+\NormalTok{rc1 <-}\StringTok{ }\KeywordTok{colorRampPalette}\NormalTok{(}\DataTypeTok{colors =} \KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"lightblue"}\NormalTok{, }\StringTok{"white"}\NormalTok{), }\DataTypeTok{space =} \StringTok{"Lab"}\NormalTok{)(}\DecValTok{14}\NormalTok{)}
+
+\CommentTok{## Make vector of colors for values larger than 0 (180 colors)}
+\NormalTok{rc2 <-}\StringTok{ }\KeywordTok{colorRampPalette}\NormalTok{(}\DataTypeTok{colors =} \KeywordTok{c}\NormalTok{(}\StringTok{"white"}\NormalTok{, }\StringTok{"red"}\NormalTok{), }\DataTypeTok{space =} \StringTok{"Lab"}\NormalTok{)(}\DecValTok{8}\NormalTok{)}
+
+\CommentTok{## Combine the two color palettes}
+\NormalTok{rampcols <-}\StringTok{ }\KeywordTok{c}\NormalTok{(rc1, rc2)}
+
+
+
+\CommentTok{# pal <- colorNumeric(colorRampPalette(c("blue", "lightblue", "white", "lightpink", "red"))(7), na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))}
+\NormalTok{ pal <-}\StringTok{ }\KeywordTok{colorNumeric}\NormalTok{(}\DataTypeTok{palette =}\NormalTok{ rampcols, }\DataTypeTok{na.color =} \StringTok{"#ffffff"}\NormalTok{,}\DataTypeTok{domain =} \KeywordTok{eval}\NormalTok{(}\KeywordTok{parse}\NormalTok{(}\DataTypeTok{text=}\KeywordTok{paste}\NormalTok{(}\StringTok{"PC1_map$"}\NormalTok{, }\StringTok{"PC1"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{))))}
+
+\NormalTok{map <-}\StringTok{ }\KeywordTok{leaflet}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ PC1_map, }\DataTypeTok{options =} \KeywordTok{leafletOptions}\NormalTok{(}\DataTypeTok{zoomControl =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{zoomSnap =} \FloatTok{0.1}\NormalTok{)) }\OperatorTok{%>%}\StringTok{  }
+\StringTok{  }\KeywordTok{addProviderTiles}\NormalTok{(providers}\OperatorTok{$}\NormalTok{Hydda.Base) }\OperatorTok{%>%}
+\StringTok{   }\KeywordTok{addProviderTiles}\NormalTok{(providers}\OperatorTok{$}\NormalTok{Stamen.TonerLines) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }\KeywordTok{addMiniMap}\NormalTok{(}
+    \DataTypeTok{tiles =}\NormalTok{ providers}\OperatorTok{$}\NormalTok{Stamen.TonerLite,}
+    \DataTypeTok{position =} \StringTok{'topleft'}\NormalTok{, }
+    \DataTypeTok{width =} \DecValTok{100}\NormalTok{, }\DataTypeTok{height =} \DecValTok{100}\NormalTok{,}
+    \DataTypeTok{toggleDisplay =} \OtherTok{FALSE}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }
+\StringTok{   }\CommentTok{#addControl(title, position = "topleft", className="map-title") %>%}
+\StringTok{  }
+\StringTok{  }
+\StringTok{  }\KeywordTok{fitBounds}\NormalTok{(exte[}\DecValTok{1}\NormalTok{], exte[}\DecValTok{3}\NormalTok{], exte[}\DecValTok{2}\NormalTok{], exte[}\DecValTok{4}\NormalTok{]) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{addPolygons}\NormalTok{(}\DataTypeTok{fillColor =} \OperatorTok{~}\KeywordTok{pal}\NormalTok{(PC1_map}\OperatorTok{$}\NormalTok{PC1),  }\DataTypeTok{fillOpacity =} \FloatTok{.8}\NormalTok{, }\DataTypeTok{weight =} \DecValTok{1}\NormalTok{, }\DataTypeTok{stroke =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{smoothFactor =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{addPolygons}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ states, }\DataTypeTok{fillOpacity =} \DecValTok{0}\NormalTok{, }\DataTypeTok{weight =} \DecValTok{4}\NormalTok{, }\DataTypeTok{stroke =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{smoothFactor =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }
+\StringTok{    }\KeywordTok{addLegend}\NormalTok{(}\DataTypeTok{pal =}\NormalTok{ pal, }\DataTypeTok{values =} \KeywordTok{na.omit}\NormalTok{(}\OperatorTok{~}\NormalTok{PC1), }\DataTypeTok{group =} \StringTok{"circles"}\NormalTok{, }\DataTypeTok{title =} \KeywordTok{paste}\NormalTok{(}\StringTok{"PC1 Loadings"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{), }\DataTypeTok{na.label =} \StringTok{""}\NormalTok{, }\DataTypeTok{position =} \StringTok{"topright"}\NormalTok{) }\OperatorTok{%>%}
+
+\StringTok{  }
+\StringTok{  }\CommentTok{#label = lapply(labs, HTML),}
+
+\KeywordTok{addLabelOnlyMarkers}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ PC2_map, }\DataTypeTok{lng =}\NormalTok{ lat_long[,}\DecValTok{1}\NormalTok{], }\DataTypeTok{lat =}\NormalTok{ lat_long[,}\DecValTok{2}\NormalTok{],  }\DataTypeTok{label =} \KeywordTok{lapply}\NormalTok{(}\KeywordTok{round}\NormalTok{(PC1_map}\OperatorTok{$}\NormalTok{PC1, }\DecValTok{2}\NormalTok{), HTML), }\DataTypeTok{labelOptions =} \KeywordTok{labelOptions}\NormalTok{(}\DataTypeTok{style =} \KeywordTok{list}\NormalTok{(}\StringTok{"font-family"}\NormalTok{ =}\StringTok{ "serif"}\NormalTok{), }\DataTypeTok{noHide =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{direction =} \StringTok{'middle'}\NormalTok{, }\DataTypeTok{textOnly =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{textsize =} \StringTok{"20px"}\NormalTok{, }\DataTypeTok{col =} \StringTok{"white"}\NormalTok{,  }\DataTypeTok{offset =} \KeywordTok{c}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{0}\NormalTok{), }\KeywordTok{markerOptions}\NormalTok{(}\DataTypeTok{riseOnHover =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{)) }
+        
+\KeywordTok{addScaleBar}\NormalTok{(map, }\DataTypeTok{position =} \KeywordTok{c}\NormalTok{(}\StringTok{"topright"}\NormalTok{), }\DataTypeTok{options =} \KeywordTok{scaleBarOptions}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{htmlwidget-dbe758b32415afed677f}{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#-map PC loadings}
+
+\NormalTok{PC1_map <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\NormalTok{])}
+\NormalTok{PC1_map}\OperatorTok{$}\NormalTok{NAME <-}\StringTok{ }\KeywordTok{rownames}\NormalTok{(PC1_map)}
+\KeywordTok{colnames}\NormalTok{(PC1_map) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC1"}\NormalTok{, }\StringTok{"NAME"}\NormalTok{)}
+\NormalTok{PC1_NAME <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(PC1_map, }\KeywordTok{t}\NormalTok{(}\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{strsplit}\NormalTok{(PC1_map}\OperatorTok{$}\NormalTok{NAME, }\DataTypeTok{split=}\StringTok{'_'}\NormalTok{, }\DataTypeTok{fixed=}\OtherTok{TRUE}\NormalTok{))))}
+\KeywordTok{colnames}\NormalTok{(PC1_NAME) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC1"}\NormalTok{, }\StringTok{"Statecounty"}\NormalTok{, }\StringTok{"NAME"}\NormalTok{, }\StringTok{"STATE"}\NormalTok{)}
+
+\NormalTok{PC1_map <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(counties, PC1_NAME, }\DataTypeTok{by=}\KeywordTok{c}\NormalTok{(}\StringTok{"NAME"}\NormalTok{), }\DataTypeTok{all =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{PC2_map <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{2}\NormalTok{])}
+\NormalTok{PC2_map}\OperatorTok{$}\NormalTok{NAME <-}\StringTok{ }\KeywordTok{rownames}\NormalTok{(PC2_map)}
+\KeywordTok{colnames}\NormalTok{(PC2_map) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC2"}\NormalTok{, }\StringTok{"NAME"}\NormalTok{)}
+\NormalTok{PC2_NAME <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(PC2_map, }\KeywordTok{t}\NormalTok{(}\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{strsplit}\NormalTok{(PC2_map}\OperatorTok{$}\NormalTok{NAME, }\DataTypeTok{split=}\StringTok{'_'}\NormalTok{, }\DataTypeTok{fixed=}\OtherTok{TRUE}\NormalTok{))))}
+\KeywordTok{colnames}\NormalTok{(PC2_NAME) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC2"}\NormalTok{, }\StringTok{"Statecounty"}\NormalTok{, }\StringTok{"NAME"}\NormalTok{, }\StringTok{"STATE"}\NormalTok{)}
+
+\NormalTok{PC2_map <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(counties, PC2_NAME, }\DataTypeTok{by=}\KeywordTok{c}\NormalTok{(}\StringTok{"NAME"}\NormalTok{), }\DataTypeTok{all =} \OtherTok{FALSE}\NormalTok{)}
+
+
+\CommentTok{#PC1 map}
+
+\CommentTok{#-----}
+
+\NormalTok{PC1_map}\OperatorTok{$}\NormalTok{PC1[}\KeywordTok{is.na}\NormalTok{(PC1_map}\OperatorTok{$}\NormalTok{PC1)] <-}\StringTok{ }\DecValTok{0}
+
+ 
+\CommentTok{## Make vector of colors for values smaller than 0 (20 colors)}
+\NormalTok{rc1 <-}\StringTok{ }\KeywordTok{colorRampPalette}\NormalTok{(}\DataTypeTok{colors =} \KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"lightblue"}\NormalTok{, }\StringTok{"white"}\NormalTok{), }\DataTypeTok{space =} \StringTok{"Lab"}\NormalTok{)(}\DecValTok{14}\NormalTok{)}
+
+\CommentTok{## Make vector of colors for values larger than 0 (180 colors)}
+\NormalTok{rc2 <-}\StringTok{ }\KeywordTok{colorRampPalette}\NormalTok{(}\DataTypeTok{colors =} \KeywordTok{c}\NormalTok{(}\StringTok{"white"}\NormalTok{, }\StringTok{"red"}\NormalTok{), }\DataTypeTok{space =} \StringTok{"Lab"}\NormalTok{)(}\DecValTok{8}\NormalTok{)}
+
+\CommentTok{## Combine the two color palettes}
+\NormalTok{rampcols <-}\StringTok{ }\KeywordTok{c}\NormalTok{(rc1, rc2)}
+
+
+
+\CommentTok{# pal <- colorNumeric(colorRampPalette(c("blue", "lightblue", "white", "lightpink", "red"))(7), na.color = "#ffffff",domain = eval(parse(text=paste("PC1_map$", "PC1", sep=""))))}
+\NormalTok{ pal <-}\StringTok{ }\KeywordTok{colorNumeric}\NormalTok{(}\DataTypeTok{palette =}\NormalTok{ rampcols, }\DataTypeTok{na.color =} \StringTok{"#ffffff"}\NormalTok{,}\DataTypeTok{domain =} \KeywordTok{eval}\NormalTok{(}\KeywordTok{parse}\NormalTok{(}\DataTypeTok{text=}\KeywordTok{paste}\NormalTok{(}\StringTok{"PC2_map$"}\NormalTok{, }\StringTok{"PC2"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{))))}
+
+\NormalTok{map <-}\StringTok{ }\KeywordTok{leaflet}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ PC2_map, }\DataTypeTok{options =} \KeywordTok{leafletOptions}\NormalTok{(}\DataTypeTok{zoomControl =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{zoomSnap =} \FloatTok{0.1}\NormalTok{)) }\OperatorTok{%>%}\StringTok{  }
+\StringTok{  }\KeywordTok{addProviderTiles}\NormalTok{(providers}\OperatorTok{$}\NormalTok{Hydda.Base) }\OperatorTok{%>%}
+\StringTok{   }\KeywordTok{addProviderTiles}\NormalTok{(providers}\OperatorTok{$}\NormalTok{Stamen.TonerLines) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }\KeywordTok{addMiniMap}\NormalTok{(}
+    \DataTypeTok{tiles =}\NormalTok{ providers}\OperatorTok{$}\NormalTok{Stamen.TonerLite,}
+    \DataTypeTok{position =} \StringTok{'topleft'}\NormalTok{, }
+    \DataTypeTok{width =} \DecValTok{100}\NormalTok{, }\DataTypeTok{height =} \DecValTok{100}\NormalTok{,}
+    \DataTypeTok{toggleDisplay =} \OtherTok{FALSE}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }
+\StringTok{   }\CommentTok{#addControl(title, position = "topleft", className="map-title") %>%}
+\StringTok{  }
+\StringTok{  }
+\StringTok{  }\KeywordTok{fitBounds}\NormalTok{(exte[}\DecValTok{1}\NormalTok{], exte[}\DecValTok{3}\NormalTok{], exte[}\DecValTok{2}\NormalTok{], exte[}\DecValTok{4}\NormalTok{]) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{addPolygons}\NormalTok{(}\DataTypeTok{fillColor =} \OperatorTok{~}\KeywordTok{pal}\NormalTok{(PC2_map}\OperatorTok{$}\NormalTok{PC2),  }\DataTypeTok{fillOpacity =} \FloatTok{.8}\NormalTok{, }\DataTypeTok{weight =} \DecValTok{1}\NormalTok{, }\DataTypeTok{stroke =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{smoothFactor =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{addPolygons}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ states, }\DataTypeTok{fillOpacity =} \DecValTok{0}\NormalTok{, }\DataTypeTok{weight =} \DecValTok{4}\NormalTok{, }\DataTypeTok{stroke =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{smoothFactor =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }
+\StringTok{    }\KeywordTok{addLegend}\NormalTok{(}\DataTypeTok{pal =}\NormalTok{ pal, }\DataTypeTok{values =} \KeywordTok{na.omit}\NormalTok{(}\OperatorTok{~}\NormalTok{PC2), }\DataTypeTok{group =} \StringTok{"circles"}\NormalTok{, }\DataTypeTok{title =} \KeywordTok{paste}\NormalTok{(}\StringTok{"PC2 Loadings"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{), }\DataTypeTok{na.label =} \StringTok{""}\NormalTok{, }\DataTypeTok{position =} \StringTok{"topright"}\NormalTok{) }\OperatorTok{%>%}
+
+\StringTok{  }
+\StringTok{  }\CommentTok{#label = lapply(labs, HTML),}
+
+\KeywordTok{addLabelOnlyMarkers}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ PC2_map, }\DataTypeTok{lng =}\NormalTok{ lat_long[,}\DecValTok{1}\NormalTok{], }\DataTypeTok{lat =}\NormalTok{ lat_long[,}\DecValTok{2}\NormalTok{],  }\DataTypeTok{label =} \KeywordTok{lapply}\NormalTok{(}\KeywordTok{round}\NormalTok{(PC2_map}\OperatorTok{$}\NormalTok{PC2, }\DecValTok{2}\NormalTok{), HTML), }\DataTypeTok{labelOptions =} \KeywordTok{labelOptions}\NormalTok{(}\DataTypeTok{style =} \KeywordTok{list}\NormalTok{(}\StringTok{"font-family"}\NormalTok{ =}\StringTok{ "serif"}\NormalTok{), }\DataTypeTok{noHide =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{direction =} \StringTok{'middle'}\NormalTok{, }\DataTypeTok{textOnly =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{textsize =} \StringTok{"20px"}\NormalTok{, }\DataTypeTok{col =} \StringTok{"white"}\NormalTok{,  }\DataTypeTok{offset =} \KeywordTok{c}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{0}\NormalTok{), }\KeywordTok{markerOptions}\NormalTok{(}\DataTypeTok{riseOnHover =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{)) }
+        
+\KeywordTok{addScaleBar}\NormalTok{(map, }\DataTypeTok{position =} \KeywordTok{c}\NormalTok{(}\StringTok{"topright"}\NormalTok{), }\DataTypeTok{options =} \KeywordTok{scaleBarOptions}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{htmlwidget-74b8a7db3ed3163043aa}{}
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-16-pca-kmeans-ipnw-wheat-insurance-loss-by-year-with-damage-cause-loadings-2001-to-2015}{%
+\subsection{Step 16: PCA + KMEANS: IPNW WHEAT insurance loss, by YEAR
+with DAMAGE CAUSE loadings: 2001 to
+2015}\label{step-16-pca-kmeans-ipnw-wheat-insurance-loss-by-year-with-damage-cause-loadings-2001-to-2015}}
+
+In Step 16, we perform a PCA for the insurance loss for the inland PNW,
+for wheat, by year, with damage cause as the factor loadings. Data from
+2001 is 2015 is used. We additionally have generated a scree plot that
+shows the proportion of variance explained by the individual components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#IPNW damage cause as loadings using years as groups}
+
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+
+\NormalTok{RMA_damage_IPNW_wheat <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_IPNW, commodity }\OperatorTok{==}\StringTok{ "WHEAT"}\NormalTok{)}
+
+
+\NormalTok{RMA_damage_IPNW_transformed_year <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_damage_IPNW_wheat, year }\OperatorTok{~}\StringTok{ }\NormalTok{damagecause, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), sum)}
+\CommentTok{#RMA_damage_PNW_transformed_year$statecounty <- paste(RMA_damage_PNW_transformed_year$county, "_", RMA_damage_PNW_transformed_year$state, sep="")}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_IPNW_transformed_year) <-}\StringTok{ }\NormalTok{RMA_damage_IPNW_transformed_year}\OperatorTok{$}\NormalTok{year}
+\CommentTok{#RMA_damage_IPNW_exogenous_year <- RMA_damage_IPNW_transformed_year[,2:28]}
+\NormalTok{RMA_damage_IPNW_exogenous_year <-}\StringTok{ }\NormalTok{RMA_damage_IPNW_transformed_year}
+
+\CommentTok{#IPNW with years as the group}
+
+\NormalTok{RMA_damage_IPNW_exogenous_year <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_damage_IPNW_exogenous_year[}\DecValTok{3}\OperatorTok{:}\DecValTok{4}\NormalTok{], RMA_damage_IPNW_exogenous_year[}\DecValTok{7}\NormalTok{], RMA_damage_IPNW_exogenous_year[}\DecValTok{9}\NormalTok{], RMA_damage_IPNW_exogenous_year[,}\DecValTok{12}\OperatorTok{:}\DecValTok{15}\NormalTok{], RMA_damage_IPNW_exogenous_year[}\DecValTok{18}\NormalTok{])}
+
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(RMA_damage_IPNW_exogenous_year, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{wss <-}\StringTok{ }\NormalTok{(}\KeywordTok{nrow}\NormalTok{(RMA_damage_IPNW_exogenous_year)}\OperatorTok{-}\DecValTok{1}\NormalTok{)}\OperatorTok{*}\KeywordTok{sum}\NormalTok{(}\KeywordTok{apply}\NormalTok{(RMA_damage_IPNW_exogenous_year,}\DecValTok{2}\NormalTok{,var))}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{14}\NormalTok{) wss[i] <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{kmeans}\NormalTok{(RMA_damage_IPNW_exogenous_year,}
+                                     \DataTypeTok{centers=}\NormalTok{i)}\OperatorTok{$}\NormalTok{withinss)}
+\KeywordTok{plot}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{14}\NormalTok{, wss, }\DataTypeTok{type=}\StringTok{"b"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"Number of Clusters"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Within groups sum of squares"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Kmeans YEARS elbow plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-30-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"RColorBrewer"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"scales"}\NormalTok{)}
+
+\NormalTok{comp <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{])}
+
+\NormalTok{k <-}\StringTok{ }\KeywordTok{kmeans}\NormalTok{(comp, }\DecValTok{3}\NormalTok{, }\DataTypeTok{nstart=}\DecValTok{25}\NormalTok{, }\DataTypeTok{iter.max=}\DecValTok{1000}\NormalTok{)}
+
+\KeywordTok{palette}\NormalTok{(}\KeywordTok{alpha}\NormalTok{(}\KeywordTok{brewer.pal}\NormalTok{(}\DecValTok{9}\NormalTok{,}\StringTok{'Set2'}\NormalTok{), }\DecValTok{1}\NormalTok{))}
+\CommentTok{#plot(comp, col=k$clust, pch=2)}
+
+\NormalTok{kclust <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(k}\OperatorTok{$}\NormalTok{clust)}
+\NormalTok{kclust}\OperatorTok{$}\NormalTok{k.clust <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(kclust}\OperatorTok{$}\NormalTok{k.clust)}
+
+\CommentTok{#ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous_year, center = TRUE, scale = TRUE), colour = 'k.clust', data = kclust, loadings = TRUE, loadings.label = FALSE, loadings.label.size  = 6, label = FALSE, label.size = 5, legend = FALSE)  + theme_bw()  + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous_year)) + theme(legend.position = "none") + ggtitle("Principle Components: IPNW insurance loss\textbackslash{}nby year with damage cause loadings") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif")) }
+
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_IPNW_exogenous_year, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{frame =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{frame.type =} \StringTok{'norm'}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ kclust, }\DataTypeTok{colour =} \StringTok{'k.clust'}\NormalTok{, }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{4}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{3}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_IPNW_exogenous_year)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: IPNW insurance loss}\CharTok{\textbackslash{}n}\StringTok{by year with damage cause loadings "}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position=}\StringTok{"bottom"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-31-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#ggplot2::autoplot(prcomp(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE), data = RMA_damage_IPNW_transformed, colour = 'county', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 3, legend = FALSE) + geom_text(vjust=-1, label=rownames(RMA_damage_IPNW_exogenous)) + theme(legend.position = "none")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-32-1}
+
+\hypertarget{step-17-pcaipnw-wheat-insurance-loss-by-year-with-damage-cause-loadings-2001-to-2015-pc1-vs-pc2-barplot}{%
+\subsection{Step 17: PCA:IPNW WHEAT insurance loss, by YEAR with DAMAGE
+CAUSE loadings: 2001 to 2015: PC1 vs PC2
+barplot}\label{step-17-pcaipnw-wheat-insurance-loss-by-year-with-damage-cause-loadings-2001-to-2015-pc1-vs-pc2-barplot}}
+
+In Step 17, we plot PC1 loadings vs PC2 by year, as a barplot, to
+visualize orthogonal/opposing patterns.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#--year end}
+
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(RMA_damage_IPNW_exogenous_year, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{PC_table_year <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\NormalTok{], fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{2}\NormalTok{])}
+\KeywordTok{colnames}\NormalTok{(PC_table_year) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC1"}\NormalTok{, }\StringTok{"PC2"}\NormalTok{)}
+
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\DecValTok{6}\NormalTok{, }\FloatTok{6.1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\FloatTok{2.1}\NormalTok{), }\DataTypeTok{family =} \StringTok{'serif'}\NormalTok{, }\DataTypeTok{mgp=}\KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{las=}\DecValTok{0}\NormalTok{)}
+
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{t}\NormalTok{(PC_table_year), }\DataTypeTok{beside =}\NormalTok{ T, }\DataTypeTok{las =} \DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{), }\DataTypeTok{cex.axis =} \FloatTok{1.5}\NormalTok{, }\DataTypeTok{cex.names =} \FloatTok{1.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-33-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#legend("top", c("PC1","PC2"), pch=15, }
+\CommentTok{#col=c("blue","red"), }
+\CommentTok{#bty="n")}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-18-pca-ipnw-wheat-loss-by-year-with-damage-cause-loadings-pc1-and-pc2-table}{%
+\subsection{Step 18: PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE
+loadings: PC1 and PC2
+table}\label{step-18-pca-ipnw-wheat-loss-by-year-with-damage-cause-loadings-pc1-and-pc2-table}}
+
+In Step 18, we summarize our PCA findings for the inland PNW, for wheat
+by year, using damage cause as the factor loadings. Here we plot PC1 and
+PC2 loadings as a table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#--create table of PC1 and PC2 loadings}
+
+\NormalTok{PC_table <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(fit}\OperatorTok{$}\NormalTok{rotation[,}\DecValTok{1}\NormalTok{], fit}\OperatorTok{$}\NormalTok{rotation[,}\DecValTok{2}\NormalTok{])}
+\KeywordTok{colnames}\NormalTok{(PC_table) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PC1"}\NormalTok{, }\StringTok{"PC2"}\NormalTok{)}
+\NormalTok{PC_table <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(PC_table)}
+\NormalTok{PC_table}\OperatorTok{$}\NormalTok{PC1 <-}\StringTok{ }\KeywordTok{round}\NormalTok{(PC_table}\OperatorTok{$}\NormalTok{PC1, }\DecValTok{3}\NormalTok{)}
+\NormalTok{PC_table}\OperatorTok{$}\NormalTok{PC2 <-}\StringTok{ }\KeywordTok{round}\NormalTok{(PC_table}\OperatorTok{$}\NormalTok{PC2, }\DecValTok{3}\NormalTok{)}
+
+\KeywordTok{htmlTable}\NormalTok{(PC_table,}
+          \DataTypeTok{cgroup =} \KeywordTok{c}\NormalTok{(}\StringTok{"2001-2015"}\NormalTok{),}
+          \DataTypeTok{n.cgroup =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{),}
+          \DataTypeTok{caption =} \StringTok{"Damage cause variable loadings by YEAR"}\NormalTok{,}
+          \DataTypeTok{align =} \StringTok{"c"}\NormalTok{,}
+          \DataTypeTok{rnames =} \KeywordTok{rownames}\NormalTok{(PC_table),}
+          \DataTypeTok{css.cell =} \StringTok{"padding-left: .5em; padding-right: .5em;"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Damage cause variable loadings by YEAR
+
+2001-2015
+
+PC1
+
+PC2
+
+Cold Wet Weather
+
+0.341
+
+-0.455
+
+Cold Winter
+
+-0.374
+
+-0.43
+
+Drought
+
+-0.397
+
+-0.29
+
+Excess Moisture/Precip/Rain
+
+0.37
+
+-0.445
+
+Fire
+
+-0.3
+
+-0.262
+
+Flood
+
+0.402
+
+-0.383
+
+Freeze
+
+-0.369
+
+-0.275
+
+Frost
+
+-0.116
+
+0.118
+
+Hot Wind
+
+-0.219
+
+-0.146
+
+\includegraphics{https://dmine.io/waf/img/Step1.png}
+
+\hypertarget{step-19-experimental-pca-kmeans-wheat-ipnw-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}{%
+\subsection{Step 19: EXPERIMENTAL: PCA + KMEANS: WHEAT IPNW insurance
+loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to
+2015}\label{step-19-experimental-pca-kmeans-wheat-ipnw-insurance-loss-by-county-with-damage-cause-loadings-2001-to-2015}}
+
+In Step 19, we perform a PCA for the insurance loss for the inland PNW,
+for wheat by county, with damage cause as the factor loadings. Data from
+2001 is 2015 is used. We additionally have generated a scree plot that
+shows the proportion of variance explained by the individual components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#just the IPNW}
+
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"ggfortify"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+
+\NormalTok{RMA_damage_IPNW}\OperatorTok{$}\NormalTok{log10loss <-}\StringTok{ }\KeywordTok{log10}\NormalTok{(RMA_damage_IPNW}\OperatorTok{$}\NormalTok{loss)}
+
+
+\NormalTok{RMA_damage_IPNW_wheat <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(RMA_damage_IPNW, commodity }\OperatorTok{==}\StringTok{ "WHEAT"}\NormalTok{)}
+\NormalTok{RMA_damage_IPNW_transformed <-}\StringTok{ }\KeywordTok{dcast}\NormalTok{(RMA_damage_IPNW_wheat, county }\OperatorTok{+}\StringTok{ }\NormalTok{state }\OperatorTok{+}\StringTok{ }\NormalTok{year }\OperatorTok{~}\StringTok{ }\NormalTok{damagecause, }\DataTypeTok{value.var =} \KeywordTok{c}\NormalTok{(}\StringTok{"loss"}\NormalTok{), sum)}
+\NormalTok{RMA_damage_IPNW_transformed}\OperatorTok{$}\NormalTok{statecounty <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(RMA_damage_IPNW_transformed}\OperatorTok{$}\NormalTok{county, }\StringTok{"_"}\NormalTok{, RMA_damage_IPNW_transformed}\OperatorTok{$}\NormalTok{state, }\StringTok{"_"}\NormalTok{, RMA_damage_IPNW_transformed}\OperatorTok{$}\NormalTok{year, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(RMA_damage_IPNW_transformed) <-}\StringTok{ }\NormalTok{RMA_damage_IPNW_transformed}\OperatorTok{$}\NormalTok{statecounty}
+\NormalTok{RMA_damage_IPNW_exogenous <-}\StringTok{ }\NormalTok{RMA_damage_IPNW_transformed[, }\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{12}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{28}\NormalTok{)]}
+
+\CommentTok{#RMA_damage_IPNW_exogenous <- RMA_damage_IPNW_transformed[,4:27]}
+
+
+\CommentTok{#IPNW}
+
+\CommentTok{#RMA_damage_IPNW_exogenous <- scale(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE)}
+\NormalTok{pca_RMA_damage_IPNW_exogenous <-}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(RMA_damage_IPNW_exogenous, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{RMA_damage_IPNW_exogenous_factor <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(RMA_damage_IPNW_exogenous[}\DecValTok{2}\OperatorTok{:}\DecValTok{3}\NormalTok{], RMA_damage_IPNW_exogenous[}\DecValTok{5}\OperatorTok{:}\DecValTok{6}\NormalTok{], RMA_damage_IPNW_exogenous[}\DecValTok{8}\NormalTok{], RMA_damage_IPNW_exogenous[}\DecValTok{11}\NormalTok{], RMA_damage_IPNW_exogenous[}\DecValTok{13}\OperatorTok{:}\DecValTok{14}\NormalTok{], RMA_damage_IPNW_exogenous[}\DecValTok{16}\OperatorTok{:}\DecValTok{17}\NormalTok{])}
+
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(RMA_damage_IPNW_exogenous_factor, }\DataTypeTok{cor=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{comp <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{])}
+\CommentTok{# Plot}
+\CommentTok{#plot(comp, pch=16, col=rgb(0,0,0,0.5))}
+
+
+\NormalTok{wss <-}\StringTok{ }\NormalTok{(}\KeywordTok{nrow}\NormalTok{(RMA_damage_IPNW_exogenous)}\OperatorTok{-}\DecValTok{1}\NormalTok{)}\OperatorTok{*}\KeywordTok{sum}\NormalTok{(}\KeywordTok{apply}\NormalTok{(RMA_damage_IPNW_exogenous,}\DecValTok{2}\NormalTok{,var))}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{23}\NormalTok{) wss[i] <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{kmeans}\NormalTok{(RMA_damage_IPNW_exogenous,}
+                                     \DataTypeTok{centers=}\NormalTok{i)}\OperatorTok{$}\NormalTok{withinss)}
+\KeywordTok{plot}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{23}\NormalTok{, wss, }\DataTypeTok{type=}\StringTok{"b"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"Number of Clusters"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Within groups sum of squares"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"KMeans COUNTIES Elbow Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-35-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#identify the optimum number of clusters using NbClust}
+  \KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+  \KeywordTok{usePackage}\NormalTok{(}\StringTok{"NbClust"}\NormalTok{)}
+  \KeywordTok{usePackage}\NormalTok{(}\StringTok{"factoextra"}\NormalTok{)}
+  
+\NormalTok{  clustering_distance <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"euclidean"}\NormalTok{)}
+\NormalTok{  clust<-}\KeywordTok{NbClust}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x[,}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{], }\DataTypeTok{diss=}\OtherTok{NULL}\NormalTok{, }\DataTypeTok{distance =}\NormalTok{ clustering_distance, }\DataTypeTok{min.nc=}\DecValTok{2}\NormalTok{, }\DataTypeTok{max.nc=}\DecValTok{20}\NormalTok{, }\DataTypeTok{method =} \StringTok{"kmeans"}\NormalTok{, }\DataTypeTok{index =} \StringTok{"all"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-36-1}
+
+\begin{verbatim}
+## *** : The Hubert index is a graphical method of determining the number of clusters.
+##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
+##                 significant increase of the value of the measure i.e the significant peak in Hubert
+##                 index second differences plot. 
+## 
+\end{verbatim}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-36-2}
+
+\begin{verbatim}
+## *** : The D index is a graphical method of determining the number of clusters. 
+##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
+##                 second differences plot) that corresponds to a significant increase of the value of
+##                 the measure. 
+##  
+## ******************************************************************* 
+## * Among all indices:                                                
+## * 5 proposed 2 as the best number of clusters 
+## * 5 proposed 3 as the best number of clusters 
+## * 1 proposed 4 as the best number of clusters 
+## * 3 proposed 5 as the best number of clusters 
+## * 4 proposed 10 as the best number of clusters 
+## * 4 proposed 16 as the best number of clusters 
+## * 1 proposed 20 as the best number of clusters 
+## 
+##                    ***** Conclusion *****                            
+##  
+## * According to the majority rule, the best number of clusters is  2 
+##  
+##  
+## *******************************************************************
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#  clust<-NbClust(damage_loss[,1:(length(waterscarcity)-4)], diss=NULL, distance = clustering_distance, min.nc=2, max.nc=20, method = "kmeans", index = "all") }
+  
+  \CommentTok{#res$All.index}
+  \CommentTok{#res$Best.nc}
+  \CommentTok{#res$All.CriticalValues}
+  \CommentTok{#res$Best.partition}
+  
+\NormalTok{  maxclusters <-}\StringTok{ }\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(clust}\OperatorTok{$}\NormalTok{Best.partition))}
+\NormalTok{  km.res <-}\StringTok{ }\KeywordTok{kmeans}\NormalTok{(RMA_damage_IPNW_exogenous, maxclusters, }\DataTypeTok{nstart =} \DecValTok{25}\NormalTok{)}
+  \CommentTok{#pam.res <- pam(RMA_damage_IPNW_exogenous, maxclusters)}
+\NormalTok{  hc.cut <-}\StringTok{ }\KeywordTok{hcut}\NormalTok{(RMA_damage_IPNW_exogenous, }\DataTypeTok{k =}\NormalTok{ maxclusters, }\DataTypeTok{hc_method =} \StringTok{"complete"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"RColorBrewer"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"scales"}\NormalTok{)}
+
+\NormalTok{k <-}\StringTok{ }\KeywordTok{kmeans}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x, maxclusters, }\DataTypeTok{nstart=}\DecValTok{25}\NormalTok{, }\DataTypeTok{iter.max=}\DecValTok{1000}\NormalTok{)}
+
+\KeywordTok{palette}\NormalTok{(}\KeywordTok{alpha}\NormalTok{(}\KeywordTok{brewer.pal}\NormalTok{(}\DecValTok{9}\NormalTok{,}\StringTok{'Set2'}\NormalTok{), }\DecValTok{1}\NormalTok{))}
+\CommentTok{#plot(comp, col=k$clust, pch=2)}
+
+
+\NormalTok{kclust <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(k}\OperatorTok{$}\NormalTok{clust)}
+\NormalTok{kclust}\OperatorTok{$}\NormalTok{k.clust <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(kclust}\OperatorTok{$}\NormalTok{k.clust)}
+
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(RMA_damage_IPNW_exogenous, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{)}
+
+\CommentTok{#biplot(prcomp(RMA_damage_IPNW_exogenous, scale = TRUE, center = TRUE, pc.biplot = TRUE))}
+
+\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{autoplot}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(RMA_damage_IPNW_exogenous, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{center =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{frame =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{frame.type =} \StringTok{'norm'}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ kclust, }\DataTypeTok{colour =} \StringTok{'k.clust'}\NormalTok{, }\DataTypeTok{loadings =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{loadings.label.size  =} \DecValTok{4}\NormalTok{, }\DataTypeTok{label =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{label.size =} \DecValTok{3}\NormalTok{, }\DataTypeTok{legend =} \OtherTok{FALSE}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()   }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{vjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{label=}\KeywordTok{rownames}\NormalTok{(RMA_damage_IPNW_exogenous)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Principle Components: IPNW insurance loss}\CharTok{\textbackslash{}n}\StringTok{by county with damage cause loadings "}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =}\DecValTok{28}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{16}\NormalTok{), }\DataTypeTok{axis.title.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{), }\DataTypeTok{axis.text.y =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\FloatTok{1.5}\NormalTok{), }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{family =} \StringTok{"Serif"}\NormalTok{))  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position=}\StringTok{"bottom"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-37-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"magrittr"}\NormalTok{)}
+\KeywordTok{usePackage}\NormalTok{(}\StringTok{"plotly"}\NormalTok{)}
+
+\CommentTok{#pca_RMA_damage_IPNW_exogenous$rotation}
+
+\CommentTok{#plot(pca_RMA_damage_IPNW_exogenous$rotation)}
+
+\NormalTok{std_dev <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{sdev}
+
+\NormalTok{pr_var <-}\StringTok{ }\NormalTok{std_dev}\OperatorTok{^}\DecValTok{2}
+
+\CommentTok{#pr_var[1:10]}
+
+\NormalTok{prop_varex <-}\StringTok{ }\NormalTok{pr_var}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pr_var)}
+
+\KeywordTok{plot}\NormalTok{(prop_varex, }\DataTypeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{,}
+             \DataTypeTok{ylab =} \StringTok{"Proportion of Variance Explained"}\NormalTok{,}
+             \DataTypeTok{type =} \StringTok{"b"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=600px,height=600px]{seamon_PHD_appendix_B_files/figure-latex/unnamed-chunk-38-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{loads <-}\StringTok{ }\NormalTok{fit}\OperatorTok{$}\NormalTok{rotation[,}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{]}
+\NormalTok{fit1 <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(fit}\OperatorTok{$}\NormalTok{rotation[,}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{])}
+
+\NormalTok{fit2 <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(fit}\OperatorTok{$}\NormalTok{x, kclust, }\DataTypeTok{by=}\StringTok{"row.names"}\NormalTok{,}\DataTypeTok{all.x=}\OtherTok{TRUE}\NormalTok{)}
+
+\CommentTok{#p <- plot_ly(fit2, x = ~PC2, y = ~PC1, z = ~PC3, color = ~k.clust, colors = c('#BF382A', '#0C4B8E')) }
+
+\NormalTok{p <-}\StringTok{ }\KeywordTok{plot_ly}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{add_trace}\NormalTok{(}\DataTypeTok{x=}\NormalTok{fit2}\OperatorTok{$}\NormalTok{PC1, }\DataTypeTok{y=}\NormalTok{fit2}\OperatorTok{$}\NormalTok{PC2, }\DataTypeTok{z=}\NormalTok{fit2}\OperatorTok{$}\NormalTok{PC3,}
+            \DataTypeTok{type=}\StringTok{"scatter3d"}\NormalTok{, }\DataTypeTok{mode=}\StringTok{"markers"}\NormalTok{,}
+            \DataTypeTok{marker =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{color=}\NormalTok{fit2}\OperatorTok{$}\NormalTok{k.clust, }
+               \DataTypeTok{colorscale =} \KeywordTok{c}\NormalTok{(}\StringTok{"#FFE1A1"}\NormalTok{, }\StringTok{"#683531"}\NormalTok{), }
+               \DataTypeTok{opacity =} \FloatTok{0.7}\NormalTok{)) }
+
+\ControlFlowTok{for}\NormalTok{ (k }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(loads)) \{}
+\NormalTok{   x <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, loads[k,}\DecValTok{1}\NormalTok{])}
+\NormalTok{   y <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, loads[k,}\DecValTok{2}\NormalTok{])}
+\NormalTok{   z <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, loads[k,}\DecValTok{3}\NormalTok{])}
+\NormalTok{   p <-}\StringTok{ }\NormalTok{p }\OperatorTok{%>%}\StringTok{ }\KeywordTok{add_trace}\NormalTok{(}\DataTypeTok{x=}\NormalTok{x, }\DataTypeTok{y=}\NormalTok{y, }\DataTypeTok{z=}\NormalTok{z,}
+            \DataTypeTok{type=}\StringTok{"scatter3d"}\NormalTok{, }\DataTypeTok{mode=}\StringTok{"lines"}\NormalTok{,}
+            \DataTypeTok{line =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{width=}\DecValTok{8}\NormalTok{),}
+            \DataTypeTok{opacity =} \DecValTok{1}\NormalTok{) }
+\NormalTok{\}}
+
+\KeywordTok{print}\NormalTok{(p)}
+\end{Highlighting}
+\end{Shaded}
+
+\end{document}

@@ -3276,11 +3276,11 @@ map <- leaflet(data = county_wheat_droughtheat2009, options = leafletOptions(zoo
   addProviderTiles(providers$Hydda.Base) %>%
    addProviderTiles(providers$Stamen.TonerLines) %>%
   
-  addMiniMap(
-    tiles = providers$Stamen.TonerLite,
-    position = 'topleft', 
-    width = 200, height = 200,
-    toggleDisplay = FALSE) %>%
+  #addMiniMap(
+   # tiles = providers$Stamen.TonerLite,
+    #position = 'topleft', 
+    #width = 200, height = 200,
+    #toggleDisplay = FALSE) %>%
   
   
    #addControl(title, position = "topleft", className="map-title") %>%
@@ -3695,11 +3695,11 @@ map <- leaflet(data = WHEAT_damage_droughtheat_annual_ave_map, options = leaflet
   addProviderTiles(providers$Hydda.Base) %>%
    addProviderTiles(providers$Stamen.TonerLines) %>%
   
-  addMiniMap(
-    tiles = providers$Stamen.TonerLite,
-    position = 'topleft', 
-    width = 200, height = 200,
-    toggleDisplay = FALSE) %>%
+  #addMiniMap(
+   # tiles = providers$Stamen.TonerLite,
+  #  position = 'topleft', 
+  #  width = 200, height = 200,
+  #  toggleDisplay = FALSE) %>%
   
   
    #addControl(title, position = "topleft", className="map-title") %>%
@@ -3710,7 +3710,7 @@ map <- leaflet(data = WHEAT_damage_droughtheat_annual_ave_map, options = leaflet
     addLegend(pal = pal, values = na.omit(~loss), group = "circles", title = paste("Average Annual Wheat loss <br>due to drought/heat, 2001-2015", sep = ""), na.label = "", position = "topright", labFormat = labelFormat(prefix = "$")) %>%
 
 
-addLabelOnlyMarkers(data = WHEAT_damage_droughtheat_annual_ave_map, lng = lat_long[,1], lat = lat_long[,2], label = lapply(labs, HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "18px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
+addLabelOnlyMarkers(data = WHEAT_damage_droughtheat_annual_ave_map, lng = lat_long[,1], lat = lat_long[,2], label = lapply(paste(round((WHEAT_damage_droughtheat_annual_ave_map$loss / 1000000), 0), "M", sep = ""), HTML), labelOptions = labelOptions(style = list("font-family" = "serif"), noHide = TRUE, direction = 'middle', textOnly = TRUE, textsize = "18px", col = "white",  offset = c(20, 0), markerOptions(riseOnHover = TRUE)
 )) 
         
 addScaleBar(map, position = c("topright"), options = scaleBarOptions())
@@ -3727,11 +3727,11 @@ map <- leaflet(data = WHEAT_damage_droughtheat_annual_total_map, options = leafl
   addProviderTiles(providers$Hydda.Base) %>%
    addProviderTiles(providers$Stamen.TonerLines) %>%
   
-  addMiniMap(
-    tiles = providers$Stamen.TonerLite,
-    position = 'topleft', 
-    width = 100, height = 100,
-    toggleDisplay = FALSE) %>%
+  #addMiniMap(
+  #  tiles = providers$Stamen.TonerLite,
+  #  position = 'topleft', 
+  #  width = 100, height = 100,
+  #  toggleDisplay = FALSE) %>%
   
   
    #addControl(title, position = "topleft", className="map-title") %>%

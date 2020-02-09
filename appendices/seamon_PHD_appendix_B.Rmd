@@ -2,6 +2,7 @@
 title: 'Appendix B: Agricultural Insurance Loss and Relationships to Climate across the Inland Pacific Northwest Region of the United States'
 author: "Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip W. Mote, Stephen S. Lee"
 date: "September 2019"
+always_allow_html: yes
 output:
   html_document:
     css: custom.css
@@ -17,7 +18,7 @@ mainfont: serif
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, out.width='600px', out.height='600px', dpi=200)
+knitr::opts_chunk$set(echo = TRUE, out.width='600px', out.height='600px', dpi=200, dev = "cairo_pdf")
 
 #rmarkdown::render(input = "/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_B.Rmd", output_file = paste("/dmine/code/git/seamon_dissertation/appendices/seamon_PHD_appendix_B.html", sep=""))
 
@@ -26,6 +27,10 @@ usePackage <- function(p) {
         install.packages(p, dep = TRUE, repos = "http://cran.us.r-project.org")
     require(p, character.only = TRUE)
 }
+
+usePackage("extrafont")
+usePackage("ggplot2")
+loadfonts()
 
 ```
 ![](https://dmine.io/waf/img/Step1.png)
@@ -84,6 +89,8 @@ Here we perform a variety of Principle Components Analyses (PCA) to better under
 **Step 17.** PCA: IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015: PC1 vs PC2 barplot
 
 **Step 18:** PCA: IPNW WHEAT insurance loss by YEAR with DAMAGE CAUSE loadings: PC1 and PC2 table
+
+**Step 19:** PCA: EXPERIMENTAL PCA + KMEANS: IPNW WHEAT insurance loss by COUNTY with DAMAGE CAUSE loadings: 2001 TO 2015
 
 <br></br>
 <br></br>
