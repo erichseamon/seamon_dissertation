@@ -33,7 +33,7 @@ usePackage <- function(p) {
 usePackage("extrafont")
 usePackage("ggplot2")
 usePackage("webshot")
-webshot::install_phantomjs()
+#webshot::install_phantomjs()
 loadfonts()
 
 ```
@@ -326,7 +326,7 @@ fig <- local({
 })
 ``` 
 
-```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 6, fig.height = 8, fig.cap=paste("Pacific Northwest study area, which includes agricultural regions for the inland Pacific Northwest, the southern Idaho valley, and the Willamette valley.")}
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 7, fig.height = 5, fig.cap=paste("Pacific Northwest study area, which includes agricultural regions for the inland Pacific Northwest, the southern Idaho valley, and the Willamette valley.")}
 
 usePackage("data.table")
 usePackage("maptools")
@@ -451,7 +451,7 @@ map.scale(x=-120.5, y=41, ratio=FALSE, relwidth=0.17)
 #addScaleBar(mapz, position = c("bottomright"), options = scaleBarOptions())
 
 ```
-
+\newpage
 ```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("Top panel: Biplot of principle components for insurance loss for the entire PNW, by county, with commodity as the factor loadings. Bottom panel: Scree plot. Data from 2001 to 2015 is used.")}
 
 usePackage("ggplot2")
@@ -549,12 +549,6 @@ stat_summary(fun.y=sum, geom="line") + labs(title = "Scree plot: PNW insurance l
 grid.arrange(plot1, plot2, nrow=2, heights=c(2,1))
 
 ```
-
-**PNW insurance loss, by year with damage cause loadings: 2001 to 2015: Scree plot**
-
-Below we have generated a scree plot that shows the proportion of variance explained by the individual components.
-
-
 \newpage
 <br></br>
 
@@ -564,7 +558,7 @@ Here we perform a PCA for the insurance loss for the entire PNW, for all commodi
 
 
 
-```{r message=FALSE, warning=FALSE, echo= FALSE, error=TRUE, fig.width = 8, fig.height = 8, fig.cap=paste("Your caption.")}
+```{r message=FALSE, warning=FALSE, echo= FALSE, error=TRUE, fig.width = 8, fig.height = 8, fig.cap=paste("Top panel: biplot of principle components for insurance loss for the entire PNW, for all commodities by month, with damage cause as the factor loadings.  Bottom panel: Scree plot Data from 2001 is 2015 is used.")}
 
 usePackage("ggplot2")
 usePackage("ggfortify")
@@ -595,16 +589,8 @@ RMA_damage_PNW_exogenous_month <- cbind(RMA_damage_PNW_exogenous_month[,2:3], RM
 
 #PNW using month as group - with damage cause as loadings
 fit <- princomp(RMA_damage_PNW_exogenous_month, cor=TRUE)
-ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_month, center = TRUE, scale = TRUE),  data = RMA_damage_PNW_transformed_month, colour = 'month', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 2, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_month)) + theme(legend.position = "none") + ggtitle("Principle Components: PNW insurance loss\nby month with damage cause loadings ") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
-
-
-```
-
-```{r message=FALSE, warning=FALSE, echo= FALSE, error=TRUE, fig.width = 8, fig.height = 8, fig.cap=paste("Your caption.")}
-
-#pca_RMA_damage_IPNW_exogenous$rotation
-
-#plot(pca_RMA_damage_IPNW_exogenous$rotation)
+plot1 <- ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_month, center = TRUE, scale = TRUE),  data = RMA_damage_PNW_transformed_month, colour = 'month', loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 2, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_month)) + theme(legend.position = "none") + ggtitle("Principle Components: PNW insurance loss by month with damage cause loadings ") + theme(plot.title = element_text(size =12)) + theme(axis.title.y = element_text(size=12), axis.title.x = element_text(size = 12), axis.text.x = element_text(size=rel(1.5), hjust = 1), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
+#scree plot
 
 std_dev <- fit$sdev
 
@@ -614,20 +600,25 @@ pr_var <- std_dev^2
 
 prop_varex <- pr_var/sum(pr_var)
 
-plot(prop_varex, xlab = "Principal Component",
-             ylab = "Proportion of Variance Explained",
-             type = "b", main = "Scree Plot")
+prop_varex <- data.frame(prop_varex)
 
+prop_varex$comp <- c(1:max(nrow(prop_varex)))
+
+prop_varex$prop_varex <- as.numeric(prop_varex$prop_varex)
+
+p <- ggplot(prop_varex, aes(as.factor(comp), prop_varex, group=1))
+plot2 <- p + geom_point(shape = 21) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  xlab("comp") + theme_bw() +
+stat_summary(fun.y=sum, geom="line") + labs(title = "Scree plot: PNW insurance loss, for all commodities by month, with damage cause as the factor loadings. ", x = "principle components", y = "% explained variance")
+
+grid.arrange(plot1, plot2, nrow=2, heights=c(2,1))
 
 ```
 \newpage
 <br></br>
 
-**Step 2e. PCA: PNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015**
 
-Here we perform a PCA for the insurance loss for the entire PNW, for wheat by year, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
-
-```{r message=FALSE, warning=FALSE, echo= FALSE, error=TRUE, fig.width = 8, fig.height = 8, fig.cap=paste("Your caption.")}
+```{r message=FALSE, warning=FALSE, echo= FALSE, error=TRUE, fig.width = 8, fig.height = 8, fig.cap=paste("Top panel: insurance loss for the entire PNW, for wheat by year, with damage cause as the factor loadings. Bottom panel: Scree plot. Data from 2001 is 2015 is used.")}
 
 usePackage("ggplot2")
 usePackage("ggfortify")
@@ -647,15 +638,9 @@ par(mar=c(8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 RMA_damage_PNW_exogenous_wheat_year_factor <- cbind(RMA_damage_PNW_exogenous_wheat_year[,3:4], RMA_damage_PNW_exogenous_wheat_year[7], RMA_damage_PNW_exogenous_wheat_year[9], RMA_damage_PNW_exogenous_wheat_year[,12:15], RMA_damage_PNW_exogenous_wheat_year[17:18])
 fit <- princomp(RMA_damage_PNW_exogenous_wheat_year_factor, cor=TRUE)
 
-ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_wheat_year_factor, center = TRUE, scale = TRUE),  data = RMA_damage_PNW_exogenous_wheat_year_factor, colour = rownames(RMA_damage_PNW_exogenous_wheat_year_factor), loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 2, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_wheat_year_factor)) + theme(legend.position = "none") + ggtitle("Principle Components: PNW WHEAT insurance loss\nby year with damage cause loadings ") + theme(plot.title = element_text(size =28, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=16), axis.title.x = element_text(family = "Serif", size = 16), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
+plot1 <- ggplot2::autoplot(prcomp(RMA_damage_PNW_exogenous_wheat_year_factor, center = TRUE, scale = TRUE),  data = RMA_damage_PNW_exogenous_wheat_year_factor, colour = rownames(RMA_damage_PNW_exogenous_wheat_year_factor), loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 3, label = FALSE, label.size = 2, legend = FALSE)  + theme_bw()   + geom_text(vjust=-1, label=rownames(RMA_damage_PNW_exogenous_wheat_year_factor)) + theme(legend.position = "none") + ggtitle("Principle Components: PNW wheat insurance loss by year with \ndamage cause loadings ") + theme(plot.title = element_text(size =12, family = "Serif")) + theme(axis.title.y = element_text(family = "Serif", size=12), axis.title.x = element_text(family = "Serif", size = 12), axis.text.x = element_text(size=rel(1.5), hjust = 1, family = "Serif"), axis.text.y = element_text(size=rel(1.5), hjust = 1, family = "Serif"))
 
-```
-
-```{r message=FALSE, warning=FALSE, echo= FALSE, error=TRUE, fig.width = 8, fig.height = 8, fig.cap=paste("Your caption.")}
-
-#pca_RMA_damage_IPNW_exogenous$rotation
-
-#plot(pca_RMA_damage_IPNW_exogenous$rotation)
+#scree plot
 
 std_dev <- fit$sdev
 
@@ -665,9 +650,18 @@ pr_var <- std_dev^2
 
 prop_varex <- pr_var/sum(pr_var)
 
-plot(prop_varex, xlab = "Principal Component",
-             ylab = "Proportion of Variance Explained",
-             type = "b", main = "Scree Plot")
+prop_varex <- data.frame(prop_varex)
+
+prop_varex$comp <- c(1:max(nrow(prop_varex)))
+
+prop_varex$prop_varex <- as.numeric(prop_varex$prop_varex)
+
+p <- ggplot(prop_varex, aes(as.factor(comp), prop_varex, group=1))
+plot2 <- p + geom_point(shape = 21) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  xlab("comp") + theme_bw() +
+stat_summary(fun.y=sum, geom="line") + labs(title = "Scree plot: insurance loss for the entire PNW, for wheat by year, with \ndamage cause as the factor loadings.", x = "principle components", y = "% explained variance")
+
+grid.arrange(plot1, plot2, nrow=2, heights=c(2,1))
 
 
 ```
