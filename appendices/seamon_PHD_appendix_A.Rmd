@@ -823,8 +823,16 @@ levels(palouse_sumloss_1989_2015_count$commodity)[1] <- "Gross Revenue-Lite"
 boxplot(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, col = 'lightblue', ylab = "Insurance Claim Frequency", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_count$commodity, las = 3, cex.axis = 1.4, cex.main = 1.4, cex.lab = 1.4, cex.names = 1.4, font.lab = 1, font.axis = 1)
 axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_count$loss), labels = pretty(palouse_sumloss_1989_2015_count$loss))
 
-stripchart(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20, col = "blue" )
+makered <- palouse_sumloss_1989_2015_count$state == "WA"
+stripchart(loss ~ commodity, data=palouse_sumloss_1989_2015_count[makered, ], method = "jitter", vertical = TRUE,  add = TRUE, pch = 20, col="red")
+
+makered <- palouse_sumloss_1989_2015_count$state == "ID"
+stripchart(loss ~ commodity, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_count[makered, ])
+
+makered <- palouse_sumloss_1989_2015_count$state == "OR"
+stripchart(loss ~ commodity, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_count[makered, ])
 
 graphics::title(xlab="Commodity", line=7.5, cex.lab = 1.4)
 graphics::title(main="PNW insurance claims by commodity: 2001 to 2015", line = 2, adj = 0, cex.main = 1.9)

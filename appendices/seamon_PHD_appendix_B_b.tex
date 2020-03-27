@@ -1,0 +1,835 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+    \setmainfont[]{serif}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdftitle={AJAE appendix B for: Agricultural Insurance Loss and Relationships to Climate across the Inland Pacific Northwest Region of the United States},
+            pdfauthor={Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip W. Mote, Stephen S. Lee},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+\title{AJAE appendix B for: Agricultural Insurance Loss and Relationships to
+Climate across the Inland Pacific Northwest Region of the United States}
+\providecommand{\subtitle}[1]{}
+\subtitle{The material contained herein is supplementary to the article named in
+the title and published in the American Journal of Agricultural
+Economics (AJAE).}
+\author{Erich Seamon, Paul E. Gessler, John T. Abatzoglou, Philip W. Mote,
+Stephen S. Lee}
+\date{September 2019}
+
+\begin{document}
+\maketitle
+
+Appendix B documents supplemental Principle Components Analyses (PCA)
+for the Pacific Northwest (PNW) and the inland Pacific Northwest (iPNW),
+to better understand the combined effects of differing damage causes,
+commodities, counties, and years on overall loss.
+
+\textbf{1. Supplemental Pacific Northwest (PNW) Principle Components
+Analysis} In this section we outline a multitude of PCA outputs for the
+entire three state Pacific Norwest region (Oregon, Idaho, and
+Washington).
+
+\textbf{2. Supplemental Inland Pacific Northwest(iPNW) Principle
+Components Analysis} Here we outline a multitude of PCA outputs for the
+24 county iPNW Pacific Norwest region.
+
+\newpage
+
+\hypertarget{figure-list}{%
+\subsection{Figure List}\label{figure-list}}
+
+Figure 1. PNW three state study area
+
+Figure 2. Principle Components: PNW insurance loss, by county with
+commodity loadings: 2001 to 2015
+
+Figure 3. Principle Components: PNW insurance loss, by year with damage
+cause loadings: 2001 to 2015
+
+Figure 4. Principle Components: PNW insurance loss, by month with damage
+cause loadings: 2001 to 2015
+
+Figure 5. Principle Components: PNW wheat insurance loss, by year with
+damage cause loadings: 2001 to 2015
+
+Figure 6. Principle Components: PNW wheat insurance loss, by county with
+damage cause loadings: 2001 to 2015
+
+Figure 7. Principle Components: PNW apples insurance loss, by county
+with damage cause loadings: 2001 to 2015
+
+Figure 8. Principle Components: PNW barley insurance loss, by county
+with damage cause loadings: 2001 to 2015
+
+Figure 9. 24-county inland Pacific Northwest (iPNW) study area.
+
+Figure 10. Principle Components: iPNW insurance loss by county with
+damage cause loadings: 2001 to 2015: all commodities
+
+Figure 11. Principle Components: iPNW wheat insurance loss, by county
+with damage cause loadings: 2001 to 2015: kmeans clustering
+
+Figure 12. Principle Components: iPNW wheat insurance loss by county
+with damage cause loadings: PC1 and PC2 table
+
+Figure 13. Principle Components: iPNW wheat loss by county with damage
+cause loadings: Spatial Mapping of PC1 and PC2
+
+Figure 14. Principle Components: iPNW wheat insurance loss, by year with
+damage cause loadings: 2001 to 2015: kmeans clustering
+
+Figure 15. Principle Components: iPNW wheat insurance loss, by year with
+damage cause loadings: 2001 to 2015: PC1 vs PC2 barplot
+
+Figure 16. Principle Components: iPNW wheat insurance loss by year with
+damage cause loadings: PC1 and PC2 table
+
+Figure 17. Principle Components: experimental PCA + kmeans: IPNW wheat
+insurance loss by county with damage cause loadings: 2001 TO 2015
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-3-1} 
+
+}
+
+\caption{Pacific Northwest study area, which includes agricultural regions for the inland Pacific Northwest, the southern Idaho valley, and the Willamette valley.}\label{fig:unnamed-chunk-3}
+\end{figure}
+\newpage
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-4-1} 
+
+}
+
+\caption{Top panel: Biplot of principle components for insurance loss for the entire PNW, by county, with commodity as the factor loadings. Bottom panel: Scree plot. Data from 2001 to 2015 is used.}\label{fig:unnamed-chunk-4}
+\end{figure}
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-5-1} 
+
+}
+
+\caption{Top panel: biplot of principle components of insurance loss, for the entire PNW, for all commodities by year, with damage cause as the factor loadings. Bottom panel: Scree plot. Data from 2001 to 2015 is used.}\label{fig:unnamed-chunk-5}
+\end{figure}
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-6-1} 
+
+}
+
+\caption{Top panel: biplot of principle components for insurance loss for the entire PNW, for all commodities by month, with damage cause as the factor loadings.  Bottom panel: Scree plot Data from 2001 is 2015 is used.}\label{fig:unnamed-chunk-6}
+\end{figure}
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-7-1} 
+
+}
+
+\caption{Top panel: biplot of insurance loss for the entire PNW, for wheat by year, with damage cause as the factor loadings. Bottom panel: Scree plot. Data from 2001 is 2015 is used.}\label{fig:unnamed-chunk-7}
+\end{figure}
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-8-1} 
+
+}
+
+\caption{Top panel: biplot of insurance loss for the entire PNW, for wheat by county, with damage cause as the factor loadings. Bottom panel: Scree plot. Data from 2001 is 2015 is used.}\label{fig:unnamed-chunk-8}
+\end{figure}
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-9-1} 
+
+}
+
+\caption{Top panel: biplot of insurance loss for the entire PNW, for apples by county, with damage cause as the factor loadings.  Bottom panel: Scree plot. Data from 2001 is 2015 is used.}\label{fig:unnamed-chunk-9}
+\end{figure}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-10-1} 
+
+}
+
+\caption{Top panel: biplot of insurance loss for the entire PNW, for barley by county, with damage cause as the factor loadings.  Bottom panel: Scree plot. Data from 2001 is 2015 is used.}\label{fig:unnamed-chunk-10}
+\end{figure}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-11-1} 
+
+}
+
+\caption{24 county inland Pacific Northwest (iPNW) study area. }\label{fig:unnamed-chunk-11}
+\end{figure}
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-12-1} 
+
+}
+
+\caption{Top panel: biplot of insurance loss for the inland PNW, for all commodities by county, with damage cause as the factor loadings.  Bottom panel: Scree plot. Data from 2001 is 2015 is used}\label{fig:unnamed-chunk-12}
+\end{figure}
+
+\newpage
+
+\textbf{Step 3c. PCA + KMEANS: WHEAT IPNW insurance loss, by COUNTY with
+DAMAGE CAUSE loadings: 2001 to 2015}
+
+Here we perform a PCA for the insurance loss for the inland PNW, for
+wheat by county, with damage cause as the factor loadings. Data from
+2001 is 2015 is used. We additionally have generated a scree plot that
+shows the proportion of variance explained by the individual components.
+
+\begin{center}\includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-13-1} \end{center}
+\newpage
+
+\begin{verbatim}
+## *** : The Hubert index is a graphical method of determining the number of clusters.
+##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
+##                 significant increase of the value of the measure i.e the significant peak in Hubert
+##                 index second differences plot. 
+## 
+\end{verbatim}
+
+\begin{verbatim}
+## *** : The D index is a graphical method of determining the number of clusters. 
+##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
+##                 second differences plot) that corresponds to a significant increase of the value of
+##                 the measure. 
+##  
+## ******************************************************************* 
+## * Among all indices:                                                
+## * 6 proposed 2 as the best number of clusters 
+## * 4 proposed 3 as the best number of clusters 
+## * 2 proposed 4 as the best number of clusters 
+## * 2 proposed 6 as the best number of clusters 
+## * 1 proposed 7 as the best number of clusters 
+## * 2 proposed 8 as the best number of clusters 
+## * 3 proposed 17 as the best number of clusters 
+## * 1 proposed 19 as the best number of clusters 
+## * 3 proposed 20 as the best number of clusters 
+## 
+##                    ***** Conclusion *****                            
+##  
+## * According to the majority rule, the best number of clusters is  2 
+##  
+##  
+## *******************************************************************
+\end{verbatim}
+
+\newpage
+
+\begin{verbatim}
+## *** : The Hubert index is a graphical method of determining the number of clusters.
+##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
+##                 significant increase of the value of the measure i.e the significant peak in Hubert
+##                 index second differences plot. 
+## 
+\end{verbatim}
+
+\begin{verbatim}
+## *** : The D index is a graphical method of determining the number of clusters. 
+##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
+##                 second differences plot) that corresponds to a significant increase of the value of
+##                 the measure. 
+##  
+## ******************************************************************* 
+## * Among all indices:                                                
+## * 6 proposed 2 as the best number of clusters 
+## * 4 proposed 3 as the best number of clusters 
+## * 2 proposed 4 as the best number of clusters 
+## * 2 proposed 6 as the best number of clusters 
+## * 1 proposed 7 as the best number of clusters 
+## * 2 proposed 8 as the best number of clusters 
+## * 3 proposed 17 as the best number of clusters 
+## * 1 proposed 19 as the best number of clusters 
+## * 3 proposed 20 as the best number of clusters 
+## 
+##                    ***** Conclusion *****                            
+##  
+## * According to the majority rule, the best number of clusters is  2 
+##  
+##  
+## *******************************************************************
+\end{verbatim}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-16-1} 
+
+}
+
+\caption{Hiearchical clustering dendrogram of iPNW counties, using principle components.}\label{fig:unnamed-chunk-161}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-16-2} 
+
+}
+
+\caption{Hiearchical clustering dendrogram of iPNW counties, using principle components.}\label{fig:unnamed-chunk-162}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-17-1} 
+
+}
+
+\caption{Top panel: biplot of insurance loss for the inland PNW, for wheat by county, with damage cause as the factor loadings.  Bottom panel: Scree plot. Data from 2001 is 2015 is used.}\label{fig:unnamed-chunk-17}
+\end{figure}
+
+\begin{verbatim}
+## Error: Must provide an object of class 'rsClientServer' to the `selenium` argument to export this plot (see examples section on `help(export)`)
+\end{verbatim}
+
+\begin{figure}
+\centering
+\includegraphics{/tmp/RtmpIyUACC/file6c00a5adf4c49.png}
+\caption{Caption for the picture.}
+\end{figure}
+
+\begin{verbatim}
+\newpage
+<br></br>
+
+**Step 3d. PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: PC1 and PC2 table**
+
+Here we summarize our PCA findings for the inland PNW, for wheat by county, using damage cause as the factor loadings.  Here we plot PC1 and PC2 loadings as a table.
+
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='3' style='text-align: left;'>
+Damage cause variable loadings by COUNTY</td></tr>
+<tr>
+<th style='border-top: 2px solid grey;'></th>
+<th colspan='2' style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>2001-2015</th>
+</tr>
+<tr>
+<th style='border-bottom: 1px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; text-align: center;'>PC1</th>
+<th style='border-bottom: 1px solid grey; text-align: center;'>PC2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>Adams_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-3.574</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.325</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Asotin_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.703</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.967</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Benewah_ID</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.807</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.563</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Benton_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.247</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.232</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Columbia_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.559</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.633</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Douglas_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.111</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.762</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Franklin_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.208</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.038</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Garfield_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.575</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.831</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Gilliam_OR</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.475</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.027</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Grant_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.136</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.859</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Idaho_ID</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.132</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-2.574</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Latah_ID</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.298</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-1.538</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Lewis_ID</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.691</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-2.392</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Lincoln_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-2.988</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.015</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Morrow_OR</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-1.805</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.347</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Nez Perce_ID</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.167</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.583</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Sherman_OR</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.39</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.415</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Spokane_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.836</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-1.319</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Umatilla_OR</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-7.766</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.232</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Union_OR</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.928</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.884</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Walla Walla_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-2.215</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.184</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Wallowa_OR</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>1.918</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.579</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Wasco_OR</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.908</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.221</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>Whitman_WA</td>
+<td style='padding-left: .5em; padding-right: .5em; border-bottom: 2px solid grey; text-align: center;'>-2.74</td>
+<td style='padding-left: .5em; padding-right: .5em; border-bottom: 2px solid grey; text-align: center;'>-3.773</td>
+</tr>
+</tbody>
+</table>
+\newpage
+<br></br>
+
+**Step 3e. PCA: IPNW WHEAT loss by COUNTY with DAMAGE CAUSE loadings: Spatial Mapping of PC1 and PC2**
+
+Here we summarize our PCA findings for the inland PNW, for wheat by county, using damage cause as the factor loadings.  We take PC1 and PC2 loadings and plot each as a map.
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-20-1} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-20}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-21-1} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-21}
+\end{figure}
+\newpage
+<br></br>
+
+**Step 3f. PCA + KMEANS: IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015**
+
+Here we perform a PCA for the insurance loss for the inland PNW, for wheat, by year, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-22-1} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-22}
+\end{figure}
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-23-1} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-23}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-24-1} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-24}
+\end{figure}
+\newpage
+**Step 3g. PCA:IPNW WHEAT insurance loss, by YEAR with DAMAGE CAUSE loadings: 2001 to 2015: PC1 vs PC2 barplot**
+
+Here we plot PC1 loadings vs PC2 by year, as a barplot, to visualize orthogonal/opposing patterns.
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-25-1} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-25}
+\end{figure}
+\newpage
+<br></br>
+
+**Step 3h. PCA: IPNW WHEAT loss by YEAR with DAMAGE CAUSE loadings: PC1 and PC2 table**
+
+Here we summarize our PCA findings for the inland PNW, for wheat by year, using damage cause as the factor loadings.  Here we plot PC1 and PC2 loadings as a table.
+
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='3' style='text-align: left;'>
+Damage cause variable loadings by YEAR</td></tr>
+<tr>
+<th style='border-top: 2px solid grey;'></th>
+<th colspan='2' style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>2001-2015</th>
+</tr>
+<tr>
+<th style='border-bottom: 1px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; text-align: center;'>PC1</th>
+<th style='border-bottom: 1px solid grey; text-align: center;'>PC2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>Cold Wet Weather</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.341</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.455</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Cold Winter</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.374</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.43</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Drought</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.397</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.29</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Excess Moisture/Precip/Rain</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.37</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.445</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Fire</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.3</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.262</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Flood</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.402</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.383</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Freeze</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.369</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.275</td>
+</tr>
+<tr>
+<td style='text-align: left;'>Frost</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>-0.116</td>
+<td style='padding-left: .5em; padding-right: .5em; text-align: center;'>0.118</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>Hot Wind</td>
+<td style='padding-left: .5em; padding-right: .5em; border-bottom: 2px solid grey; text-align: center;'>-0.219</td>
+<td style='padding-left: .5em; padding-right: .5em; border-bottom: 2px solid grey; text-align: center;'>-0.146</td>
+</tr>
+</tbody>
+</table>
+\newpage
+<br></br>
+
+**Step 3i. EXPERIMENTAL: PCA + KMEANS: WHEAT IPNW insurance loss, by COUNTY with DAMAGE CAUSE loadings: 2001 to 2015**
+
+Here we perform a PCA for the insurance loss for the inland PNW, for wheat by county, with damage cause as the factor loadings.  Data from 2001 is 2015 is used.  We additionally have generated a scree plot that shows the proportion of variance explained by the individual components.
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-27-1} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-27}
+\end{figure}
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-28-1} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-281}
+\end{figure}
+\end{verbatim}
+
+\hypertarget{the-hubert-index-is-a-graphical-method-of-determining-the-number-of-clusters.}{%
+\subsection{*** : The Hubert index is a graphical method of determining
+the number of
+clusters.}\label{the-hubert-index-is-a-graphical-method-of-determining-the-number-of-clusters.}}
+
+\hypertarget{in-the-plot-of-hubert-index-we-seek-a-significant-knee-that-corresponds-to-a}{%
+\subsection{In the plot of Hubert index, we seek a significant knee that
+corresponds to
+a}\label{in-the-plot-of-hubert-index-we-seek-a-significant-knee-that-corresponds-to-a}}
+
+\hypertarget{significant-increase-of-the-value-of-the-measure-i.e-the-significant-peak-in-hubert}{%
+\subsection{significant increase of the value of the measure i.e the
+significant peak in
+Hubert}\label{significant-increase-of-the-value-of-the-measure-i.e-the-significant-peak-in-hubert}}
+
+\hypertarget{index-second-differences-plot.}{%
+\subsection{index second differences
+plot.}\label{index-second-differences-plot.}}
+
+\hypertarget{section}{%
+\subsection{}\label{section}}
+
+\begin{verbatim}
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-28-2} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-282}
+\end{figure}
+\end{verbatim}
+
+\hypertarget{the-d-index-is-a-graphical-method-of-determining-the-number-of-clusters.}{%
+\subsection{*** : The D index is a graphical method of determining the
+number of
+clusters.}\label{the-d-index-is-a-graphical-method-of-determining-the-number-of-clusters.}}
+
+\hypertarget{in-the-plot-of-d-index-we-seek-a-significant-knee-the-significant-peak-in-dindex}{%
+\subsection{In the plot of D index, we seek a significant knee (the
+significant peak in
+Dindex}\label{in-the-plot-of-d-index-we-seek-a-significant-knee-the-significant-peak-in-dindex}}
+
+\hypertarget{second-differences-plot-that-corresponds-to-a-significant-increase-of-the-value-of}{%
+\subsection{second differences plot) that corresponds to a significant
+increase of the value
+of}\label{second-differences-plot-that-corresponds-to-a-significant-increase-of-the-value-of}}
+
+\hypertarget{the-measure.}{%
+\subsection{the measure.}\label{the-measure.}}
+
+\hypertarget{section-1}{%
+\subsection{}\label{section-1}}
+
+\hypertarget{section-2}{%
+\subsection{*******************************************************************}\label{section-2}}
+
+\hypertarget{among-all-indices}{%
+\subsection{* Among all indices:}\label{among-all-indices}}
+
+\hypertarget{proposed-2-as-the-best-number-of-clusters}{%
+\subsection{* 5 proposed 2 as the best number of
+clusters}\label{proposed-2-as-the-best-number-of-clusters}}
+
+\hypertarget{proposed-3-as-the-best-number-of-clusters}{%
+\subsection{* 5 proposed 3 as the best number of
+clusters}\label{proposed-3-as-the-best-number-of-clusters}}
+
+\hypertarget{proposed-4-as-the-best-number-of-clusters}{%
+\subsection{* 1 proposed 4 as the best number of
+clusters}\label{proposed-4-as-the-best-number-of-clusters}}
+
+\hypertarget{proposed-5-as-the-best-number-of-clusters}{%
+\subsection{* 3 proposed 5 as the best number of
+clusters}\label{proposed-5-as-the-best-number-of-clusters}}
+
+\hypertarget{proposed-10-as-the-best-number-of-clusters}{%
+\subsection{* 4 proposed 10 as the best number of
+clusters}\label{proposed-10-as-the-best-number-of-clusters}}
+
+\hypertarget{proposed-16-as-the-best-number-of-clusters}{%
+\subsection{* 4 proposed 16 as the best number of
+clusters}\label{proposed-16-as-the-best-number-of-clusters}}
+
+\hypertarget{proposed-20-as-the-best-number-of-clusters}{%
+\subsection{* 1 proposed 20 as the best number of
+clusters}\label{proposed-20-as-the-best-number-of-clusters}}
+
+\hypertarget{section-3}{%
+\subsection{}\label{section-3}}
+
+\hypertarget{conclusion}{%
+\subsection{\texorpdfstring{***** Conclusion *****\\
+}{***** Conclusion ***** }}\label{conclusion}}
+
+\hypertarget{according-to-the-majority-rule-the-best-number-of-clusters-is-2}{%
+\subsection{* According to the majority rule, the best number of
+clusters is
+2}\label{according-to-the-majority-rule-the-best-number-of-clusters-is-2}}
+
+\hypertarget{section-4}{%
+\subsection{}\label{section-4}}
+
+\hypertarget{section-5}{%
+\subsection{}\label{section-5}}
+
+\hypertarget{section-6}{%
+\subsection{*******************************************************************}\label{section-6}}
+
+```
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-29-1} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-29}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=400px,height=700px]{seamon_PHD_appendix_B_b_files/figure-latex/unnamed-chunk-30-1} 
+
+}
+
+\caption{Your caption.}\label{fig:unnamed-chunk-30}
+\end{figure}
+
+\end{document}
