@@ -584,7 +584,7 @@ mtext("Insurance Claim Loss ($)", cex = 1, side=2, line=6.5)
 
 \newpage
 
-```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("PNW total insurance loss by year: 2001 to 2015")}
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("Pacific Northwest agricultural insurance loss by year: 2001 to 2015")}
 
 palouse_sumloss_1989_2015 <- aggregate(RMA_PNW$loss, list(RMA_PNW$year), FUN = "sum")
 
@@ -638,7 +638,7 @@ mtext("Year", cex = 1, side=1, line=6)
 
 
 \newpage
-```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("PNW total insurance loss by damage cause: 2001 to 2015.")}
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("Pacific Northwest agricultural insurance loss by damage cause: 2001 to 2015.")}
 #Figure 4
 
 #--barplot of damage causes from 2001 to 2015
@@ -666,9 +666,212 @@ mtext("Insurance Claim Loss ($)", cex = 1, side=2, line=6.5)
 #          css.cell = "padding-left: .5em; padding-right: .5em;")
 
 ```
+\newpage
+
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("PNW total insurance loss by year: 2001 to 2015")}
+
+
+usePackage("plotly")
+usePackage("gridExtra")
+usePackage("knitr")
+usePackage("kableExtra")
+usePackage("htmlTable")
+usePackage("stringi")
+usePackage("extrafont")
+
+
+#pie chart for 2007-2015
+
+options(scipen=999)
+
+addNoAnswer <- function(x){
+  if(is.factor(x)) return(factor(x, levels=c(levels(x), "No Answer")))
+  return(x)
+}
+
+
+palouse_sumloss_1989_2015_lossperacres <- aggregate(RMA_PNW$lossperacre, list( RMA_PNW$year, RMA_PNW$state, RMA_PNW$commodity), FUN = "mean")
+
+colnames(palouse_sumloss_1989_2015_lossperacres) <- c("year", "state", "commodity",  "lossperacres")
+
+palouse_sumloss_1989_2015_lossperacres2 <- aggregate(RMA_PNW$lossperacre, list( RMA_PNW$year, RMA_PNW$damagecause), FUN = "mean")
+
+colnames(palouse_sumloss_1989_2015_lossperacres2) <- c("year", "damagecause", "lossperacres")
+
+palouse_sumloss_1989_2015_lossperacres3 <- aggregate(RMA_PNW$lossperacre, list( RMA_PNW$year, RMA_PNW$damagecause, RMA_PNW$state), FUN = "mean")
+
+colnames(palouse_sumloss_1989_2015_lossperacres3) <- c("year", "damagecause", "state", "lossperacres")
+
+#palouse_sumloss_1989_2015_lossperacres <- subset(palouse_sumloss_1989_2015_lossperacres, lossperacres > 200)
+#palouse_sumloss_1989_2015_lossperacres2 <- subset(palouse_sumloss_1989_2015_lossperacres2, lossperacres > 200)
+
+#palouse_sumloss_1989_2015_lossperacres <- subset(palouse_sumloss_1989_2015_lossperacres, commodity != "ADJUSTED GROSS REVENUE")
+#palouse_sumloss_1989_2015_lossperacres <- subset(palouse_sumloss_1989_2015_lossperacres, commodity != "Other (Snow/Lightning-Etc.)")
+
+palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
+
+palouse_sumloss_1989_2015_lossperacres$commodity <- factor(palouse_sumloss_1989_2015_lossperacres$commodity)
+
+
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[14] <- "FORAGE"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[15] <- "APRICOTS"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[16] <- "FREESTONE PEACHES"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[17] <- "NECTARINES"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[24] <- "PASTURE, RANGELAND"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[30] <- "BLACKBERRIES"
+
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[8] <- "Excessive Moisture"
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[25] <- "Snow/Lightning"
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[21] <- "Hurricane"
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[24] <- "Mycotoxin"
+levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[22] <- "Lack Irrig Prep"
+
+
+palouse_sumloss_1989_2015_loss <- aggregate(RMA_PNW$loss, by = list( RMA_PNW$year, RMA_PNW$commodity), FUN = "sum")
+
+colnames(palouse_sumloss_1989_2015_loss) <- c("year", "commodity",  "loss")
+
+palouse_sumloss_1989_2015_loss2 <- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$damagecause), FUN = "sum")
+
+colnames(palouse_sumloss_1989_2015_loss2) <- c("year", "damagecause", "loss")
+
+palouse_sumloss_1989_2015_loss4 <- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$damagecause, RMA_PNW$state), FUN = "sum")
+
+colnames(palouse_sumloss_1989_2015_loss4) <- c("year", "damagecause", "state", "loss")
+
+
+
+
+
+psloss <- palouse_sumloss_1989_2015_loss
+
+palouse_sumloss_1989_2015_loss <- subset(palouse_sumloss_1989_2015_loss, loss > 20000000)
+palouse_sumloss_1989_2015_loss2 <- subset(palouse_sumloss_1989_2015_loss2, loss > 20000000)
+
+palouse_sumloss_1989_2015_loss <- subset(palouse_sumloss_1989_2015_loss, commodity != "ADJUSTED GROSS REVENUE")
+
+palouse_sumloss_1989_2015_loss2$damagecause <- factor(palouse_sumloss_1989_2015_loss2$damagecause)
+
+palouse_sumloss_1989_2015_loss$commodity <- factor(palouse_sumloss_1989_2015_loss$commodity)
+
+
+levels(palouse_sumloss_1989_2015_loss2$damagecause)[4] <- "Excessive Moisture"
+
+
+
+
+
+
+palouse_sumloss_1989_2015_count <- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$state, RMA_PNW$commodity), FUN = "length")
+
+colnames(palouse_sumloss_1989_2015_count) <- c("year", "state", "commodity",  "loss")
+
+palouse_sumloss_1989_2015_count2<- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$damagecause, RMA_PNW$state), FUN = "length")
+
+colnames(palouse_sumloss_1989_2015_count2) <- c("year", "damagecause", "state", "loss")
+
+
+palouse_sumloss_1989_2015_loss3<- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$commodity, RMA_PNW$state), FUN = "sum")
+
+colnames(palouse_sumloss_1989_2015_loss3) <- c("year", "commodity", "state", "loss")
+
+#-boxplots of count data for all commodities and all damage causes- 1989-2015
+
+palouse_sumloss_1989_2015_count <- subset(palouse_sumloss_1989_2015_count, loss > 50)
+palouse_sumloss_1989_2015_count2 <- subset(palouse_sumloss_1989_2015_count2, loss > 50)
+
+palouse_sumloss_1989_2015_count <- subset(palouse_sumloss_1989_2015_count, commodity != "ADJUSTED GROSS REVENUE")
+
+palouse_sumloss_1989_2015_count2$damagecause <- factor(palouse_sumloss_1989_2015_count2$damagecause)
+
+palouse_sumloss_1989_2015_count$commodity <- factor(palouse_sumloss_1989_2015_count$commodity)
+
+
+levels(palouse_sumloss_1989_2015_count2$damagecause)[5] <- "Excessive Moisture"
+levels(palouse_sumloss_1989_2015_count2$damagecause)[11] <- "Other"
+
+```
+
 
 \newpage
-```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("PNW total insurance loss by commodity: 2001 to 2015.")}
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("Pacific Northwest agricultural insurance loss by damage cause - distribution by year: 2001 to 2015")}
+
+#par(mar=c(12.2, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(11, 6.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+
+
+means <- aggregate(loss ~  damagecause, palouse_sumloss_1989_2015_loss4, mean)
+means <- means[order(means$loss),]
+means <- subset(means, loss > 1000000)
+means$commodity <- factor(means$damagecause)
+
+palouse_sumloss_1989_2015_loss4 <- palouse_sumloss_1989_2015_loss4[palouse_sumloss_1989_2015_loss4$damagecause %in% means$damagecause, ]
+palouse_sumloss_1989_2015_loss4$damagecause <- factor(palouse_sumloss_1989_2015_loss4$damagecause)
+
+boxplot(palouse_sumloss_1989_2015_loss4$loss ~ palouse_sumloss_1989_2015_loss4$damagecause, col = 'lightblue', ylab = "Insurance Claim Loss ($)",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_loss4$damagecause, las = 3, cex.lab = 1, cex.axis = 1, cex.names = 1, font.lab = 1, font.axis = 1)
+#axis(2, las = 1, cex.axis = 1.2, at = pretty(palouse_sumloss_1989_2015_loss2$loss), labels = pretty(palouse_sumloss_1989_2015_loss2$loss))
+pts <- pretty(palouse_sumloss_1989_2015_loss4$loss / 1000000)
+pts2 <- pretty(palouse_sumloss_1989_2015_loss4$loss)
+axis(2, las = 1, cex.axis = 1.2, at = pts2, labels = paste(pts, "M", sep = ""))
+
+#stripchart(palouse_sumloss_1989_2015_loss4$loss ~ palouse_sumloss_1989_2015_loss4$damagecause, vertical = TRUE,  
+#    method = "jitter", add = TRUE, pch = 20, col = "blue" )
+
+
+makered1 <- palouse_sumloss_1989_2015_loss4$state == "OR"
+stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_loss4[makered1, ])
+
+makered3 <- palouse_sumloss_1989_2015_loss4$state == "WA"
+stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="red", data=palouse_sumloss_1989_2015_loss4[makered3, ])
+
+makered2 <- palouse_sumloss_1989_2015_loss4$state == "ID"
+stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_loss4[makered2, ])
+
+graphics::title(xlab="Damage Cause", line=9, cex.lab = 1)
+graphics::title(main="PNW insurance loss by damage cause: 2001 to 2015", line = 1, adj = 0, cex.main = 1)
+
+```
+
+\newpage
+
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("Pacific Northwest agricultural insurance loss claim counts by damage cause - distribution by year: 2001 to 2015")}
+
+#par(mar=c(12.7, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+#par(mar=c(11, 8.0, 7, 0), family = 'serif', mgp=c(3, 1, 0), las=0)
+par(mar=c(11, 6.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+boxplot(palouse_sumloss_1989_2015_count2$loss ~ palouse_sumloss_1989_2015_count2$damagecause, col = 'lightblue', ylab = "Insurance Claim Frequency",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_count2$damagecause, las = 3, cex.main = 1.9, cex.lab = 1, cex.axis = 1, cex.names = 1, font.lab = 1, font.axis = 1, outline = FALSE)
+axis(2, las = 1, cex.axis = 1, at = pretty(palouse_sumloss_1989_2015_count2$loss), labels = pretty(palouse_sumloss_1989_2015_count2$loss))
+
+
+makered <- palouse_sumloss_1989_2015_count2$state == "OR"
+stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_count2[makered, ])
+
+makered <- palouse_sumloss_1989_2015_count2$state == "WA"
+stripchart(loss ~ damagecause, data=palouse_sumloss_1989_2015_count2[makered, ], method = "jitter", vertical = TRUE,  add = TRUE, pch = 20, col="red")
+
+makered <- palouse_sumloss_1989_2015_count2$state == "ID"
+stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_count2[makered, ])
+
+
+
+graphics::title(xlab="Damage Cause", line=9.5, cex.lab = 1)
+graphics::title(main="PNW insurance claim counts by damage cause: 2001 to 2015", line = 1, adj = 0, cex.main = 1)
+
+#stripchart(palouse_sumloss_1989_2015_count2$loss ~ palouse_sumloss_1989_2015_count2$damagecause, vertical = TRUE,  
+#    method = "jitter", add = TRUE, pch = 20, col = "blue" )
+legend("topright", inset=.02, title="State Per Year",
+   c("Washington", "Idaho", "Oregon"), fill=c("red", "black", "blue"), horiz=TRUE, cex=0.8)
+```
+
+\newpage
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("Pacific Northwest agricultural insurance loss by commodity: 2001 to 2015.")}
 #Figure 5
 
 X <- c2
@@ -725,190 +928,12 @@ mtext("Commodity", cex = 1, side=1, line=15)
 
 ```
 
-
 \newpage
-
-```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8.5, fig.height = 8, fig.cap=paste("PNW total insurance loss by year: 2001 to 2015")}
-
-usePackage("plotly")
-usePackage("gridExtra")
-usePackage("knitr")
-usePackage("kableExtra")
-usePackage("htmlTable")
-usePackage("stringi")
-usePackage("extrafont")
-
-
-#pie chart for 2007-2015
-
-options(scipen=999)
-
-addNoAnswer <- function(x){
-  if(is.factor(x)) return(factor(x, levels=c(levels(x), "No Answer")))
-  return(x)
-}
-
-
-palouse_sumloss_1989_2015_lossperacres <- aggregate(RMA_PNW$lossperacre, list( RMA_PNW$year, RMA_PNW$state, RMA_PNW$commodity), FUN = "mean")
-
-colnames(palouse_sumloss_1989_2015_lossperacres) <- c("year", "state", "commodity",  "lossperacres")
-
-palouse_sumloss_1989_2015_lossperacres2 <- aggregate(RMA_PNW$lossperacre, list( RMA_PNW$year, RMA_PNW$damagecause), FUN = "mean")
-
-colnames(palouse_sumloss_1989_2015_lossperacres2) <- c("year", "damagecause", "lossperacres")
-
-#palouse_sumloss_1989_2015_lossperacres <- subset(palouse_sumloss_1989_2015_lossperacres, lossperacres > 200)
-#palouse_sumloss_1989_2015_lossperacres2 <- subset(palouse_sumloss_1989_2015_lossperacres2, lossperacres > 200)
-
-#palouse_sumloss_1989_2015_lossperacres <- subset(palouse_sumloss_1989_2015_lossperacres, commodity != "ADJUSTED GROSS REVENUE")
-#palouse_sumloss_1989_2015_lossperacres <- subset(palouse_sumloss_1989_2015_lossperacres, commodity != "Other (Snow/Lightning-Etc.)")
-
-palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
-
-palouse_sumloss_1989_2015_lossperacres$commodity <- factor(palouse_sumloss_1989_2015_lossperacres$commodity)
-
-
-levels(palouse_sumloss_1989_2015_lossperacres$commodity)[14] <- "FORAGE"
-levels(palouse_sumloss_1989_2015_lossperacres$commodity)[15] <- "APRICOTS"
-levels(palouse_sumloss_1989_2015_lossperacres$commodity)[16] <- "FREESTONE PEACHES"
-levels(palouse_sumloss_1989_2015_lossperacres$commodity)[17] <- "NECTARINES"
-levels(palouse_sumloss_1989_2015_lossperacres$commodity)[24] <- "PASTURE, RANGELAND"
-levels(palouse_sumloss_1989_2015_lossperacres$commodity)[30] <- "BLACKBERRIES"
-
-levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[8] <- "Excessive Moisture"
-levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[25] <- "Snow/Lightning"
-levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[21] <- "Hurricane"
-levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[24] <- "Mycotoxin"
-levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[22] <- "Lack Irrig Prep"
-
-
-palouse_sumloss_1989_2015_loss <- aggregate(RMA_PNW$loss, by = list( RMA_PNW$year, RMA_PNW$commodity), FUN = "sum")
-
-colnames(palouse_sumloss_1989_2015_loss) <- c("year", "commodity",  "loss")
-
-palouse_sumloss_1989_2015_loss2 <- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$damagecause), FUN = "sum")
-
-colnames(palouse_sumloss_1989_2015_loss2) <- c("year", "damagecause", "loss")
-
-psloss <- palouse_sumloss_1989_2015_loss
-
-palouse_sumloss_1989_2015_loss <- subset(palouse_sumloss_1989_2015_loss, loss > 20000000)
-palouse_sumloss_1989_2015_loss2 <- subset(palouse_sumloss_1989_2015_loss2, loss > 20000000)
-
-palouse_sumloss_1989_2015_loss <- subset(palouse_sumloss_1989_2015_loss, commodity != "ADJUSTED GROSS REVENUE")
-
-palouse_sumloss_1989_2015_loss2$damagecause <- factor(palouse_sumloss_1989_2015_loss2$damagecause)
-
-palouse_sumloss_1989_2015_loss$commodity <- factor(palouse_sumloss_1989_2015_loss$commodity)
-
-
-levels(palouse_sumloss_1989_2015_loss2$damagecause)[4] <- "Excessive Moisture"
-
-
-
-
-
-
-palouse_sumloss_1989_2015_count <- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$state, RMA_PNW$commodity), FUN = "length")
-
-colnames(palouse_sumloss_1989_2015_count) <- c("year", "state", "commodity",  "loss")
-
-palouse_sumloss_1989_2015_count2<- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$damagecause, RMA_PNW$state), FUN = "length")
-
-colnames(palouse_sumloss_1989_2015_count2) <- c("year", "damagecause", "state", "loss")
-
-
-palouse_sumloss_1989_2015_loss3<- aggregate(RMA_PNW$loss, list( RMA_PNW$year, RMA_PNW$commodity, RMA_PNW$state), FUN = "sum")
-
-colnames(palouse_sumloss_1989_2015_loss3) <- c("year", "commodity", "state", "loss")
-
-#-boxplots of count data for all commodities and all damage causes- 1989-2015
-
-palouse_sumloss_1989_2015_count <- subset(palouse_sumloss_1989_2015_count, loss > 50)
-palouse_sumloss_1989_2015_count2 <- subset(palouse_sumloss_1989_2015_count2, loss > 50)
-
-palouse_sumloss_1989_2015_count <- subset(palouse_sumloss_1989_2015_count, commodity != "ADJUSTED GROSS REVENUE")
-
-palouse_sumloss_1989_2015_count2$damagecause <- factor(palouse_sumloss_1989_2015_count2$damagecause)
-
-palouse_sumloss_1989_2015_count$commodity <- factor(palouse_sumloss_1989_2015_count$commodity)
-
-
-levels(palouse_sumloss_1989_2015_count2$damagecause)[5] <- "Excessive Moisture"
-levels(palouse_sumloss_1989_2015_count2$damagecause)[11] <- "Other"
-
-
-#proper=function(x) paste0(toupper(substr(x, 1, 1)), tolower(substring(x, 2)))
-
-palouse_sumloss_1989_2015_count$commodity <- tolower(palouse_sumloss_1989_2015_count$commodity)
-palouse_sumloss_1989_2015_count$commodity <- stri_trans_general(palouse_sumloss_1989_2015_count$commodity, id = "Title")
-
-#par(mar=c(12.7, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
-par(mar=c(8, 6.1, 7, 1), family = 'serif', mgp=c(4, 1, 0), las=0)
-
-palouse_sumloss_1989_2015_count$commodity <- factor(palouse_sumloss_1989_2015_count$commodity)
-levels(palouse_sumloss_1989_2015_count$commodity)[1] <- "Gross Revenue-Lite"
-boxplot(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, col = 'lightblue', ylab = "Insurance Claim Frequency", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_count$commodity, las = 3, cex.axis = 1, cex.main = 1, cex.lab = 1, cex.names = 1, font.lab = 1, font.axis = 1, bty = 1)
-axis(2, las = 1, cex.axis = 1, at = pretty(palouse_sumloss_1989_2015_count$loss), labels = pretty(palouse_sumloss_1989_2015_count$loss))
-
-makered <- palouse_sumloss_1989_2015_count$state == "WA"
-stripchart(loss ~ commodity, data=palouse_sumloss_1989_2015_count[makered, ], method = "jitter", vertical = TRUE,  add = TRUE, pch = 20, col="red")
-
-makered <- palouse_sumloss_1989_2015_count$state == "ID"
-stripchart(loss ~ commodity, method = "jitter", vertical = TRUE,  
-    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_count[makered, ])
-
-makered <- palouse_sumloss_1989_2015_count$state == "OR"
-stripchart(loss ~ commodity, method = "jitter", vertical = TRUE,  
-    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_count[makered, ])
-
-graphics::title(xlab="Commodity", line=6.5, cex.lab = 1)
-graphics::title(main="PNW insurance claims by commodity: 2001 to 2015", line = 1, adj = 0, cex.main = 1)
-legend("topleft", inset=.02, title="State Per Year",
-   c("Washington", "Idaho", "Oregon"), fill=c("red", "black", "blue"), horiz=TRUE, cex=0.8)
-
-```
-
-\newpage
-
-```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("PNW total insurance loss by year: 2001 to 2015")}
-
-#par(mar=c(12.7, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
-#par(mar=c(11, 8.0, 7, 0), family = 'serif', mgp=c(3, 1, 0), las=0)
-par(mar=c(11, 6.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
-
-boxplot(palouse_sumloss_1989_2015_count2$loss ~ palouse_sumloss_1989_2015_count2$damagecause, col = 'lightblue', ylab = "Insurance Claim Frequency",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_count2$damagecause, las = 3, cex.main = 1.9, cex.lab = 1, cex.axis = 1, cex.names = 1, font.lab = 1, font.axis = 1, outline = FALSE)
-axis(2, las = 1, cex.axis = 1, at = pretty(palouse_sumloss_1989_2015_count2$loss), labels = pretty(palouse_sumloss_1989_2015_count2$loss))
-
-
-makered <- palouse_sumloss_1989_2015_count2$state == "OR"
-stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
-    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_count2[makered, ])
-
-makered <- palouse_sumloss_1989_2015_count2$state == "WA"
-stripchart(loss ~ damagecause, data=palouse_sumloss_1989_2015_count2[makered, ], method = "jitter", vertical = TRUE,  add = TRUE, pch = 20, col="red")
-
-makered <- palouse_sumloss_1989_2015_count2$state == "ID"
-stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
-    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_count2[makered, ])
-
-
-
-graphics::title(xlab="Damage Cause", line=9.5, cex.lab = 1)
-graphics::title(main="PNW insurance claim counts by damage cause: 2001 to 2015", line = 1, adj = 0, cex.main = 1)
-
-#stripchart(palouse_sumloss_1989_2015_count2$loss ~ palouse_sumloss_1989_2015_count2$damagecause, vertical = TRUE,  
-#    method = "jitter", add = TRUE, pch = 20, col = "blue" )
-legend("topright", inset=.02, title="State Per Year",
-   c("Washington", "Idaho", "Oregon"), fill=c("red", "black", "blue"), horiz=TRUE, cex=0.8)
-```
-
-\newpage
-```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("PNW total insurance loss by year: 2001 to 2015")}
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("Pacific Northwest agricultural insurance loss by commodity - distribution by year: 2001 to 2015")}
 
 
 #par(mar=c(8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
-par(mar=c(11, 6.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(11, 6.1, 7, 0), cex.lab=3, family = 'serif', mgp=c(4, 1, 0), las=0)
 
 means <- aggregate(loss ~  commodity, palouse_sumloss_1989_2015_loss3, mean)
 means <- means[order(means$loss),]
@@ -958,23 +983,216 @@ legend("topleft", inset=.02, title="State Per Year",
 ```
 
 \newpage
+
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8.5, fig.height = 8, fig.cap=paste("Pacific Northwest agricultural insurance loss claim counts by commodity - distribution by year: 2001 to 2015")}
+
+#proper=function(x) paste0(toupper(substr(x, 1, 1)), tolower(substring(x, 2)))
+
+palouse_sumloss_1989_2015_count$commodity <- tolower(palouse_sumloss_1989_2015_count$commodity)
+palouse_sumloss_1989_2015_count$commodity <- stri_trans_general(palouse_sumloss_1989_2015_count$commodity, id = "Title")
+
+#par(mar=c(12.7, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(8, 6.1, 7, 1), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+palouse_sumloss_1989_2015_count$commodity <- factor(palouse_sumloss_1989_2015_count$commodity)
+levels(palouse_sumloss_1989_2015_count$commodity)[1] <- "Gross Revenue-Lite"
+boxplot(palouse_sumloss_1989_2015_count$loss ~ palouse_sumloss_1989_2015_count$commodity, col = 'lightblue', ylab = "Insurance Claim Frequency", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_count$commodity, las = 3, cex.axis = 1, cex.main = 1, cex.lab = 1, cex.names = 1, font.lab = 1, font.axis = 1, bty = 1)
+axis(2, las = 1, cex.axis = 1, at = pretty(palouse_sumloss_1989_2015_count$loss), labels = pretty(palouse_sumloss_1989_2015_count$loss))
+
+makered <- palouse_sumloss_1989_2015_count$state == "WA"
+stripchart(loss ~ commodity, data=palouse_sumloss_1989_2015_count[makered, ], method = "jitter", vertical = TRUE,  add = TRUE, pch = 20, col="red")
+
+makered <- palouse_sumloss_1989_2015_count$state == "ID"
+stripchart(loss ~ commodity, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_count[makered, ])
+
+makered <- palouse_sumloss_1989_2015_count$state == "OR"
+stripchart(loss ~ commodity, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_count[makered, ])
+
+graphics::title(xlab="Commodity", line=6.5, cex.lab = 1)
+graphics::title(main="PNW insurance claim counts by commodity: 2001 to 2015", line = 1, adj = 0, cex.main = 1)
+legend("topleft", inset=.02, title="State Per Year",
+   c("Washington", "Idaho", "Oregon"), fill=c("red", "black", "blue"), horiz=TRUE, cex=0.8)
+
+```
+
+\newpage
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("Pacific Northwest agricultural insurance loss per acre by commodity - distribution by year: 2001 to 2015")}
+
+
+#par(mar=c(14, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(11, 6.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+palouse_sumloss_1989_2015_lossperacres$commodity <- tolower(palouse_sumloss_1989_2015_lossperacres$commodity)
+palouse_sumloss_1989_2015_lossperacres$commodity <- stri_trans_general(palouse_sumloss_1989_2015_lossperacres$commodity, id = "Title")
+
+
+palouse_sumloss_1989_2015_lossperacres[ palouse_sumloss_1989_2015_lossperacres == "-Inf" ] <- 0
+palouse_sumloss_1989_2015_lossperacres[ palouse_sumloss_1989_2015_lossperacres == "Inf" ] <- 0
+
+
+
+palouse_sumloss_1989_2015_lossperacres$commodity <- factor(palouse_sumloss_1989_2015_lossperacres$commodity)
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[2] <- "Gross Revenue-Lite"
+levels(palouse_sumloss_1989_2015_lossperacres$commodity)[39] <- "Revenue Protection"
+
+
+boxplot(palouse_sumloss_1989_2015_lossperacres$loss ~ palouse_sumloss_1989_2015_lossperacres$commodity, col = 'lightblue', ylab = "Insurance Claim Loss per Acre ($)", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres$commodity, las = 3, cex.axis = 1, cex.main = 1, cex.lab = 1, cex.names = 1, font.lab = 1, font.axis = 1, outline = FALSE)
+axis(2, las = 1, cex.axis = 1, at = pretty(palouse_sumloss_1989_2015_lossperacres$loss), labels = pretty(palouse_sumloss_1989_2015_lossperacres$loss))
+
+#stripchart(palouse_sumloss_1989_2015_lossperacres$loss ~ palouse_sumloss_1989_2015_lossperacres$commodity, vertical = TRUE,  
+#    method = "jitter", add = TRUE, pch = 20, col = "blue" )
+
+makered <- palouse_sumloss_1989_2015_lossperacres$state == "WA"
+stripchart(lossperacres ~ commodity, data=palouse_sumloss_1989_2015_lossperacres[makered, ], method = "jitter", vertical = TRUE,  add = TRUE, pch = 20, col="red")
+
+makered <- palouse_sumloss_1989_2015_lossperacres$state == "ID"
+stripchart(lossperacres ~ commodity, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_lossperacres[makered, ])
+
+makered <- palouse_sumloss_1989_2015_lossperacres$state == "OR"
+stripchart(lossperacres ~ commodity, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_lossperacres[makered, ])
+
+graphics::title(xlab="Commodity", line=9, cex.lab = 1)
+graphics::title(main="PNW insurance loss per acre by commodity: 2001 to 2015", line = 1, adj = 0, cex.main = 1)
+legend("topright", inset=.02, title="State Per Year",
+   c("Washington", "Idaho", "Oregon"), fill=c("red", "black", "blue"), horiz=TRUE, cex=0.8)
+
+```
+
+
+\newpage
+
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("PNW total insurance loss by year: 2001 to 2015")}
+
+#par(mar=c(12.7, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+#par(mar=c(11, 8.0, 7, 0), family = 'serif', mgp=c(3, 1, 0), las=0)
+par(mar=c(11, 6.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
+
+boxplot(palouse_sumloss_1989_2015_count2$loss ~ palouse_sumloss_1989_2015_count2$damagecause, col = 'lightblue', ylab = "Insurance Claim Frequency",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_count2$damagecause, las = 3, cex.main = 1.9, cex.lab = 1, cex.axis = 1, cex.names = 1, font.lab = 1, font.axis = 1, outline = FALSE)
+axis(2, las = 1, cex.axis = 1, at = pretty(palouse_sumloss_1989_2015_count2$loss), labels = pretty(palouse_sumloss_1989_2015_count2$loss))
+
+
+makered <- palouse_sumloss_1989_2015_count2$state == "OR"
+stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_count2[makered, ])
+
+makered <- palouse_sumloss_1989_2015_count2$state == "WA"
+stripchart(loss ~ damagecause, data=palouse_sumloss_1989_2015_count2[makered, ], method = "jitter", vertical = TRUE,  add = TRUE, pch = 20, col="red")
+
+makered <- palouse_sumloss_1989_2015_count2$state == "ID"
+stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_count2[makered, ])
+
+
+
+graphics::title(xlab="Damage Cause", line=9.5, cex.lab = 1)
+graphics::title(main="PNW insurance claim counts by damage cause: 2001 to 2015", line = 1, adj = 0, cex.main = 1)
+
+#stripchart(palouse_sumloss_1989_2015_count2$loss ~ palouse_sumloss_1989_2015_count2$damagecause, vertical = TRUE,  
+#    method = "jitter", add = TRUE, pch = 20, col = "blue" )
+legend("topright", inset=.02, title="State Per Year",
+   c("Washington", "Idaho", "Oregon"), fill=c("red", "black", "blue"), horiz=TRUE, cex=0.8)
+```
+
+\newpage
+```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("PNW total insurance loss by year: 2001 to 2015")}
+
+
+#par(mar=c(8, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
+par(mar=c(11, 6.1, 7, 0), cex.lab=3, family = 'serif', mgp=c(4, 1, 0), las=0)
+
+means <- aggregate(loss ~  commodity, palouse_sumloss_1989_2015_loss3, mean)
+means <- means[order(means$loss),]
+means <- subset(means, loss > 2300000)
+means$commodity <- factor(means$commodity)
+
+palouse_sumloss_1989_2015_loss3 <- palouse_sumloss_1989_2015_loss3[palouse_sumloss_1989_2015_loss3$commodity %in% means$commodity, ]
+
+palouse_sumloss_1989_2015_loss3$commodity <- tolower(palouse_sumloss_1989_2015_loss3$commodity)
+palouse_sumloss_1989_2015_loss3$commodity <- stri_trans_general(palouse_sumloss_1989_2015_loss3$commodity, id = "Title")
+
+boxplot(palouse_sumloss_1989_2015_loss3$loss ~ palouse_sumloss_1989_2015_loss3$commodity, col = 'lightblue', ylab = "Insurance Claim Loss ($)", yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_loss3$commodity, las = 3, cex.axis = 1, cex.main = 1, cex.lab = 1, cex.names = 1, font.lab = 1, font.axis = 1, outline = TRUE, range = 0)
+#axis(2, las = 1, cex.axis = 1.2, at = pretty(palouse_sumloss_1989_2015_loss3$loss), labels = pretty(palouse_sumloss_1989_2015_loss3$loss))
+
+pts <- pretty(palouse_sumloss_1989_2015_loss3$loss / 1000000)
+pts2 <- pretty(palouse_sumloss_1989_2015_loss3$loss)
+axis(2, las = 1, cex.axis = 1, at = pts2, labels = paste(pts, "M", sep = ""))
+
+#stripchart(palouse_sumloss_1989_2015_loss3$loss ~ palouse_sumloss_1989_2015_loss3$commodity, vertical = TRUE,  
+#    method = "jitter", add = TRUE, pch = 20, col = "blue" )
+palouse_sumloss_1989_2015_loss3$commodity <- factor(palouse_sumloss_1989_2015_loss3$commodity)
+palouse_sumloss_1989_2015_loss3$state <- factor(palouse_sumloss_1989_2015_loss3$state)
+
+makered1 <- palouse_sumloss_1989_2015_loss3$state == "OR"
+stripchart(loss ~ commodity, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_loss3[makered1, ])
+
+makered3 <- palouse_sumloss_1989_2015_loss3$state == "WA"
+stripchart(loss ~ commodity, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="red", data=palouse_sumloss_1989_2015_loss3[makered3, ])
+
+makered2 <- palouse_sumloss_1989_2015_loss3$state == "ID"
+stripchart(loss ~ commodity, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_loss3[makered2, ])
+
+with(subset(palouse_sumloss_1989_2015_loss3, year == 2009 & commodity == "Wheat"), text(5,257000000, labels = year, adj = c(-.3,1), cex = .9))
+with(subset(palouse_sumloss_1989_2015_loss3, year == 2015 & commodity == "Wheat"), text(5,134000000, labels = year, adj = c(-.5,1), cex = .9))
+
+
+graphics::title(xlab="Commodity", line=6, cex.lab = 1)
+graphics::title(main="PNW insurance loss by commodity: 2001 to 2015", line = 1, adj = 0, cex.main = 1)
+legend("topleft", inset=.02, title="State Per Year",
+   c("Washington", "Idaho", "Oregon"), fill=c("red", "black", "blue"), horiz=TRUE, cex=0.8)
+#points(1:nrow(means), means$loss, col = "red")
+#text(1:nrow(means), means$loss + 0.08, labels = means$loss)
+
+```
+
+\newpage
 ```{r message=FALSE, warning=FALSE, error=TRUE, echo = FALSE, fig.width = 8, fig.height = 8, fig.cap=paste("PNW total insurance loss by year: 2001 to 2015")}
 
 #par(mar=c(12.2, 6.1, 4, 2.1), family = 'serif', mgp=c(4, 1, 0), las=0)
 par(mar=c(11, 6.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
 
-boxplot(palouse_sumloss_1989_2015_loss2$loss ~ palouse_sumloss_1989_2015_loss2$damagecause, col = 'lightblue', ylab = "Insurance Claim Loss ($)",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_loss2$damagecause, las = 3, cex.lab = 1, cex.axis = 1, cex.names = 1, font.lab = 1, font.axis = 1, outline = FALSE)
+
+
+means <- aggregate(loss ~  damagecause, palouse_sumloss_1989_2015_loss4, mean)
+means <- means[order(means$loss),]
+means <- subset(means, loss > 1000000)
+means$commodity <- factor(means$damagecause)
+
+palouse_sumloss_1989_2015_loss4 <- palouse_sumloss_1989_2015_loss4[palouse_sumloss_1989_2015_loss4$damagecause %in% means$damagecause, ]
+palouse_sumloss_1989_2015_loss4$damagecause <- factor(palouse_sumloss_1989_2015_loss4$damagecause)
+
+boxplot(palouse_sumloss_1989_2015_loss4$loss ~ palouse_sumloss_1989_2015_loss4$damagecause, col = 'lightblue', ylab = "Insurance Claim Loss ($)",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_loss4$damagecause, las = 3, cex.lab = 1, cex.axis = 1, cex.names = 1, font.lab = 1, font.axis = 1, , outline = TRUE, range = 0)
 #axis(2, las = 1, cex.axis = 1.2, at = pretty(palouse_sumloss_1989_2015_loss2$loss), labels = pretty(palouse_sumloss_1989_2015_loss2$loss))
-pts <- pretty(palouse_sumloss_1989_2015_loss2$loss / 1000000)
-pts2 <- pretty(palouse_sumloss_1989_2015_loss2$loss)
+pts <- pretty(palouse_sumloss_1989_2015_loss4$loss / 1000000)
+pts2 <- pretty(palouse_sumloss_1989_2015_loss4$loss)
 axis(2, las = 1, cex.axis = 1.2, at = pts2, labels = paste(pts, "M", sep = ""))
 
-stripchart(palouse_sumloss_1989_2015_loss2$loss ~ palouse_sumloss_1989_2015_loss2$damagecause, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20, col = "blue" )
+#stripchart(palouse_sumloss_1989_2015_loss4$loss ~ palouse_sumloss_1989_2015_loss4$damagecause, vertical = TRUE,  
+#    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
-graphics::title(xlab="Damage Cause", line=9, cex.lab = 1)
+
+makered1 <- palouse_sumloss_1989_2015_loss4$state == "OR"
+stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_loss4[makered1, ])
+
+makered3 <- palouse_sumloss_1989_2015_loss4$state == "WA"
+stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="red", data=palouse_sumloss_1989_2015_loss4[makered3, ])
+
+makered2 <- palouse_sumloss_1989_2015_loss4$state == "ID"
+stripchart(loss ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_loss4[makered2, ])
+
+graphics::title(xlab="Damage Cause", line=11, cex.lab = 1)
 graphics::title(main="PNW insurance loss by damage cause: 2001 to 2015", line = 1, adj = 0, cex.main = 1)
-
+legend("topright", inset=.02, title="State Per Year",
+   c("Washington", "Idaho", "Oregon"), fill=c("red", "black", "blue"), horiz=TRUE, cex=0.8)
 ```
 
 \newpage
@@ -1030,19 +1248,40 @@ legend("topright", inset=.02, title="State Per Year",
 par(mar=c(11, 6.1, 7, 0), family = 'serif', mgp=c(4, 1, 0), las=0)
 
 
-palouse_sumloss_1989_2015_lossperacres2$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres2$damagecause)
-levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[19] <- "Hurricanes/Trop Dep"
-levels(palouse_sumloss_1989_2015_lossperacres2$damagecause)[30] <- "No Prep for Irr"
+means <- aggregate(lossperacres ~  damagecause, palouse_sumloss_1989_2015_lossperacres3, mean)
+means <- means[order(means$lossperacres),]
+#means <- subset(means, loss > 1000000)
+means$commodity <- factor(means$damagecause)
 
-boxplot(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2015_lossperacres2$damagecause, col = 'lightblue', ylab = "Insurance Caim Loss per Acre ($)",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres2$damagecause, las = 3, cex.main = 1, cex.lab = 1, cex.axis = 1, cex.names = 1, font.lab = 1, font.axis = 1, outline = FALSE)
-axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_lossperacres2$loss), labels = pretty(palouse_sumloss_1989_2015_lossperacres2$loss))
+palouse_sumloss_1989_2015_lossperacres3 <- palouse_sumloss_1989_2015_lossperacres3[palouse_sumloss_1989_2015_lossperacres3$damagecause %in% means$damagecause, ]
+palouse_sumloss_1989_2015_lossperacres3$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres3$damagecause)
+
+palouse_sumloss_1989_2015_lossperacres3$damagecause <- factor(palouse_sumloss_1989_2015_lossperacres3$damagecause)
+levels(palouse_sumloss_1989_2015_lossperacres3$damagecause)[19] <- "Hurricanes/Trop Dep"
+levels(palouse_sumloss_1989_2015_lossperacres3$damagecause)[30] <- "No Prep for Irr"
+
+boxplot(palouse_sumloss_1989_2015_lossperacres3$lossperacres ~ palouse_sumloss_1989_2015_lossperacres3$damagecause, col = 'lightblue', ylab = "Insurance Caim Loss per Acre ($)",  yaxt = 'n', xlab = "", names.arg = palouse_sumloss_1989_2015_lossperacres3$damagecause, las = 3, cex.main = 1, cex.lab = 1, cex.axis = 1, cex.names = 1, font.lab = 1, font.axis = 1, outline = FALSE)
+axis(2, las = 1, cex.axis = 1.4, at = pretty(palouse_sumloss_1989_2015_lossperacres3$lossperacres), labels = pretty(palouse_sumloss_1989_2015_lossperacres3$lossperacres))
 
 graphics::title(xlab="Damage Cause", line=9.5, cex.lab = 1)
 graphics::title(main="PNW insurance loss per acre by damage cause: 2001 to 2015", line = 1, adj = 0, cex.main = 1)
 
-stripchart(palouse_sumloss_1989_2015_lossperacres2$loss ~ palouse_sumloss_1989_2015_lossperacres2$damagecause, vertical = TRUE,  
-    method = "jitter", add = TRUE, pch = 20, col = "blue" )
+#stripchart(palouse_sumloss_1989_2015_lossperacres3$loss ~ palouse_sumloss_1989_2015_lossperacres3$damagecause, vertical = TRUE,  
+#    method = "jitter", add = TRUE, pch = 20, col = "blue" )
 
+
+makered <- palouse_sumloss_1989_2015_lossperacres3$state == "WA"
+stripchart(lossperacres ~ damagecause, data=palouse_sumloss_1989_2015_lossperacres3[makered, ], method = "jitter", vertical = TRUE,  add = TRUE, pch = 20, col="red")
+
+makered <- palouse_sumloss_1989_2015_lossperacres3$state == "ID"
+stripchart(lossperacres ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="black", data=palouse_sumloss_1989_2015_lossperacres3[makered, ])
+
+makered <- palouse_sumloss_1989_2015_lossperacres3$state == "OR"
+stripchart(lossperacres ~ damagecause, method = "jitter", vertical = TRUE,  
+    add = TRUE, pch = 20, col="blue", data=palouse_sumloss_1989_2015_lossperacres3[makered, ])
+legend("topleft", inset=.02, title="State Per Year",
+   c("Washington", "Idaho", "Oregon"), fill=c("red", "black", "blue"), horiz=TRUE, cex=0.8)
 #model_count <- glm(formula = log(loss) ~ damagecause + commodity, family = "poisson", data = palouse_sumloss_1989_2015_count)
 
 ```
