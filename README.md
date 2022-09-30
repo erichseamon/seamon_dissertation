@@ -16,5 +16,5 @@ NOTE:  If you wish to examine the data directly, you can run the seamon_disserta
 
 - NOTE:  Each folder (/data, /appendices, /code) have individual READMEs which describe folder contents.
 
-- If you have concerns or issues, please contact erich at: erichs@uidaho.edu or erich@erich.io
+- If you have concerns or issues, please contact erich at: erichs@uidaho.edu or erich@erich.io 
 
